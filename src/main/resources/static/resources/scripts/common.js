@@ -8,3 +8,4 @@ const Cover = {
         window.document.getElementById('cover').classList.remove('visible');
     }
 };
+
