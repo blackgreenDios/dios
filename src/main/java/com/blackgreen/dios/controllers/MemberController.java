@@ -193,4 +193,12 @@ public class MemberController {
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
     }
+
+    //마이페이지
+    @RequestMapping(value = "myPage",
+            method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView MyPage() {
+        ModelAndView modelAndView = new ModelAndView("member/myPage");
+        return modelAndView;
+    }
 }

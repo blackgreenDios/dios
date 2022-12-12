@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DIOS :: 마이페이지</title>
+    <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+    <script defer th:src="@{/member/resources/scripts/myPage.js}"></script>
+    <link rel="stylesheet" th:href="@{/member/resources/stylesheets/myPage.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<th:block th:replace="~{fragments/commonBody :: cover}"></th:block>
+<main class="--main main">
+    <form class="form" id="form">
+
+    </form>
+</main>
+
+</body>
+</html>

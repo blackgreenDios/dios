@@ -18,8 +18,23 @@
       <i class="icon fa-solid fa-chevron-down"></i>
     </span>
 
-        <a class="--login" th:href="@{./login}">로그인</a>
-        <a class="--membership" th:href="@{./register}">회원가입</a>
+        <ul class="--menu item">
+            <li class="--item" th:if="${session.user == null}">
+                <a class="--link" th:href="@{./login}">로그인</a>
+            </li>
+
+            <li class="--item" th:if="${session.user == null}">
+                <a class="--link" th:href="@{./register}">회원가입</a>
+            </li>
+
+            <li class="--item" th:if="${session.user !=null}">
+                <a class="--link" th:href="@{./logout}">로그아웃</a>
+            </li>
+
+            <li class="--item" th:if="${session.user !=null}">
+                <a class="--link" th:href="@{./myPage}">마이페이지</a>
+            </li>
+        </ul>
 
     </div>
 </header>
