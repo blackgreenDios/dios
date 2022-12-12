@@ -194,6 +194,19 @@ public class MemberController {
         return responseObject.toString();
     }
 
+    //로그아웃
+    @RequestMapping(value = "logout",
+            method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getLogout(HttpSession session) {
+        session.setAttribute("user",null);
+        //user 값이 null 이 아니면 로그인이 된거 - user가 쿠키값인거 같음
+        //user 값이 null 이면 로그아웃
+        ModelAndView modelAndView = new ModelAndView("redirect:login");
+        //로그인 페이지로 리다이랙션(다시 돌아간다)
+        //주소에 login 대신 logout 넣으면 다시 login 페이지로 넘어가고 상단바에 로그아웃이랑 마이페이지 없어짐
+        return modelAndView;
+    }
+
     //마이페이지
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
