@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>목표 설정</title>
+    <link rel="stylesheet" th:href="@{/records/resources/stylesheets/goal.css}">
+    <script src="https://kit.fontawesome.com/282afddd53.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="menu-container">
+    <a class="home" href="#">
+        <i class="fa-solid fa-house-chimney"></i>
+    </a>
+</div>
+<div class="main">
+    <div class="title-container">
+        <a class="title">목표를 설정하세요!</a>
+    </div>
+    <form class="form">
+        <div class="select-container">
+            <input class="select squat" type="button" value="스쿼트
+squat">
+            <input class="select lunge" type="button" value="런지
+lunge">
+            <input class="select plank" type="button" value="플랭크
+plank">
+        </div>
+        <div class="setting-container">
+        <span class="text">
+            <i class="fa-solid fa-trophy"></i>
+        </span>
+            <input class="setting" type="number" placeholder="목표 개수를 입력하세요.">
+        </div>
+        <div class="button-container">
+            <input class="submit" type="submit" value="START">
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header class="--header" th:fragment="header">
+    <div class="--content">
+        <a class="--logo-container" th:href="@{/}">
+            <img alt="logo" class="--logo" th:src="@{/resources/images/logo.png}">
+        </a>
+        <span class="--menu">
+      <a href="#" class="--record">DIARY</a>
+      <i class="fa-solid fa-chevron-down"></i>
+    </span>
+        <span class="--menu">
+      <a class="--community" href="#">COMMUNITY</a>
+      <i class="fa-solid fa-chevron-down"></i>
+    </span>
+        <span class="--menu shop">
+      <a class="--shop" href="#">SHOP</a>
+      <i class="icon fa-solid fa-chevron-down"></i>
+    </span>
+
+        <a class="--login" th:href="@{/}">로그인</a>
+        <a class="--membership" th:href="@{/}">회원가입</a>
+
+    </div>
+</header>
+<div class="--cover" id="cover" th:fragment="cover">
+    <img alt="" class="--icon" th:src="@{/resources/images/loading.png}">
+    <span class="--text" rel="text">무언가를 불러오고 있습니다. 잠시만 기다려 주세요.</span>
+</div>
+<footer class="--footer" th:fragment="footer">
+    발
+</footer>
+</html>

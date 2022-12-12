@@ -1,0 +1,151 @@
+@charset "UTF-8";
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
+
+html{
+    font-family: 'Montserrat', sans-serif;
+}
+
+body{
+
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    min-height: 100%;
+    margin: unset;
+    /* 👇넘치는 부분은 보여지지 않고 스크롤로 내릴 수 있음 */
+    overflow: hidden auto;
+    position: absolute;
+}
+
+body > .--header,
+body > .--footer {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+body > .--header {
+    background-color: rgb(255,255,255);
+}
+
+body > .--header >  .--content {
+    width: 100%;
+    max-width: 85rem;
+    margin: 0 2rem;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(0,0,0);
+
+    padding: 0.5rem 0;
+}
+
+
+body > .--header >  .--content > .--menu> .--record,
+body > .--header >  .--content > .--menu> .--community,
+body > .--header >  .--content > .--menu> .--shop{
+    background-color: inherit;
+    color: rgb(0,0,0);
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding: 0.5rem 0 1rem 2rem;
+    font-weight: bold;
+}
+
+body > .--header >  .--content > .--menu.shop{
+    flex: 1;
+}
+
+body > .--header >  .--content > .--login,
+body > .--header >  .--content >.--membership {
+    background-color: inherit;
+    color: rgb(0,0,0);
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+
+    padding: 0.5rem 0 0 2rem;
+
+}
+
+body > .--header >  .--content > .--login:hover,
+body > .--header >  .--content >.--membership:hover {
+    color: rgb(60, 166, 52);
+}
+
+body > .--header > .--content > .--logo-container > .--logo {
+    height: 4rem;
+    margin-top: 0.05rem;
+}
+
+body > .--main {
+    /* footer를 맨 아래로 내리기 위해 사용함 */
+    flex: 1;
+}
+
+.--cover>.--icon{
+    width: 4rem;
+    height: 4rem;
+    animation-name: anim-cover-icon;
+    animation-duration: 1500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-play-state: running;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+@keyframes anim-cover-icon {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.--cover>.--text{
+    max-width: 20rem;
+    font-size: 1.375rem;
+    line-height: 150%;
+    margin-top: 2rem;
+    pointer-events: none;
+    text-align: center;
+    user-select: none;
+    white-space: pre-wrap;
+}
+
+.--cover{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    background-color: rgb(0,0,0,80%);
+    color: rgb(255,255,255);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+}
+
+.--cover.visible{
+    display: flex;
+}
+
+
+
+
