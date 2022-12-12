@@ -136,7 +136,7 @@ public class MemberService {
         //MimeMessageHelper = 메일내용에 이미지나 첨부파일 같은거 같이 보낼려고 쓰는거
         helper.setFrom("guswl0490111@gmail.com"); //보내는 사람
         helper.setTo(user.getEmail()); //받는 사람
-        helper.setSubject("[스터디] 회원가입 인증 번호");
+        helper.setSubject("[DIOS] 환영합니다. 회원가입 완료를 위해 확인해주세요.");
         helper.setText(text, true);
         // true를 반드시 작성해야함(html을 사용할것인지에 대한 여부)
         this.mailSender.send(mail);
@@ -223,7 +223,7 @@ public class MemberService {
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
         helper.setFrom("guswl0490111@gmail.com");
         helper.setTo(emailAuth.getEmail());
-        helper.setSubject("[스터디]비밀번호 재설정 인증 번호");
+        helper.setSubject("[DIOS] 비밀번호 재설정 안내");
         helper.setText(text, true); // true를 반드시 작성해야함(html을 사용할것인지에 대한 여부)
         this.mailSender.send(mail);
         return CommonResult.SUCCESS; //null 값이면 실패
