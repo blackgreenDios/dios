@@ -9,6 +9,11 @@ public class UserEntity {
     private String nickname;
     private String name;
     private String contact;
+
+    private byte[] image;
+
+    private String imageType;
+
     private String addressPostal;
     private String addressPrimary;
     private String addressSecondary;
@@ -69,6 +74,24 @@ public class UserEntity {
 
     public UserEntity setContact(String contact) {
         this.contact = contact;
+        return this;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public UserEntity setImage(byte[] image) {
+        this.image = image;
+        return this;
+    }
+
+    public String getImage_type() {
+        return imageType;
+    }
+
+    public UserEntity setImage_type(String image_type) {
+        this.imageType = imageType;
         return this;
     }
 

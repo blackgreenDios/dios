@@ -14,7 +14,7 @@
     <insert id="insertUser"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         INSERT INTO `dios_member`.`users`(`email`, `password`, `nickname`, `name`, `contact`, `address_postal`,
-                                           `address_primary`, `address_secondary`)
+                                          `address_primary`, `address_secondary`)
         VALUES (#{email}, #{password}, #{nickname}, #{name}, #{contact}, #{addressPostal}, #{addressPrimary},
                 #{addressSecondary})
     </insert>
@@ -25,6 +25,8 @@
                `nickname`          AS `nickname`,
                `name`              AS `name`,
                `contact`           AS `contact`,
+               `image`             AS `image`,
+               `image_type`        AS `imageType`,
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
@@ -83,6 +85,8 @@
             `nickname`          = #{nickname},
             `name`              = #{name},
             `contact`           = #{contact},
+            `image`             = #{image},
+            `image_type`        = #{imageType},
             `address_postal`    = #{addressPostal},
             `address_primary`   = #{addressPrimary},
             `address_secondary` = #{addressSecondary},
@@ -98,12 +102,15 @@
                `nickname`          AS `nickname`,
                `name`              AS `name`,
                `contact`           AS `contact`,
+               `image`             AS `image`,
+               `image_type`        AS `imageType`,
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
                `registered_on`     AS `registeredOn`
         FROM `dios_member`.`users`
-        WHERE BINARY `email` = #{email} AND BINARY `password` = #{password}
+        WHERE BINARY `email` = #{email}
+          AND BINARY `password` = #{password}
         LIMIT 1
     </select>
 
@@ -114,12 +121,15 @@
                `nickname`          AS `nickname`,
                `name`              AS `name`,
                `contact`           AS `contact`,
+               `image`             AS `image`,
+               `image_type`        AS `imageType`,
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
                `registered_on`     AS `registeredOn`
         FROM `dios_member`.`users`
-        WHERE BINARY `name` = #{name} AND BINARY `contact` = #{contact}
+        WHERE BINARY `name` = #{name}
+          AND BINARY `contact` = #{contact}
         LIMIT 1
     </select>
 
