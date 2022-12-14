@@ -103,6 +103,7 @@ body > .main {
 }
 
 #form > .myPage-main > .myPage-content > .content > .table_model > tbody > tr{
+    border-top: 0.1rem solid rgb(234,236,238);
     border-bottom: 0.1rem solid rgb(234,236,238);
 }
 
@@ -170,4 +171,35 @@ body > .main {
     height: 2rem;
     border-radius: 0.375rem;
     border: 0.025rem solid rgb(199 203 207);
+}
+
+#form > .myPage-main > .myPage-content > .content > .--object-button {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#form > .myPage-main > .myPage-content > .content > .--object-button > .submit-button{
+    margin-right: 5rem;
+}
+
+#form > .myPage-main > .myPage-content > .content > .--object-button > .submit-button,
+#form > .myPage-main > .myPage-content > .content > .--object-button > .cancel-button{
+    width: 5rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    border: 0.05rem solid rgb(199 203 207);
+    cursor: pointer;
+}
+
+#form > .myPage-main > .myPage-content > .content > .--object-button > .submit-button:hover{
+    background-color: rgba(11, 124, 4, 70%);
+    color: rgb(255,255,255);
+
+}
+
+#form > .myPage-main > .myPage-content > .content > .--object-button > .cancel-button:hover{
+    background-color: rgba(231, 58, 39, 90%);
+    color: rgb(255,255,255);
 }

@@ -13,7 +13,6 @@ public class UserEntity {
     private byte[] image;
 
     private String imageType;
-
     private String addressPostal;
     private String addressPrimary;
     private String addressSecondary;
@@ -86,11 +85,11 @@ public class UserEntity {
         return this;
     }
 
-    public String getImage_type() {
+    public String getImageType() {
         return imageType;
     }
 
-    public UserEntity setImage_type(String image_type) {
+    public UserEntity setImageType(String imageType) {
         this.imageType = imageType;
         return this;
     }

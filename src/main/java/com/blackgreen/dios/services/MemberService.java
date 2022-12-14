@@ -3,12 +3,15 @@ package com.blackgreen.dios.services;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
+import com.blackgreen.dios.enums.member.AddImageResult;
 import com.blackgreen.dios.enums.member.RegisterResult;
 import com.blackgreen.dios.enums.member.SendEmailAuthResult;
 import com.blackgreen.dios.enums.member.VerifyEmailAuthResult;
+import com.blackgreen.dios.exceptions.RollbackException;
 import com.blackgreen.dios.interfaces.IResult;
 import com.blackgreen.dios.mappers.IMemberMapper;
 import com.blackgreen.dios.utils.CryptoUtils;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -288,8 +292,29 @@ public class MemberService {
         return CommonResult.SUCCESS;
     }
 
+    // 프로필 이미지 업데이트
+    @Transactional
+    public Enum<? extends IResult> updateProfile(UserEntity user, MultipartFile[] images) throws RollbackException {
+        if (user == null) {
+            return AddImageResult.NOT_SIGNED;
+        }
+        if (this.memberMapper.updateUser(user) == 0) {
+            return AddImageResult.FAILURE;
+        }
 
-
-
+        //여기도 먼가 존나 이상 images 왜 안쓰는거 같노
+        if (images != null && images.length > 0) {
+            for (MultipartFile image : images) {
+                UserEntity profileImage = this.memberMapper.selectUserByEmail(user.getEmail());
+                profileImage.setImage(user.getImage());
+                profileImage.setImageType(user.getImageType());
+                if (this.memberMapper.updateUser(profileImage) == 0) {
+                    throw new RollbackException();
+                    //예외 터지면 아무 익셉션으로 감
+                }
+            }
+        }
+        return AddImageResult.SUCCESS;
+    }
 }
 

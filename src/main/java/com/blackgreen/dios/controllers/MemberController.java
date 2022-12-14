@@ -3,18 +3,21 @@ package com.blackgreen.dios.controllers;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
+import com.blackgreen.dios.enums.member.AddImageResult;
+import com.blackgreen.dios.exceptions.RollbackException;
 import com.blackgreen.dios.interfaces.IResult;
 import com.blackgreen.dios.services.MemberService;
+import org.apache.catalina.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
+import java.lang.management.MemoryUsage;
 import java.security.NoSuchAlgorithmException;
 
 
@@ -214,4 +217,23 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView("member/myPage");
         return modelAndView;
     }
+
+    @GetMapping(value = "myPage")
+    @ResponseBody
+    public String getProfile(@SessionAttribute(value = "user",required = false)UserEntity user , @RequestParam(value = "images" ,required = false)MultipartFile[] images){
+        JSONObject responseObject = new JSONObject();
+        Enum<?> result;
+        try{
+            result = this.memberService.updateProfile(user,images);
+
+        } catch (RollbackException ignored) {
+            result = AddImageResult.FAILURE;
+        }
+
+        responseObject.put("result",result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
+
+
 }
