@@ -1,6 +1,7 @@
 package com.blackgreen.dios.mappers;
 
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
+import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -33,5 +34,8 @@ public interface IMemberMapper {
     UserEntity selectUserByNameContact(@Param(value = "name") String name,
                                        @Param(value="contact") String contact);
 
+    int insertImage(ImageEntity image);
 
+    //이미지 다운로드
+    ImageEntity selectImageByIndex(@Param(value = "index") int index);
 }

@@ -25,8 +25,6 @@
                `nickname`          AS `nickname`,
                `name`              AS `name`,
                `contact`           AS `contact`,
-               `image`             AS `image`,
-               `image_type`        AS `imageType`,
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
@@ -79,19 +77,25 @@
         LIMIT 1
     </select>
 
+<!--    <update id="updateUser"-->
+<!--            parameterType="com.blackgreen.dios.entities.member.UserEntity">-->
+<!--        UPDATE `dios_member`.`users`-->
+<!--        SET `password`          = #{password},-->
+<!--            `nickname`          = #{nickname},-->
+<!--            `name`              = #{name},-->
+<!--            `contact`           = #{contact},-->
+<!--            `address_postal`    = #{addressPostal},-->
+<!--            `address_primary`   = #{addressPrimary},-->
+<!--            `address_secondary` = #{addressSecondary},-->
+<!--            `registered_on`     = #{registeredOn}-->
+<!--        WHERE BINARY `email` = #{email}-->
+<!--        LIMIT 1-->
+<!--    </update>-->
+
     <update id="updateUser"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         UPDATE `dios_member`.`users`
-        SET `password`          = #{password},
-            `nickname`          = #{nickname},
-            `name`              = #{name},
-            `contact`           = #{contact},
-            `image`             = #{image},
-            `image_type`        = #{imageType},
-            `address_postal`    = #{addressPostal},
-            `address_primary`   = #{addressPrimary},
-            `address_secondary` = #{addressSecondary},
-            `registered_on`     = #{registeredOn}
+        SET `nickname` = #{nickname}
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>
@@ -129,6 +133,27 @@
           AND BINARY `contact` = #{contact}
         LIMIT 1
     </select>
+
+    <insert id="insertImage"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.blackgreen.dios.entities.member.ImageEntity">
+        INSERT INTO `dios_member`.`images` (`file_name`, `file_mime`, `data`)
+        VALUES (#{fileName}, #{fileMime}, #{data})
+    </insert>
+
+    <select id="selectImageByIndex"
+            resultType="com.blackgreen.dios.entities.member.ImageEntity">
+        SELECT `index`     AS `index`,
+               `file_name` AS `fileName`,
+               `file_mime` AS `fileMime`,
+               `data`      AS `data`
+        FROM `dios_member`.images
+        WHERE `index` = #{index}
+        LIMIT 1
+    </select>
+
 
 
 </mapper>

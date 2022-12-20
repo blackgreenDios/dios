@@ -1,12 +1,10 @@
 package com.blackgreen.dios.services;
 
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
+import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
-import com.blackgreen.dios.enums.member.AddImageResult;
-import com.blackgreen.dios.enums.member.RegisterResult;
-import com.blackgreen.dios.enums.member.SendEmailAuthResult;
-import com.blackgreen.dios.enums.member.VerifyEmailAuthResult;
+import com.blackgreen.dios.enums.member.*;
 import com.blackgreen.dios.exceptions.RollbackException;
 import com.blackgreen.dios.interfaces.IResult;
 import com.blackgreen.dios.mappers.IMemberMapper;
@@ -80,7 +78,7 @@ public class MemberService {
     }
 
     @Transactional
-    // 인증절차중 중간에 실패를 할경우 다시 처음으로 돌아가게 하는 어노테이션
+    // 인증 절차중 중간에 실패를 할경우 다시 처음으로 돌아가게 하는 어노테이션
     public Enum<? extends IResult> sendEmailAuth(UserEntity user, EmailAuthEntity emailAuth) throws NoSuchAlgorithmException, MessagingException {
 
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
@@ -292,29 +290,36 @@ public class MemberService {
         return CommonResult.SUCCESS;
     }
 
-    // 프로필 이미지 업데이트
+    //프로필 이미지 삽입
+    public Enum<? extends IResult> addImage(ImageEntity image) {
+        return this.memberMapper.insertImage(image) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    //프로필 수정
+    public ImageEntity getImage(int index) {
+        return this.memberMapper.selectImageByIndex(index);
+    }
+
+    //프로필 업데이트
     @Transactional
-    public Enum<? extends IResult> updateProfile(UserEntity user, MultipartFile[] images) throws RollbackException {
-        if (user == null) {
-            return AddImageResult.NOT_SIGNED;
-        }
-        if (this.memberMapper.updateUser(user) == 0) {
-            return AddImageResult.FAILURE;
+    public Enum<? extends IResult> updateMyPage(UserEntity user,String nickname) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(
+                user.getEmail()
+        );
+
+        if (existingUser == null) {
+            return ModifyProfileResult.NOT_SIGNED;
         }
 
-        //여기도 먼가 존나 이상 images 왜 안쓰는거 같노
-        if (images != null && images.length > 0) {
-            for (MultipartFile image : images) {
-                UserEntity profileImage = this.memberMapper.selectUserByEmail(user.getEmail());
-                profileImage.setImage(user.getImage());
-                profileImage.setImageType(user.getImageType());
-                if (this.memberMapper.updateUser(profileImage) == 0) {
-                    throw new RollbackException();
-                    //예외 터지면 아무 익셉션으로 감
-                }
-            }
+        user.setNickname(nickname);
+
+        if (this.memberMapper.updateUser(user) == 0) {
+            return CommonResult.FAILURE;
         }
-        return AddImageResult.SUCCESS;
+
+        return CommonResult.SUCCESS;
     }
 }
 

@@ -112,7 +112,7 @@
 
 
 #form > .login > .input > .login-button {
-    width: 88%;
+    width: 84.4%;
     margin-top: 1rem;
     max-width: 680px;
     height: 52px;
@@ -122,7 +122,7 @@
     font-size: 14px;
     padding: 0 7.5rem 0 7.5rem;
     text-align: center;
-    margin-left: 7.4rem;
+    margin-left: 8rem;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
 }

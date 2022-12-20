@@ -139,7 +139,6 @@ form.querySelector('[rel="addressFindPanel"]').addEventListener('click', () => {
 
 
 // 이메일인증번호 전송 버튼을 눌렀을때 부터의 JS기능 구현
-
 form['emailSend'].addEventListener('click', () => {
     form.querySelector('[rel="emailWarning"]').classList.remove('visible');
     if (form['email'].value === '') {

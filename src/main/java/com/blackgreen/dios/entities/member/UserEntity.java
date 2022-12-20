@@ -7,12 +7,10 @@ public class UserEntity {
     private String email;
     private String password;
     private String nickname;
+
     private String name;
     private String contact;
 
-    private byte[] image;
-
-    private String imageType;
     private String addressPostal;
     private String addressPrimary;
     private String addressSecondary;
@@ -53,9 +51,8 @@ public class UserEntity {
         return nickname;
     }
 
-    public UserEntity setNickname(String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
-        return this;
     }
 
     public String getName() {
@@ -73,24 +70,6 @@ public class UserEntity {
 
     public UserEntity setContact(String contact) {
         this.contact = contact;
-        return this;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public UserEntity setImage(byte[] image) {
-        this.image = image;
-        return this;
-    }
-
-    public String getImageType() {
-        return imageType;
-    }
-
-    public UserEntity setImageType(String imageType) {
-        this.imageType = imageType;
         return this;
     }
 
