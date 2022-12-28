@@ -1,0 +1,91 @@
+@charset "UTF-8";
+
+body > .main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#form {
+    width: 100%;
+    max-width: 30rem;
+    margin: 3rem 2rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+
+#form > .title-container {
+    margin-bottom: 0.25rem;
+    justify-content: flex-start;
+    display: flex;
+    margin-left: -26rem;
+}
+
+#form > .title-container > .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+#form > .myPage-main {
+    display: flex;
+}
+
+#form > .myPage-main > .myPage-menu {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    /*top: -31px;*/
+    /*float: left;*/
+    width: 13rem;
+    padding-left: 10px;
+    margin-left: -27rem;
+}
+
+#form > .myPage-main > .myPage-menu > ul {
+    list-style: none;
+    margin-top: -1rem;
+    width: 10rem;
+}
+
+/*#form > .myPage-main > .myPage-menu > ul > li > h2 {*/
+/*    color: rgb(60, 166, 52);*/
+/*}*/
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu {
+    list-style: none;
+    /*margin-bottom: 1rem;*/
+    margin-left: -2rem;
+    /*padding-bottom: 1rem;*/
+    height: 2rem;
+}
+
+/*#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu.on > a {*/
+/*    color: rgb(60, 166, 52);*/
+/*}*/
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > a {
+    text-decoration: none;
+    /*margin-left: -2rem;*/
+    margin-top: 0.5rem;
+    font-weight: 700;
+    font-family: none;
+    color: rgb(0, 0, 0);
+}
+
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > a:hover {
+    display: inline-block;
+    color: rgb(60, 166, 52);;
+
+}
+
+/*#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > .sub-menu-title.on {*/
+/*    color: rgb(60, 166, 52);*/
+/*}*/
+

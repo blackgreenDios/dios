@@ -8,60 +8,51 @@ Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e =>
 
 //이미지 파일 선택 후 기본이미지에서 넣은 이미지로 변경
 Form['images'].addEventListener('input', () => {
+
     const imageContainerElement = Form.querySelector('[rel="imageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
 
     const imageSrc = URL.createObjectURL(Form['images'].files[0]); //하나만 올라갈꺼니까 0번째
 
     document.getElementById('imgThumb').setAttribute('src', imageSrc);//교체할꺼니까 밑에 아니고 이거만
-    // const imgElement = document.createElement('img');
-    // imgElement.classList.add('image');
-    // imgElement.setAttribute('src', imageSrc);
-    // imageContainerElement.append(imgElement);
-
 
 });
 
 
-Form['profileSend'].addEventListener('click', e => {
-    e.preventDefault();
+    Form['profileSend'].addEventListener('click', e => {
+        e.preventDefault();
 
-    if(Form['nickname'].value === ''){
-        alert('닉네임을 입력해주세요.');
-        Form['nickname'].focus();
-        return false;
-    }
-
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    // formData.append('images', Form['images'].value);
-
-    formData.append('nickname', Form['nickname'].value);
-
-
-    xhr.open('PATCH', window.location.href);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const responseObject = JSON.parse(xhr.responseText);
-                switch (responseObject['result']) {
-                    case 'not_signed':
-                        alert('프로필을 수정할 수 있는 권한이 없거나 로그아웃되었습니다. 확인 후 다시 시도해 주세요.');
-                        window.location.href = 'login';
-                        break;
-                    case 'success':
-                        alert('떵공!');
-                        break;
-                    default:
-                        alert('알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
-                }
-            } else {
-                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요');
-            }
+        if (Form['nickname'].value === '') {
+            alert('닉네임을 입력해주세요.');
+            Form['nickname'].focus();
+            return false;
         }
-    };
-    xhr.send(formData);
-});
 
-//마페 프로필 사진 DB에 올라가는거 안됨 썅
-//제출 누르면 DB에 올라가게하도록 맹글어야함
+        const xhr = new XMLHttpRequest();
+        const formData = new FormData();
+
+        formData.append('nickname', Form['nickname'].value);
+        xhr.open('PATCH', window.location.href);
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseObject = JSON.parse(xhr.responseText);
+                    switch (responseObject['result']) {
+                        case 'not_signed':
+                            alert('프로필을 수정할 수 있는 권한이 없거나 로그아웃되었습니다. 확인 후 다시 시도해 주세요.');
+                            window.location.href = 'login';
+                            break;
+                        case 'success':
+                            alert('닉네임 변경이 완료되었습니다.');
+                            break;
+                        default:
+                            alert('알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
+                    }
+                } else {
+                    alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요');
+                }
+            }
+        };
+        xhr.send(formData);
+    });
+

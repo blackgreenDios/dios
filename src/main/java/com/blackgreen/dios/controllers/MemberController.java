@@ -4,12 +4,10 @@ import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
-import com.blackgreen.dios.enums.member.AddImageResult;
 import com.blackgreen.dios.enums.member.ModifyProfileResult;
-import com.blackgreen.dios.exceptions.RollbackException;
 import com.blackgreen.dios.interfaces.IResult;
 import com.blackgreen.dios.services.MemberService;
-import org.apache.catalina.User;
+import com.blackgreen.dios.utils.CryptoUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -53,36 +51,17 @@ public class MemberController {
         ModelAndView modelAndView = new ModelAndView("member/register");
         return modelAndView;
     }
-    /*
-    modelAndView 객체를 설정 해주는 이유는 반환값에 실어서 보내야 하기 때문이다
-    ModelAndView에는 3가지 메서드가 존재한다
-    setViewName : 뷰의 경로(뷰의 이름)을 설정한다.
-    addObject : "변수이름", "데이터값" 이렇게 두가지를 실어서 보낸다.
-    addAllObject :
-    */
-
-//----------------------------- register 화면을 보여주기 위한 GET 요청 방식 --------------------------------
 
     @RequestMapping(value = "email", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    // produces는 개발자 도구 network에서 ContentType이 정한다.(Header에서)
     @ResponseBody
-    // 만약 responseBody가 없으면 return할때 위에 view네임을 적을경우 그 view로 이동하는데 붙여놓고 한다면 그 return 값 자체 즉 어떠한 문자열이 반환된다.
     public String postEmail(UserEntity user, EmailAuthEntity emailAuth) throws NoSuchAlgorithmException, MessagingException {
-        // 매개변수를 두개의 Entity를 user, emailAuth를 매개변수로 던진다.
-        // emailAuth를 postEmail에 같이 던져주는 이유는 emailAuth
-//        System.out.println(user.getEmail());
         Enum<? extends IResult> result = this.memberService.sendEmailAuth(user, emailAuth);
-        //Enum타입<? 어떠한 값이든 받는다 . 다만 IResult를 상속하는 범위내에서> result 는 this의 memberService의 메서드 sendEmailAuth의 user변수와 emailAuth의 값을 받는다.
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-        // {
-        //      "result" : "success"
-        //  }가 출력되어진다.
         if (result == CommonResult.SUCCESS) {
             responseObject.put("salt", emailAuth.getSalt());
         }
         return responseObject.toString();
-        // result의 name은 문자열 타입이기 때문에 이것을 화면에 구현해 주기 위해서는 ResponseBody 어노테이션을 반드시 사용해 주어야 한다.
     }
 
     @RequestMapping(value = "email", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -94,7 +73,7 @@ public class MemberController {
         return responseObject.toString();
     }
 
-    //로그인 페이지 login.html 이랑 연결
+    //로그인 페이지
     @RequestMapping(value = "login",
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView Login() {
@@ -109,15 +88,16 @@ public class MemberController {
 
         Enum<?> result = this.memberService.login(user);
         JSONObject responseObject = new JSONObject();
-        //String 을 받아야하면 JSON
         responseObject.put("result", result.name().toLowerCase());
 
-        if (result != CommonResult.SUCCESS) {
+        if (result == CommonResult.SUCCESS) {
+            session.setAttribute("user", user);
+            //세선 저장소로 부터 값을 불러온다.
+            System.out.println("성공");
+        } else {
             System.out.println("실패");
         }
-        session.setAttribute("user", user);
-        //세선 저장소로 부터 값을 불러온다.
-        System.out.println("성공");
+
         return responseObject.toString();
     }
 
@@ -161,8 +141,7 @@ public class MemberController {
         if (result == CommonResult.SUCCESS) {
             responseObject.put("index", emailAuth.getIndex());
         }
-        return responseObject.toString();//"{"result":"success"}"라는 String 타입으로 됨
-        //ResponseBody 안붙이면 templates 안에 어쩌고 해서 String 으로 안됨
+        return responseObject.toString();
     }
 
     @RequestMapping(value = "recoverPasswordEmail",
@@ -196,7 +175,8 @@ public class MemberController {
             method = RequestMethod.PATCH, //PATCH는 수정
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchRecoverPassword(EmailAuthEntity emailAuth, UserEntity user) {
+    public String patchRecoverPassword(EmailAuthEntity emailAuth, UserEntity user, HttpSession session) {
+        session.setAttribute("user", null);
         Enum<?> result = this.memberService.recoverPassword(emailAuth, user);
         JSONObject responseObject = new JSONObject();
         //String 을 받아야하면 JSON
@@ -220,8 +200,15 @@ public class MemberController {
     //마이페이지
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView MyPage() {
-        ModelAndView modelAndView = new ModelAndView("member/myPage");
+    public ModelAndView myPage(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:login");
+        } else {
+            modelAndView = new ModelAndView("member/myPage");
+        }
+
         return modelAndView;
     }
 
@@ -273,7 +260,6 @@ public class MemberController {
         return responseObject.toString();
     }
 
-
     @RequestMapping(value = "myPage",
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -284,7 +270,7 @@ public class MemberController {
         if (user == null) {
             result = ModifyProfileResult.NOT_SIGNED;
         } else {
-            result = this.memberService.updateMyPage(user,nickname);
+            result = this.memberService.updateMyPage(user, nickname);
         }
         System.out.println("새로운 닉네임 : " + nickname);
 
@@ -295,14 +281,105 @@ public class MemberController {
             responseObject.put("nickname", user.getNickname());
         }
         return responseObject.toString();
+    }
+
+    @RequestMapping(value = "myPageModify",
+            method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView myPageModify(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView;
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:login");
+        } else {
+            modelAndView = new ModelAndView("member/myPageModify");
+
+        }
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "myPageModify",
+            method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postMyPageModify(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                   @RequestParam(value = "password") String password) {
+
+        Enum<?> result = user != null && user.getPassword().equals(CryptoUtils.hasSha512(password))
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+        //서비스 안쓰고 바로 처리해주면 됨용 : user에 있는 비밀번호랑(user.getPassword()) 웹에서 입력된 비밀번호(password)랑 같냐
+        JSONObject responseObject = new JSONObject();
+        //String 을 받아야하면 JSON
+        responseObject.put("result", result.name().toLowerCase());
+//        responseObject.put("password", user.getPassword());
+
+
+        if (result == CommonResult.SUCCESS) {
+            //session.setAttribute("user", user);
+            //session 에 비밀번호 밖에 없는데 이걸 또 적으면 비밀번호밖에 없는 거를 덮어씌움
+            //그래서 비밀번호 말고 정보가 안뜸
+            //세선 저장소로 부터 값을 불러온다.
+            System.out.println("성공");
+        } else {
+            System.out.println("실패");
+        }
+
+        return responseObject.toString();
+    }
+
+
+    @RequestMapping(value = "myPageModify",
+            method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String patchMyPageModify(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                    @RequestParam(value = "nickname") String nickname,
+                                    @RequestParam(value = "name") String name,
+                                    @RequestParam(value = "contact") String contact,
+                                    @RequestParam(value = "addressPrimary") String addressPrimary,
+                                    @RequestParam(value = "addressPostal") String addressPostal,
+                                    @RequestParam(value = "addressSecondary") String addressSecondary) {
+        Enum<?> result;
+        if (user == null) {
+            result = ModifyProfileResult.NOT_SIGNED;
+        } else {
+            result = this.memberService.updateMyPageModify(user,nickname,name,contact,addressPrimary,addressPostal,addressSecondary);
+        }
+
+        JSONObject responseObject = new JSONObject();
+        //String 을 받아야하면 JSON
+        responseObject.put("result", result.name().toLowerCase());
+
+        if (result == CommonResult.SUCCESS) {
+            System.out.println("컨 성공");
+            responseObject.put("nickname", user.getNickname());
+            responseObject.put("name", user.getName());
+            responseObject.put("contact", user.getContact());
+            responseObject.put("addressPrimary", user.getAddressPrimary());
+            responseObject.put("addressPostal", user.getAddressPostal());
+            responseObject.put("addressSecondary", user.getAddressSecondary());
+        } else if(result==CommonResult.FAILURE){
+            System.out.println("컨에서 실패");
+        }
+        return responseObject.toString();
+    }
+
+    //카카오 로그인
+    @GetMapping(value = "kakao",
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public ModelAndView getKaKao(@RequestParam(value = "code") String code,
+                                 @RequestParam(value = "error", required = false) String error,
+                                 @RequestParam(value = "error_description", required = false) String errorDescription,
+                                 HttpSession session) throws IOException {
+
+        String accessToken = this.memberService.getKakaoAccessToken(code);
+        UserEntity user = this.memberService.getKakaoUserInfo(accessToken); //서비스 호출
+
+        session.setAttribute("user", user);
+        return new ModelAndView("member/kakao");
 
     }
-}
 
-//
-//        if (result == CommonResult.SUCCESS) {
-//            responseObject.put("images",image );
-//        }
+}
 
 
 

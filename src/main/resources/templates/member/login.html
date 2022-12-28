@@ -7,9 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>dios - 로그인</title>
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/login.css}">
+
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77d80544834aa6a31ab1045f2451138f"></script>
+
     <script defer th:src="@{/member/resources/scripts/login.js}"></script>
 
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+
+
 
 </head>
 <body>
@@ -61,11 +67,18 @@
                     <a class="recover-password" href="./recoverPassword">비밀번호 재설정</a>
                 </div>
 
+
                 <!--카카오 로그인-->
                 <div class="kakao">
-                    <a href="#" class="kakao-login-button">
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=b53a656bcd965d745a55ca52a6ccd639
+                    &redirect_uri=http://localhost:8080/dios/kakao&response_type=code" id="loginButton" target="_blank" class="kakao-login-button">
                         <span class="icon">카카오로 시작하기</span>
                     </a>
+                </div>
+                <div class="login-container" id="loginContainer">
+                    <iframe class="login-frame" id="loginFrame">
+
+                    </iframe>
                 </div>
             </div>
         </div>

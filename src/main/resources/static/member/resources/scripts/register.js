@@ -1,14 +1,14 @@
 const form = window.document.getElementById('form');
-// id로 form을 가진 태그를 상수로 지정하였다(실제로 form태그이다.)
-const Warning = {
-    show: (text) => {
-        form.querySelector('[rel="warningText"]').innerText = text;
-        form.querySelector('[rel="warning"]').classList.add('visible');
-    },
-    hide: () => {
-        form.querySelector('[rel="warning"]').classList.remove('visible');
-    }
-}
+// const Warning = {
+//     show: (text) => {
+//         form.querySelector('[rel="warningText"]').innerText = text;
+//         form.querySelector('[rel="warning"]').classList.add('visible');
+//     },
+//     hide: () => {
+//         form.querySelector('[rel="warning"]').classList.remove('visible');
+//     }
+// }
+
 const EmailWarning = {
     show: (text) => {
         const emailWarning = form.querySelector('[rel="emailWarning"]');
@@ -20,55 +20,43 @@ const EmailWarning = {
     }
 };
 form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
-    // form의 클래스중 querySelector를 통해 rel의 속성중 nextButton을 가진 태그의 클릭 이벤트가 발생시를 나타낸 구현부이다.
     form.querySelector('[rel="warning"]').classList.remove('visible');
-    // rel값 중 warning을 가진 태그는 클릭이벤트가 시작된 직후 visible 클래스를 삭제 시킨다.(visible이 삭제되면 css에서 visible이 없는 경우라고 판단한다.)
     if (form.classList.contains('step1')) {
-        // form이 step1을 포함하고 있고
+
         if (!form['termAgree'].checked) {
-            // form요소중 termAgree Name을 가진 checkbox가 check되어있지 않은 경우
-            Warning.show(' 서비스 이용약관 및 개인정보 처리방침을 읽고 동의해 주세요.');
-            // form 의 요소중 rel속성에 warningText를 가진 요소에 innerText를 통해 문자를 보여준다.
-            // 보여줌과 동시에 rel속성에 warning을 가진 요소에 visible 클래스를 추가해준다.
+            alert(' 서비스 이용약관 및 개인정보 처리방침을 읽고 동의해 주세요.');
             return;
-            // 값을 return 한다.
         }
         form.querySelector('[rel="stepText"]').innerText = '개인정보 입력';
-        // rel 속성중 stepText를 가진 요소에 Text를 추가넣는다.
         form.classList.remove('step1');
-        // step1클래스를 삭제한다.
         form.classList.add('step2');
-        // step2 클래스를 추가한다.
     } else if (form.classList.contains('step2')) {
-
-        // form요소의 step2가 포함되어 있는지 확인한다.
-        // 위에서 form classList.add를 통해 추가해주었기 때문에 if문이 정상적으로 작동했다면 else if로 넘어오게 된다.
         if( !form['emailSend'].disabled || !form['emailVerify'].disabled) {
-            Warning.show('이메일 인증을 완료해 주세요.');
+            alert('이메일 인증을 완료해 주세요.');
             return;
         }
         if(form['password'].value === '' || form['passwordCheck'].value === '') {
-            Warning.show('비밀번호 작성을 완료해 주세요.');
+            alert('비밀번호 작성을 완료해 주세요.');
             return;
         }
         if(form['password'].value !== form['passwordCheck'].value) {
-            Warning.show('비밀번호가 일치하지 않습니다. 다시 작성해 주세요. ');
+            alert('비밀번호가 일치하지 않습니다. 다시 작성해 주세요. ');
             return;
         }
         if(form['nickname'].value === '') {
-            Warning.show('닉네임 작성을 완료해 주세요.');
+            alert('닉네임 작성을 완료해 주세요.');
             return;
         }
         if(form['name'].value === '') {
-            Warning.show('이름 작성을 완료해 주세요.');
+            alert('이름 작성을 완료해 주세요.');
             return;
         }
         if(form['contact'].value === '') {
-            Warning.show('연락처 작성을 완료해 주세요.');
+            alert('연락처 작성을 완료해 주세요.');
             return;
         }
         if(form['addressPostal'].value === '' || form['addressPrimary'].value === '' || form['addressSecondary'].value === '') {
-            Warning.show('주소 작성을 완료해 주세요.');
+            alert('주소 작성을 완료해 주세요.');
             return;
         }
         Cover.show('회원가입을 진행중입니다.\n\n잠시만 기다려 주세요.');
@@ -100,8 +88,11 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                             form.classList.add('step3');
                             break;
                         case 'email_not_verified':
-                            Warning.show('이메일 인증이 완료되지 않았습니다.');
+                            alert('이메일 인증이 완료되지 않았습니다.');
                             break;
+                        // case 'contact':
+                        //     Warning.show('이미 등록된 전화번호 입니다.');
+                        //     break;
                         default:
                             EmailWarning.show('알 수 없는 이유로 회원가입을 완료하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                     }

@@ -17,7 +17,7 @@ public class UserEntity {
     private Date registeredOn;
 
 
-    public UserEntity(String email, String password, String nickname, String name, String contact, String addressPostal, String addressPrimary, String addressSecondary, Date registeredOn) {
+    public UserEntity() {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
@@ -77,36 +77,32 @@ public class UserEntity {
         return addressPostal;
     }
 
-    public UserEntity setAddressPostal(String addressPostal) {
+    public void setAddressPostal(String addressPostal) {
         this.addressPostal = addressPostal;
-        return this;
     }
 
     public String getAddressPrimary() {
         return addressPrimary;
     }
 
-    public UserEntity setAddressPrimary(String addressPrimary) {
+    public void setAddressPrimary(String addressPrimary) {
         this.addressPrimary = addressPrimary;
-        return this;
     }
 
     public String getAddressSecondary() {
         return addressSecondary;
     }
 
-    public UserEntity setAddressSecondary(String addressSecondary) {
+    public void setAddressSecondary(String addressSecondary) {
         this.addressSecondary = addressSecondary;
-        return this;
     }
 
     public Date getRegisteredOn() {
         return registeredOn;
     }
 
-    public UserEntity setRegisteredOn(Date registeredOn) {
+    public void setRegisteredOn(Date registeredOn) {
         this.registeredOn = registeredOn;
-        return this;
     }
 
     @Override

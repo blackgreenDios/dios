@@ -5,24 +5,25 @@ import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.member.*;
-import com.blackgreen.dios.exceptions.RollbackException;
 import com.blackgreen.dios.interfaces.IResult;
 import com.blackgreen.dios.mappers.IMemberMapper;
 import com.blackgreen.dios.utils.CryptoUtils;
-import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -50,11 +51,21 @@ public class MemberService {
                 user.getEmail(),
                 CryptoUtils.hasSha512(user.getPassword())
         );
-// 들어 온 값이 원래 있던 값이랑 같지 않으면 아예 안들어감
+        // 들어 온 값이 원래 있던 값이랑 같지 않으면 아예 안들어감
         if (existingUser == null) {
             return CommonResult.FAILURE;
             //그래서 null이면 실패인거
         }
+
+        user.setPassword(existingUser.getPassword());
+        user.setNickname(existingUser.getNickname());
+        user.setName(existingUser.getName());
+        user.setContact(existingUser.getContact());
+        user.setAddressPostal(existingUser.getAddressPostal());
+        user.setAddressPrimary(existingUser.getAddressPrimary());
+        user.setAddressSecondary(existingUser.getAddressSecondary());
+        user.setRegisteredOn(existingUser.getRegisteredOn());
+
         return CommonResult.SUCCESS;
 
     }
@@ -69,6 +80,17 @@ public class MemberService {
         if (existingEmailAuth == null || !existingEmailAuth.IsExpired()) {
             return RegisterResult.EMAIL_NOT_VERIFIED;
         }
+
+
+//        //전화번호 중복 확인
+//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+//
+//        if(user.getContact().equals(existingUser.getContact())){
+//            return RegisterResult.Contact;
+//        }
+//
+
+
         user.setPassword(CryptoUtils.hasSha512(user.getPassword()));
         if (this.memberMapper.insertUser(user) == 0) {
             return CommonResult.FAILURE;
@@ -186,7 +208,7 @@ public class MemberService {
         return CommonResult.SUCCESS;
     }
 
-    //비밀번호 재설정
+    //비밀번호 재설정 - 전달받은 UserEntity 객체가 가지는 email값을 이메일로 가지는 회원이 테이블에 있으면 success를, 없다면 fail을 JSON 형태로 반환하는 로직을 작성
     @Transactional
     public Enum<? extends IResult> recoverPasswordSend(EmailAuthEntity emailAuth) throws MessagingException {
         if (this.memberMapper.selectUserByEmail(emailAuth.getEmail()) == null) {
@@ -225,7 +247,7 @@ public class MemberService {
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
         helper.setFrom("guswl0490111@gmail.com");
         helper.setTo(emailAuth.getEmail());
-        helper.setSubject("[DIOS] 비밀번호 재설정 안내");
+        helper.setSubject("[DIOS]비밀번호 재설정 인증 번호");
         helper.setText(text, true); // true를 반드시 작성해야함(html을 사용할것인지에 대한 여부)
         this.mailSender.send(mail);
         return CommonResult.SUCCESS; //null 값이면 실패
@@ -302,9 +324,9 @@ public class MemberService {
         return this.memberMapper.selectImageByIndex(index);
     }
 
-    //프로필 업데이트
+    //닉네임 수정
     @Transactional
-    public Enum<? extends IResult> updateMyPage(UserEntity user,String nickname) {
+    public Enum<? extends IResult> updateMyPage(UserEntity user, String nickname) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(
                 user.getEmail()
         );
@@ -314,12 +336,125 @@ public class MemberService {
         }
 
         user.setNickname(nickname);
-
         if (this.memberMapper.updateUser(user) == 0) {
             return CommonResult.FAILURE;
         }
 
         return CommonResult.SUCCESS;
     }
+
+
+    // 회원정보 수정
+    @Transactional
+    public Enum<? extends IResult> updateMyPageModify(UserEntity user,
+                                                      String nickname,
+                                                      String name,
+                                                      String contact,
+                                                      String addressPrimary,
+                                                      String addressPostal,
+                                                      String addressSecondary) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(
+                user.getEmail()
+        );
+
+        if (existingUser == null) {
+            return ModifyProfileResult.NOT_SIGNED;
+        }
+
+
+//전화번호 중복
+//매퍼에 전화번호 기준으로 셀렉트하고
+// 유저 이메일이 내 이메일인지 확인 내 이메일이 아닌데
+// 같으면 중복 같지 않으면 (비어있으면 - 이거 emailAuth보면 될듯) 중복 아님
+
+        user.setNickname(nickname);
+        user.setName(name);
+        user.setContact(contact);
+        user.setAddressPrimary(addressPrimary);
+        user.setAddressPostal(addressPostal);
+        user.setAddressSecondary(addressSecondary);
+
+        if (this.memberMapper.updateUser(user) == 0) {
+            return CommonResult.FAILURE;
+        }
+        return CommonResult.SUCCESS;
+    }
+
+    //카카오 로그인
+    public String getKakaoAccessToken(String code) throws IOException {
+        URL url = new URL("https://kauth.kakao.com/oauth/token");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        int responseCode;
+        try (OutputStreamWriter outputStreamWriter = new OutputStreamWriter(connection.getOutputStream())) {
+            try (BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
+                StringBuilder requestBuilder = new StringBuilder();
+                requestBuilder.append("grant_type=authorization_code");
+                requestBuilder.append("&client_id=b53a656bcd965d745a55ca52a6ccd639");
+                requestBuilder.append("&redirect_uri=http://localhost:8080/dios/kakao");
+                requestBuilder.append("&code=").append(code);
+                bufferedWriter.write(requestBuilder.toString());
+                bufferedWriter.flush();
+                responseCode = connection.getResponseCode();
+            }
+//            System.out.println("응답코드:" + responseCode);
+        }
+        StringBuilder responseBuilder = new StringBuilder();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
+            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+            }
+//            System.out.println("응답내용:" + responseBuilder);
+
+        }
+        JSONObject responseObject = new JSONObject(responseBuilder.toString());
+        return responseObject.getString("access_token");
+    }
+
+    public UserEntity getKakaoUserInfo(String accessToken) throws IOException {
+
+        URL url = new URL("https://kapi.kakao.com/v2/user/me");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization", String.format("Bearer %s", accessToken));
+        connection.setRequestMethod("GET");
+        int responseCode = connection.getResponseCode();
+//        System.out.println("응답 코드 : " + responseCode);
+
+        StringBuilder responseBuilder = new StringBuilder();
+        try (InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream())) {
+            try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    responseBuilder.append(line);
+                }
+            }
+        }
+//        System.out.println("응답내용:" + responseBuilder);
+        JSONObject responseObject = new JSONObject(responseBuilder.toString());
+        JSONObject propertyObject = responseObject.getJSONObject("properties");
+
+        String email = String.valueOf(responseObject.getLong("id"));
+
+        UserEntity user = this.memberMapper.selectUserByEmail(email);
+        if(user == null){
+            user = new UserEntity();
+            user.setEmail(email);
+            user.setNickname(propertyObject.getString("nickname"));
+            user.setPassword(""); //카카오 로그인은 비밀번호 못땡겨옴
+            user.setName("");
+            user.setContact("");
+            user.setAddressPrimary("");
+            user.setAddressPostal("");
+            user.setAddressSecondary(""); //빈 문자열로 하면 웹에서 입력안해도 Insert 가능
+            this.memberMapper.insertUser(user);
+        }
+        return user;
+
+    }
+
 }
 

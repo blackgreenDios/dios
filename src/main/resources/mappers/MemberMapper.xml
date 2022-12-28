@@ -77,25 +77,17 @@
         LIMIT 1
     </select>
 
-<!--    <update id="updateUser"-->
-<!--            parameterType="com.blackgreen.dios.entities.member.UserEntity">-->
-<!--        UPDATE `dios_member`.`users`-->
-<!--        SET `password`          = #{password},-->
-<!--            `nickname`          = #{nickname},-->
-<!--            `name`              = #{name},-->
-<!--            `contact`           = #{contact},-->
-<!--            `address_postal`    = #{addressPostal},-->
-<!--            `address_primary`   = #{addressPrimary},-->
-<!--            `address_secondary` = #{addressSecondary},-->
-<!--            `registered_on`     = #{registeredOn}-->
-<!--        WHERE BINARY `email` = #{email}-->
-<!--        LIMIT 1-->
-<!--    </update>-->
-
     <update id="updateUser"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         UPDATE `dios_member`.`users`
-        SET `nickname` = #{nickname}
+        SET `password`          = #{password},
+            `nickname`          = #{nickname},
+            `name`              = #{name},
+            `contact`           = #{contact},
+            `address_postal`    = #{addressPostal},
+            `address_primary`   = #{addressPrimary},
+            `address_secondary` = #{addressSecondary},
+            `registered_on`     = #{registeredOn}
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>
@@ -153,7 +145,6 @@
         WHERE `index` = #{index}
         LIMIT 1
     </select>
-
 
 
 </mapper>

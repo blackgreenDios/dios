@@ -24,15 +24,15 @@ const Email = {
 form.onsubmit = (e) => {
     e.preventDefault();
     //자동으로 경고창이 안나오게 해주는 거
-    Warning.hide();
+    // Warning.hide();
     if (form['name'].value === '') {
-        Warning.show('이름을 입력해주세요.');
+        alert('이름을 입력해주세요.');
         form['name'].focus();
         return;
     }
 
     if (form['contact'].value === '') {
-        Warning.show('연락처를 입력해주세요.');
+        alert('연락처를 입력해주세요.');
         form['contact'].focus();
         return;
     }
@@ -61,10 +61,10 @@ form.onsubmit = (e) => {
                         form.querySelector('[rel="loginRow"]').classList.add('visible');
                         break;
                     default:
-                        Warning.show('입력하신 정보와 일치하는 회원이 없습니다.');
+                        alert('입력하신 정보와 일치하는 회원이 없습니다.');
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

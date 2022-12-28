@@ -90,12 +90,12 @@ form['emailSend'].addEventListener('click', () => {
 form['passwordSend'].addEventListener('click', () => {
     Warning.hide();
     if (form['password'].value === '') {
-        Warning.show('새로운 비밀번호를 입력해 주세요.');
+        alert('새로운 비밀번호를 입력해 주세요.');
         form['password'].focus();
         return;
     }
     if (form['password'].value !== form['passwordCheck'].value) {
-        Warning.show('비밀번호가 서로 일치하지 않습니다람쥐.');
+        alert('비밀번호가 서로 일치하지 않습니다.');
         form['passwordCheck'].focus();
         form['passwordCheck'].select();
         return;
@@ -106,7 +106,6 @@ form['passwordSend'].addEventListener('click', () => {
     formData.append('email', form['email'].value);
     formData.append('code', form['code'].value);
     formData.append('salt', form['salt'].value);
-    //실어보낼 데이터 3개 , 그래야 이메일 인증을 제대로 했는지 아니까
     formData.append('password', form['password'].value);
     xhr.open('PATCH', './recoverPassword'); //patch로 보내기
     xhr.onreadystatechange = () => {
@@ -116,24 +115,19 @@ form['passwordSend'].addEventListener('click', () => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case'success':
-                        alert('변경 완료!')
+                        alert('비밀번호 변경이 완료되었습니다.');
                         window.location.href = 'login';
                         break;
 
                     default:
-                        Warning.show('비밀번호를 재설정하지 못하였습니다. 세션이 만료되었을 수도 있습니다. 잠시 후 다시 시도해 주세요.');
+                        alert('비밀번호를 재설정하지 못하였습니다. 세션이 만료되었을 수도 있습니다. 잠시 후 다시 시도해 주세요.');
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.')
             }
         }
     };
     xhr.send(formData);
 });
-
-
-
-
-
 
 

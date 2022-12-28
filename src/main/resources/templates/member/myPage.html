@@ -8,74 +8,26 @@
     <title>DIOS :: 마이페이지</title>
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <script defer th:src="@{/member/resources/scripts/myPage.js}"></script>
+    <script defer th:src="@{/resources/scripts/commonMyPage.js}"></script>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/commonMyPage.css}">
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/myPage.css}">
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 
 <th:block th:replace="~{fragments/commonBody :: cover}"></th:block>
-<main class="--main main">
+<main class="--main main" th:if="${session.user != null}">
     <form class="form" id="form">
         <div class="title-container">
             <h1 class="title">마이페이지</h1>
         </div>
-        <div class="myPage-main">
-            <div class="myPage-menu">
-                <ul>
-                    <li>
-                        <h2>마이정보</h2>
-                        <ul>
-                            <li class="subMenu">
-                                <a href="#" class="comment">프로필 수정</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="information">회원정보 수정</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="article">비밀번호 재설정</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <h2>마이쇼핑</h2>
-                        <ul>
-                            <li class="subMenu">
-                                <a href="#" class="order">주문/배송 조회</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="cancel">취소/반품/교환 내역</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="cart">장바구니</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="like">좋아요</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <h2>마이활동</h2>
-                        <ul>
-                            <li class="subMenu">
-                                <a href="#" class="qna">문의 내역</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="article">게시글</a>
-                            </li>
-                            <li class="subMenu">
-                                <a href="#" class="comment">댓글</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-
+        <div class="myPage-main" >
+        <th:block th:replace="~{fragments/commonMyPage :: menu}"></th:block>
             <div class="myPage-content">
+
                 <div class="content">
                     <h2>프로필 수정</h2>
-                    <a class="mini-content"><b>DIOS</b> 프로필과 닉네임을 수정할 수 있습니다.</a>
+                    <a class="mini-content"><b>DIOS</b> 프로필과 별명을 수정할 수 있습니다.</a>
                     <table class="table_model">
                         <colgroup>
                             <col style="width: 22%">
@@ -115,11 +67,8 @@
                                 <div class="tdcell">
                                     <p class="context-nickname">
                                         <label>
-
-
-
                                             <!--/*@thymesVar id="user" type="com.blackgreen.dios.entities.member.UserEntity"*/-->
-                                            <input type="text" name="nickname" placeholder="변경할 닉네임">
+                                            <input name="nickname" maxlength="10" type="text" th:value="${session.user.getNickname()}" placeholder="닉네임을 입력해주세요.">
                                         </label>
                                         <label>
                                             <input type="text" style="display: none">
@@ -132,7 +81,6 @@
                         </tbody>
                     </table>
 
-
                     <div class="--object-button">
 
                         <input class="submit-button" name="profileSend" value="제출"
@@ -140,13 +88,9 @@
 
                         <input class="cancel-button" name="profileCancel" value="취소"
                                type="submit">
-
                     </div>
-
-
                 </div>
             </div>
-
         </div>
     </form>
 </main>

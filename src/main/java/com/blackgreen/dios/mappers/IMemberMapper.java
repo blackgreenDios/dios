@@ -29,13 +29,18 @@ public interface IMemberMapper {
     int updateUser(UserEntity user);
 
     UserEntity selectUserByEmailPassword(@Param(value = "email") String email,
-                                         @Param(value="password") String password);
+                                         @Param(value = "password") String password);
+
 
     UserEntity selectUserByNameContact(@Param(value = "name") String name,
-                                       @Param(value="contact") String contact);
+                                       @Param(value = "contact") String contact);
 
     int insertImage(ImageEntity image);
 
     //이미지 다운로드
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
+
+
+
+
 }
