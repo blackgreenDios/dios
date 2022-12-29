@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>A Record Book</title>
+    <script defer th:src="@{/records/resources/scripts/recordBook.js}"></script>
+    <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+    <link rel="stylesheet" th:href="@{/records/resources/stylesheets/recordBook.css}">
+    <link rel='stylesheet' th:href="@{/records/resources/fullcalendar/main.css}">
+    <script defer th:src="@{/records/resources/fullcalendar/main.js}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Gowun+Batang:wght@700&family=Gowun+Dodum&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600&family=Hanalei+Fill&display=swap"
+          rel="stylesheet">
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<main class="--main main">
+    <div class="title-container">
+        <b class="a_record_book">A RECORD BOOK</b>
+        <a class="calendar" rel="calendarButton">
+            <i class="icon fa-regular fa-calendar-days"></i> CALENDAR
+        </a>
+    </div>
+    <form class="book" id="book">
+        <div class="one">
+            <div class="photo-container">
+                <a class="text">PHOTO</a>
+                <a class="photo" rel="photo">
+                    <input hidden accept="image/*" name="images" type="file">
+                    <i class="icon visible fa-solid fa-circle-plus" rel="imageSelectButton"
+                       th:if="${element.getImage() == null || element.getImage() == ''}"></i>
+                    <div rel="photoContainer" class="photo-container"></div>
+                </a>
+            </div>
+            <div class="diary-container">
+                <div class="text">
+                    <div class="textDiary">DIARY</div>
+                    <div class="button-container" th:if="${element.getDiary() != null}">
+                        <i rel="modifyDiary" class="modify fa-solid fa-pencil"
+                           th:if="${element.getDiary() != null && element.getDiary() != ''}"></i>
+                        <i rel="deleteDiary" class="delete fa-solid fa-trash"
+                           th:if="${element.getDiary() != null && element.getDiary() != ''}"></i>
+                    </div>
+                </div>
+                <div class="diary">
+                    <i class="icon visible fa-solid fa-circle-plus" rel="diaryAddButton"
+                       th:if="${element.getDiary() == null || element.getDiary() == ''}"></i>
+                    <div class="textBox" rel="textBox" th:if="${element.getDiary() != null && element.getDiary() != ''}"
+                         th:text="${element.getDiary()}"></div>
+                </div>
+                <div class="realDelete" rel="realDelete">
+                    <a class="a">
+                        <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
+                        삭제 하시겠습니까?
+                    </a>
+                    <div class="option">
+                        <div class="yes" rel="yes">YES</div>
+                        <div class="no" rel="no">NO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="two">
+            <div class="date-container">
+                <a class="left-container" th:if="${previousDate != null}"
+                   th:href="@{./recordBook (dt=${previousDate})}">
+                    <i class="left fa-solid fa-caret-left"></i>
+                </a>
+                <a class="date" th:text="${date}"></a>
+                <a class="right-container" th:if="${nextDate != null}"
+                   th:href="@{./recordBook (dt=${nextDate})}">
+                    <i class="right fa-solid fa-caret-right"></i>
+                </a>
+            </div>
+            <div class="record-container">
+                <div class="squat-container">
+                    <i class="icon fa-regular fa-circle-check"></i>
+                    <a class="squatText">스쿼트</a>
+                    <a class="count" th:text="${count.getSquatCount()}"></a>
+                    <a class="goalCount" th:text="'/ ' + ${count.getSquatSetting()}"></a>
+                </div>
+                <div class="lunge-container">
+                    <i class="icon fa-regular fa-circle-check"></i>
+                    <a class="lungeText">런지</a>
+                    <a class="count" th:text="${count.getLungeCount()}"></a>
+                    <a class="goalCount" th:text="'/ ' + ${count.getLungeSetting()}"></a>
+                </div>
+                <div class="plank-container">
+                    <i class="icon fa-regular fa-circle-check"></i>
+                    <a class="plankText">플랭크</a>
+                    <a class="count" th:text="${count.getPlankCount()}"></a>
+                    <a class="goalCount" th:text="'/ ' + ${count.getPlankSetting()}"></a>
+                </div>
+            </div>
+            <div class="add-container">
+                <div class="text">
+                    <div class="textAdd">ADD</div>
+                    <div class="button-container" th:if="${element.getAdd() != null}">
+                        <i rel="modifyAdd" class="modify fa-solid fa-pencil"
+                           th:if="${element.getAdd() != null && element.getAdd() != ''}"></i>
+                        <i rel="deleteAdd" class="delete fa-solid fa-trash"
+                           th:if="${element.getAdd() != null && element.getAdd() != ''}"></i>
+                    </div>
+                </div>
+                <div class="add">
+                    <i class="icon fa-solid fa-circle-plus" rel="addAddButton"
+                       th:if="${element.getAdd() == null || element.getAdd() == ''}"></i>
+                    <div class="textBox" rel="textBox" th:if="${element.getAdd() != null && element.getAdd() != ''}"
+                         th:text="${element.getAdd()}"></div>
+                </div>
+                <div class="realDelete" rel="realDeleteAdd">
+                    <a class="a">
+                        <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
+                        삭제 하시겠습니까?
+                    </a>
+                    <div class="option">
+                        <div class="yes" rel="yesAdd">YES</div>
+                        <div class="no" rel="noAdd">NO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="bottom" id="bottom">
+
+    </div>
+    <form rel="diaryWrite" id="diaryWrite">
+        <div class="dw" rel="dw">
+            <a class="close-button" rel="closeButton">
+                <i class="icon fa-solid fa-x"></i>
+            </a>
+            <textarea type="text" class="write" name="write" maxlength="100"
+                      th:text="${element.getDiary() != '' ? element.getDiary() : ''}"
+                      th:placeholder="${element.getDiary() == null ? '오늘의 일기를 작성해 주세요.' : ''}"></textarea>
+            <input class="ok" rel="ok" type="submit" value="작성하기">
+        </div>
+    </form>
+    <form rel="addWrite" id="addWrite">
+        <div class="aw" rel="aw">
+            <a class="close-button" rel="addCloseButton">
+                <i class="icon fa-solid fa-x"></i>
+            </a>
+            <textarea type="text" class="write" name="add" maxlength="100"
+                      th:text="${element.getAdd() != '' ? element.getAdd() : ''}"
+                      th:placeholder="${element.getAdd() == null ? '추가 내용을 작성해 주세요.' : ''}"></textarea>
+            <input class="ok" rel="ok" type="submit" value="작성하기">
+        </div>
+    </form>
+    <div id="calendarContainer" rel="calendarContainer">
+        <div class="top">
+            <i rel="exitButton" class="icon fa-regular fa-circle-xmark"></i>
+        </div>
+        <div id="calendar"></div>
+    </div>
+</main>
+</body>
+</html>

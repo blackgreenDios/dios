@@ -1,0 +1,519 @@
+@charset "UTF-8";
+
+body {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    overflow: hidden;
+
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+body > .top-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+body > .top-container > .title {
+    font-family: 'Chakra Petch', sans-serif;
+
+    font-size: 3rem;
+    font-weight: 600;
+
+    flex: 1;
+}
+
+body > .top-container > .icon {
+    color: rgb(255, 255, 255);
+    font-size: 2.3rem;
+
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+
+    cursor: pointer;
+
+    transition: all 0.2s linear;
+}
+
+body > .top-container > .icon:hover {
+    transform: scale(1.4);
+}
+
+body > .main-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#canvas,
+#countContainer {
+    width: 35rem;
+    height: 35rem;
+
+    border: 0.2rem solid rgb(115, 112, 112);
+    border-radius: 1.5rem;
+    box-shadow: 3px 3px 3px 3px #4d4b4b;
+
+    margin-right: 2rem;
+}
+
+#countContainer {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+/*#progress {*/
+/*    width: 10rem;*/
+/*    height: 10rem;*/
+/*    border: 0.5rem solid rgb(255, 255, 255);*/
+/*    border-radius: 2rem;*/
+/*}*/
+
+body > .button-container {
+    margin-top: 2rem;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+body > .button-container > .bt > .button {
+
+    background-color: rgb(147, 143, 143);
+    color: rgb(255, 255, 255);
+    font-size: 1.4rem;
+
+    border: 0.2rem solid rgb(115, 112, 112);
+    border-radius: 1rem;
+    box-shadow: 3px 3px 3px 3px #4d4b4b;
+
+    margin-right: 2rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+
+    cursor: pointer;
+
+    transition: all 0.2s linear;
+    text-decoration: none;
+}
+
+body > .button-container > .one > .button {
+    font-family: 'Chakra Petch', sans-serif;
+    width: 20rem;
+    padding: 0.7rem 0.7rem;
+
+    font-size: 1.5rem;
+}
+
+body > .button-container > .one > .button:hover {
+    background-color: red;
+    border: 0.2rem solid rgb(182, 16, 16);
+    box-shadow: 3px 3px 3px 3px rgb(182, 16, 16);
+
+    transform: scale(1.1);
+}
+
+body > .button-container > .two > .button:hover {
+    background-color: rgb(231, 178, 13);
+    border: 0.2rem solid rgb(194, 149, 13);
+    box-shadow: 3px 3px 3px 3px rgb(157, 120, 9);
+
+    transform: scale(1.1);
+}
+
+body > .button-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    margin-top: 3rem;
+}
+
+body > .button-container > .one {
+    position: absolute;
+    left: 15rem;
+}
+
+body > .button-container > .two {
+    position: absolute;
+    right: 16rem;
+}
+
+/*#progress {*/
+/*    align-items : center;*/
+/*    display : flex;*/
+/*    flex-direction : column;*/
+/*    justify-content: center;*/
+
+/*    font-size: 1.5rem;*/
+
+/*    border: 1rem solid rgb(147, 143, 143);*/
+/*    border-radius: 50%;*/
+
+/*    padding: 5rem 5rem 5rem 5rem;*/
+
+/*    overflow: auto;*/
+/*}*/
+
+#progress > .count {
+    color: rgb(232, 23, 23);
+
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+
+
+
+/* progress bar */
+svg {
+    display: inline-flex;
+    vertical-align: bottom;
+    width: 25rem;
+    height: 25rem;
+}
+
+.circleBase {
+    stroke: rgb(white, 0.25);
+    stroke-width: 8px;
+    stroke-dasharray: 100;
+    fill: white;
+}
+
+circle {
+    stroke: rgba(#fff, 0.25);
+    stroke-width: 8px;
+    stroke-dasharray: 0;
+    fill: none;
+}
+
+.meterBase {
+    stroke-width: 5px;
+    stroke: rgb(255, 255, 255);
+    /*fill: none;*/
+    /*transition: stroke-dashoffset 1s cubic-bezier(0.43, 0.41, 0.22, 0.91);*/
+    transform-origin: center center;
+    /*transform: rotate(-90deg) scaleX(-1);*/
+
+    box-shadow: 3px 3px 3px 3px rgb(255, 255, 255);
+
+    z-index: 999;
+}
+
+.meter {
+    stroke-width: 5px;
+    stroke: rgb(90, 2, 234);
+    fill: none;
+    transition: stroke-dashoffset 1s cubic-bezier(0.43, 0.41, 0.22, 0.91);
+    transform-origin: center center;
+    transform: rotate(-90deg) scaleX(-1);
+
+    box-shadow: 3px 3px 3px 3px rgb(255, 255, 255);
+}
+
+text:nth-of-type(1) {
+    fill: rgb(255, 255, 255);
+    font-weight: bold;
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+text:nth-of-type(2) {
+    fill: rgb(169, 16, 16);
+    font-weight: bold;
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+text:nth-of-type(3) {
+    fill: rgb(90, 2, 234);
+    font-weight: bold;
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+
+
+
+/* 성공 페이지 */
+#congratulation {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 80%);
+    color: rgb(255, 255, 255);
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    z-index: 9;
+}
+
+#congratulation > .success {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#congratulation > .success > .successText {
+    font-family: 'Chakra Petch', sans-serif;
+
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 5rem;
+
+    cursor: pointer;
+
+    border: 0.2rem solid rgb(115, 112, 112);
+    border-radius: 1rem;
+    box-shadow: 3px 3px 3px 3px #4d4b4b;
+
+    padding: 1rem 6rem 1rem 6rem;
+
+    animation: vibration .1s infinite;
+}
+
+@keyframes vibration {
+    from {
+        transform: rotate(1deg);
+    }
+    to {
+        transform: rotate(-1deg);
+    }
+}
+
+#congratulation > .success > .button-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-top: 3rem;
+}
+
+#congratulation > .success > .button-container > .button {
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+
+    padding-top: 0.8rem;
+    width: 13rem;
+    height: 2.5rem;
+
+    border: 0.2rem solid rgb(115, 112, 112);
+    border-radius: 0.4rem;
+    box-shadow: 2px 2px 2px 2px #4d4b4b;
+
+    font-size: 1.2rem;
+    text-align: center;
+    font-family: 'Chakra Petch', sans-serif;
+    text-decoration: none;
+}
+
+#congratulation > .success > .button-container > .one {
+    margin-right: 2rem;
+
+    transition: all 0.2s linear;
+}
+
+#congratulation > .success > .button-container > .one:hover {
+    background-color: rgb(231, 178, 13);
+    border: 0.2rem solid rgb(194, 149, 13);
+    box-shadow: 1px 1px 1px 1px rgb(157, 120, 9);
+
+    transform: scale(1.2);
+}
+
+#congratulation > .success > .button-container > .two {
+    margin-left: 2rem;
+
+    transition: all 0.2s linear;
+}
+
+#congratulation > .success > .button-container > .two:hover {
+    background-color: rgb(90, 2, 234);
+    border: 0.2rem solid rgb(77, 8, 192);
+    box-shadow: 1px 1px 1px 1px rgb(59, 6, 155);
+
+    transform: scale(1.2);
+}
+
+#congratulation.visible {
+    display: flex;
+}
+
+
+/* 폭죽 */
+h1 {
+    font-size: 6.5vw;
+    text-align: center;
+    color: white;
+    text-shadow: 1px 1px 2px #eb6383;
+}
+.char, .word {
+    display: inline-block;
+}
+.splitting .char {
+    animation: slide-in 1s cubic-bezier(0.17, 0.84, 0.4, 1.49) both;
+}
+
+@keyframes slide-in {
+    0% {
+        transform: scale(2) rotate(60deg);
+        opacity: 0;
+    }
+}
+@keyframes bump-in {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+particule {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    box-shadow: 1px 1px 4px #eb6383;
+
+    z-index: 10;
+}
+
+
+#change,
+#stop {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 80%);
+    color: rgb(255, 255, 255);
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    z-index: 9;
+}
+
+#change > .change-container,
+#stop > .stop-container {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#change > .change-container > .changeText,
+#stop > .stop-container > .stopText {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-size: 3rem;
+
+    border: 0.2rem solid rgb(115, 112, 112);
+    border-radius: 1rem;
+    box-shadow: 3px 3px 3px 3px #4d4b4b;
+
+    padding: 1rem 6rem 1rem 6rem;
+}
+
+#stop > .stop-container > .stopText {
+    width: 30rem;
+    text-align: center;
+}
+
+#change > .change-container > .changeText {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#change > .change-container > .changeText > a:nth-of-type(2) {
+    font-size: 1.3rem;
+}
+
+#change > .change-container > .button-container,
+#stop > .stop-container > .button-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-top: 3rem;
+}
+
+#change > .change-container > .button-container > .button,
+#stop > .stop-container > .button-container > .button {
+    cursor: pointer;
+
+    background-color: rgb(255, 255, 255);
+
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    width: 14rem;
+
+    border: 0.2rem solid rgb(115, 112, 112);
+    border-radius: 0.4rem;
+    box-shadow: 2px 2px 2px 2px #4d4b4b;
+
+    font-size: 1.2rem;
+    text-align: center;
+    font-family: 'Chakra Petch', sans-serif;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+#change > .change-container > .button-container > .one,
+#stop > .stop-container > .button-container > .one {
+    margin-right: 2rem;
+
+    transition: all 0.2s linear;
+}
+
+#change > .change-container > .button-container > .one:hover,
+#stop > .stop-container > .button-container > .one:hover {
+    background-color: rgb(231, 178, 13);
+    border: 0.2rem solid rgb(194, 149, 13);
+    box-shadow: 1px 1px 1px 1px rgb(157, 120, 9);
+
+    transform: scale(1.2);
+}
+
+#change > .change-container > .button-container > .two,
+#stop > .stop-container > .button-container > .two {
+    margin-left: 2rem;
+
+    transition: all 0.2s linear;
+}
+
+#change > .change-container > .button-container > .two:hover,
+#stop > .stop-container > .button-container > .two:hover {
+    background-color: rgb(90, 2, 234);
+    border: 0.2rem solid rgb(77, 8, 192);
+    box-shadow: 1px 1px 1px 1px rgb(59, 6, 155);
+
+    transform: scale(1.2);
+}
+
+#change.visible,
+#stop.visible {
+    display: flex;
+}

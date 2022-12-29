@@ -1,0 +1,745 @@
+@charset "UTF-8";
+
+
+body {
+    min-height: 100%;
+}
+
+body > .main {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    margin-top: 2rem;
+}
+
+body > .main > .title-container,
+body > .main > .book {
+    width: 100%;
+    max-width: 80rem;
+}
+
+body > .main > .title-container {
+    margin-top: 2rem;
+
+    align-items : flex-start;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+}
+
+body > .main > .title-container > .title {
+    z-index: 999;
+}
+
+body > .main > .title-container > .a_record_book {
+    flex: 1;
+    margin-left: 3rem;
+    font-size: 2rem;
+}
+
+body > .main > .title-container > .calendar {
+    margin-top: 0.1rem;
+    margin-right: 3rem;
+    background-color: rgb(147, 142, 142);
+
+    border: 0.06rem solid rgb(115, 112, 112);
+    border-radius: 1rem;
+    box-shadow: 3px 3px 3px 3px #4d4b4b;
+
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+
+    text-decoration: none;
+}
+
+body > .main > .title-container > .calendar:hover {
+    background-color: rgb(115, 112, 112);
+}
+
+body > .main > .book {
+    flex: 1;
+    border: 0.1rem solid rgb(0, 0, 0);
+
+    margin-top: 1.5rem;
+
+    align-items : flex-start;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+}
+
+body > .main > .book > .one {
+    width: 50%;
+    height: 90%;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    border-right: 0.1rem solid rgb(0, 0, 0);
+
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+body > .main > .book > .one > .photo-container > .text {
+    font-size: 1.2rem;
+}
+
+body > .main > .book > .one > .photo-container > .photo {
+    width: 30rem;
+    height: 30rem;
+
+    border: 0.1rem solid rgb(0, 0, 0);
+    margin-top: 0.3rem;
+    margin-bottom: 2rem;
+
+    text-decoration: none;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+}
+
+body > .main > .book > .one > .diary-container {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+    justify-content: flex-start;
+}
+
+body > .main > .book > .one > .diary-container > .text {
+    align-items : stretch;
+    display : flex;
+    flex-direction : row;
+    justify-content: stretch;
+
+    width: 30rem;
+}
+
+body > .main > .book > .one > .diary-container > .text > .textDiary {
+    font-size: 1.2rem;
+    flex: 1;
+}
+
+body > .main > .book > .one > .diary-container > .text > .button-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    color: rgb(138, 134, 134);
+    font-size: 1.2rem;
+}
+
+body > .main > .book > .one > .diary-container > .text > .button-container > .modify {
+    margin-right: 1.1rem;
+    cursor: pointer;
+
+    flex: 1;
+}
+
+body > .main > .book > .one > .diary-container > .text > .button-container > .modify:hover {
+    transform: scale(1.2);
+    color: rgb(112, 109, 109);
+}
+
+body > .main > .book > .one > .diary-container > .text > .button-container > .delete {
+    margin-right: 0.3rem;
+    cursor: pointer;
+}
+
+body > .main > .book > .one > .diary-container > .text > .button-container > .delete:hover {
+    transform: scale(1.2);
+    color: rgb(112, 109, 109);
+}
+
+body > .main > .book > .one > .diary-container > .diary {
+    width: 30rem;
+    height: 15rem;
+
+    margin-top: 0.3rem;
+
+    border: 0.1rem solid rgb(0, 0, 0);
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+body > .main > .book > .one > .diary-container > .diary > .textBox {
+    font-family: 'Gowun Dodum', sans-serif;
+    display: flex;
+
+    padding: 3rem 3rem 3rem 3rem;
+
+    font-size: 1.4rem;
+}
+
+/*body > .main > .book > .one > .diary-container > .diary > .textBox.hidden {*/
+/*    display: none;*/
+/*}*/
+
+body > .main > .book > .one > .photo-container > .photo > .icon,
+body > .main > .book > .one > .diary-container > .diary > .icon {
+    font-size: 3rem;
+    color: rgb(203, 199, 187);
+
+    cursor: pointer;
+    display: flex;
+}
+
+body > .main > .book > .one > .photo-container > .photo > .icon:hover,
+body > .main > .book > .one > .diary-container > .diary > .icon:hover {
+    color: rgb(155, 154, 146);
+}
+
+body > .main > .book > .one > .diary-container > .realDelete {
+    background-color: rgb(255, 255, 255);
+
+    align-items : center;
+    display : none;
+    flex-direction : column;
+    justify-content: center;
+
+    position: absolute;
+    left: 23rem;
+
+    border: 0.1rem solid rgb(0, 0, 0);
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    padding: 1rem 2rem 1rem 2rem;
+
+    font-size: 1.3rem;
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+body > .main > .book > .one > .diary-container > .realDelete > .a > .icon {
+    color: rgb(234, 201, 8);
+    font-size: 2rem;
+}
+
+body > .main > .book > .one > .diary-container > .realDelete > .option {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+
+    cursor: pointer;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+}
+
+body > .main > .book > .one > .diary-container > .realDelete > .option > .yes,
+body > .main > .book > .one > .diary-container > .realDelete > .option > .no {
+
+    background-color: rgb(147, 142, 142);
+    border: 0.06rem solid rgb(115, 112, 112);
+    border-radius: 2rem;
+    box-shadow: 1px 1px 3px 1px #4d4b4b;
+
+    padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+}
+
+body > .main > .book > .one > .diary-container > .realDelete > .option > .yes {
+    margin-right: 1.5rem;
+}
+
+body > .main > .book > .one > .diary-container > .realDelete > .option > .yes:hover,
+body > .main > .book > .one > .diary-container > .realDelete > .option > .no:hover {
+
+    background-color: rgb(115, 112, 112);
+}
+
+body > .main > .book > .one > .diary-container > .realDelete.visible {
+    display: flex;
+}
+
+
+body > .main > .book > .two {
+    width: 50%;
+    height: 90%;
+
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+body > .main > .book > .two > .date-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+}
+
+body > .main > .book > .two > .date-container > .left-container > .left {
+    margin-right: 2rem;
+    font-size: 2rem;
+    cursor: pointer;
+
+    color: rgb(0, 0, 0);
+}
+
+body > .main > .book > .two > .date-container > .right-container > .right {
+    margin-left: 2rem;
+    font-size: 2rem;
+    cursor: pointer;
+
+    color: rgb(0, 0, 0);
+}
+
+body > .main > .book > .two > .date-container > .left-container > .left:hover,
+body > .main > .book > .two > .date-container > .right-container > .right:hover {
+    color: rgb(110, 129, 129);
+}
+
+body > .main > .book > .two > .date-container > .date {
+    font-size: 1.3rem;
+}
+
+body > .main > .book > .two > .record-container {
+    margin-top: 6rem;
+
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+
+}
+
+body > .main > .book > .two > .record-container > .squat-container,
+body > .main > .book > .two > .record-container > .lunge-container,
+body > .main > .book > .two > .record-container > .plank-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-bottom: 1.5rem;
+}
+
+body > .main > .book > .two > .record-container > .squat-container > .icon,
+body > .main > .book > .two > .record-container > .lunge-container > .icon,
+body > .main > .book > .two > .record-container > .plank-container > .icon {
+    margin-right: 1rem;
+
+    color: rgb(110, 129, 129);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+body > .main > .book > .two > .record-container > .squat-container > .squatText,
+body > .main > .book > .two > .record-container > .plank-container > .plankText {
+    margin-right: 5.5rem;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+body > .main > .book > .two > .record-container > .lunge-container > .lungeText {
+    margin-right: 6.9rem;
+
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+body > .main > .book > .two > .record-container > .squat-container > .count,
+body > .main > .book > .two > .record-container > .lunge-container > .count,
+body > .main > .book > .two > .record-container > .plank-container > .count {
+    margin-right: 1rem;
+
+    font-size: 4rem;
+    color: rgb(232, 23, 23);
+}
+
+body > .main > .book > .two > .record-container > .squat-container > .goalCount,
+body > .main > .book > .two > .record-container > .lunge-container > .goalCount,
+body > .main > .book > .two > .record-container > .plank-container > .goalCount {
+    font-size: 2rem;
+}
+
+body > .main > .book > .two > .add-container {
+    margin-top: 5rem;
+}
+
+body > .main > .book > .two > .add-container {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+    justify-content: flex-start;
+}
+
+body > .main > .book > .two > .add-container > .text {
+    align-items : stretch;
+    display : flex;
+    flex-direction : row;
+    justify-content: stretch;
+
+    width: 30rem;
+}
+
+body > .main > .book > .two > .add-container > .text > .textAdd {
+    font-size: 1.2rem;
+    flex: 1;
+}
+
+body > .main > .book > .two > .add-container > .text > .button-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    color: rgb(138, 134, 134);
+    font-size: 1.2rem;
+}
+
+body > .main > .book > .two > .add-container > .text > .button-container > .modify {
+    margin-right: 1.1rem;
+    cursor: pointer;
+
+    flex: 1;
+}
+
+body > .main > .book > .two > .add-container > .text > .button-container > .modify:hover {
+    transform: scale(1.2);
+    color: rgb(112, 109, 109);
+}
+
+body > .main > .book > .two > .add-container > .text > .button-container > .delete {
+    margin-right: 0.3rem;
+    cursor: pointer;
+}
+
+body > .main > .book > .two > .add-container > .text > .button-container > .delete:hover {
+    transform: scale(1.2);
+    color: rgb(112, 109, 109);
+}
+
+body > .main > .book > .two > .add-container > .add {
+    width: 30rem;
+    height: 15rem;
+
+    margin-top: 0.3rem;
+
+    border: 0.1rem solid rgb(0, 0, 0);
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    text-decoration: none;
+}
+
+body > .main > .book > .two > .add-container > .add > .textBox {
+    font-family: 'Gowun Dodum', sans-serif;
+    display: flex;
+
+    padding: 3rem 3rem 3rem 3rem;
+
+    font-size: 1.4rem;
+}
+
+body > .main > .book > .two > .add-container > .add > .icon {
+    font-size: 3rem;
+    color: rgb(203, 199, 187);
+
+    cursor: pointer;
+}
+
+body > .main > .book > .two > .add-container > .add > .icon:hover {
+    color: rgb(155, 154, 146);
+}
+
+
+body > .main > .book > .two > .add-container > .realDelete {
+    background-color: rgb(255, 255, 255);
+
+    align-items : center;
+    display : none;
+    flex-direction : column;
+    justify-content: center;
+
+    position: absolute;
+    right: 8rem;
+
+    border: 0.1rem solid rgb(0, 0, 0);
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    padding: 1rem 2rem 1rem 2rem;
+
+    font-size: 1.5rem;
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+body > .main > .book > .two > .add-container > .realDelete > .a > .icon {
+    color: rgb(234, 201, 8);
+    font-size: 2rem;
+}
+
+body > .main > .book > .two > .add-container > .realDelete > .option {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+
+    cursor: pointer;
+
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+}
+
+body > .main > .book > .two > .add-container > .realDelete > .option > .yes,
+body > .main > .book > .two > .add-container > .realDelete > .option > .no {
+
+    background-color: rgb(147, 142, 142);
+    border: 0.06rem solid rgb(115, 112, 112);
+    border-radius: 2rem;
+    box-shadow: 1px 1px 3px 1px #4d4b4b;
+
+    padding: 0.2rem 1.5rem 0.2rem 1.5rem;
+}
+
+body > .main > .book > .two > .add-container > .realDelete > .option > .yes {
+    margin-right: 1.5rem;
+}
+
+body > .main > .book > .two > .add-container > .realDelete > .option > .yes:hover,
+body > .main > .book > .two > .add-container > .realDelete > .option > .no:hover {
+
+    background-color: rgb(115, 112, 112);
+}
+
+body > .main > .book > .two > .add-container > .realDelete.visible {
+    display: flex;
+}
+
+#diaryWrite,
+#addWrite {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 80%);
+    color: rgb(255, 255, 255);
+    align-items: center;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    z-index: 9;
+}
+
+#diaryWrite.visible,
+#addWrite.visible {
+    display: flex;
+}
+
+#diaryWrite > .dw,
+#addWrite > .aw {
+    width: 50rem;
+    height: 30rem;
+
+    position: absolute;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    background-color: rgb(255, 255, 255);
+    border: 0.06rem solid rgb(44, 43, 43);
+    box-shadow: 3px 3px 5px 3px rgb(0, 0, 0);
+}
+
+#diaryWrite > .dw.blank,
+#addWrite > .aw.blank {
+    animation: vibration .1s infinite;
+}
+
+@keyframes vibration {
+    from {
+        transform: rotate(1deg);
+    }
+    to {
+        transform: rotate(-1deg);
+    }
+}
+
+#diaryWrite > .dw > .close-button,
+#addWrite > .aw > .close-button {
+    right: 2rem;
+    top: 1rem;
+    position: absolute;
+
+    color: rgb(255, 255, 255);
+    background-color: rgb(147, 142, 142);
+
+    border: 0.06rem solid rgb(115, 112, 112);
+    border-radius: 0.8rem;
+    box-shadow: 1px 1px 2px 1px #4d4b4b;
+
+    padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+
+    cursor: pointer;
+}
+
+#diaryWrite > .dw > .close-button:hover,
+#addWrite > .aw > .close-button:hover {
+    background-color: rgb(115, 112, 112);
+}
+
+#diaryWrite > .dw > .write,
+#addWrite > .aw > .write {
+    font-family: 'Gowun Dodum', sans-serif;
+    height: 50%;
+    width: 74%;
+
+    padding: 3rem 3rem 3rem 3rem;
+
+    font-size: 1.4rem;
+
+    background-color: rgb(255, 255, 255);
+    border: 0.06rem solid rgb(44, 43, 43);
+    box-shadow: 3px 3px 5px 3px rgb(0, 0, 0);
+
+    box-snap: none;
+}
+
+#diaryWrite > .dw > .ok,
+#addWrite > .aw > .ok {
+    font-family: 'Gowun Dodum', sans-serif;
+    color: rgb(255, 255, 255);
+
+    right: 2rem;
+    bottom: 1rem;
+    position: absolute;
+
+    background-color: rgb(147, 142, 142);
+
+    border: 0.06rem solid rgb(115, 112, 112);
+    border-radius: 0.8rem;
+    box-shadow: 1px 1px 2px 1px #4d4b4b;
+
+    padding: 0.3rem 2rem 0.3rem 2rem;
+
+    cursor: pointer;
+
+    font-size: 1.1rem;
+}
+
+#diaryWrite > .dw > .ok:hover,
+#addWrite > .aw > .ok:hover {
+    background-color: rgb(115, 112, 112);
+}
+
+/* textarea 파란네모 안 보이게 하는 거 */
+textarea:focus {
+    outline: none;
+}
+
+/* 달력 */
+#calendarContainer {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 80%);
+
+    align-items : center;
+    flex-direction : column;
+    justify-content: center;
+
+    display: none;
+    position: fixed;
+    z-index: 9;
+}
+
+#calendarContainer > .top {
+    background-color: #2C3E50;
+    border: 0.06rem solid rgb(44, 43, 43);
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: 3px 3px 5px 3px rgb(0, 0, 0);
+
+    position: absolute;
+
+    top: 3.5%;
+    left: 17%;
+
+    width: 60rem;
+    height: 7rem;
+}
+
+#calendarContainer > .top > .icon {
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+
+    position: absolute;
+    top: 0.3rem;
+    right: 1rem;
+
+    cursor: pointer;
+}
+
+#calendarContainer > .top > .icon:hover {
+    color: rgb(224, 218, 218);
+}
+
+#calendar {
+    position: absolute;
+
+    top: 8%;
+    left: 17%;
+
+    width: 60rem;
+    height: 45rem;
+
+    background-color: rgb(255, 255, 255);
+
+    padding: 2rem 2rem 2rem 2rem;
+
+    border: 0.06rem solid rgb(44, 43, 43);
+    box-shadow: 3px 3px 5px 3px rgb(0, 0, 0);
+}
+
+#calendarContainer.visible {
+    display: flex;
+}
+
+
+
+
+/* 맨밑 */
+#bottom {
+    margin-bottom: 2rem;
+}
