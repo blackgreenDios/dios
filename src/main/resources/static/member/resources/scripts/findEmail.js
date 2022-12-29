@@ -37,7 +37,7 @@ form.onsubmit = (e) => {
         return;
     }
 
-    Cover.show('이메일을 찾는 중입니다. \n\n 잠시만 기다려주세요. ')
+    Cover.show('이메일을 찾는 중입니다.\n 잠시만 기다려주세요. ')
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('name', form['name'].value);

@@ -38,9 +38,9 @@ public class MemberController {
 
     @RequestMapping(value = "register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postRegister(UserEntity user, EmailAuthEntity auth) throws NoSuchAlgorithmException {
+    public String postRegister(UserEntity user, EmailAuthEntity auth,UserEntity newUser) throws NoSuchAlgorithmException {
         ModelAndView modelAndView = new ModelAndView("member/register");
-        Enum<? extends IResult> result = this.memberService.register(user, auth);
+        Enum<? extends IResult> result = this.memberService.register(user, auth,newUser);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
@@ -264,21 +264,21 @@ public class MemberController {
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity user,
-                              @RequestParam(value = "nickname") String nickname) {
+    public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
+                              UserEntity newUser) {
         Enum<?> result;
-        if (user == null) {
+        if (signedUser == null) {
             result = ModifyProfileResult.NOT_SIGNED;
         } else {
-            result = this.memberService.updateMyPage(user, nickname);
+            result = this.memberService.updateMyPage(signedUser,newUser);
         }
-        System.out.println("새로운 닉네임 : " + nickname);
+
 
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 
         if (result == CommonResult.SUCCESS) {
-            responseObject.put("nickname", user.getNickname());
+            responseObject.put("nickname", signedUser.getNickname());
         }
         return responseObject.toString();
     }
@@ -306,12 +306,8 @@ public class MemberController {
         Enum<?> result = user != null && user.getPassword().equals(CryptoUtils.hasSha512(password))
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
-        //서비스 안쓰고 바로 처리해주면 됨용 : user에 있는 비밀번호랑(user.getPassword()) 웹에서 입력된 비밀번호(password)랑 같냐
         JSONObject responseObject = new JSONObject();
-        //String 을 받아야하면 JSON
         responseObject.put("result", result.name().toLowerCase());
-//        responseObject.put("password", user.getPassword());
-
 
         if (result == CommonResult.SUCCESS) {
             //session.setAttribute("user", user);
@@ -319,6 +315,13 @@ public class MemberController {
             //그래서 비밀번호 말고 정보가 안뜸
             //세선 저장소로 부터 값을 불러온다.
             System.out.println("성공");
+
+            responseObject.put("nickname", user.getNickname());
+            responseObject.put("name", user.getName());
+            responseObject.put("contact", user.getContact());
+            responseObject.put("addressPrimary", user.getAddressPrimary());
+            responseObject.put("addressPostal", user.getAddressPostal());
+            responseObject.put("addressSecondary", user.getAddressSecondary());
         } else {
             System.out.println("실패");
         }
@@ -330,35 +333,14 @@ public class MemberController {
     @RequestMapping(value = "myPageModify",
             method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchMyPageModify(@SessionAttribute(value = "user", required = false) UserEntity user,
-                                    @RequestParam(value = "nickname") String nickname,
-                                    @RequestParam(value = "name") String name,
-                                    @RequestParam(value = "contact") String contact,
-                                    @RequestParam(value = "addressPrimary") String addressPrimary,
-                                    @RequestParam(value = "addressPostal") String addressPostal,
-                                    @RequestParam(value = "addressSecondary") String addressSecondary) {
-        Enum<?> result;
-        if (user == null) {
-            result = ModifyProfileResult.NOT_SIGNED;
-        } else {
-            result = this.memberService.updateMyPageModify(user,nickname,name,contact,addressPrimary,addressPostal,addressSecondary);
-        }
-
+    public String patchMyPageModify(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
+                                    UserEntity newUser) {
+        //매개변수가 많은거는 좋지않음
+        //signedUser : 로그인한 유저
+        //newUser : DB에 있는 유저 = 회원정보 수정 들어가면 있는 유저 정보들
+        Enum<?> result = this.memberService.updateMyPageModify(signedUser, newUser);
         JSONObject responseObject = new JSONObject();
-        //String 을 받아야하면 JSON
         responseObject.put("result", result.name().toLowerCase());
-
-        if (result == CommonResult.SUCCESS) {
-            System.out.println("컨 성공");
-            responseObject.put("nickname", user.getNickname());
-            responseObject.put("name", user.getName());
-            responseObject.put("contact", user.getContact());
-            responseObject.put("addressPrimary", user.getAddressPrimary());
-            responseObject.put("addressPostal", user.getAddressPostal());
-            responseObject.put("addressSecondary", user.getAddressSecondary());
-        } else if(result==CommonResult.FAILURE){
-            System.out.println("컨에서 실패");
-        }
         return responseObject.toString();
     }
 
@@ -377,6 +359,13 @@ public class MemberController {
         session.setAttribute("user", user);
         return new ModelAndView("member/kakao");
 
+    }
+
+    //마이페이지 비밀번호 재설정
+    @RequestMapping(value = "myPagePassword", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPagePassword() {
+        ModelAndView modelAndView = new ModelAndView("member/myPagePassword");
+        return modelAndView;
     }
 
 }

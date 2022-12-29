@@ -52,7 +52,7 @@ form['emailSend'].addEventListener('click', () => {
         form['email'].focus();
         return;
     }
-    Cover.show('계정확인을 하고 있습니다. \n 잠시만 기다려 주세요.');
+    Cover.show('계정확인을 하고 있습니다. \n\n 잠시만 기다려 주세요.')
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);

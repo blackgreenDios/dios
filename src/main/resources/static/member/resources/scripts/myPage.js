@@ -45,6 +45,11 @@ Form['images'].addEventListener('input', () => {
                         case 'success':
                             alert('닉네임 변경이 완료되었습니다.');
                             break;
+                        case 'nickname':
+                            alert('이미 등록 된 닉네임입니다.');
+                            form['nickname'].focus();
+                            form['nickname'].select();
+                            break;
                         default:
                             alert('알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
                     }

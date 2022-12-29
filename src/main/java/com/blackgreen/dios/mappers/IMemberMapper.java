@@ -40,7 +40,10 @@ public interface IMemberMapper {
     //이미지 다운로드
     ImageEntity selectImageByIndex(@Param(value = "index") int index);
 
+    UserEntity selectUserByNickname(@Param(value = "nickname") String nickname);
 
+    UserEntity selectUserByName(@Param(value = "name") String name);
 
+    UserEntity selectUserByContact(@Param(value = "contact") String contact);
 
 }

@@ -59,7 +59,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
             alert('주소 작성을 완료해 주세요.');
             return;
         }
-        Cover.show('회원가입을 진행중입니다.\n\n잠시만 기다려 주세요.');
+        Cover.show('회원가입을 진행중입니다.\n잠시만 기다려 주세요.');
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
         formData.append('email', form['email'].value);
@@ -90,9 +90,12 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                         case 'email_not_verified':
                             alert('이메일 인증이 완료되지 않았습니다.');
                             break;
-                        // case 'contact':
-                        //     Warning.show('이미 등록된 전화번호 입니다.');
-                        //     break;
+                        case 'contact':
+                            alert('이미 등록된 전화번호 입니다.');
+                            break;
+                        case 'nickname':
+                            alert('이미 등록된 닉네임 입니다.');
+                            break;
                         default:
                             EmailWarning.show('알 수 없는 이유로 회원가입을 완료하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
                     }
@@ -211,7 +214,7 @@ form['emailVerify'].addEventListener('click', () => {
         form['emailAuthCode'].select();
         return;
     }
-    Cover.show('인증 번호를 확인하고 있습니다. \n\n잠시만 기다려 주세요.');
+    Cover.show('인증 번호를 확인하고 있습니다. \n잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);

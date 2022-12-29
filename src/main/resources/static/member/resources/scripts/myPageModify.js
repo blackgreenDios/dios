@@ -54,58 +54,69 @@ form.querySelector('[rel = "checkSend"]').addEventListener('click', () => {
         xhr.send(formData);
 
     }
-    form.querySelector('[rel = "checkSend2"]').addEventListener('click', () => {
-        // Warning.hide();
-            if (form['nickname'].value === '') {
-               alert('닉네임 작성을 완료해 주세요.');
-                return;
-            }
-            if (form['name'].value === '') {
-                alert('이름 작성을 완료해 주세요.');
-                return;
-            }
-            if (form['contact'].value === '' || (form['contact'].value).length < 11) {
-                alert('연락처 작성을 완료해 주세요.');
-                return;
-            }
-            if (form['addressPostal'].value === '' || form['addressPrimary'].value === '' || form['addressSecondary'].value === '') {
-                alert('주소 작성을 완료해 주세요.');
-                return;
-            }
-        const xhr = new XMLHttpRequest();
-        const formData = new FormData();
-        formData.append('nickname', form['nickname'].value);
-        formData.append('name', form['name'].value);
-        formData.append('contact', form['contact'].value);
-        formData.append('addressPrimary', form['addressPrimary'].value);
-        formData.append('addressPostal', form['addressPostal'].value);
-        formData.append('addressSecondary', form['addressSecondary'].value);
-        xhr.open('PATCH', './myPageModify');
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    const responseObject = JSON.parse(xhr.responseText);
-                    switch (responseObject['result']) {
-                        case'success':
-                            form.querySelector('[rel="step2"]').classList.remove('visible');
 
-                            form.querySelector('[rel="step3"]').classList.add('visible');
-                            break;
-                        case 'contact':
-                            alert('이미 등록 된 연락처입니다.');
-                            form['contact'].focus();
-                            form['contact'].select();
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                   alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
-                }
-            }
-        };
-        xhr.send(formData);
 });
+
+form.querySelector('[rel = "checkSend2"]').addEventListener('click', () => {
+    // Warning.hide();
+    if (form['nickname'].value === '') {
+        alert('닉네임 작성을 완료해 주세요.');
+        return;
+    }
+
+    if (form['name'].value === '') {
+        alert('이름 작성을 완료해 주세요.');
+        return;
+    }
+    if (form['contact'].value === '' || (form['contact'].value).length < 11) {
+        alert('연락처 작성을 완료해 주세요.');
+        return;
+    }
+    if (form['addressPostal'].value === '' || form['addressPrimary'].value === '' || form['addressSecondary'].value === '') {
+        alert('주소 작성을 완료해 주세요.');
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('nickname', form['nickname'].value);
+    formData.append('name', form['name'].value);
+    formData.append('contact', form['contact'].value);
+    formData.append('addressPrimary', form['addressPrimary'].value);
+    formData.append('addressPostal', form['addressPostal'].value);
+    formData.append('addressSecondary', form['addressSecondary'].value);
+    xhr.open('PATCH', './myPageModify');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case'success':
+                        form.querySelector('[rel="step2"]').classList.remove('visible');
+
+                        form.querySelector('[rel="step3"]').classList.add('visible');
+                        break;
+                    case 'nickname':
+                        alert('이미 등록 된 닉네임입니다.');
+                        form['nickname'].focus();
+                        form['nickname'].select();
+                        break;
+                    case 'contact':
+                        alert('이미 등록 된 연락처입니다.');
+                        form['contact'].focus();
+                        form['contact'].select();
+                        break;
+
+
+                    default:
+                        break;
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send(formData);
 });
 
 //주소찾기 지도

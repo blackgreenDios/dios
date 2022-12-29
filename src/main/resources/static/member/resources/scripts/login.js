@@ -18,18 +18,18 @@ form.onsubmit=(e)=>{
     //자동으로 경고창이 안나오게 해주는거
     Warning.hide();
     if (form['email'].value === '') {
-        Warning.show('이메일을 입력해주세요');
+        alert('이메일을 입력해주세요');
         form['email'].focus();
         return;
     }
 
     if (form['password'].value === '') {
-        Warning.show('비밀번호를 입력해주세요');
+        alert('비밀번호를 입력해주세요');
         form['password'].focus();
         return;
     }
 
-    Cover.show('로그인 하는 중입니다. \n\n 잠시만 기다려주세요. ');
+    Cover.show('로그인 하는 중입니다.\n 잠시만 기다려주세요. ');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);
@@ -46,11 +46,11 @@ form.onsubmit=(e)=>{
                         window.location.href = 'login';
                         break;
                     default:
-                        Warning.show('알맞은 이메일과 비밀번호를 입력해주세요.')
+                        alert('알맞은 이메일과 비밀번호를 입력해주세요.')
 
                 }
             } else {
-                Warning.show('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     };

@@ -63,6 +63,7 @@ body > .main > .content > .form.step3 > .title-container > .step-container > .st
     border: 2.125rem solid rgba(11, 124, 4, 30%);
     color: rgb(255, 255, 255);
     margin: 1rem;
+    font-size: 1.5rem;
 }
 
 /* 스텝 2로 넘어갔을 때 스텝 1의 동그라미, 스텝 3으로 넘어갔을 때 스텝 1과 스텝 2의 동그라미 */
@@ -366,6 +367,7 @@ body > .main > .content > .form > .step.step3 > .title {
 body > .main > .content > .form > .step.step3 > .message {
     line-height: 150%;
     text-align: center;
+    font-family: none;
 }
 
 body > .main > .content > .form > .warning {

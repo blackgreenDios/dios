@@ -149,6 +149,7 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     text-align: center;
     user-select: none;
     white-space: pre-wrap;
+    font-family: none;
 }
 
 .--cover{
@@ -163,6 +164,7 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     flex-direction: column;
     justify-content: center;
     position: fixed;
+
 }
 
 .--cover.visible{

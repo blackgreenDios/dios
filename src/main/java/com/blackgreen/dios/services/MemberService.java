@@ -71,7 +71,7 @@ public class MemberService {
     }
 
     //회원가입
-    public Enum<? extends IResult> register(UserEntity user, EmailAuthEntity emailAuth) {
+    public Enum<? extends IResult> register(UserEntity user, EmailAuthEntity emailAuth,UserEntity newUser) {
         EmailAuthEntity existingEmailAuth = this.memberMapper.selectEmailAuthByEmailCodeSalt(
                 emailAuth.getEmail(),
                 emailAuth.getCode(),
@@ -82,13 +82,21 @@ public class MemberService {
         }
 
 
-//        //전화번호 중복 확인
-//        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-//
-//        if(user.getContact().equals(existingUser.getContact())){
-//            return RegisterResult.Contact;
-//        }
-//
+
+        UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
+        if (userByNickname != null && !user.getEmail().equals(userByNickname.getEmail())) {
+            //userByNickname 비어있지않으면 DB에 같은 닉네임이 있다는거
+            //근데 로그인한 이메일이랑 중복된 닉네임을 가지고 있는 이메일이랑 같으면 ㄱㅊ 내꺼니까
+            //근데 다르면 중복
+            return DuplicationResult.NICKNAME;
+        }
+
+        //연락처 중복검사
+        UserEntity userByContact = this.memberMapper.selectUserByContact(newUser.getContact());
+        if (userByContact != null && !user.getEmail().equals(userByContact.getEmail())) {
+            return DuplicationResult.CONTACT;
+        }
+
 
 
         user.setPassword(CryptoUtils.hasSha512(user.getPassword()));
@@ -115,9 +123,6 @@ public class MemberService {
                 authCode,
                 Math.random(),
                 Math.random());
-        // 문자열 타입의 authSalt는 String.format의 (ja513698@naver . com0880950 . 9045670 . 868117)이 값으로 들어가게 된다.
-//        System.out.println(authSalt);
-
         StringBuilder authSaltHashBuilder = new StringBuilder();
         // StringBuilder 타입의 authSaltHashBuilder 변수를 새객체로 생성.
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -170,19 +175,14 @@ public class MemberService {
     //회원가입 페이지에서 이메일 인증 버튼 눌렀을 때 이메일 인증 버튼 누르고 인증번호 확인까지
     @Transactional
     public Enum<? extends IResult> verifyEmailAuth(EmailAuthEntity emailAuth) {
-        //Enum<? 는 Enum은 열거 ?는 열거할 때 타입 상관없다는 뜻
-        //Enum<?>의 문제점은 SendEmailAuthResult 랑 CommonResult 둘 말고도 다른 열거형도 다 되서 IResult로 두개만 묶어준거임, 이렇게 묶어주면 두개 말고는 안되니까
         EmailAuthEntity existingEmailAuth = this.memberMapper.selectEmailAuthByEmailCodeSalt(
-                //selectEmailAuthByEmailCodeSalt 안에 email, code,salt 있음
                 emailAuth.getEmail(),
                 emailAuth.getCode(),
                 emailAuth.getSalt());
-        //IMemberMapper에 @Param을 쓰면 자동으로 MemberMapper랑 위에 get으로 값 가져왔을 때랑 값이 같다고 인식해줌
         if (existingEmailAuth == null) {
             return CommonResult.FAILURE;
         }
         if (existingEmailAuth.getExpiresOn().compareTo(new Date()) < 0) {
-            // compareTo를 호출하는 expiredOn에서 전달하는 Date를 뺀다고 생각하면 됨. (compareTo는 빼기 역할을 한다.) 과거 - 미래 = 음수가 나오기때문에 0보다 작다고 표시함.
             return VerifyEmailAuthResult.EXPIRED;
         }
 
@@ -234,15 +234,12 @@ public class MemberService {
         if (this.memberMapper.insertEmailAuth(emailAuth) == 0) {
             return CommonResult.FAILURE;
         }
-        //위에서 받고 넘겨주기 때문에 이 밑에 구문에서 받는거 순서 바뀌면 이메일 값 말고 다른 값이 안들어와서 실패했다고 뜸
         Context context = new Context();
-        //Service 에서 html 파일에 view 를 넘겨줘야 하기 때문에 (서비스에서 html 파일을 활용하기 위해서)
         context.setVariable("email", emailAuth.getEmail());
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("salt", emailAuth.getSalt());
 
         String text = this.templateEngine.process("member/recoverPasswordEmailAuth", context);
-        // 앞에는 template(setViewName과 같은) 뒤에는 위에서 생성한 code를 변수로 지정한것.
         MimeMessage mail = this.mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail, "UTF-8");
         helper.setFrom("guswl0490111@gmail.com");
@@ -290,22 +287,10 @@ public class MemberService {
                 emailAuth.getCode(),
                 emailAuth.getSalt());
         if (existingEmailAuth == null || existingEmailAuth.getExpiresOn().compareTo(new Date()) < 0) {
-            //select 해온 것들이 null 이거나 isExpired() 호출결과가 false인 경우 FAILURE
             return CommonResult.FAILURE;
         }
         UserEntity existingUser = this.memberMapper.selectUserByEmail(existingEmailAuth.getEmail());
-        //existingEmailAuth를 받은 existingUser는 이메일, 코드, 솔트까지 다 가지고 있음
-        //여기서 테이블에 있는 모든 값들 고대로 다 꺼내서 밑에 setPassword 구문에서 비밀번호만 업데이트 해주는 거임
-        //user.getEmail() 하면 이메일이랑 비밀번호만가지고 있고 그러므로 이메일이랑 비밀번호만 들어가서 업데이트 자체가 안됨 ->  나머지는 NOT NULL 이라서
-//-----------------------------------------------------------------
-        //Select한 객체가 가진 email값으로 새로운 UserEntity 타입의 객체를 Select 해온다.
-        //SELECT 한 UserEntity 타입의 객체의 password 필드 값을 전달 받은 UserEntity 타입의 객체가 가진 password 값에 대한 SHA-512 해시값으로 수정한다.
-        //user는 이메일이랑 비밀번호만 가지고 있음 즉, user는 그냥 껍데기
-        //이 구문에서 새롭게 입력된 비밀번호를 DB에 넣고 업데이트까지
         existingUser.setPassword(CryptoUtils.hasSha512(user.getPassword()));
-
-        //MemberMapper.xml 랑 IMemberMapper 에 updateUser 추가, WHERE 안에는 email 써야함(Primary Key), set 안에는 이메일 제외한 나머지
-
         if (this.memberMapper.updateUser(existingUser) == 0) {
             return CommonResult.FAILURE;
         }
@@ -325,18 +310,39 @@ public class MemberService {
     }
 
     //닉네임 수정
+//    @Transactional
+//    public Enum<? extends IResult> updateMyPage(UserEntity user, String nickname) {
+//        UserEntity existingUser = this.memberMapper.selectUserByEmail(
+//                user.getEmail()
+//        );
+//
+//        if (existingUser == null) {
+//            return ModifyProfileResult.NOT_SIGNED;
+//        }
+//
+//        user.setNickname(nickname);
+//        if (this.memberMapper.updateUser(user) == 0) {
+//            return CommonResult.FAILURE;
+//        }
+//
+//        return CommonResult.SUCCESS;
+//    }
     @Transactional
-    public Enum<? extends IResult> updateMyPage(UserEntity user, String nickname) {
-        UserEntity existingUser = this.memberMapper.selectUserByEmail(
-                user.getEmail()
-        );
+    public Enum<? extends IResult> updateMyPage(UserEntity signedUser,UserEntity newUser) {
 
-        if (existingUser == null) {
+        if(signedUser == null){
             return ModifyProfileResult.NOT_SIGNED;
         }
 
-        user.setNickname(nickname);
-        if (this.memberMapper.updateUser(user) == 0) {
+        //닉네임 중복검사
+        UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
+        if(userByNickname != null && !userByNickname.getEmail().equals(signedUser.getEmail())){
+            return DuplicationResult.NICKNAME;
+        }
+
+        signedUser.setNickname(newUser.getNickname());
+
+        if (this.memberMapper.updateUser(signedUser) == 0) {
             return CommonResult.FAILURE;
         }
 
@@ -346,38 +352,36 @@ public class MemberService {
 
     // 회원정보 수정
     @Transactional
-    public Enum<? extends IResult> updateMyPageModify(UserEntity user,
-                                                      String nickname,
-                                                      String name,
-                                                      String contact,
-                                                      String addressPrimary,
-                                                      String addressPostal,
-                                                      String addressSecondary) {
-        UserEntity existingUser = this.memberMapper.selectUserByEmail(
-                user.getEmail()
-        );
+    public Enum<? extends IResult> updateMyPageModify(UserEntity signedUser, UserEntity newUser) {
+        //여기도 매개변수 많은거 좋지 않음
+        //signedUser : 로그인한 유저
+        //newUser : 회원정보 수정 들어가면 있는 유저 정보들
 
-        if (existingUser == null) {
-            return ModifyProfileResult.NOT_SIGNED;
+        //닉네임 중복검사
+        UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
+        if (userByNickname != null && !signedUser.getEmail().equals(userByNickname.getEmail())) {
+            //userByNickname 비어있지않으면 DB에 같은 닉네임이 있다는거
+            //근데 로그인한 이메일이랑 중복된 닉네임을 가지고 있는 이메일이랑 같으면 ㄱㅊ 내꺼니까
+            //근데 다르면 중복
+            return DuplicationResult.NICKNAME;
         }
 
-
-//전화번호 중복
-//매퍼에 전화번호 기준으로 셀렉트하고
-// 유저 이메일이 내 이메일인지 확인 내 이메일이 아닌데
-// 같으면 중복 같지 않으면 (비어있으면 - 이거 emailAuth보면 될듯) 중복 아님
-
-        user.setNickname(nickname);
-        user.setName(name);
-        user.setContact(contact);
-        user.setAddressPrimary(addressPrimary);
-        user.setAddressPostal(addressPostal);
-        user.setAddressSecondary(addressSecondary);
-
-        if (this.memberMapper.updateUser(user) == 0) {
-            return CommonResult.FAILURE;
+        //연락처 중복검사
+        UserEntity userByContact = this.memberMapper.selectUserByContact(newUser.getContact());
+        if (userByContact != null && !signedUser.getEmail().equals(userByContact.getEmail())) {
+            return DuplicationResult.CONTACT;
         }
-        return CommonResult.SUCCESS;
+
+        //중복이 아니라면 업데이트 해줌
+        signedUser.setNickname(newUser.getNickname()); //웹에서 바뀐 유저 정보(newUser) 가져와서 로그인한 유저한테 새로 넣고
+        signedUser.setName(newUser.getName());
+        signedUser.setContact(newUser.getContact());
+        signedUser.setAddressPostal(newUser.getAddressPostal());
+        signedUser.setAddressPrimary(newUser.getAddressPrimary());
+        signedUser.setAddressSecondary(newUser.getAddressSecondary());
+        return this.memberMapper.updateUser(signedUser) > 0 //바뀐 유저 정보를 DB로 업데이트
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
     }
 
     //카카오 로그인

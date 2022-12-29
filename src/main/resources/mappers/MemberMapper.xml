@@ -146,6 +146,53 @@
         LIMIT 1
     </select>
 
+    <select id="selectUserByNickname"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`
+        FROM `dios_member`.`users`
+        WHERE BINARY `nickname` = #{nickname}
+
+    </select>
+
+    <select id="selectUserByName"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`
+        FROM `dios_member`.`users`
+        WHERE BINARY `name` = #{name}
+
+    </select>
+
+    <select id="selectUserByContact"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`
+        FROM `dios_member`.`users`
+        WHERE BINARY `contact` = #{contact}
+
+    </select>
 
 </mapper>
 
