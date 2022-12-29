@@ -43,8 +43,8 @@
 
     <insert id="insertRecord"
             parameterType="com.blackgreen.dios.entities.record.ElementEntity">
-        INSERT INTO `dios_record`.`record_elements` (`user_email`, `image`, `image_type`, `diary`, `add`)
-        VALUES (#{userEmail}, #{image}, #{imageType}, #{diary}, #{add})
+        INSERT INTO `dios_record`.`record_elements` (`user_email`, `image`, `image_type`, `diary`, `add`, `today_date`)
+        VALUES (#{userEmail}, #{image}, #{imageType}, #{diary}, #{add}, IFNULL(#{todayDate}, DEFAULT(`today_date`)))
         ON DUPLICATE KEY UPDATE `image`      = IFNULL(#{image}, `image`),
                                 `image_type` = IFNULL(#{imageType}, `image_type`),
                                 `diary`      = IFNULL(#{diary}, `diary`),
