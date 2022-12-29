@@ -291,9 +291,7 @@ public class MemberController {
             modelAndView = new ModelAndView("redirect:login");
         } else {
             modelAndView = new ModelAndView("member/myPageModify");
-
         }
-
         return modelAndView;
     }
 
