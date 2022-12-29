@@ -16,6 +16,15 @@ public class UserEntity {
     private String addressSecondary;
     private Date registeredOn;
 
+    private int goalCount;
+
+    public int getGoalCount() {
+        return goalCount;
+    }
+
+    public void setGoalCount(int goalCount) {
+        this.goalCount = goalCount;
+    }
 
     public UserEntity() {
         this.email = email;

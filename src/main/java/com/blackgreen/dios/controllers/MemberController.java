@@ -212,53 +212,53 @@ public class MemberController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "image",
-            method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getImage(@RequestParam(value = "id") int id) {
-        // 주소를 들어가면 이미지 자체를 보여주기 위해 ResponseEntity
-        ImageEntity image = this.memberService.getImage(id);
+//    @RequestMapping(value = "image",
+//            method = RequestMethod.GET)
+//    public ResponseEntity<byte[]> getImage(@RequestParam(value = "id") int id) {
+//        // 주소를 들어가면 이미지 자체를 보여주기 위해 ResponseEntity
+//        ImageEntity image = this.memberService.getImage(id);
+//
+//        //id에 -1이나 9999를 집어넣으면 null이 나올 수도 있음
+//        //image 가 null 일 때 404
+//        //있을 떄 200
+//        if (image == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//
+//        // 이미지라는 걸 알려주기 위함 - 그래서 Mime 설정해준거
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Content-Type", image.getFileMime());
+//        //주소에서 받아지는 걸 이미지라는 걸 결정하는게 Mime = header
+//
+//        return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
+//        //()안에는 생성자 메서드, 생성자 호출, 생성자 매개변수
+//        //실제 이미지 데이터, 이게 이미지인지 판단하는거, 상태
+//
+//    }
 
-        //id에 -1이나 9999를 집어넣으면 null이 나올 수도 있음
-        //image 가 null 일 때 404
-        //있을 떄 200
-        if (image == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        // 이미지라는 걸 알려주기 위함 - 그래서 Mime 설정해준거
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", image.getFileMime());
-        //주소에서 받아지는 걸 이미지라는 걸 결정하는게 Mime = header
-
-        return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
-        //()안에는 생성자 메서드, 생성자 호출, 생성자 매개변수
-        //실제 이미지 데이터, 이게 이미지인지 판단하는거, 상태
-
-    }
-
-    //이미지 업로드
-    @RequestMapping(value = "image",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public String postImage(@RequestParam(value = "upload") MultipartFile file) throws IOException {
-        // 브라우저에 이름이 upload라고 정해져있음 따라야지 뭐
-        // System.out.println(image.getOriginalFilename());
-        // 콘솔에 파일의 이름이 찍힘
-        ImageEntity image = new ImageEntity();
-        image.setFileName(file.getOriginalFilename());
-        image.setFileMime(file.getContentType());
-        image.setData(file.getBytes());
-
-        Enum<?> result = this.memberService.addImage(image);
-        JSONObject responseObject = new JSONObject();
-        responseObject.put("result", result.name().toLowerCase());
-        if (result == CommonResult.SUCCESS) {
-            //SUCCESS 일 때 이미지를 다운받을 수 있는 주소를 넣음
-            responseObject.put("url", "http://localhost:8080/dios/image?id=" + image.getIndex());
-        }
-        return responseObject.toString();
-    }
+//    //이미지 업로드
+//    @RequestMapping(value = "image",
+//            method = RequestMethod.POST,
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String postImage(@RequestParam(value = "upload") MultipartFile file) throws IOException {
+//        // 브라우저에 이름이 upload라고 정해져있음 따라야지 뭐
+//        // System.out.println(image.getOriginalFilename());
+//        // 콘솔에 파일의 이름이 찍힘
+//        ImageEntity image = new ImageEntity();
+//        image.setFileName(file.getOriginalFilename());
+//        image.setFileMime(file.getContentType());
+//        image.setData(file.getBytes());
+//
+//        Enum<?> result = this.memberService.addImage(image);
+//        JSONObject responseObject = new JSONObject();
+//        responseObject.put("result", result.name().toLowerCase());
+//        if (result == CommonResult.SUCCESS) {
+//            //SUCCESS 일 때 이미지를 다운받을 수 있는 주소를 넣음
+//            responseObject.put("url", "http://localhost:8080/dios/image?id=" + image.getIndex());
+//        }
+//        return responseObject.toString();
+//    }
 
     @RequestMapping(value = "myPage",
             method = RequestMethod.PATCH,
