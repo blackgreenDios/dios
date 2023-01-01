@@ -3,7 +3,9 @@ package com.blackgreen.dios.controllers;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.record.CountEntity;
 import com.blackgreen.dios.entities.record.ElementEntity;
+import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.services.RecordService;
+import org.apache.catalina.User;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -29,8 +31,16 @@ public class RecordController {
     // 목표설정 화면
     @RequestMapping(value = "setting",
             method = RequestMethod.GET)
-    public ModelAndView getSetting() {
-        ModelAndView modelAndView = new ModelAndView("records/setting");
+    public ModelAndView getSetting(@SessionAttribute(value = "user", required = false) UserEntity user) {
+
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/setting");
+        }
+
         return modelAndView;
     }
 
@@ -40,10 +50,16 @@ public class RecordController {
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchSetting(UserEntity user) {
-        Enum<?> result = this.recordService.updateCount(user.getGoalCount());
+    public String patchSetting(@SessionAttribute(value = "user", required = false) UserEntity user) {
 
+        Enum<?> result;
         JSONObject responseObject = new JSONObject();
+
+        if (user == null) {
+            result = CommonResult.FAILURE;
+        } else {
+            result = this.recordService.updateCount(user);
+        }
         responseObject.put("result", result.name().toLowerCase());
 
         return responseObject.toString();
@@ -52,14 +68,17 @@ public class RecordController {
     // 스쿼트
     @RequestMapping(value = "squat",
             method = RequestMethod.GET)
-    public ModelAndView getSquat() {
-        ModelAndView modelAndView = new ModelAndView("records/squat");
-        UserEntity user = new UserEntity();
+    public ModelAndView getSquat(@SessionAttribute(value = "user", required = false) UserEntity user) {
 
-        int goal = this.recordService.readCount(user.getEmail());
-        modelAndView.addObject("goal", goal);
+        ModelAndView modelAndView;
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/squat");
 
-
+            int goal = this.recordService.readCount(user);
+            modelAndView.addObject("goal", goal);
+        }
         return modelAndView;
     }
 
