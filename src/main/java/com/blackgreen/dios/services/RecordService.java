@@ -4,8 +4,11 @@ import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.record.CountEntity;
 import com.blackgreen.dios.entities.record.ElementEntity;
 import com.blackgreen.dios.enums.CommonResult;
+import com.blackgreen.dios.enums.bbs.CommonUpdateResult;
 import com.blackgreen.dios.interfaces.IResult;
+import com.blackgreen.dios.mappers.IMemberMapper;
 import com.blackgreen.dios.mappers.IRecordMapper;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,17 +20,24 @@ import java.util.Date;
 public class RecordService {
 
     private final IRecordMapper recordMapper;
+    private final IMemberMapper memberMapper;
 
-    public RecordService(IRecordMapper recordMapper) {
+    public RecordService(IRecordMapper recordMapper, IMemberMapper memberMapper) {
         this.recordMapper = recordMapper;
+        this.memberMapper = memberMapper;
     }
 
     // 목표개수 설정
     // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
-    public Enum<? extends IResult> updateCount (int count) {
-        UserEntity existingUser = this.recordMapper.selectUserByEmail("eun8548@naver.com");
+    public Enum<? extends IResult> updateCount (UserEntity user) {
 
-        existingUser.setGoalCount(count);
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+
+        if(existingUser == null){
+            return CommonResult.FAILURE;
+        }
+
+        existingUser.setGoalCount(user.getGoalCount());
 
         return this.recordMapper.updateUser(existingUser) > 0
                 ? CommonResult.SUCCESS
@@ -36,8 +46,9 @@ public class RecordService {
 
     // 스쿼트화면에 목표개수 띄우기
     // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
-    public int readCount(String email) {
-        UserEntity existingUser = this.recordMapper.selectUserByEmail("eun8548@naver.com");
+    public int readCount(UserEntity user) {
+
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
 
         return existingUser.getGoalCount();
     }

@@ -53,6 +53,8 @@ body > .main > .title-container > .calendar {
 
     padding: 0.5rem 2.5rem 0.5rem 2.5rem;
 
+    cursor: pointer;
+
     text-decoration: none;
 }
 

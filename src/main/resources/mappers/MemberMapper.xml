@@ -28,7 +28,8 @@
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
+               `registered_on`     AS `registeredOn`,
+               `goal_count`        AS `goalCount`
         FROM `dios_member`.`users`
         WHERE BINARY `email` = #{email}
         LIMIT 1
