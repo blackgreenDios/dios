@@ -45,15 +45,16 @@ const loadReviews = () => {
                 </div>
                 
                 <form class="modify-form" rel="modifyForm" id="modifyForm">
+                 <input type="hidden" name="score" value="0">
                 <div class="score-container">
                     <span class="score" rel="score">-</span>
                     <span class="full-score">/5</span>
                     <span class="star-container" rel="starContainer">
-                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 1 ? 'filled' : ''}"></i>
-                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 2 ? 'filled' : ''}"></i>
-                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 3 ? 'filled' : ''}"></i>
-                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 4 ? 'filled' : ''}"></i>
-                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 5 ? 'filled' : ''}"></i>
+                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 1 ? 'selected' : ''}"></i>
+                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 2 ? 'selected' : ''}"></i>
+                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 3 ? 'selected' : ''}"></i>
+                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 4 ? 'selected' : ''}"></i>
+                                <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 5 ? 'selected' : ''}"></i>
                             </span>
                 </div>
 
@@ -82,7 +83,7 @@ const loadReviews = () => {
                         e.preventDefault();
                         modifyForm.classList.add('modifying');
                         modifyForm['content'].value = reviewObject['content'];
-                        modifyForm['score'].value = reviewObject['score'].value;
+                        modifyForm.querySelector('[rel="score"]').innerText=reviewObject['score'];
                         modifyForm['content'].focus();
                     });
 
@@ -117,9 +118,9 @@ const loadReviews = () => {
                         const xhr = new XMLHttpRequest();
                         const formData = new FormData();
 
-                        formData.append('index', reviewObject['index']);
+                        formData.append('score', modifyForm['score'].value);
                         formData.append('content', modifyForm['content'].value);
-                        // formData.append('score', modifyElement['score'].value);
+                        formData.append('index', reviewObject['index']);
 
                         xhr.open('PATCH', './review');
                         xhr.onreadystatechange = () => {
@@ -128,9 +129,11 @@ const loadReviews = () => {
                                     const responseObject = JSON.parse(xhr.responseText);
                                     switch (responseObject['result']) {
                                         case 'success':
-                                            loadReviews();
+                                            loadReviews(reviewForm['itemIndex'].value);
+                                            modifyForm['score'] = '';
+                                            modifyForm['content'].value = '';
                                             break;
-                                        case 'no_such_comment':
+                                        case 'no_such_review':
                                             alert('수정하려는 리뷰가 더 이상 존재하지 않습니다.\n\n이미 삭제되었을 수도 있습니다.');
                                             break
                                         case 'not_allowed':
@@ -170,6 +173,9 @@ const loadReviews = () => {
                                     switch (responseObject['result']) {
                                         case 'not_signed' :
                                             alert('로그인이 되어있지 않습니다. 로그인 후 다시 시도해 주세요.');
+                                            break;
+                                        case 'not_allowed':
+                                            alert('해당 댓글을 삭제할 권한이 없습니다.');
                                             break;
                                         case 'success':
                                             loadReviews(reviewForm['itemIndex'].value);
@@ -288,7 +294,6 @@ if (reviewForm) {
                             loadReviews(reviewForm['itemIndex'].value);
                             reviewForm['score'] = '';
                             reviewForm['content'].value = '';
-
                             break;
                         default:
                             alert('알 수 없는 일로 리뷰를 작성하지 못하였습니다. 잠시 후 다시 시도해 주세요.');

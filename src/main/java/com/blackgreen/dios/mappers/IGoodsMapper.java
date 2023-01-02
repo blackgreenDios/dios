@@ -16,7 +16,10 @@ public interface IGoodsMapper {
 
     SizeEntity[] selectSize();
 
+    SizeEntity selectSizeByItemIndex(@Param(value = "itemIndex")int itemIndex);
+
     ItemCategoryEntity[] selectItemCategory();
+    GoodsVo selectItemByIndex (@Param(value = "index") int index);
 
     ItemCategoryEntity selectItemCategoryById(@Param(value = "id") String id);
 
@@ -49,6 +52,19 @@ public interface IGoodsMapper {
 
     int deleteReviewByIndex(int index);
 
-    int updateReview (ReviewEntity review);
+    int updateReview(ReviewEntity review);
+
+    int updateItem (ItemEntity item);
+
+    int selectItemCountByCategoryId(@Param(value = "categoryId") String categoryId,
+                                    @Param(value = "criterion") String criterion,
+                                    @Param(value = "keyword") String keyword);
+
+
+    GoodsVo[] selectItemsByCategoryId(@Param(value = "categoryId") String categoryId,
+                                      @Param(value = "criterion") String criterion,
+                                      @Param(value = "keyword") String keyword,
+                                      @Param(value = "limit") int limit,
+                                      @Param(value = "offset") int offset);
 
 }

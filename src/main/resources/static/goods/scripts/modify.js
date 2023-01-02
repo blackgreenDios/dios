@@ -104,7 +104,7 @@ ImageForm.onsubmit = e => {
     // }
 
 
-    xhr.open('POST', './write');
+    xhr.open('PATCH', './modify');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
@@ -118,7 +118,7 @@ ImageForm.onsubmit = e => {
                     window.location.href = `read?gid=${gid}`;
                 }
             } else {
-                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해주세요.')
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해주세요.');
             }
         }
     }
