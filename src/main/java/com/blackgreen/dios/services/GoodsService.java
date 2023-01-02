@@ -163,8 +163,6 @@ public class GoodsService {
     @Transactional
     public Enum<? extends IResult> addReview(UserEntity user, ReviewEntity review, MultipartFile[] images) throws IOException, RollbackException {
 
-//        review.setUserEmail("guswl049012@naver.com");
-
         if (user == null) {
             return AddReviewResult.NOT_SIGNED;
         }
@@ -234,7 +232,7 @@ public class GoodsService {
     }
 
 
-    public Enum<? extends IResult> ModifyItem (ItemEntity item, UserEntity user) {
+    public Enum<? extends IResult> ModifyItem (ItemEntity item, UserEntity user,MultipartFile images) throws IOException {
         if (user == null) {
             return ModifyItemResult.NOT_SIGNED;
         }
@@ -242,12 +240,12 @@ public class GoodsService {
         if (existingItem == null) {
             return ModifyItemResult.NO_SUCH_Item;
         }
+
 //        if (!existingItem.getUserEmail().equals(user.getEmail())) {
 //            return ModifyItemResult.NOT_ALLOWED;
 //        }
 
         //새로 저장할 내용을 set해주깅 > 수정된 내용이 저장됨
-
         existingItem.setCategoryId(item.getCategoryId());
         existingItem.setSellerIndex(item.getSellerIndex());
         existingItem.setItemName(item.getItemName());
@@ -255,10 +253,35 @@ public class GoodsService {
         existingItem.setPrice(item.getPrice());
         existingItem.setCount(item.getCount());
         existingItem.setCreatedOn(new Date());
+
+        existingItem.setTitleImageData(images.getBytes());
+        existingItem.setTitleImageMime(images.getContentType());
+        existingItem.setTitleImageName(images.getName());
+
+        System.out.println(item.getTitleImageName() == null ? "null" : "good");
+
         return this.goodsMapper.updateItem(existingItem) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
+    public Enum<? extends IResult> deleteItem (ItemEntity item, UserEntity user) { // 서비스에서 매개변수5개까진 ㄱㅊ 초과는 뭔가 문제있음
+        // 게시글 삭제  결과 예상 : 삭제 성공, 실패: deleteArticle =0
+        // 로그인이 안되어있고 + 삭제하려는 게시글이 니 글이 아닌 경우 : 보안조치, 자스 같은 경우엔 클라이언트가 수정할수있기때문에 백에서도 해줘야 함
+        // 삭제하려는 게시글이 존재하지 않을때 : null일때
+        ItemEntity existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());//이 안에 적어준 article.getIndex() 은 자스에서 넘어온 인덱스 값임
 
+        if (existingItem == null) {
+            return CommonResult.FAILURE;
+        }
+
+//        if (user == null || !user.getEmail().equals("admin")) { // 쌤은 existingCommentfh 로 바꿨는데
+//            return CommonResult.FAILURE;
+//        }
+
+        item.setCategoryId(existingItem.getCategoryId());
+        return this.goodsMapper.deleteItemByIndex(item.getIndex()) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
 }

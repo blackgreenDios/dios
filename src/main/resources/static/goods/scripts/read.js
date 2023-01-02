@@ -1,6 +1,35 @@
 const reviewContainer = window.document.querySelector('[rel="reviewContainer"]');
 const reviewForm = document.getElementById('reviewForm');
+const itemDelete = document.getElementById('itemDelete');
+//상품 삭제 코드
+itemDelete.addEventListener('click',e=>{
+    e.preventDefault();
 
+    if (!confirm('정말로 이 상품을 삭제할까요?')) {
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', window.location.href);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        window.location.href = '/store/list';
+                        break;
+                    default:
+                        alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send();
+
+});
 
 /*리뷰 불러오는 함수 만들기*/
 const loadReviews = () => {

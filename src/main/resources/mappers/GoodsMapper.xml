@@ -239,7 +239,7 @@
         FROM `dios_store`.`items` AS `item`
 
         <if test="criterion !=null and criterion.equals('nickName')">
-            LEFT JOIN `study_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+            LEFT JOIN `study_member`.`users` AS `user` ON `item`.`user_email` = `user`.`email`
         </if>
         WHERE `category_id` = #{categoryId}
         <if test="criterion != null and criterion.equals('title')">
@@ -304,25 +304,33 @@
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
                  LEFT JOIN `dios_store`.`reviews` AS `review` ON `review`.`item_index` = `item`.`index`
-        WHERE BINARY `article`.`index` = #{index}
+        WHERE BINARY `item`.`index` = #{index}
             LIMIT 1
     </select>
 
-    <update id="updateItem" parameterType="com.blackgreen.dios.entities.store.ItemEntity">
+    <update id="updateItem"
+            parameterType="com.blackgreen.dios.entities.store.ItemEntity">
         UPDATE `dios_store`.`items`
         SET `index`          = #{index},
             `category_id`    =#{categoryId},
             `seller_index`=#{sellerIndex},
-            `item_name`      = #{item_name},
+            `item_name`      = #{itemName},
             `item_detail`=#{itemDetail},
             `price`=#{price},
             `count`=#{count},
-            `created_on`=#{createdOn},
+            `created_on`= IFNULL(#{createdOn}, DEFAULT(`created_on`)),
             `titleImage_name`=#{titleImageName},
             `titleImage_mime`=#{titleImageMime},
             `titleImage_data`=#{titleImageData}
         WHERE BINARY `index` = #{index}
             LIMIT 1
     </update>
+
+    <delete id="deleteItemByIndex">
+        DELETE
+        FROM `dios_store`.`items`
+        WHERE `index` = #{index}
+            LIMIT 1
+    </delete>
 
 </mapper>

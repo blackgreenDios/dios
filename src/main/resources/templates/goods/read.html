@@ -13,9 +13,17 @@
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="--main">
-    <a th:href="@{/goods/modify(gid=${goods.getIndex()})}" class="title" id="title">
+    <input name="gid" type="hidden" th:value="${goods.getIndex()}">
+    <span class="function">
+        <a th:href="@{/goods/modify(gid=${goods.getIndex()})}" class="title" id="title">
         <span class="text">상품 수정하기</span>
     </a>
+    <a class="title" id="itemDelete">
+        <span class="text">상품 삭제하기</span>
+    </a>
+    </span>
+
+
     <div class="title_box">
         <div class="item-title-img">
             <img th:src="@{./titleImage (index=${goods.getIndex()})}"
@@ -67,10 +75,10 @@
                             <select>
                                 <option value="">----사이즈를 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
-<!--                                <option th:each="size:${sizes}"-->
-<!--                                        th:value="${size.getId()}"-->
-<!--                                        th:text="${size.getText()}"-->
-<!--                                >free</option>-->
+                                <!--                                <option th:each="size:${sizes}"-->
+                                <!--                                        th:value="${size.getId()}"-->
+                                <!--                                        th:text="${size.getText()}"-->
+                                <!--                                >free</option>-->
                                 <option>XS</option>
                                 <option>S</option>
                                 <option>M</option>
@@ -83,7 +91,7 @@
                 </table>
             </form>
 
-            <div class="result">
+            <div class="result" id="result">
                 <span class="item-summary">
                     <span class="item-name" th:text="${goods.getItemName()}"></span>
                 <div class="option">
@@ -94,8 +102,17 @@
                 <span class="price"
                       th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></span>
             </div>
+            <div class="button-container">
+                <input type="button" class="cart-button" value="BUY IT NOW"
+                       th:if="${session.user !=null}"
+                       th:href="@{/store/order}">
+                <input type="button" class="order-button" value="ADD TO CART"
+                       th:if="${session.user !=null}"
+                       th:href="@{/store/cart}">
+            </div>
 
         </div>
+
     </div>
     <div class="menu-container">
         <ul class="menu">

@@ -91,10 +91,9 @@ public class GoodsController {
         JSONObject responseObject = new JSONObject();
         System.out.println("check image" + images);
 
-
         for (SizeEntity size : sizes) {
             System.out.println("size check" + size.getId());
-            size.setItemIndex(item.getIndex());//인덱스에 저장한 후 size 에 insert
+            size.setItemIndex(item.getIndex());
         }
 
 //        for (ItemColorEntity color:colors) {
@@ -156,18 +155,16 @@ public class GoodsController {
         Enum<?> result = this.goodsService.prepareModifyItem(item, user);
         modelAndView.addObject("item", item);
         modelAndView.addObject("result", result.name());
-
+        ItemColorEntity[] colors = this.goodsService.getColor();
+        SellerEntity[] sellers = this.goodsService.getSeller();
+        SizeEntity[] sizes = this.goodsService.getSize();
+        ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
+        modelAndView.addObject("color", colors);
+        modelAndView.addObject("size", sizes);
+        modelAndView.addObject("seller", sellers);
+        modelAndView.addObject("category", categories);
         if (result == CommonResult.SUCCESS) {   // html 에 넘겨줄려고
-            ItemColorEntity[] colors = this.goodsService.getColor();
-            SellerEntity[] sellers = this.goodsService.getSeller();
-            SizeEntity[] sizes = this.goodsService.getSize();
-            ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
-
             modelAndView.addObject("gid", item.getIndex());
-            modelAndView.addObject("color", colors);
-            modelAndView.addObject("size", sizes);
-            modelAndView.addObject("seller", sellers);
-            modelAndView.addObject("category", categories);
         }
 
         return modelAndView;
@@ -179,9 +176,10 @@ public class GoodsController {
     @ResponseBody //xhr 로 반환 받을 것들은 무조건 ResponseBody 붙여준다.
     public String patchModify(@SessionAttribute(value = "user", required = false) UserEntity user,
                               @RequestParam(value = "gid") int gid,
-                              ItemEntity item) {
+                              @RequestParam(value = "images", required = false) MultipartFile images,
+                              ItemEntity item) throws IOException {
         item.setIndex(gid);
-        Enum<?> result = this.goodsService.ModifyItem(item, user);
+        Enum<?> result = this.goodsService.ModifyItem(item, user,images);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
@@ -201,15 +199,16 @@ public class GoodsController {
         ModelAndView modelAndView = new ModelAndView("goods/read");
         GoodsVo goods = this.goodsService.getItem(gid);
 
-//        SizeEntity[] sizes = new SizeEntity[this.goodsService.getSize().length];
-//        int count = 0;
-//        for (int i = 0; i <sizes.length ; i++) {
-//            SizeEntity size = this.goodsService.getItemSize(gid);
-//            count =+ 1;
-//            sizes[i] = size;
-//        }
-//
-//        modelAndView.addObject("sizes", sizes);
+        // postWrite 에서 저장한 사이즈 값을 가져오는 구문
+        SizeEntity[] sizes = new SizeEntity[this.goodsService.getSize().length];
+        int count = 0;
+        for (int i = 0; i <sizes.length ; i++) {
+            SizeEntity size = this.goodsService.getItemSize(gid);
+            count =+ 1;
+            sizes[i] = size;
+        }
+
+        modelAndView.addObject("sizes", sizes);
 
 
 //        ItemColorEntity[] colors = new ItemColorEntity[goods.getColors().length];
@@ -233,6 +232,24 @@ public class GoodsController {
 //        modelAndView.addObject("Size", goods.getSizes());
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "read",
+            method = RequestMethod.DELETE,//DELETE로 사용한 이유: 주소를 동일하게 하고 방식을 달리 하는 것은 레스트인데,그냥 삭제할때 이렇게 쓰기로 개발자끼리 약속함
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody //return 값을 그 자체로 넘기기 위해 보냄
+    public String deleteRead(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "gid") int gid) {
+        ItemEntity item = new ItemEntity();
+        item.setIndex(gid);
+
+        Enum<?> result = this.goodsService.deleteItem(item, user);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("result", result.name().toLowerCase());
+        if (result == CommonResult.SUCCESS) {
+            responseJson.put("cad", item.getCategoryId());
+        }
+        return responseJson.toString();
     }
 
     @GetMapping(value = "titleImage") // 다운로드용 맵핑
@@ -280,7 +297,7 @@ public class GoodsController {
     @PatchMapping(value = "review",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
 
-    public String patchRecoverComment(@SessionAttribute(value = "user", required = false) UserEntity user, ReviewEntity review) {
+    public String patchRecoverReview(@SessionAttribute(value = "user", required = false) UserEntity user, ReviewEntity review) {
         Enum<?> result = this.goodsService.recoverReview(review, user);
         System.out.println(result);
         JSONObject responseObject = new JSONObject();

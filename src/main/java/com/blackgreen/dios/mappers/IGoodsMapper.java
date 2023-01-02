@@ -52,6 +52,8 @@ public interface IGoodsMapper {
 
     int deleteReviewByIndex(int index);
 
+    int deleteItemByIndex (@Param(value = "index") int index);
+
     int updateReview(ReviewEntity review);
 
     int updateItem (ItemEntity item);

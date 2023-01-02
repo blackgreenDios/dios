@@ -114,8 +114,7 @@ ImageForm.onsubmit = e => {
                 } else if (responseObject['result'] === 'success') {
                     alert('상품이 등록되었습니다!');
                     ImageForm['image'].value;
-                    const gid = responseObject['gid'];
-                    window.location.href = `read?gid=${gid}`;
+                    window.location.href = './read?gid=' + responseObject['gid'];
                 }
             } else {
                 alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해주세요.')

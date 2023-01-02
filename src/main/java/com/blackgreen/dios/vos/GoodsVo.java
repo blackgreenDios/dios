@@ -27,19 +27,4 @@ public class GoodsVo extends ItemEntity {
     public void setSizes(String[] sizes) {
         this.sizes = sizes;
     }
-//    public String getShoesSize() {
-//        return shoesSize;
-//    }
-//
-//    public void setShoesSize(String shoesSize) {
-//        this.shoesSize = shoesSize;
-//    }
-//
-//    public String getClothesSize() {
-//        return clothesSize;
-//    }
-//
-//    public void setClothesSize(String clothesSize) {
-//        this.clothesSize = clothesSize;
-//    }
 }
