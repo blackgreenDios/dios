@@ -25,6 +25,14 @@ public class StoreController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "order",
+    method = RequestMethod.GET)
+    public ModelAndView getOrder() {
+        ModelAndView modelAndView = new ModelAndView("store/order");
+
+        return modelAndView;
+    }
+
 
 
 
