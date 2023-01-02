@@ -137,9 +137,7 @@
                `user_email` AS `userEmail`,
                `item_index` AS `itemIndex`,
                `score`      AS `score`,
-               `content`    AS `content`,
-               `created_on` AS `createdOn`
-
+               `content`    AS `content`
         FROM `dios_store`.`reviews`
         WHERE `index` = #{index}
     </select>
@@ -156,8 +154,7 @@
                `review`.`user_email` AS `userEmail`,
                `review`.`item_index` AS `itemIndex`,
                `review`.`score`      AS `score`,
-               `review`.`content`    AS `content`,
-               `review`.`created_on` AS `createdOn`
+               `review`.`content`    AS `content`
 
         FROM `dios_store`.`reviews` AS `review`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`

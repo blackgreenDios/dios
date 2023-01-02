@@ -113,8 +113,8 @@ ImageForm.onsubmit = e => {
                     alert('상품 등록의 권한이 없습니다.');
                 } else if (responseObject['result'] === 'success') {
                     alert('상품이 등록되었습니다!');
-                    window.location.href = './read?gid=' + responseObject['gid'];
                     ImageForm['image'].value;
+                    window.location.href = './read?gid=' + responseObject['gid'];
                 }
             } else {
                 alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해주세요.')

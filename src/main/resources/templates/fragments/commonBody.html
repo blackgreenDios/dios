@@ -5,48 +5,18 @@
         <a class="--logo-container" th:href="@{/}">
             <img alt="logo" class="--logo" th:src="@{/resources/images/logo.png}">
         </a>
-
-
         <span class="--menu">
-      <div class="dropdown">
-      <button class="dropbtn">
-        <span class="--community dropbtn_icon"></span>
-        DIARY
-      </button>
-      <div class="dropdown-content">
-
-      </div>
-    </div>
+      <a href="#" class="--record">DIARY</a>
+      <i class="fa-solid fa-chevron-down"></i>
     </span>
-
         <span class="--menu">
-    <div class="dropdown">
-      <button class="dropbtn">
-        <span class="--community dropbtn_icon"></span>
-        COMMUNITY
-      </button>
-      <div class="dropdown-content">
-          <a href="./list?bid=free">자유게시판</a>
-          <a href="./list?bid=notice">공지사항</a>
-          <a href="./list?bid=qna">Q&A</a>
-      </div>
-    </div>
+      <a class="--community" href="#">COMMUNITY</a>
+      <i class="fa-solid fa-chevron-down"></i>
     </span>
         <span class="--menu shop">
-      <div class="dropdown">
-      <button class="dropbtn">
-        <span class="--community dropbtn_icon"></span>
-        SHOP
-
-      </button>
-      <div class="dropdown-content">
-        <a href="#">장바구니</a>
-        <a href="#">주문내역</a>
-        <a href="#">어쩌고저쩌고</a>
-      </div>
-    </div>
+      <a class="--shop" th:href="@{/store/list}">SHOP</a>
+      <i class="icon fa-solid fa-chevron-down"></i>
     </span>
-
 
         <ul class="--menu item">
             <li class="--item" th:if="${session.user == null}">

@@ -141,7 +141,7 @@ public class GoodsService {
         // 수정 성공
         // 실패
         // 수정할 댓글 없음
-        // 로그인이 안되어있고 + 수정하려는 댓글이 니 댓글이 아닌 경우z
+        // 로그인이 안되어있고 + 수정하려는 댓글이 니 댓글이 아닌 경우
 
         ReviewEntity existingReview = this.goodsMapper.selectReviewByIndex(review.getIndex());
         if (existingReview == null) {
@@ -230,6 +230,7 @@ public class GoodsService {
 
         return CommonResult.SUCCESS;
     }
+
 
     public Enum<? extends IResult> ModifyItem (ItemEntity item, UserEntity user,MultipartFile images) throws IOException {
         if (user == null) {
