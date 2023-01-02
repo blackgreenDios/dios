@@ -29,15 +29,10 @@ public class RecordService {
 
     // 목표개수 설정
     // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
-    public Enum<? extends IResult> updateCount (UserEntity user) {
+    public Enum<? extends IResult> updateCount (int count) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail("eun8548@naver.com");
 
-        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
-
-        if(existingUser == null){
-            return CommonResult.FAILURE;
-        }
-
-        existingUser.setGoalCount(user.getGoalCount());
+        existingUser.setGoalCount(count);
 
         return this.recordMapper.updateUser(existingUser) > 0
                 ? CommonResult.SUCCESS
