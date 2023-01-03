@@ -5,7 +5,6 @@ import java.util.Objects;
 public class ImageEntity {
     private String userEmail;
     private String fileName;
-
     private String fileMime;
     private byte[] Data;
     // `data` LONGBLOB NOT NULL
