@@ -17,7 +17,7 @@ public interface IRecordMapper {
 
     // 목표개수 설정하기
 //    UserEntity selectUserByEmail(@Param(value = "email") String email);
-    int updateUser(UserEntity user);
+    int updateCount(UserEntity user);
 
     // count insert 하기
     int insertCount(CountEntity count);

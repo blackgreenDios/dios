@@ -29,8 +29,9 @@ public class UserEntity {
         return goalCount;
     }
 
-    public void setGoalCount(int goalCount) {
+    public UserEntity setGoalCount(int goalCount) {
         this.goalCount = goalCount;
+        return this;
     }
 
     public String getEmail() {

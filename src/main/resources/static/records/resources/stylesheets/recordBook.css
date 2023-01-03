@@ -92,7 +92,49 @@ body > .main > .book > .one {
 }
 
 body > .main > .book > .one > .photo-container > .text {
+    align-items : stretch;
+    display : flex;
+    flex-direction : row;
+    justify-content: stretch;
+
+    width: 30rem;
+}
+
+body > .main > .book > .one > .photo-container > .text > .textPhoto {
     font-size: 1.2rem;
+    flex: 1;
+}
+
+body > .main > .book > .one > .photo-container > .text > .button-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    color: rgb(138, 134, 134);
+    font-size: 1.2rem;
+}
+
+body > .main > .book > .one > .photo-container > .text > .button-container > .modify {
+    margin-right: 1.1rem;
+    cursor: pointer;
+
+    flex: 1;
+}
+
+body > .main > .book > .one > .photo-container > .text > .button-container > .modify:hover {
+    transform: scale(1.2);
+    color: rgb(112, 109, 109);
+}
+
+body > .main > .book > .one > .photo-container > .text > .button-container > .delete {
+    margin-right: 0.3rem;
+    cursor: pointer;
+}
+
+body > .main > .book > .one > .photo-container > .text > .button-container > .delete:hover {
+    transform: scale(1.2);
+    color: rgb(112, 109, 109);
 }
 
 body > .main > .book > .one > .photo-container > .photo {
@@ -111,6 +153,8 @@ body > .main > .book > .one > .photo-container > .photo {
     justify-content: center;
 
     box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    overflow: hidden;
 }
 
 body > .main > .book > .one > .diary-container {
@@ -208,6 +252,10 @@ body > .main > .book > .one > .diary-container > .diary > .icon {
 body > .main > .book > .one > .photo-container > .photo > .icon:hover,
 body > .main > .book > .one > .diary-container > .diary > .icon:hover {
     color: rgb(155, 154, 146);
+}
+
+body > .main > .book > .one > .photo-container > .photo > .photo-container > .pp {
+    width: 25rem;
 }
 
 body > .main > .book > .one > .diary-container > .realDelete {
@@ -545,6 +593,7 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     display: flex;
 }
 
+#insertPhotoContainer,
 #diaryWrite,
 #addWrite {
     top: 0;
@@ -561,11 +610,14 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     z-index: 9;
 }
 
+#insertPhotoContainer.visible,
 #diaryWrite.visible,
 #addWrite.visible {
     display: flex;
 }
 
+
+#insertPhotoContainer > .ip,
 #diaryWrite > .dw,
 #addWrite > .aw {
     width: 50rem;
@@ -583,6 +635,8 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     box-shadow: 3px 3px 5px 3px rgb(0, 0, 0);
 }
 
+
+#insertPhotoContainer > .ip.blank,
 #diaryWrite > .dw.blank,
 #addWrite > .aw.blank {
     animation: vibration .1s infinite;
@@ -597,6 +651,7 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     }
 }
 
+#insertPhotoContainer > .ip > .close-button,
 #diaryWrite > .dw > .close-button,
 #addWrite > .aw > .close-button {
     right: 2rem;
@@ -615,9 +670,30 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     cursor: pointer;
 }
 
+#insertPhotoContainer > .ip > .close-button:hover,
 #diaryWrite > .dw > .close-button:hover,
 #addWrite > .aw > .close-button:hover {
     background-color: rgb(115, 112, 112);
+}
+
+#insertPhotoContainer > .ip > .photo-container {
+    height: 70%;
+    width: 80%;
+
+    background-color: rgb(255, 255, 255);
+    border: 0.06rem solid rgb(44, 43, 43);
+    box-shadow: 3px 3px 5px 3px rgb(0, 0, 0);
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+#insertPhotoContainer > .ip > .photo-container > img {
+    height: 20rem;
 }
 
 #diaryWrite > .dw > .write,
@@ -637,6 +713,7 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     box-snap: none;
 }
 
+#insertPhotoContainer > .ip > .ok,
 #diaryWrite > .dw > .ok,
 #addWrite > .aw > .ok {
     font-family: 'Gowun Dodum', sans-serif;
@@ -659,6 +736,7 @@ body > .main > .book > .two > .add-container > .realDelete.visible {
     font-size: 1.1rem;
 }
 
+#insertPhotoContainer > .ip > .ok:hover,
 #diaryWrite > .dw > .ok:hover,
 #addWrite > .aw > .ok:hover {
     background-color: rgb(115, 112, 112);

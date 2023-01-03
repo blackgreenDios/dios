@@ -30,13 +30,21 @@
     <form class="book" id="book">
         <div class="one">
             <div class="photo-container">
-                <a class="text">PHOTO</a>
-                <a class="photo" rel="photo">
-                    <input hidden accept="image/*" name="images" type="file">
+                <div class="text">
+                    <a class="textPhoto">PHOTO</a>
+                    <div class="button-container" th:if="${element.getImage() != null}">
+                        <i rel="modifyPhoto" class="modify fa-regular fa-image"
+                           th:if="${element.getImage() != null && element.getImage() != ''}"></i>
+                        <i rel="deletePhoto" class="delete fa-solid fa-trash"
+                           th:if="${element.getImage() != null && element.getImage() != ''}"></i>
+                    </div>
+                </div>
+                <div class="photo" rel="photo">
                     <i class="icon visible fa-solid fa-circle-plus" rel="imageSelectButton"
                        th:if="${element.getImage() == null || element.getImage() == ''}"></i>
-                    <div rel="photoContainer" class="photo-container"></div>
-                </a>
+                    <img class="photoBox" rel="photoBox" th:if="${element.getImage() != null && element.getImage() != ''}"
+                         th:src="${element.getImage()}">
+                </div>
             </div>
             <div class="diary-container">
                 <div class="text">
@@ -130,6 +138,18 @@
     <div class="bottom" id="bottom">
 
     </div>
+    <form rel="insertPhotoContainer" id="insertPhotoContainer">
+        <div class="ip" rel="ip">
+            <a class="close-button" rel="photoCloseButton">
+                <i class="icon fa-solid fa-x"></i>
+            </a>
+            <input hidden multiple accept="image/*" name="images" type="file">
+            <div rel="photoContainer" class="photo-container">
+                <img class="pp" id="insertPhoto" src="">
+            </div>
+            <input class="ok" rel="ok" type="submit" value="등록하기">
+        </div>
+    </form>
     <form rel="diaryWrite" id="diaryWrite">
         <div class="dw" rel="dw">
             <a class="close-button" rel="closeButton">

@@ -4,8 +4,8 @@ import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.record.CountEntity;
 import com.blackgreen.dios.entities.record.ElementEntity;
 import com.blackgreen.dios.enums.CommonResult;
+import com.blackgreen.dios.enums.bbs.WriteResult;
 import com.blackgreen.dios.services.RecordService;
-import org.apache.catalina.User;
 import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -43,23 +43,18 @@ public class RecordController {
 
         return modelAndView;
     }
-//
+
+    //
     // 목표설정 (목표개수 입력)함
-    // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함
     @RequestMapping(value = "setting",
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchSetting(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public String patchSetting(@SessionAttribute(value = "user", required = false) UserEntity user,
+                               @RequestParam(value = "goalCount", required = false) int count) {
+        Enum<?> result = this.recordService.updateGoalCount(user, count);
 
-        Enum<?> result;
         JSONObject responseObject = new JSONObject();
-
-        if (user == null) {
-            result = CommonResult.FAILURE;
-        } else {
-            result = this.recordService.updateCount(user);
-        }
         responseObject.put("result", result.name().toLowerCase());
 
         return responseObject.toString();
@@ -85,8 +80,14 @@ public class RecordController {
     // 런지
     @RequestMapping(value = "lunge",
             method = RequestMethod.GET)
-    public ModelAndView getLunge() {
-        ModelAndView modelAndView = new ModelAndView("records/lunge");
+    public ModelAndView getLunge(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/lunge");
+        }
 
         return modelAndView;
     }
@@ -94,20 +95,27 @@ public class RecordController {
     // 플랭
     @RequestMapping(value = "plank",
             method = RequestMethod.GET)
-    public ModelAndView getPlank() {
-        ModelAndView modelAndView = new ModelAndView("records/plank");
+    public ModelAndView getPlank(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/plank");
+        }
 
         return modelAndView;
     }
-//
+
+    //
     // count insert 하기 (목표 개수 성공했을 때 record 누르면 실행되는 거)
     @RequestMapping(value = "squat",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postSquat(CountEntity count) throws ParseException {
+    public String postSquat(@SessionAttribute(value = "user", required = false) UserEntity user, CountEntity count) throws ParseException {
 
-        count.setUserEmail("eun8548@naver.com");
+        count.setUserEmail(user.getEmail());
 
         // 현재 날짜
         Date date = new Date();
@@ -136,8 +144,15 @@ public class RecordController {
     @RequestMapping(value = "recordBook",
             method = RequestMethod.GET,
             produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getRecordBook(@RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
-        ModelAndView modelAndView = new ModelAndView("records/recordBook");
+    public ModelAndView getRecordBook(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                      @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/recordBook");
+        }
 
         // 현재 날짜
         Date date;
@@ -148,13 +163,7 @@ public class RecordController {
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-//        element.setTodayDate(formatter.format(date));
-
-//        Enum<?> result = this.recordService.getRecords(element, user);
-//
-//        modelAndView.addObject("result", result.name());
-
-        final String email = "eun8548@naver.com";
+        final String email = user.getEmail();
         CountEntity count = this.recordService.getCount(email, date);
         ElementEntity element = this.recordService.getRecords(email, date);
 
@@ -191,9 +200,11 @@ public class RecordController {
     @PostMapping(value = "recordBook")
     @ResponseBody
     public String postRecordBook(@SessionAttribute(value = "user", required = false) UserEntity user,
-                                 @RequestParam(value = "image", required = false) MultipartFile image,
                                  @RequestParam(value = "dt", required = false) String dtStr,
-                                 ElementEntity element) throws IOException, ParseException {
+                                 ElementEntity element) throws ParseException {
+
+        Enum<?> result;
+        JSONObject responseObject = new JSONObject();
 
         // 날짜
         Date date;
@@ -206,10 +217,16 @@ public class RecordController {
 
         String nowDate = formatter.format(date);
 
-        JSONObject responseObject = new JSONObject();
-        Enum<?> result;
 
-        result = this.recordService.addRecord(user, element, image);
+        if (user == null) {
+            result = CommonResult.FAILURE;
+        } else {
+
+            element.setUserEmail(user.getEmail());
+            element.setTodayDate(date);
+
+            result = this.recordService.addRecord(element);
+        }
 
         responseObject.put("result", result.name().toLowerCase());
         responseObject.put("date", nowDate);
@@ -217,12 +234,44 @@ public class RecordController {
         return responseObject.toString();
     }
 
-//    // 기록장 작성한 거 보이기 : 사진, 메모
-//    @GetMapping(value = "recordBook", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ElementEntity getRecord(@SessionAttribute(value = "user", required = false) UserEntity user) {
-//
-//        return this.recordService.getRecords(user);
-//    }
+    // 기록장 : 이미지
+    @PostMapping(value = "photo")
+    @ResponseBody
+    public String postPhoto(@SessionAttribute(value = "user", required = false) UserEntity user,
+                            @RequestParam(value = "images", required = false) MultipartFile images,
+                            @RequestParam(value = "dt", required = false) String dtStr,
+                            ElementEntity element) throws IOException, ParseException {
+
+        Enum<?> result;
+        JSONObject responseObject = new JSONObject();
+
+        // 날짜
+        Date date;
+        if (dtStr == null) {
+            date = new Date();
+        } else {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        String nowDate = formatter.format(date);
+
+
+        if (user == null) {
+            result = CommonResult.FAILURE;
+        } else {
+
+            element.setUserEmail(user.getEmail());
+            element.setTodayDate(date);
+
+            result = this.recordService.addRecordPhoto(element, images);
+        }
+
+        responseObject.put("result", result.name().toLowerCase());
+        responseObject.put("date", nowDate);
+
+        return responseObject.toString();
+    }
 
 
     // diary 삭제
@@ -230,7 +279,9 @@ public class RecordController {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String DeleteDiary(ElementEntity element, @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
+    public String DeleteDiary(ElementEntity element,
+                              @SessionAttribute(value = "user", required = false) UserEntity user,
+                              @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
 
         // 현재 날짜
         Date date;
@@ -240,7 +291,7 @@ public class RecordController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
         }
 
-        Enum<?> result = this.recordService.ClearDiary("eun8548@naver.com", date);
+        Enum<?> result = this.recordService.ClearDiary(user.getEmail(), date);
 
         JSONObject responseObject = new JSONObject();
 
@@ -255,7 +306,9 @@ public class RecordController {
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String DeleteAdd(ElementEntity element, @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
+    public String DeleteAdd(ElementEntity element,
+                            @SessionAttribute(value = "user", required = false) UserEntity user,
+                            @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
 
         // 현재 날짜
         Date date;
@@ -265,7 +318,7 @@ public class RecordController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
         }
 
-        Enum<?> result = this.recordService.ClearAdd("eun8548@naver.com", date);
+        Enum<?> result = this.recordService.ClearAdd(user.getEmail(), date);
 
         JSONObject responseObject = new JSONObject();
 

@@ -19,7 +19,7 @@
 <!--        WHERE BINARY `email` = #{email}-->
 <!--        LIMIT 1-->
 <!--    </select>-->
-    <update id="updateUser"
+    <update id="updateCount"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         UPDATE `dios_member`.`users`
         SET `goal_count` = #{goalCount}

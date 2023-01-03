@@ -42,7 +42,6 @@ form['submit'].addEventListener('click', () => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        // window.location.href = 'squat';
                         if (squat.classList.contains("selected")) {
                             window.location.href = 'squat';
                         } else if (lunge.classList.contains("selected")) {

@@ -121,55 +121,56 @@ addWrite.onsubmit = e => {
 };
 
 
-
-
 // PHOTO
-const book = document.getElementById('book');
+const imageSelectButton = document.querySelector('[rel="imageSelectButton"]');
+const insertPhotoContainer = document.getElementById('insertPhotoContainer');
+const photoCloseButton = document.querySelector('[rel="photoCloseButton"]');
+const ip = document.querySelector('[rel="ip"]');
 
-book.querySelector('[rel="imageSelectButton"]').addEventListener('click', e => {
+// PHOTO 켜지는 거
+imageSelectButton?.addEventListener('click', e => {
     e.preventDefault();
-    book['images'].click();
+    insertPhotoContainer.classList.add('visible');
+    insertPhotoContainer['images'].click();
 });
 
-book['images']?.addEventListener('input', () => {
-    const imageContainerElement = book.querySelector('[rel="photoContainer"]');
+// PHOTO x 누르면 나가지는 거
+photoCloseButton.addEventListener('click', e => {
+    e.preventDefault();
+    insertPhotoContainer.classList.remove('visible');
+});
+
+insertPhotoContainer['images'].addEventListener('input', () => {
+    const imageContainerElement = insertPhotoContainer.querySelector('[rel="photoContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
 
-    const imageSrc = URL.createObjectURL(images.files[0]); //하나만 올라갈꺼니까 0번째
+    const imageSrc = URL.createObjectURL(insertPhotoContainer['images'].files[0]); //하나만 올라갈꺼니까 0번째
 
-    // if (photo['image'].files.length > 0) { //선택한 파일이 있다
-    //     photo.querySelector('[rel = "noImage"]').classList.add('hidden');
-    // } else {//선택한 파일이 없다
-    //     photo.querySelector('[rel = "noImage"]').classList.remove('hidden');
-    // }
-    //
-    // const imageSrc = URL.createObjectURL(file);
+    document.getElementById('insertPhoto').setAttribute('src', imageSrc);
 
-    const imgElement = document.createElement('img');
-    imgElement.classList.add('image');
-    imgElement.setAttribute('src', imageSrc);
-    imageContainerElement.append(imgElement);
 });
 
 // PHOTO 올리는 거
-book.onsubmit = e => {
+insertPhotoContainer.onsubmit = e => {
     e.preventDefault();
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    for (let file of book['images'].files) {
-        formData.append('image', file);
+    for (let file of insertPhotoContainer['images'].files) {
+        formData.append('images', file);
     }
 
-    xhr.open('POST', './recordBook');
+    xhr.open('POST', './photo');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success' :
-                        alert('성공');
+                        insertPhotoContainer.classList.remove('visible');
+                        const date = responseObject['date'];
+                        window.location.href = `recordBook?dt=${date}`;
                         break;
                     default:
                         alert('오류가 발생했습니다.');
@@ -181,6 +182,16 @@ book.onsubmit = e => {
     }
     xhr.send(formData);
 };
+
+// PHOTO 수정하는 거
+const modifyPhoto = document.querySelector('[rel="modifyPhoto"]');
+
+modifyPhoto?.addEventListener('click', e => {
+    e.preventDefault();
+
+    insertPhotoContainer.classList.add('visible');
+    insertPhotoContainer['images'].click();
+});
 
 
 // 글 수정하는 거

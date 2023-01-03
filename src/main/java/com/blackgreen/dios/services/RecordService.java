@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.Date;
 
@@ -29,13 +30,12 @@ public class RecordService {
 
     // 목표개수 설정
     // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
-    public Enum<? extends IResult> updateCount (UserEntity user) {
+    public Enum<? extends IResult> updateGoalCount (UserEntity user, int count) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
 
-        this.recordMapper.updateUser(user);
-        existingUser.setGoalCount(user.getGoalCount());
+        existingUser.setGoalCount(count);
 
-        return this.recordMapper.updateUser(existingUser) > 0
+        return this.recordMapper.updateCount(existingUser) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
@@ -50,26 +50,28 @@ public class RecordService {
     }
 
 
-    // 기록장 작성 : 이미지
+    // 기록장 작성
     @Transactional
-    public Enum<? extends IResult> addRecord (UserEntity user, ElementEntity element, MultipartFile image) throws IOException {
+    public Enum<? extends IResult> addRecord (ElementEntity element){
 
 //        if (user == null) {
 //            return CommonResult.FAILURE;
 //        }
-//
-//        element.setUserEmail(user.getEmail());
 
-        element.setUserEmail("eun8548@naver.com");
-//        element.setImage(image.getBytes());
-//        element.setImageType(image.getContentType());
+        return this.recordMapper.insertRecord(element) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
 
+    // 기록장 작성 : 이미지
+    public Enum<? extends IResult> addRecordPhoto (ElementEntity element, MultipartFile images) throws IOException {
 
-        if (this.recordMapper.insertRecord(element) == 0) {
-            return CommonResult.FAILURE;
-        }
+        element.setImage(images.getBytes());
+        element.setImageType(images.getContentType());
 
-        return CommonResult.SUCCESS;
+        return this.recordMapper.insertRecord(element) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
     }
 
     // count insert 하기 (목표 개수 성공했을 때 record 누르면 실행되는 거 )
