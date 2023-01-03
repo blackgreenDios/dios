@@ -15,6 +15,7 @@ public class ItemEntity {
     private String titleImageMime;
     private byte[] titleImageData;
 
+
     public String getTitleImageName() {
         return titleImageName;
     }

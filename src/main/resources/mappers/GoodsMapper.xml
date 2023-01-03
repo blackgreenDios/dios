@@ -89,8 +89,7 @@
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
                  LEFT JOIN `dios_store`.`sizes` AS `size` ON `item`.`index` = `size`.`item_index`
-        WHERE `item`.`index` = #{index}
-        LIMIT 1
+        WHERE `item`.`index` = #{index} LIMIT 1
     </select>
 
 
@@ -101,8 +100,7 @@
                `item`.`titleimage_data` AS `titleimageData`
 
         FROM `dios_store`.`items` AS `item`
-        WHERE `item`.`index` = #{index}
-        LIMIT 1
+        WHERE `item`.`index` = #{index} LIMIT 1
     </select>
 
 
@@ -113,8 +111,7 @@
                `file_mime` AS `fileMime`,
                `data`      AS `data`
         FROM `dios_store`.`item_img`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </select>
 
     <select id="selectSize"
@@ -125,13 +122,24 @@
         FROM `dios_store`.`sizes`
     </select>
 
+    <select id="selectSizeByItemIndex"
+            resultType="com.blackgreen.dios.entities.store.SizeEntity">
+        SELECT `id`         AS `id`,
+               `item_index` AS `itemIndex`,
+               `text`       AS `text`
+        FROM `dios_store`.`sizes`
+        WHERE `item_index` = #{itemIndex}
+    </select>
+
     <select id="selectReviewByIndex"
             resultType="com.blackgreen.dios.entities.store.ReviewEntity">
         SELECT `index`      AS `index`,
                `user_email` AS `userEmail`,
                `item_index` AS `itemIndex`,
                `score`      AS `score`,
-               `content`    AS `content`
+               `content`    AS `content`,
+               `created_on` AS `createdOn`
+
         FROM `dios_store`.`reviews`
         WHERE `index` = #{index}
     </select>
@@ -139,8 +147,7 @@
     <delete id="deleteReviewByIndex">
         DELETE
         FROM `dios_store`.`reviews`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </delete>
 
     <select id="selectReviewsByGoodsIndex"
@@ -149,9 +156,8 @@
                `review`.`user_email` AS `userEmail`,
                `review`.`item_index` AS `itemIndex`,
                `review`.`score`      AS `score`,
-               `review`.`content`    AS `content`
-#                `review`.`written_on` AS `writtenOn`,
-#                `review`.`modified_on` AS `modifiedOn`,
+               `review`.`content`    AS `content`,
+               `review`.`created_on` AS `createdOn`
 
         FROM `dios_store`.`reviews` AS `review`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`
@@ -167,8 +173,7 @@
                `data`         AS `data`,
                `type`         AS `type`
         FROM `dios_store`.`review_images`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </select>
 
     <select id="selectReviewImagesByGoodsIndexExceptData"
@@ -220,15 +225,115 @@
         VALUES (#{reviewIndex}, #{data}, #{type})
     </insert>
 
-    <update id="updateReview" parameterType="com.blackgreen.dios.entities.store.ReviewImageEntity">
+    <update id="updateReview"
+            parameterType="com.blackgreen.dios.entities.store.ReviewEntity">
         UPDATE `dios_store`.`reviews`
-        SET `index` =#{index},
+        SET `index`      =#{index},
             `user_email` =#{userEmail},
             `item_index` =#{itemIndex},
-            `score` =#{score},
-            `content` =#{content}
-
+            `score`      =#{score},
+            `content`    =#{content}
         WHERE BINARY `index` = #{index}
     </update>
+
+    <select id="selectItemCountByCategoryId"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_store`.`items` AS `item`
+
+        <if test="criterion !=null and criterion.equals('nickName')">
+            LEFT JOIN `study_member`.`users` AS `user` ON `item`.`user_email` = `user`.`email`
+        </if>
+        WHERE `category_id` = #{categoryId}
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`item_name`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickName')">
+            AND BINARY `user`.`nickname` = #{keyword}
+        </if>
+
+    </select>
+
+
+    <select id="selectItemsByCategoryId"
+            resultType="com.blackgreen.dios.vos.GoodsVo">
+        SELECT `item`.`index` AS `index`,
+        `item`.`category_id` AS `categoryId`,
+        `item`.`seller_index` AS `sellerIndex`,
+        `item`.`item_name` AS `itemName`,
+        `item`.`item_detail` AS `itemDetail`,
+        `item`.`price` AS `price`,
+        `item`.`count` AS `count`,
+        `item`.`created_on` AS `createdOn`,
+        COUNT(`review`.`index`) AS `reviewCount`,
+        `seller`.`store_name` AS `storeName`
+
+        FROM `dios_store`.`items` AS `item`
+        LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
+        LEFT JOIN `dios_store`.`reviews` AS `review` ON `review`.`item_index` = `item`.`index`
+
+        WHERE BINARY `item`.`category_id` = #{categoryId}
+
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`item`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`item`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`item`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickName')">
+            AND BINARY `seller`.`store_name` = #{keyword}
+        </if>
+        GROUP BY `item`.`index`
+        ORDER BY `item`.`index` DESC
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <select id="selectItemByIndex"
+            resultType="com.blackgreen.dios.vos.GoodsVo">
+        SELECT `item`.`index`        AS `index`,
+               `item`.`category_id`  AS `categoryId`,
+               `item`.`seller_index` AS `sellerIndex`,
+               `item`.`item_name`    AS `itemName`,
+               `item`.`item_detail`  AS `itemDetail`,
+               `item`.`price`        AS `price`,
+               `item`.`count`        AS `count`,
+               `item`.`created_on`   AS `createdOn`
+
+        FROM `dios_store`.`items` AS `item`
+                 LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
+                 LEFT JOIN `dios_store`.`reviews` AS `review` ON `review`.`item_index` = `item`.`index`
+        WHERE BINARY `item`.`index` = #{index}
+            LIMIT 1
+    </select>
+
+    <update id="updateItem"
+            parameterType="com.blackgreen.dios.entities.store.ItemEntity">
+        UPDATE `dios_store`.`items`
+        SET `index`          = #{index},
+            `category_id`    =#{categoryId},
+            `seller_index`=#{sellerIndex},
+            `item_name`      = #{itemName},
+            `item_detail`=#{itemDetail},
+            `price`=#{price},
+            `count`=#{count},
+            `created_on`= IFNULL(#{createdOn}, DEFAULT(`created_on`)),
+            `titleImage_name`=#{titleImageName},
+            `titleImage_mime`=#{titleImageMime},
+            `titleImage_data`=#{titleImageData}
+        WHERE BINARY `index` = #{index}
+            LIMIT 1
+    </update>
+
+    <delete id="deleteItemByIndex">
+        DELETE
+        FROM `dios_store`.`items`
+        WHERE `index` = #{index}
+            LIMIT 1
+    </delete>
 
 </mapper>

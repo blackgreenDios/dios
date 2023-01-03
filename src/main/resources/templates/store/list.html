@@ -17,18 +17,13 @@
     <div class="category-container" id="categoryContainer">
         <ul class="category">
             <!--/*@thymesVar id="boards" type="dev.yhpark.studymemberbbs.entities.bbs.BoardEntity[]"*/-->
-            <li class="--item">
-                <a class="--link" href="#">전체보기</a>
+            <li class="--item"
+                th:each=" categoring: ${categories}">
+                <span class="--link"
+                   th:value="${categoring.getId()}"
+                   th:text="${categoring.getText()}"></span>
             </li>
-            <li class="--item">
-                <a class="--link" href="#">의류</a>
-            </li>
-            <li class="--item">
-                <a class="--link" href="#">신발</a>
-            </li>
-            <li class="--item">
-                <a class="--link" href="#">기구/용품/장비</a>
-            </li>
+
             <li class="--item">
                 <i class="fa-solid fa-bag-shopping"></i>
                 cart
@@ -42,24 +37,27 @@
     </span>
     <div class="list-box" id="listBox">
         <ul class="search-list" id="searchList">
-            <li class="li-box">
+            <li class="li-box" th:each="item : ${goods}">
                 <div class="li_inner">
                     <div class="image-container">
                         <a class="image-block">
                             <img class="image-li"
-                                 src="https://assets.adidas.com/images/w_766,h_766,f_auto,q_auto,fl_lossy,c_fill,g_auto/d0e34bc0f36c4e31b9aeaf4a0058ce61_9366/%EC%95%A0%EB%8B%88%EB%B2%84%EC%84%9C%EB%A6%AC-%ED%8A%B8%EB%9E%99%ED%83%91.jpg"
-                                 alt="애니버서리 트랙탑" title="애니버서리 트랙탑">
+                                 th:src="@{./titleImage (index=${item.getIndex()})}"
+                                 th:alt="${item.getTitleImageName()}">
                         </a>
                     </div>
                     <div class="item-info">
                         <p class="list-info">
-                            <a href="#" title="애니버서리 트랙탑">애니버서리 트랙탑</a>
+                            <a th:href="@{./read (gid=${item.getIndex()})}"
+                               th:title="${item.getItemName()}"
+                               th:text="${item.getItemName()}"></a>
                         </p>
                         <p class="seller">
-                            <a href="#">아디다스</a>
+                            <a th:href="${item.sellerIndex}"
+                               th:text="${item.sellerIndex}"></a>
                         </p>
                         <p class="price">
-                            <a href="#">12,900원</a>
+                            <a th:text="${item.getPrice()}">12,900원</a>
                         </p>
                         <p class="rating-star">
                             <span class="star-container">
@@ -69,172 +67,8 @@
                                 <i class="star filled fa-solid fa-star "></i>
                                 <i class="star filled fa-solid fa-star "></i>
                             </span>
-                            <span class="review-count">75,165</span>
-                        </p>
-
-
-                    </div>
-                </div>
-            </li>
-            <li class="li-box">
-                <div class="li_inner">
-                    <div class="image-container">
-                        <a class="image-block">
-                            <img class="image-li"
-                                 src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/b1b39c67-dbf6-4b28-8e69-4d58cc7d86ac/%EC%86%94%EB%A1%9C-%EC%8A%A4%EC%9A%B0%EC%8B%9C-%EB%82%A8%EC%84%B1-%ED%94%8C%EB%A6%AC%EC%8A%A4-%ED%8C%AC%EC%B8%A0-3dWQ5TDf.png"
-                                 alt="나이키 솔로 스우시" title="나이키 솔로 스우시">
-                        </a>
-                    </div>
-                    <div class="item-info">
-                        <p class="list-info">
-                            <a href="#" title="나이키 솔로 스우시">나이키 솔로 스우시</a>
-                        </p>
-                        <p class="seller">
-                            <a href="#">나이키</a>
-                        </p>
-                        <p class="price">
-                            <a href="#">109,000원</a>
-                        </p>
-                        <p class="rating-star">
-                            <span class="star-container">
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                            </span>
-                            <span class="review-count">1,487</span>
-                        </p>
-
-                    </div>
-                </div>
-            </li>
-            <li class="li-box">
-                <div class="li_inner">
-                    <div class="image-container">
-                        <a class="image-block">
-                            <img class="image-li"
-                                 src="https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/4dc0ef10-0a63-4ec1-84f8-50f6855da1f8/%EC%8A%A4%ED%8F%AC%EC%B8%A0%EC%9B%A8%EC%96%B4-%EC%8A%A4%EC%9A%B0%EC%8B%9C-%EB%82%A8%EC%84%B1-%ED%92%80%EC%A7%91-%EB%A6%AC%EB%B2%84%EC%84%9C%EB%B8%94-%EC%9E%AC%ED%82%B7-oIvnqduR.png"
-                                 alt="나이키 스포츠웨어 스우시" title="나이키 스포츠웨어 스우시">
-                        </a>
-                    </div>
-                    <div class="item-info">
-                        <p class="list-info">
-                            <a href="#" title="베이직 푸퍼_SPJPC4TC11">나이키 스포츠웨어 스우시</a>
-                        </p>
-                        <p class="seller">
-                            <a href="#">나이키</a>
-                        </p>
-                        <p class="price">
-                            <a href="#">129,000원</a>
-                        </p>
-                        <p class="rating-star">
-                            <span class="star-container">
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                            </span>
-                            <span class="review-count">7,020</span>
-                        </p>
-
-                    </div>
-                </div>
-            </li>
-            <li class="li-box">
-                <div class="li_inner">
-                    <div class="image-container">
-                        <a class="image-block">
-                            <img class="image-li"
-                                 src="https://assets.adidas.com/images/w_766,h_766,f_auto,q_auto,fl_lossy,c_fill,g_auto/9115badd14bb4f529fe9aeb700056c70_9366/%EC%BD%94%EB%93%80%EB%A1%9C%EC%9D%B4-%EB%8B%A4%EC%9A%B4-%EC%9E%AC%ED%82%B7.jpg"
-                                 alt="코듀로이 다운 재킷" title="나이키 스포츠웨어 스우시">
-                        </a>
-                    </div>
-                    <div class="item-info">
-                        <p class="list-info">
-                            <a href="#" title="코듀로이 다운 재킷">코듀로이 다운 재킷</a>
-                        </p>
-                        <p class="seller">
-                            <a href="#">아디다스</a>
-                        </p>
-                        <p class="price">
-                            <a href="#">129,000원</a>
-                        </p>
-                        <p class="rating-star">
-                            <span class="star-container">
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                            </span>
-                            <span class="review-count">51,135</span>
-                        </p>
-
-                    </div>
-                </div>
-            </li>
-            <li class="li-box">
-                <div class="li_inner">
-                    <div class="image-container">
-                        <a class="image-block">
-                            <img class="image-li"
-                                 src="https://image.vans.co.kr/cmsstatic/product/VN0A4UWO3N11_VN0A4UWO3N11_primary.jpg?gallery"
-                                 alt="셰르파 슬립-어 2" title="셰르파 슬립-어 2">
-                        </a>
-                    </div>
-                    <div class="item-info">
-                        <p class="list-info">
-                            <a href="#" title="셰르파 슬립-어 2">셰르파 슬립-어 2</a>
-                        </p>
-                        <p class="seller">
-                            <a href="#">반스</a>
-                        </p>
-                        <p class="price">
-                            <a href="#">89,000원</a>
-                        </p>
-                        <p class="rating-star">
-                            <span class="star-container">
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                            </span>
-                            <span class="review-count">42,750</span>
-                        </p>
-                    </div>
-                </div>
-            </li>
-            <li class="li-box">
-                <div class="li_inner">
-                    <div class="image-container">
-                        <a class="image-block">
-                            <img class="image-li"
-                                 src="https://image.vans.co.kr/cmsstatic/product/34899/VN0A5FBOBA21_VN0A5FBOBA21_primary.jpg?gallery"
-                                 alt="키즈 Old Skool 올드스쿨 MTE-1" title="키즈 Old Skool 올드스쿨 MTE-1">
-                        </a>
-                    </div>
-                    <div class="item-info">
-                        <p class="list-info">
-                            <a href="#" title="키즈 Old Skool 올드스쿨 MTE-1">키즈 Old Skool 올드스쿨 MTE-1</a>
-                        </p>
-                        <p class="seller">
-                            <a href="#">반스</a>
-                        </p>
-                        <p class="price">
-                            <a href="#">59,000원</a>
-                        </p>
-                        <p class="rating-star">
-                            <span class="star-container">
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                            </span>
-                            <span class="review-count">1,254</span>
+                            <span class="review-count"
+                                  th:text="${}">75,165</span>
                         </p>
                     </div>
                 </div>
