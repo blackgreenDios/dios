@@ -154,7 +154,7 @@ public class RecordController {
             modelAndView = new ModelAndView("records/recordBook");
         }
 
-        // 현재 날짜
+        // 페이지 날짜
         Date date;
         if (dtStr == null) {
             date = new Date();
@@ -162,6 +162,9 @@ public class RecordController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        // 현재 날짜
+        Date date2 = new Date();
 
         final String email = user.getEmail();
         CountEntity count = this.recordService.getCount(email, date);
@@ -179,8 +182,12 @@ public class RecordController {
 
         modelAndView.addObject("element", element);
         modelAndView.addObject("count", count);
-        // 현재 날짜
+
+        // 페이지 날짜와 현재 날짜가 같지 않으면 글 등록, 수정, 삭제 안 됨
+        // 페이지 날짜
         modelAndView.addObject("date", formatter.format(date));
+        // 현재 날짜
+        modelAndView.addObject("currentDate", formatter.format(date2));
 
         // 왼쪽 화살표 눌렀을 때 (이전 날짜로 가기)
         Date previousDate = this.recordService.getPreviousDate(email, date);
@@ -291,7 +298,7 @@ public class RecordController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
         }
 
-        Enum<?> result = this.recordService.ClearDiary(user.getEmail(), date);
+        Enum<?> result = this.recordService.clearDiary(user.getEmail(), date);
 
         JSONObject responseObject = new JSONObject();
 
@@ -318,7 +325,7 @@ public class RecordController {
             date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
         }
 
-        Enum<?> result = this.recordService.ClearAdd(user.getEmail(), date);
+        Enum<?> result = this.recordService.clearAdd(user.getEmail(), date);
 
         JSONObject responseObject = new JSONObject();
 
@@ -329,5 +336,35 @@ public class RecordController {
     }
 
     // photo 삭제
+    @RequestMapping(value = "image",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String DeleteImage(ElementEntity element,
+                            @SessionAttribute(value = "user", required = false) UserEntity user,
+                            @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
+
+        // 현재 날짜
+        Date date;
+        if (dtStr == null) {
+            date = new Date();
+        } else {
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        String nowDate = formatter.format(date);
+
+        element.setUserEmail(user.getEmail());
+        element.setTodayDate(date);
+        Enum<?> result = this.recordService.clearPhoto(element);
+
+        JSONObject responseObject = new JSONObject();
+
+        responseObject.put("date", nowDate);
+        responseObject.put("result", result.name().toLowerCase());
+
+        return responseObject.toString();
+    }
 
 }

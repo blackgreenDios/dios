@@ -211,6 +211,49 @@ modifyAdd?.addEventListener('click', e => {
     addWrite.classList.add('visible');
 });
 
+// PHOTO 삭제
+const deletePhoto = document.querySelector('[rel="deletePhoto"]');
+const realDeletePhoto = document.querySelector('[rel="realDeletePhoto"]');
+const yesPhoto = document.querySelector('[rel="yesPhoto"]');
+const noPhoto = document.querySelector('[rel="noPhoto"]');
+
+deletePhoto?.addEventListener('click', e => {
+    e.preventDefault();
+
+    realDeletePhoto.classList.add('visible');
+
+    yesPhoto?.addEventListener('click', e => {
+        e.preventDefault();
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.open('DELETE', './image');
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const responseObject = JSON.parse(xhr.responseText);
+                    switch (responseObject['result']) {
+                        case 'success':
+                            const date = responseObject['date'];
+                            window.location.href = `./recordBook?dt=${date}`;
+                            break;
+                        default:
+                            alert('실패');
+                    }
+                } else {
+                    alert('서버와 통신 x');
+                }
+            }
+        }
+        xhr.send();
+    });
+
+    noPhoto?.addEventListener('click', e => {
+        e.preventDefault();
+
+        realDeletePhoto.classList.remove('visible');
+    });
+});
 
 // diary 내용삭제
 const deleteDiary = document.querySelector('[rel="deleteDiary"]');

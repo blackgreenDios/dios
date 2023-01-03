@@ -32,7 +32,7 @@
             <div class="photo-container">
                 <div class="text">
                     <a class="textPhoto">PHOTO</a>
-                    <div class="button-container" th:if="${element.getImage() != null}">
+                    <div class="button-container" th:if="${element.getImage() != null && currentDate == date}">
                         <i rel="modifyPhoto" class="modify fa-regular fa-image"
                            th:if="${element.getImage() != null && element.getImage() != ''}"></i>
                         <i rel="deletePhoto" class="delete fa-solid fa-trash"
@@ -41,15 +41,25 @@
                 </div>
                 <div class="photo" rel="photo">
                     <i class="icon visible fa-solid fa-circle-plus" rel="imageSelectButton"
-                       th:if="${element.getImage() == null || element.getImage() == ''}"></i>
+                       th:if="${(element.getImage() == null || element.getImage() == '') && currentDate == date}"></i>
                     <img class="photoBox" rel="photoBox" th:if="${element.getImage() != null && element.getImage() != ''}"
                          th:src="${element.getImage()}">
+                </div>
+                <div class="realDelete" rel="realDeletePhoto">
+                    <a class="a">
+                        <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
+                        삭제 하시겠습니까?
+                    </a>
+                    <div class="option">
+                        <div class="yes" rel="yesPhoto">YES</div>
+                        <div class="no" rel="noPhoto">NO</div>
+                    </div>
                 </div>
             </div>
             <div class="diary-container">
                 <div class="text">
                     <div class="textDiary">DIARY</div>
-                    <div class="button-container" th:if="${element.getDiary() != null}">
+                    <div class="button-container" th:if="${element.getDiary() != null && currentDate == date}">
                         <i rel="modifyDiary" class="modify fa-solid fa-pencil"
                            th:if="${element.getDiary() != null && element.getDiary() != ''}"></i>
                         <i rel="deleteDiary" class="delete fa-solid fa-trash"
@@ -58,7 +68,7 @@
                 </div>
                 <div class="diary">
                     <i class="icon visible fa-solid fa-circle-plus" rel="diaryAddButton"
-                       th:if="${element.getDiary() == null || element.getDiary() == ''}"></i>
+                       th:if="${(element.getDiary() == null || element.getDiary() == '') && currentDate == date}"></i>
                     <div class="textBox" rel="textBox" th:if="${element.getDiary() != null && element.getDiary() != ''}"
                          th:text="${element.getDiary()}"></div>
                 </div>
@@ -109,7 +119,7 @@
             <div class="add-container">
                 <div class="text">
                     <div class="textAdd">ADD</div>
-                    <div class="button-container" th:if="${element.getAdd() != null}">
+                    <div class="button-container" th:if="${element.getAdd() != null && currentDate == date}">
                         <i rel="modifyAdd" class="modify fa-solid fa-pencil"
                            th:if="${element.getAdd() != null && element.getAdd() != ''}"></i>
                         <i rel="deleteAdd" class="delete fa-solid fa-trash"
@@ -118,7 +128,7 @@
                 </div>
                 <div class="add">
                     <i class="icon fa-solid fa-circle-plus" rel="addAddButton"
-                       th:if="${element.getAdd() == null || element.getAdd() == ''}"></i>
+                       th:if="${(element.getAdd() == null || element.getAdd() == '') && currentDate == date}"></i>
                     <div class="textBox" rel="textBox" th:if="${element.getAdd() != null && element.getAdd() != ''}"
                          th:text="${element.getAdd()}"></div>
                 </div>

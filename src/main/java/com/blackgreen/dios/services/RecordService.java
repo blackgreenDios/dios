@@ -144,7 +144,7 @@ public class RecordService {
 //    }
 
     // diary 삭제
-    public Enum<? extends IResult> ClearDiary (String email, Date dt) {
+    public Enum<? extends IResult> clearDiary (String email, Date dt) {
         ElementEntity element = this.recordMapper.selectRecordByEmailDate(email, dt);
         element.setDiary("");
         return this.recordMapper.insertRecord(element) > 0
@@ -153,9 +153,19 @@ public class RecordService {
     }
 
     // add 삭제
-    public Enum<? extends IResult> ClearAdd (String email, Date dt) {
+    public Enum<? extends IResult> clearAdd (String email, Date dt) {
         ElementEntity element = this.recordMapper.selectRecordByEmailDate(email, dt);
         element.setAdd("");
+        return this.recordMapper.insertRecord(element) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    // photo 삭제
+    public Enum<? extends IResult> clearPhoto (ElementEntity element) {
+        element.setImage(null);
+        element.setImageType("");
+
         return this.recordMapper.insertRecord(element) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;

@@ -258,6 +258,27 @@ body > .main > .book > .one > .photo-container > .photo > .photo-container > .pp
     width: 25rem;
 }
 
+body > .main > .book > .one > .photo-container > .realDelete {
+    background-color: rgb(255, 255, 255);
+
+    align-items : center;
+    display : none;
+    flex-direction : column;
+    justify-content: center;
+
+    position: absolute;
+    top: 16rem;
+    left: 23rem;
+
+    border: 0.1rem solid rgb(0, 0, 0);
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    padding: 1rem 2rem 1rem 2rem;
+
+    font-size: 1.3rem;
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
 body > .main > .book > .one > .diary-container > .realDelete {
     background-color: rgb(255, 255, 255);
 
@@ -278,11 +299,13 @@ body > .main > .book > .one > .diary-container > .realDelete {
     font-family: 'Gowun Dodum', sans-serif;
 }
 
+body > .main > .book > .one > .photo-container > .realDelete > .a > .icon,
 body > .main > .book > .one > .diary-container > .realDelete > .a > .icon {
     color: rgb(234, 201, 8);
     font-size: 2rem;
 }
 
+body > .main > .book > .one > .photo-container > .realDelete > .option,
 body > .main > .book > .one > .diary-container > .realDelete > .option {
     align-items : center;
     display : flex;
@@ -298,6 +321,8 @@ body > .main > .book > .one > .diary-container > .realDelete > .option {
     font-size: 1.2rem;
 }
 
+body > .main > .book > .one > .photo-container > .realDelete > .option > .yes,
+body > .main > .book > .one > .photo-container > .realDelete > .option > .no,
 body > .main > .book > .one > .diary-container > .realDelete > .option > .yes,
 body > .main > .book > .one > .diary-container > .realDelete > .option > .no {
 
@@ -309,16 +334,20 @@ body > .main > .book > .one > .diary-container > .realDelete > .option > .no {
     padding: 0.2rem 1.5rem 0.2rem 1.5rem;
 }
 
+body > .main > .book > .one > .photo-container > .realDelete > .option > .yes,
 body > .main > .book > .one > .diary-container > .realDelete > .option > .yes {
     margin-right: 1.5rem;
 }
 
+body > .main > .book > .one > .photo-container > .realDelete > .option > .yes:hover,
+body > .main > .book > .one > .photo-container > .realDelete > .option > .no:hover
 body > .main > .book > .one > .diary-container > .realDelete > .option > .yes:hover,
 body > .main > .book > .one > .diary-container > .realDelete > .option > .no:hover {
 
     background-color: rgb(115, 112, 112);
 }
 
+body > .main > .book > .one > .photo-container > .realDelete.visible,
 body > .main > .book > .one > .diary-container > .realDelete.visible {
     display: flex;
 }
