@@ -295,24 +295,6 @@
 
     </select>
 
-    <select id="selectBoardByIdFree"
-            resultType="com.blackgreen.dios.entities.bbs.BoardEntity">
-        SELECT `id`   AS `id`,
-               `text` AS `text`
-        FROM `dios_bbs`.`boards`
-        WHERE BINARY `id` = 'free'
-        LIMIT 1
-    </select>
-
-    <select id="selectBoardByIdQna"
-            resultType="com.blackgreen.dios.entities.bbs.BoardEntity">
-        SELECT `id`   AS `id`,
-               `text` AS `text`
-        FROM `dios_bbs`.`boards`
-        WHERE BINARY `id` = 'qna'
-        LIMIT 1
-    </select>
-
     <select id="selectArticlesByUserEmailFree"
             resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
         SELECT

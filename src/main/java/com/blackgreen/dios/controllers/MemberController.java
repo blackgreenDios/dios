@@ -366,14 +366,6 @@ public class MemberController {
         return modelAndView;
     }
 
-
-    //마이페이지  게시글
-//    @RequestMapping(value = "myPageList", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-//    public ModelAndView getMyPageList() {
-//        ModelAndView modelAndView = new ModelAndView("member/myPageList");
-//        return modelAndView;
-//    }
-
     @GetMapping(value = "myPageList",produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView getMyPageList(@RequestParam(value = "bid",required = false)String bid,
                                       @RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
@@ -389,7 +381,7 @@ public class MemberController {
 
 
         modelAndView.addObject("board",board);
-        if (board!=null){
+        if (board!=null && user != null){
             article.setUserEmail(user.getEmail());
             int totalCount=this.bbsService.getArticleCountByEmailFromFree(article,criterion,keyword);
 
@@ -399,6 +391,9 @@ public class MemberController {
             ArticleReadVo[] articles=this.bbsService.getArticlesByUserEmailFree(article,paging,criterion,keyword);
             modelAndView.addObject("articles",articles);
 
+        }
+        else {
+            article.setUserEmail("");
         }
         return modelAndView;
     }
@@ -417,7 +412,7 @@ public class MemberController {
 
 
         modelAndView.addObject("board",board);
-        if (board!=null){
+        if (board!=null && user != null){
             article.setUserEmail(user.getEmail());
             int totalCount=this.bbsService.getArticleCountByEmailFromQna(article,criterion,keyword);
 
@@ -426,8 +421,9 @@ public class MemberController {
 
             ArticleReadVo[] articles=this.bbsService.getArticlesByUserEmailQna(article,paging,criterion,keyword);
             modelAndView.addObject("articles",articles);
-
-
+        }
+        else {
+            article.setUserEmail("");
         }
         return modelAndView;
     }

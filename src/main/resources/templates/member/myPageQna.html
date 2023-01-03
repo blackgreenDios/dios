@@ -13,6 +13,12 @@
     <link rel="stylesheet" th:href="@{/resources/stylesheets/commonMyPage.css}">
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/myPageQna.css}">
     <script defer th:src="@{/bbs/resources/scripts/list.js}"></script>
+
+    <script th:if="${session.user == null }">
+        alert('로그인 후 이용하실 수 있습니다.');
+        window.location.href = 'login';
+    </script>
+
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
