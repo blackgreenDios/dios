@@ -99,7 +99,7 @@ public class RecordController {
 
         return modelAndView;
     }
-
+//
     // count insert 하기 (목표 개수 성공했을 때 record 누르면 실행되는 거)
     @RequestMapping(value = "squat",
             method = RequestMethod.POST,
