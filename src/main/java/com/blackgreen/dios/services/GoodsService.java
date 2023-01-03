@@ -231,7 +231,6 @@ public class GoodsService {
         return CommonResult.SUCCESS;
     }
 
-
     public Enum<? extends IResult> ModifyItem (ItemEntity item, UserEntity user,MultipartFile images) throws IOException {
         if (user == null) {
             return ModifyItemResult.NOT_SIGNED;
