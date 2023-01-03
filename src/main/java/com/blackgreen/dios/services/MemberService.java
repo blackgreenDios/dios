@@ -16,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -298,35 +299,20 @@ public class MemberService {
     }
 
     //프로필 이미지 삽입
-    public Enum<? extends IResult> addImage(ImageEntity image) {
+    public Enum<? extends IResult> addProfileImage(ImageEntity image) {
         return this.memberMapper.insertImage(image) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
-    //프로필 수정
-    public ImageEntity getImage(int index) {
+    //프로필 이미지 수정
+    public ImageEntity getProfileImage(int index) {
         return this.memberMapper.selectImageByIndex(index);
     }
 
+
+
     //닉네임 수정
-//    @Transactional
-//    public Enum<? extends IResult> updateMyPage(UserEntity user, String nickname) {
-//        UserEntity existingUser = this.memberMapper.selectUserByEmail(
-//                user.getEmail()
-//        );
-//
-//        if (existingUser == null) {
-//            return ModifyProfileResult.NOT_SIGNED;
-//        }
-//
-//        user.setNickname(nickname);
-//        if (this.memberMapper.updateUser(user) == 0) {
-//            return CommonResult.FAILURE;
-//        }
-//
-//        return CommonResult.SUCCESS;
-//    }
     @Transactional
     public Enum<? extends IResult> updateMyPage(UserEntity signedUser,UserEntity newUser) {
 
@@ -348,6 +334,7 @@ public class MemberService {
 
         return CommonResult.SUCCESS;
     }
+
 
 
     // 회원정보 수정
@@ -454,6 +441,7 @@ public class MemberService {
             user.setAddressPrimary("");
             user.setAddressPostal("");
             user.setAddressSecondary(""); //빈 문자열로 하면 웹에서 입력안해도 Insert 가능
+
             this.memberMapper.insertUser(user);
         }
         return user;

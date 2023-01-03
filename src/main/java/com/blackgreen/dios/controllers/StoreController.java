@@ -26,6 +26,11 @@ public class StoreController {
     }
 
 
-
+    // 코코야가 하는 cart
+    @RequestMapping(value = "cart", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getCart() {
+        ModelAndView modelAndView = new ModelAndView("store/cart");
+        return modelAndView;
+    }
 
 }

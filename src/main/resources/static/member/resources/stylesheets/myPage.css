@@ -2,8 +2,12 @@
 
 
 #form > .myPage-main > .myPage-content {
-    margin-top: -1rem;
+    margin-top: -4rem;
     margin-left: 5rem;
+}
+
+#form > .myPage-main > .myPage-content > .content > h2 {
+    font-size: 2.2rem;
 }
 
 #form > .myPage-main > .myPage-content > .content > .mini-content {
@@ -16,6 +20,7 @@
     margin-top: 2rem;
     position: relative;
     width: 100%;
+    max-width: 52rem;
     table-layout: fixed;
     border-spacing: 0;
     border-collapse: collapse;
@@ -103,14 +108,14 @@
     justify-content: center;
 }
 
-#form > .myPage-main > .myPage-content > .content > .--object-button > .submit-button{
-    margin-right: 5rem;
+#form > .myPage-main > .myPage-content > .content > .--object-button > .cancel-button{
+    margin-right: 3rem;
 }
 
 #form > .myPage-main > .myPage-content > .content > .--object-button > .submit-button,
 #form > .myPage-main > .myPage-content > .content > .--object-button > .cancel-button{
-    width: 5rem;
-    height: 2rem;
+    width: 7rem;
+    height: 2.4rem;
     border-radius: 0.5rem;
     border: 0.05rem solid rgb(199 203 207);
     cursor: pointer;

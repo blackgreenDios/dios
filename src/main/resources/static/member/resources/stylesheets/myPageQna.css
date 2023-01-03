@@ -1,0 +1,234 @@
+@charset "UTF-8";
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > .myPageQna {
+    color: rgb(60, 166, 52);
+}
+
+
+#form > .myPage-main > .--content {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 5rem;
+}
+
+body > .main > form > .content > .title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+}
+
+#table {
+    border-collapse: collapse;
+    font-size: 1rem;
+    min-width: 64vw;
+}
+
+#table td {
+    background-color: rgb(255, 255, 255);
+    padding: 0.8rem 0.8rem;
+    border-top: 1px solid rgb(120, 120, 120);
+
+}
+
+#table th {
+    background-color: rgb(255, 255, 255);
+    color: rgb(107, 103, 103);
+    font-weight: inherit;
+
+}
+
+#table > thead tr:first-of-type > th:first-of-type {
+    border-top-left-radius: 0.5rem;
+
+}
+
+
+#table > tbody > tr:not(:last-of-type) > td {
+    border-bottom: 0.0625rem solid rgb(234, 236, 238);
+}
+
+#table > tbody > tr > td {
+    color: rgb(131, 126, 126);
+    text-align: center;
+}
+
+
+#table > tbody > tr > td > .title {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#table > tbody > tr > td > .title:hover {
+    text-decoration: underline;
+}
+
+#table > tbody > tr > td > .title > .comment {
+    color: rgb(211, 84, 0);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+#table > tfoot > tr > td {
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+
+    padding-top: 1rem;
+
+}
+
+
+#table > tfoot > tr > td > .page-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+#table > tfoot > tr > td > .page-container > .page {
+
+    color: rgb(160, 160, 160);
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+}
+
+
+#table > tfoot > tr > td > .page-container > .page.selected,
+#table > tfoot > tr > td > .page-container > .page:hover {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#searchForm {
+    margin-top: 1rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+select {
+    text-align-last: center;
+    appearance: none;
+
+
+}
+
+#searchForm > * + * {
+    margin-left: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: rgb(255, 255, 255);
+
+}
+
+#buttonContainer {
+    margin-top: 0.5rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+#buttonContainer > .--object-button {
+    text-decoration: none;
+}
+
+body > .--main,
+body > .--footer {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body > .--main > .--content,
+body > .--footer > .--content {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 2rem;
+
+}
+
+.--object-input {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    box-sizing: border-box;
+    padding: 0.625rem 0.875rem;
+}
+
+.--object-input:disabled {
+    background-color: rgb(234, 236, 238);
+    color: rgb(171, 178, 185);
+}
+
+.--object-button {
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 2rem;
+}
+
+.--object-input {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(213, 216, 220);
+    box-sizing: border-box;
+    padding: 0.625rem 0.875rem;
+}
+
+.--object-input:disabled {
+    background-color: rgb(234, 236, 238);
+    color: rgb(171, 178, 185);
+}
+
+.--object-button {
+    border-radius: 0.6rem;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 1.5rem;
+
+}
+
+#submit {
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    margin-bottom: 2rem;
+}
+
+#submit:hover {
+    font-weight: bold;
+}
+
+#submit:active {
+    font-weight: bold;
+    border: 0.0625rem solid rgb(213, 216, 220);
+
+}
+
+main, input, select {
+    font: unset;
+    font-family: none;
+}
+
+#search {
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(0, 0, 0);
+    color: rgb(0, 0, 0);
+    margin-bottom: 3rem;
+
+}
+

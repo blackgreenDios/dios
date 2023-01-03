@@ -10,6 +10,8 @@ public class ImageEntity {
     private byte[] Data;
     // `data` LONGBLOB NOT NULL
 
+    private String email;
+
     public int getIndex() {
         return index;
     }
@@ -40,6 +42,15 @@ public class ImageEntity {
 
     public void setData(byte[] data) {
         Data = data;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

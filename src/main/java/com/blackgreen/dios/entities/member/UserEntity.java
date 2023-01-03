@@ -14,9 +14,16 @@ public class UserEntity {
     private String addressPostal;
     private String addressPrimary;
     private String addressSecondary;
+    private String imageName;
+    private String imageMime;
+    private  byte[] imageData;
+
     private Date registeredOn;
 
     private int goalCount;
+
+
+
 
     public int getGoalCount() {
         return goalCount;
@@ -24,18 +31,6 @@ public class UserEntity {
 
     public void setGoalCount(int goalCount) {
         this.goalCount = goalCount;
-    }
-
-    public UserEntity() {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
-        this.name = name;
-        this.contact = contact;
-        this.addressPostal = addressPostal;
-        this.addressPrimary = addressPrimary;
-        this.addressSecondary = addressSecondary;
-        this.registeredOn = registeredOn;
     }
 
     public String getEmail() {
@@ -106,6 +101,31 @@ public class UserEntity {
         this.addressSecondary = addressSecondary;
     }
 
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageMime() {
+        return imageMime;
+    }
+
+    public void setImageMime(String imageMime) {
+        this.imageMime = imageMime;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
     public Date getRegisteredOn() {
         return registeredOn;
     }
@@ -113,6 +133,7 @@ public class UserEntity {
     public void setRegisteredOn(Date registeredOn) {
         this.registeredOn = registeredOn;
     }
+
 
     @Override
     public boolean equals(Object o) {
