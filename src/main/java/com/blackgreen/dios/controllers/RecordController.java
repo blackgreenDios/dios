@@ -50,7 +50,7 @@ public class RecordController {
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchSetting(UserEntity user) {
+    public String patchSetting(@SessionAttribute(value = "user", required = false) UserEntity user) {
 
         Enum<?> result;
         JSONObject responseObject = new JSONObject();
@@ -58,7 +58,7 @@ public class RecordController {
         if (user == null) {
             result = CommonResult.FAILURE;
         } else {
-            result = this.recordService.updateCount(user.getGoalCount());
+            result = this.recordService.updateCount(user);
         }
         responseObject.put("result", result.name().toLowerCase());
 
