@@ -383,7 +383,7 @@ public class MemberController {
         page=Math.max(1,page);
 
         ModelAndView modelAndView=new ModelAndView("member/myPageList");
-        BoardEntity board=this.bbsService.getBoardFree(bid);
+        BoardEntity board=this.bbsService.getBoard("free");
 
         ArticleEntity article = new ArticleEntity();
 
@@ -396,7 +396,7 @@ public class MemberController {
             PagingModel paging=new PagingModel(totalCount,page);
             modelAndView.addObject("paging",paging);
 
-            ArticleReadVo[] articles=this.bbsService.getArticles(board,paging,criterion,keyword);
+            ArticleReadVo[] articles=this.bbsService.getArticlesByUserEmailFree(article,paging,criterion,keyword);
             modelAndView.addObject("articles",articles);
 
         }
@@ -411,7 +411,7 @@ public class MemberController {
         page=Math.max(1,page);
 
         ModelAndView modelAndView=new ModelAndView("member/myPageQna");
-        BoardEntity board=this.bbsService.getBoardQna(bid);
+        BoardEntity board=this.bbsService.getBoard("qna");
 
         ArticleEntity article = new ArticleEntity();
 
@@ -424,8 +424,9 @@ public class MemberController {
             PagingModel paging=new PagingModel(totalCount,page);
             modelAndView.addObject("paging",paging);
 
-            ArticleReadVo[] articles=this.bbsService.getArticles(board,paging,criterion,keyword);
+            ArticleReadVo[] articles=this.bbsService.getArticlesByUserEmailQna(article,paging,criterion,keyword);
             modelAndView.addObject("articles",articles);
+
 
         }
         return modelAndView;

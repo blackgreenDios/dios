@@ -25,7 +25,6 @@
         </div>
         <div class="myPage-main">
             <th:block th:replace="~{fragments/commonMyPage :: menu}"></th:block>
-            <input name="bid" type="hidden" th:value="${board?.getId()}">
             <div class="--content content">
                 <h1 class="title">Q&A</h1>
                 <table class="table" id="table">
@@ -41,7 +40,7 @@
                     </thead>
 
                     <tbody>
-                    <tr th:each="article: ${articles}" th:if="${article.getUserEmail().equals(session.user.getEmail())}">
+                    <tr th:each="article: ${articles}" th:if="${article.getUserNickname().equals(session.user.getNickname())}">
                         <td th:text="${article.getIndex()}">3</td>
                         <td>
                             <a class="title" th:href="@{/dios/read(aid=${article.getIndex()})}">

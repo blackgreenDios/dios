@@ -64,7 +64,20 @@ public interface IBbsMapper {
                                              @Param(value = "criterion") String criterion,
                                              @Param(value = "keyword") String keyword);
 
-    BoardEntity selectBoardByIdFree(@Param(value = "id") String id);
+//    BoardEntity selectBoardByIdFree(@Param(value = "id") String id);
+//
+//    BoardEntity selectBoardByIdQna(@Param(value = "id") String id);
 
-    BoardEntity selectBoardByIdQna(@Param(value = "id") String id);
+
+    ArticleReadVo[] selectArticlesByUserEmailFree(@Param(value = "userEmail") String userEmail,
+                                            @Param(value = "criterion") String criterion,
+                                            @Param(value = "keyword") String keyword,
+                                            @Param(value = "limit") int limit,
+                                            @Param(value = "offset") int offset);
+
+    ArticleReadVo[] selectArticlesByUserEmailQna(@Param(value = "userEmail") String userEmail,
+                                              @Param(value = "criterion") String criterion,
+                                              @Param(value = "keyword") String keyword,
+                                              @Param(value = "limit") int limit,
+                                              @Param(value = "offset") int offset);
 }

@@ -257,11 +257,28 @@ public class BbsService {
 
     }
 
-    public BoardEntity getBoardFree(String id){
-        return this.bbsMapper.selectBoardByIdFree(id);
+    //이메일 기준으로 가져오기
+    public ArticleReadVo[] getArticlesByUserEmailFree(ArticleEntity article, PagingModel paging, String criterion, String keyword) {
+
+        return this.bbsMapper.selectArticlesByUserEmailFree(
+                article.getUserEmail(),
+                criterion,
+                keyword,
+                paging.countPerPage,
+                (paging.requestPage-1)*paging.countPerPage);
+
     }
 
-    public BoardEntity getBoardQna(String id){
-        return this.bbsMapper.selectBoardByIdQna(id);
+    public ArticleReadVo[] getArticlesByUserEmailQna(ArticleEntity article, PagingModel paging, String criterion, String keyword) {
+
+        return this.bbsMapper.selectArticlesByUserEmailQna(
+                article.getUserEmail(),
+                criterion,
+                keyword,
+                paging.countPerPage,
+                (paging.requestPage-1)*paging.countPerPage);
+
     }
+
+
 }

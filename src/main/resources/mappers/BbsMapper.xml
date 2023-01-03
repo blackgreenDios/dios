@@ -24,15 +24,15 @@
     </insert>
     <select id="selectArticleByIndex"
             resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
-        SELECT `article`.`index`                              AS `index`,
-               `article`.`user_email`                         AS `userEmail`,
-               `article`.`board_id`                           AS `boardId`,
-               `article`.`title`                              AS `title`,
-               `article`.`content`                            AS `content`,
-               `article`.`view`                               AS `view`,
-               `article`.`written_on`                         AS `writtenOn`,
-               `article`.`modified_on`                        AS `modifiedOn`,
-               `user`.`nickname`                              AS `userNickname`,
+        SELECT `article`.`index`                                AS `index`,
+               `article`.`user_email`                           AS `userEmail`,
+               `article`.`board_id`                             AS `boardId`,
+               `article`.`title`                                AS `title`,
+               `article`.`content`                              AS `content`,
+               `article`.`view`                                 AS `view`,
+               `article`.`written_on`                           AS `writtenOn`,
+               `article`.`modified_on`                          AS `modifiedOn`,
+               `user`.`nickname`                                AS `userNickname`,
                (SELECT COUNT(0)
                 FROM `dios_bbs`.`article_likes` AS `articleLike`
                 WHERE `articleLike`.`article_index` = #{index}) AS `likeCount`,
@@ -74,7 +74,7 @@
         (SELECT COUNT(0)
         FROM `dios_bbs`.`comments` AS `comment`
 
-        WHERE `comment`.`article_index` = `article`.`index`)     AS `commentCount`
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
         FROM `dios_bbs`.`articles` AS `article`
         LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
 
@@ -249,7 +249,8 @@
 
     </delete>
 
-<!-- 콩지 -->
+
+    <!-- 콩지 -->
     <select id="selectArticleCountByUserEmailFromQna"
             resultType="int">
         SELECT COUNT(0)
@@ -311,4 +312,85 @@
         WHERE BINARY `id` = 'qna'
         LIMIT 1
     </select>
+
+    <select id="selectArticlesByUserEmailFree"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+        `article`.`board_id` AS `boardId`,
+        `article`.`index` AS `index`,
+        `article`.`user_email` AS `userEmail`,
+        `article`.`board_id` AS `boardId`,
+        `article`.`title` AS `title`,
+        `article`.`content` AS `content`,
+        `article`.`view` AS `view`,
+        `article`.`written_on` AS `writtenOn`,
+        `article`.`modified_on` AS `modifiedOn`,
+        `user`.`nickname` AS `userNickname`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`article_likes` AS `articleLike`
+        WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`comments` AS `comment`
+
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+        LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+
+        WHERE `article`. `user_email` = #{userEmail} AND `article`.`board_id` = 'free'
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+        GROUP BY `article`.`index`
+
+        ORDER BY `article`.`index` DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectArticlesByUserEmailQna"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+        `article`.`board_id` AS `boardId`,
+        `article`.`index` AS `index`,
+        `article`.`user_email` AS `userEmail`,
+        `article`.`board_id` AS `boardId`,
+        `article`.`title` AS `title`,
+        `article`.`content` AS `content`,
+        `article`.`view` AS `view`,
+        `article`.`written_on` AS `writtenOn`,
+        `article`.`modified_on` AS `modifiedOn`,
+        `user`.`nickname` AS `userNickname`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`article_likes` AS `articleLike`
+        WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`comments` AS `comment`
+
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+        LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+
+        WHERE `article`. `user_email` = #{userEmail} AND `article`.`board_id` = 'qna'
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+        GROUP BY `article`.`index`
+
+        ORDER BY `article`.`index` DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
 </mapper>
