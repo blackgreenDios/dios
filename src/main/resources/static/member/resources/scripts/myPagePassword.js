@@ -52,7 +52,7 @@ form['emailSend'].addEventListener('click', () => {
         form['email'].focus();
         return;
     }
-    Cover.show('계정확인을 하고 있습니다. \n\n 잠시만 기다려 주세요.')
+    Cover.show('계정확인을 하고 있습니다. \n 잠시만 기다려 주세요.');
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     formData.append('email', form['email'].value);
@@ -113,6 +113,10 @@ form['passwordSend'].addEventListener('click', () => {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
+                    case 'not_signed':
+                        alert('프로필을 수정할 수 있는 권한이 없거나 로그아웃되었습니다. 확인 후 다시 시도해 주세요.');
+                        window.location.href = 'login';
+                        break;
                     case'success':
                         alert('비밀번호 변경이 완료되었습니다.');
                         window.location.href = 'login';
@@ -129,4 +133,6 @@ form['passwordSend'].addEventListener('click', () => {
     xhr.send(formData);
 });
 
-
+form['cancelSend'].addEventListener('click', () => {
+    window.location.href = 'myPage';
+});

@@ -1,0 +1,190 @@
+@charset "UTF-8";
+
+#form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10rem;
+    font-family: none;
+}
+
+#form > .content > .title-container {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 85rem;
+    font-family: none;
+    border-bottom: 0.25rem solid rgb(0, 0, 0);
+}
+
+#form > .content > .title-container > .title {
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    font-size: 2.2rem;
+
+    margin-left: 2rem;
+}
+
+#form > .content > .title-container > .step-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+
+    margin-right: 3rem;
+}
+
+#form > .content > .title-container > .step-list > li > .two {
+    font-size: 1rem;
+    color: rgb(157, 152, 152);
+}
+
+#form > .content > .title-container > .step-list > li > .three {
+    font-size: 1rem;
+    color: rgb(157, 152, 152);
+}
+
+#form > .content > .title-container > .step-list > .blank {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+
+#form > .content > .sub-title {
+    font-family: none;
+    margin-top: 4rem;
+    font-weight: 400;
+    font-size: 1.7rem;
+}
+
+#form > .content > table {
+    border-spacing: 0;
+    border: 0;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-bottom: 0.1rem solid rgb(204, 204, 204);
+}
+
+
+#form > .content > table > thead > tr > th {
+    height: 40px;
+    border-top: 2px solid #d6d6d6;
+    border-bottom: 1px solid #ccc;
+    background: #fafafa;
+}
+
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+body > main > form > .content > table > tbody > tr > td > .product {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+
+
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.product > .product-info {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.product > .product-info > .product-img > img {
+    width: 10rem;
+    padding-right: 1rem;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count {
+    height: 2rem;
+    width: 5rem;
+    border-radius: 0.5rem;
+    border-color: #ccc;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.delivery > .product-delivery > .text {
+    font-weight: 600;
+}
+
+body > main > form > .content > .total-price {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+body > main > form > .content > .total-price > .button-container {
+    flex: 1;
+}
+
+body > main > form > .content > .total-price > .button-container > .cancel {
+    border: 0.1rem solid #aaa;
+    color: #666;
+    background: #fff;
+    width: 10rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+
+}
+
+body > main > form > .content > .total-price > .sum-price > .title,
+body > main > form > .content > .total-price > .sum-price > .num{
+    color: #666;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+body > main > form > .content > .total-price > .sum-price > .symbol{
+    margin: 0 5px;
+    font-size: 1.4rem;
+    color: rgb(137,137,137);
+    font-weight: 700;
+}
+
+body > main > form > .content > .total-price > .sum-price > .total-title{
+    margin-right: 0.5rem;
+}
+
+body > main > form > .content > .total-price > .sum-price > .total-title,
+body > main > form > .content > .total-price > .sum-price > .total-num{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f27370;
+}
+
+body > main > form > .content > .total-price > .sum-price > .total-num{
+    font-weight: 700;
+}
+
+
+body > main > form > .content > .total-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+body > main > form > .content > .total-button > .order{
+    width: 14rem;
+    height: 3.5rem;
+    border-radius: 0.5rem ;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    background-color: rgb(255,255,255);
+    color: rgb(0,0,0);
+    border-color: #ccc;
+}
+
+body > main > form > .content > .total-button > .order.select{
+    margin-right: 3rem;
+}
