@@ -18,7 +18,7 @@ public class CommentEntity {
 
     private Date modifiedOn;
 
-    private Boolean isSecret;
+    private boolean isSecret;
 
     public int getIndex() {
         return index;
