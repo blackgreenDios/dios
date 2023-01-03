@@ -153,6 +153,7 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
 }
 
 .--cover{
+    z-index: 9999;
     top: 0;
     left: 0;
     width: 100%;

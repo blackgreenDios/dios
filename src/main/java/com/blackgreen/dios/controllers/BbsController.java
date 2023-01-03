@@ -147,6 +147,7 @@ public class BbsController {
             commentObject.put("isMine",user!=null && user.getEmail().equals(comment.getUserEmail()));
             commentObject.put("isLiked",comment.isLiked());
             commentObject.put("likeCount",comment.getLikeCount());
+            commentObject.put("isSecret",comment.getSecret());
 
             responseArray.put(commentObject);
         }
@@ -321,6 +322,8 @@ public class BbsController {
         responseObject.put("result",result.name().toLowerCase());
         return responseObject.toString();
     }
+
+
 
 
 }

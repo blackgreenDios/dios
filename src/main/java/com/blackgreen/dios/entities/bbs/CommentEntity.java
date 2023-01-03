@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class CommentEntity {
+    //
     private int index;
 
     private Integer commentIndex;
@@ -18,7 +19,7 @@ public class CommentEntity {
 
     private Date modifiedOn;
 
-    private Boolean isSecret;
+    private boolean isSecret;
 
     public int getIndex() {
         return index;

@@ -1,19 +1,20 @@
 package com.blackgreen.dios.controllers;
 
+import com.blackgreen.dios.entities.bbs.ArticleEntity;
+import com.blackgreen.dios.entities.bbs.BoardEntity;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
-import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.member.ModifyProfileResult;
 import com.blackgreen.dios.interfaces.IResult;
+import com.blackgreen.dios.models.PagingModel;
+import com.blackgreen.dios.services.BbsService;
 import com.blackgreen.dios.services.MemberService;
 import com.blackgreen.dios.utils.CryptoUtils;
+import com.blackgreen.dios.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,10 +30,12 @@ import java.security.NoSuchAlgorithmException;
 @RequestMapping(value = "/dios")
 public class MemberController {
     private final MemberService memberService;
+    private final BbsService bbsService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, BbsService bbsService) {
         this.memberService = memberService;
+        this.bbsService = bbsService;
     }
 //    -----------------이까지는 의존성 주입을 위한 것.---------------------------------
 
@@ -212,50 +215,35 @@ public class MemberController {
         return modelAndView;
     }
 
-//    @RequestMapping(value = "image",
-//            method = RequestMethod.GET)
-//    public ResponseEntity<byte[]> getImage(@RequestParam(value = "id") int id) {
-//        // 주소를 들어가면 이미지 자체를 보여주기 위해 ResponseEntity
-//        ImageEntity image = this.memberService.getImage(id);
 //
-//        //id에 -1이나 9999를 집어넣으면 null이 나올 수도 있음
-//        //image 가 null 일 때 404
-//        //있을 떄 200
-//        if (image == null) {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//        // 이미지라는 걸 알려주기 위함 - 그래서 Mime 설정해준거
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add("Content-Type", image.getFileMime());
-//        //주소에서 받아지는 걸 이미지라는 걸 결정하는게 Mime = header
-//
-//        return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
-//        //()안에는 생성자 메서드, 생성자 호출, 생성자 매개변수
-//        //실제 이미지 데이터, 이게 이미지인지 판단하는거, 상태
-//
-//    }
-
-//    //이미지 업로드
-//    @RequestMapping(value = "image",
-//            method = RequestMethod.POST,
+//    @RequestMapping(value = "myPage",
+//            method = RequestMethod.PATCH,
 //            produces = MediaType.APPLICATION_JSON_VALUE)
 //    @ResponseBody
-//    public String postImage(@RequestParam(value = "upload") MultipartFile file) throws IOException {
-//        // 브라우저에 이름이 upload라고 정해져있음 따라야지 뭐
-//        // System.out.println(image.getOriginalFilename());
-//        // 콘솔에 파일의 이름이 찍힘
-//        ImageEntity image = new ImageEntity();
-//        image.setFileName(file.getOriginalFilename());
-//        image.setFileMime(file.getContentType());
-//        image.setData(file.getBytes());
+//    public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
+//                              @RequestParam(value = "image", required = false) MultipartFile image,
+//                              UserEntity newUser) throws IOException {
 //
-//        Enum<?> result = this.memberService.addImage(image);
+////        System.out.println(image.getOriginalFilename());
+//
+////
+////        newUser.setImageMime(image.getContentType());
+////        newUser.setImageData(image.getBytes());
+//
+//        Enum<?> result;
+//        if (signedUser == null) {
+//            result = ModifyProfileResult.NOT_SIGNED;
+//        } else {
+//            result = this.memberService.updateMyPage(signedUser,newUser);
+//        }
+//
 //        JSONObject responseObject = new JSONObject();
 //        responseObject.put("result", result.name().toLowerCase());
+//
 //        if (result == CommonResult.SUCCESS) {
-//            //SUCCESS 일 때 이미지를 다운받을 수 있는 주소를 넣음
-//            responseObject.put("url", "http://localhost:8080/dios/image?id=" + image.getIndex());
+//            responseObject.put("nickname", signedUser.getNickname());
+////            responseObject.put("image", signedUser.getImageData());
+//
 //        }
 //        return responseObject.toString();
 //    }
@@ -265,14 +253,19 @@ public class MemberController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
-                              UserEntity newUser) {
+                              @RequestParam(value = "image", required = false) MultipartFile image,
+                              UserEntity newUser) throws IOException {
+
+     //   System.out.println(image.getOriginalFilename());
+//        newUser.setImageMime(image.getContentType());
+//        newUser.setImageData(image.getBytes());
+
         Enum<?> result;
         if (signedUser == null) {
             result = ModifyProfileResult.NOT_SIGNED;
         } else {
             result = this.memberService.updateMyPage(signedUser,newUser);
         }
-
 
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -361,8 +354,71 @@ public class MemberController {
 
     //마이페이지 비밀번호 재설정
     @RequestMapping(value = "myPagePassword", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-    public ModelAndView getMyPagePassword() {
-        ModelAndView modelAndView = new ModelAndView("member/myPagePassword");
+    public ModelAndView getMyPagePassword(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:login");
+        } else {
+            modelAndView = new ModelAndView("member/myPagePassword");
+        }
+
+        return modelAndView;
+    }
+
+
+    //마이페이지  게시글
+//    @RequestMapping(value = "myPageList", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+//    public ModelAndView getMyPageList() {
+//        ModelAndView modelAndView = new ModelAndView("member/myPageList");
+//        return modelAndView;
+//    }
+
+    @GetMapping(value = "myPageList",produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPageList(@RequestParam(value = "bid",required = false)String bid,
+                                      @RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
+                                      @RequestParam(value = "criterion",required = false)String criterion,
+                                      @RequestParam(value = "keyword",required = false)String keyword){
+        page=Math.max(1,page);
+
+        ModelAndView modelAndView=new ModelAndView("member/myPageList");
+        BoardEntity board=this.bbsService.getBoard(bid = "free");
+
+        modelAndView.addObject("board",board);
+        if (board!=null){
+            int totalCount=this.bbsService.getArticleCount(board,criterion,keyword);
+
+            PagingModel paging=new PagingModel(totalCount,page);
+            modelAndView.addObject("paging",paging);
+
+            ArticleReadVo[] articles=this.bbsService.getArticles(board,paging,criterion,keyword);
+            modelAndView.addObject("articles",articles);
+
+        }
+        return modelAndView;
+    }
+
+    @GetMapping(value = "myPageQna",produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPageQna(@RequestParam(value = "bid",required = false)String bid,
+                                      @RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
+                                      @RequestParam(value = "criterion",required = false)String criterion,
+                                      @RequestParam(value = "keyword",required = false)String keyword){
+        page=Math.max(1,page);
+
+        ModelAndView modelAndView=new ModelAndView("member/myPageQna");
+        BoardEntity board=this.bbsService.getBoard(bid = "qna");
+
+        modelAndView.addObject("board",board);
+        if (board!=null){
+            int totalCount=this.bbsService.getArticleCount(board,criterion,keyword);
+
+            PagingModel paging=new PagingModel(totalCount,page);
+            modelAndView.addObject("paging",paging);
+
+            ArticleReadVo[] articles=this.bbsService.getArticles(board,paging,criterion,keyword);
+            modelAndView.addObject("articles",articles);
+
+        }
         return modelAndView;
     }
 

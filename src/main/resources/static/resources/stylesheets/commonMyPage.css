@@ -7,10 +7,10 @@ body > .main {
 }
 
 #form {
+    max-width: 85rem;
+    margin: 4rem ;
     width: 100%;
-    max-width: 30rem;
-    margin: 3rem 2rem;
-    align-items: stretch;
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -22,7 +22,7 @@ body > .main {
     margin-bottom: 0.25rem;
     justify-content: flex-start;
     display: flex;
-    margin-left: -26rem;
+
 }
 
 #form > .title-container > .title {
@@ -36,15 +36,13 @@ body > .main {
 }
 
 #form > .myPage-main > .myPage-menu {
+    z-index: 999;
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     position: relative;
-    /*top: -31px;*/
-    /*float: left;*/
     width: 13rem;
     padding-left: 10px;
-    margin-left: -27rem;
 }
 
 #form > .myPage-main > .myPage-menu > ul {
