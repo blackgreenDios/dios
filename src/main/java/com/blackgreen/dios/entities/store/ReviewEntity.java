@@ -1,11 +1,23 @@
 package com.blackgreen.dios.entities.store;
 
+import java.util.Date;
+
 public class ReviewEntity {
     private int index;
     private String userEmail;
     private int itemIndex;
     private int score;
     private String content;
+
+    private Date createdOn;
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
 
     public int getIndex() {
         return index;
