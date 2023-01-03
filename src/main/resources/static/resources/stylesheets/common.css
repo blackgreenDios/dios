@@ -2,6 +2,65 @@
 
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
 
+
+
+.dropdown{
+    position : relative;
+    display : inline-block;
+
+}
+
+.dropbtn{
+
+
+    color : rgb(0,0,0);
+
+
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+
+
+
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 0.5rem 0 0.5rem 2rem;
+    font-weight: bold;
+
+}
+.dropdown-content{
+    display : none;
+    position : absolute;
+    z-index : 1; /*다른 요소들보다 앞에 배치*/
+
+    background-color: #f9f9f9;
+    min-width : 200px;
+    font-family: 'Roboto', sans-serif;
+
+
+
+}
+
+.dropdown-content a{
+    display : block;
+    text-decoration : none;
+    color : rgb(0,0,0);
+    font-size: 12px;
+    padding : 12px 20px;
+}
+
+.dropdown-content a:hover{
+    background-color : #ececec;
+    color: rgb(110, 110, 110);
+
+
+
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
 html{
     font-family: 'Montserrat', sans-serif;
 }
@@ -128,7 +187,6 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     pointer-events: none;
     user-select: none;
     -webkit-user-drag: none;
-
 }
 
 @keyframes anim-cover-icon {
@@ -149,7 +207,6 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     text-align: center;
     user-select: none;
     white-space: pre-wrap;
-    font-family: none;
 }
 
 .--cover{
@@ -164,13 +221,11 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     flex-direction: column;
     justify-content: center;
     position: fixed;
-
 }
 
 .--cover.visible{
     display: flex;
 }
-
 
 
 
