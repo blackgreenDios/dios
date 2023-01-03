@@ -2,11 +2,67 @@
 
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css");
 
-html{
+.dropdown {
+    position: relative;
+    display: inline-block;
+
+}
+
+.dropbtn {
+
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+
+
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+
+
+    font-size: 1.3rem;
+    text-decoration: none;
+    padding: 0.5rem 0 0.5rem 2rem;
+    font-weight: bold;
+
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1; /*다른 요소들보다 앞에 배치*/
+
+    background-color: #f9f9f9;
+    min-width: 200px;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.dropdown-content a {
+    display: block;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    padding: 12px 20px;
+}
+
+.dropdown-content a:hover {
+    background-color: #ececec;
+    color: rgb(110, 110, 110);
+
+
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+html {
     font-family: 'Montserrat', sans-serif;
 }
 
-body{
+
+body {
 
     top: 0;
     left: 0;
@@ -35,10 +91,10 @@ body > .--footer {
 
 
 body > .--header {
-    background-color: rgb(255,255,255);
+    background-color: rgb(255, 255, 255);
 }
 
-body > .--header >  .--content {
+body > .--header > .--content {
     width: 100%;
     max-width: 85rem;
     margin: 0 2rem;
@@ -47,24 +103,24 @@ body > .--header >  .--content {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    border-bottom: 1px solid rgb(0,0,0);
+    border-bottom: 1px solid rgb(0, 0, 0);
 
     padding: 0.5rem 0;
 }
 
 
-body > .--header >  .--content > .--menu> .--record,
-body > .--header >  .--content > .--menu> .--community,
-body > .--header >  .--content > .--menu> .--shop{
+body > .--header > .--content > .--menu > .--record,
+body > .--header > .--content > .--menu > .--community,
+body > .--header > .--content > .--menu > .--shop {
     background-color: inherit;
-    color: rgb(0,0,0);
+    color: rgb(0, 0, 0);
     font-size: 1.1rem;
     text-decoration: none;
     padding: 0.5rem 0 1rem 2rem;
     font-weight: bold;
 }
 
-body > .--header >  .--content > .--menu.shop{
+body > .--header > .--content > .--menu.shop {
     flex: 1;
 }
 
@@ -95,11 +151,11 @@ body > .--main {
     flex: 1;
 }
 
-body > .--header > .--content > .--menu.item{
+body > .--header > .--content > .--menu.item {
     display: flex;
 }
 
-body > .--header > .--content > .--menu > .--item  {
+body > .--header > .--content > .--menu > .--item {
     list-style: none;
     background-color: inherit;
     font-size: 1rem;
@@ -109,7 +165,7 @@ body > .--header > .--content > .--menu > .--item  {
 }
 
 body > .--header > .--content > .--menu > .--item > .--link {
-    color: rgb(0,0,0);
+    color: rgb(0, 0, 0);
     text-decoration: none;
 }
 
@@ -117,7 +173,7 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     color: rgb(60, 166, 52);
 }
 
-.--cover>.--icon{
+.--cover > .--icon {
     width: 4rem;
     height: 4rem;
     animation-name: anim-cover-icon;
@@ -132,15 +188,15 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
 }
 
 @keyframes anim-cover-icon {
-    0%{
+    0% {
         transform: rotate(0deg);
     }
-    100%{
+    100% {
         transform: rotate(360deg);
     }
 }
 
-.--cover>.--text{
+.--cover > .--text {
     max-width: 20rem;
     font-size: 1.375rem;
     line-height: 150%;
@@ -152,15 +208,15 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     font-family: none;
 }
 
-.--cover{
+.--cover {
     z-index: 9999;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     align-items: center;
-    background-color: rgb(0,0,0,80%);
-    color: rgb(255,255,255);
+    background-color: rgb(0, 0, 0, 80%);
+    color: rgb(255, 255, 255);
     display: none;
     flex-direction: column;
     justify-content: center;
@@ -168,7 +224,7 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
 
 }
 
-.--cover.visible{
+.--cover.visible {
     display: flex;
 }
 
