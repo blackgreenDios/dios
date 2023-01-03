@@ -43,7 +43,7 @@ public class RecordController {
 
         return modelAndView;
     }
-
+//
     // 목표설정 (목표개수 입력)함
     // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함
     @RequestMapping(value = "setting",
