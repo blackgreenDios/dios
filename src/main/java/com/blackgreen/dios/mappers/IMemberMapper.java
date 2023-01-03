@@ -42,8 +42,6 @@ public interface IMemberMapper {
 
     UserEntity selectUserByNickname(@Param(value = "nickname") String nickname);
 
-    UserEntity selectUserByName(@Param(value = "name") String name);
-
     UserEntity selectUserByContact(@Param(value = "contact") String contact);
 
 }

@@ -1,13 +1,18 @@
 package com.blackgreen.dios.services;
 
+import com.blackgreen.dios.entities.bbs.ArticleEntity;
+import com.blackgreen.dios.entities.bbs.BoardEntity;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.member.*;
 import com.blackgreen.dios.interfaces.IResult;
+import com.blackgreen.dios.mappers.IBbsMapper;
 import com.blackgreen.dios.mappers.IMemberMapper;
+import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.utils.CryptoUtils;
+import com.blackgreen.dios.vos.bbs.ArticleReadVo;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
@@ -16,7 +21,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -36,12 +40,14 @@ public class MemberService {
     private final JavaMailSender mailSender;
 
     private final TemplateEngine templateEngine;
+    private final IBbsMapper bbsMapper;
 
     @Autowired
-    public MemberService(JavaMailSender mailSender, IMemberMapper memberMapper, TemplateEngine templateEngine) {
+    public MemberService(JavaMailSender mailSender, IMemberMapper memberMapper, TemplateEngine templateEngine, IBbsMapper bbsMapper) {
         this.mailSender = mailSender;
         this.memberMapper = memberMapper;
         this.templateEngine = templateEngine;
+        this.bbsMapper = bbsMapper;
     }
 
 
@@ -336,7 +342,6 @@ public class MemberService {
     }
 
 
-
     // 회원정보 수정
     @Transactional
     public Enum<? extends IResult> updateMyPageModify(UserEntity signedUser, UserEntity newUser) {
@@ -447,6 +452,8 @@ public class MemberService {
         return user;
 
     }
+
+
 
 }
 

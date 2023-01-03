@@ -249,5 +249,66 @@
 
     </delete>
 
+<!-- 콩지 -->
+    <select id="selectArticleCountByUserEmailFromQna"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_bbs`.`articles` AS `article`
+        <if test="criterion != null and criterion.equals('nickname')">
+            LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        </if>
+        WHERE `user_email` = #{userEmail} AND `board_id` = 'qna'
 
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+
+    </select>
+
+    <select id="selectArticleCountByUserEmailFromFree"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_bbs`.`articles` AS `article`
+        <if test="criterion != null and criterion.equals('nickname')">
+            LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        </if>
+        WHERE `user_email` = #{userEmail} AND `board_id` = 'free'
+
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+
+    </select>
+
+    <select id="selectBoardByIdFree"
+            resultType="com.blackgreen.dios.entities.bbs.BoardEntity">
+        SELECT `id`   AS `id`,
+               `text` AS `text`
+        FROM `dios_bbs`.`boards`
+        WHERE BINARY `id` = 'free'
+        LIMIT 1
+    </select>
+
+    <select id="selectBoardByIdQna"
+            resultType="com.blackgreen.dios.entities.bbs.BoardEntity">
+        SELECT `id`   AS `id`,
+               `text` AS `text`
+        FROM `dios_bbs`.`boards`
+        WHERE BINARY `id` = 'qna'
+        LIMIT 1
+    </select>
 </mapper>

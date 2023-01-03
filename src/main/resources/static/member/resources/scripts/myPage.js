@@ -1,5 +1,20 @@
 const Form = document.getElementById('form');
 
+
+
+    // const imageContainerElement = Form.querySelector('[rel="imageContainer"]');
+    // imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
+    //
+    // if (reviewForm['images'].files.length > 0) { //선택한 파일이 있다
+    //     reviewForm.querySelector('[rel = "noImage"]').classList.add('hidden');
+    // } else {//선택한 파일이 없다
+    //     reviewForm.querySelector('[rel = "noImage"]').classList.remove('hidden');
+    // }
+
+
+
+
+
 // 프로필 이미지 삽입
 Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e => {
     e.preventDefault();
@@ -15,9 +30,9 @@ Form['images'].addEventListener('input', () => {
     const imageSrc = URL.createObjectURL(Form['images'].files[0]); //하나만 올라갈꺼니까 0번째
 
     document.getElementById('imgThumb').setAttribute('src', imageSrc);//교체할꺼니까 밑에 아니고 이거만
-
-
 });
+
+
 
 Form['profileSend'].addEventListener('click', e => {
     e.preventDefault();
@@ -46,6 +61,13 @@ Form['profileSend'].addEventListener('click', e => {
                         window.location.href = 'login';
                         break;
                     case 'success':
+                        //파일 올리기
+                        //     const imageSrc = URL.createObjectURL(Form['images'].files[0]);
+                        //     const imgElement = document.createElement('img');
+                        //     imgElement.classList.add('image');
+                        //     imgElement.setAttribute('src', imageSrc);
+                        //     imageContainerElement.append(imgElement);
+
                         alert('프로필 수정이 완료되었습니다.');
                         break;
                     case 'nickname':

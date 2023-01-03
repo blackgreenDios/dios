@@ -378,15 +378,20 @@ public class MemberController {
     public ModelAndView getMyPageList(@RequestParam(value = "bid",required = false)String bid,
                                       @RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
                                       @RequestParam(value = "criterion",required = false)String criterion,
-                                      @RequestParam(value = "keyword",required = false)String keyword){
+                                      @RequestParam(value = "keyword",required = false)String keyword,
+                                      @SessionAttribute(value = "user",required = false) UserEntity user){
         page=Math.max(1,page);
 
         ModelAndView modelAndView=new ModelAndView("member/myPageList");
-        BoardEntity board=this.bbsService.getBoard(bid = "free");
+        BoardEntity board=this.bbsService.getBoardFree(bid);
+
+        ArticleEntity article = new ArticleEntity();
+
 
         modelAndView.addObject("board",board);
         if (board!=null){
-            int totalCount=this.bbsService.getArticleCount(board,criterion,keyword);
+            article.setUserEmail(user.getEmail());
+            int totalCount=this.bbsService.getArticleCountByEmailFromFree(article,criterion,keyword);
 
             PagingModel paging=new PagingModel(totalCount,page);
             modelAndView.addObject("paging",paging);
@@ -402,15 +407,19 @@ public class MemberController {
     public ModelAndView getMyPageQna(@RequestParam(value = "bid",required = false)String bid,
                                       @RequestParam(value = "page",required = false,defaultValue = "1")Integer page,
                                       @RequestParam(value = "criterion",required = false)String criterion,
-                                      @RequestParam(value = "keyword",required = false)String keyword){
+                                      @RequestParam(value = "keyword",required = false)String keyword,@SessionAttribute(value = "user",required = false)UserEntity user){
         page=Math.max(1,page);
 
         ModelAndView modelAndView=new ModelAndView("member/myPageQna");
-        BoardEntity board=this.bbsService.getBoard(bid = "qna");
+        BoardEntity board=this.bbsService.getBoardQna(bid);
+
+        ArticleEntity article = new ArticleEntity();
+
 
         modelAndView.addObject("board",board);
         if (board!=null){
-            int totalCount=this.bbsService.getArticleCount(board,criterion,keyword);
+            article.setUserEmail(user.getEmail());
+            int totalCount=this.bbsService.getArticleCountByEmailFromQna(article,criterion,keyword);
 
             PagingModel paging=new PagingModel(totalCount,page);
             modelAndView.addObject("paging",paging);

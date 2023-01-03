@@ -246,5 +246,22 @@ public class BbsService {
         }
     }
 
+    //콩지
+    public int getArticleCountByEmailFromQna(ArticleEntity article, String criterion, String keyword){
+        return this.bbsMapper.selectArticleCountByUserEmailFromQna(article.getUserEmail(),criterion, keyword);
 
+    }
+
+    public int getArticleCountByEmailFromFree(ArticleEntity article, String criterion, String keyword){
+        return this.bbsMapper.selectArticleCountByUserEmailFromFree(article.getUserEmail(),criterion, keyword);
+
+    }
+
+    public BoardEntity getBoardFree(String id){
+        return this.bbsMapper.selectBoardByIdFree(id);
+    }
+
+    public BoardEntity getBoardQna(String id){
+        return this.bbsMapper.selectBoardByIdQna(id);
+    }
 }

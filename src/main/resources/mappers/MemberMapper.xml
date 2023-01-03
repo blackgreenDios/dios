@@ -138,12 +138,12 @@
 
     <select id="selectImageByIndex"
             resultType="com.blackgreen.dios.entities.member.ImageEntity">
-        SELECT `index`     AS `index`,
+        SELECT `user_email`     AS `userEmail`,
                `file_name` AS `fileName`,
                `file_mime` AS `fileMime`,
                `data`      AS `data`
         FROM `dios_member`.images
-        WHERE `index` = #{index}
+        WHERE `user_email` = #{userEmail}
         LIMIT 1
     </select>
 
