@@ -39,7 +39,7 @@ public class BbsController {
 
         ModelAndView modelAndView;
         if (user == null) {
-            modelAndView = new ModelAndView("redirect:/member/login");
+            modelAndView = new ModelAndView("redirect:login");
         } else {
             modelAndView = new ModelAndView("bbs/write");
             if (bid == null || this.bbsService.getBoard(bid) == null) {

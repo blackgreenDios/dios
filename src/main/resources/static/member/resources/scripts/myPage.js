@@ -1,4 +1,6 @@
 const Form = document.getElementById('form');
+const imageContainer = Form.querySelector('[rel="imageContainer"]');
+
 
 // 프로필 이미지 삽입
 Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e => {
@@ -7,14 +9,32 @@ Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e =>
 });
 
 
+//이미지 삭제
+Form.querySelector('[rel = "imageDeleteButton"]').addEventListener('click', e => {
+    e.preventDefault();
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('newImage', null);
+    xhr.open('GET', './profileImage');
+
+});
+
+
 //이미지 파일 선택 후 기본이미지에서 넣은 이미지로 변경
 Form['images'].addEventListener('input', () => {
     const imageContainerElement = Form.querySelector('[rel="imageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
     const imageSrc = URL.createObjectURL(Form['images'].files[0]); //하나만 올라갈꺼니까 0번째
-    document.getElementById('imgThumb').setAttribute('src', imageSrc);//교체할꺼니까 밑에 아니고 이거만
+    document.getElementById('imgThumb').setAttribute('src', imageSrc);
+    //교체할꺼니까 밑에 아니고 이거만
+
+
+
 });
 
+
+//이미지 불러오는 함수
 
 
 Form['profileSend'].addEventListener('click', e => {
@@ -47,6 +67,7 @@ Form['profileSend'].addEventListener('click', e => {
                         break;
                     case 'success':
                         alert('프로필 수정이 완료되었습니다.');
+
                         break;
                     case 'nickname':
                         alert('이미 등록 된 닉네임입니다.');
@@ -69,4 +90,6 @@ Form['profileCancel'].addEventListener('click', e => {
     e.preventDefault();
     window.location.href = 'myPage';
 });
+
+
 

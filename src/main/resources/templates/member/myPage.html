@@ -42,9 +42,12 @@
                             <td>
                                 <div class="tdcell">
                                     <div class="profile-photo" rel="imageContainer">
-                                        <input hidden multiple accept="image/*" name="images" type="file">
+                                        <input hidden multiple accept="image/*" name="images" type="file" >
+
+
+
                                         <img class="profile-img" id="imgThumb"
-                                             src="https://static.nid.naver.com/images/web/user/default.png?type=s160"
+                                             th:src = "@{'/dios/profileImage?user='+${session.user.getEmail()}}"
                                              width="100" height="100">
                                         <div class="modify-button">
 
