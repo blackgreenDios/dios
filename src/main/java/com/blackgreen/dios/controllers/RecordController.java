@@ -299,11 +299,6 @@ public class RecordController {
         responseObject.put("result", result.name().toLowerCase());
         responseObject.put("date", nowDate);
 
-        if (result == CommonResult.SUCCESS) {
-            responseObject.put("url", "http://localhost:8080/record/image?dt=" + nowDate);
-        }
-
-
         return responseObject.toString();
     }
 

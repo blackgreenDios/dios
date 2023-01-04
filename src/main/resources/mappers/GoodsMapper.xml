@@ -336,4 +336,23 @@
             LIMIT 1
     </delete>
 
+    <insert id="insertProduct"
+            parameterType="com.blackgreen.dios.entities.store.ProductEntity">
+        INSERT INTO `dios_store`.`products`(`name`, `category_id`, `brand`, `price`, `image`, `image_type`, `detail`)
+        VALUES (#{name}, #{categoryId}, #{brand}, #{price}, #{image}, #{imageType},
+                IFNULL(#{detail}, DEFAULT(`detail`)))
+    </insert>
+
+    <insert id="insertProductColor"
+            parameterType="com.blackgreen.dios.entities.store.ProductColorEntity">
+        INSERT INTO `dios_store`.`product_colors`(`item_name`, `color`)
+        VALUES (#{itemName}, #{color})
+    </insert>
+
+    <insert id="insertProductSize"
+            parameterType="com.blackgreen.dios.entities.store.ProductSizeEntity">
+        INSERT INTO `dios_store`.`product_sizes` (`item_name`, `size`)
+        VALUES (#{itemName}, #{size})
+    </insert>
+
 </mapper>

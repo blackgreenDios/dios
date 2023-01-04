@@ -13,88 +13,75 @@
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
-<main class="main">
-    <form id="form" class="content --content">
-        <h1 class="title">상품 등록하기</h1>
-        <table class="table" id="table">
-            <tbody>
-            <tr>
+<main class="--main main">
+    <div id="titleContainer">
+        <b class="title">상품 등록</b>
+    </div>
+    <form id="form">
+        <table id="goodsTable">
+            <tr class="goods">
                 <th>상품 분류</th>
                 <td>
-                    <label class="label">
-                        <span hidden>상품 분류</span>
-                        <select id="itemCategory" th:name="itemCategory">
-                            <option value="" > 상품 종류를 선택해주세요. </option>
-                            <option th:each="categories : ${category}"
-                                    th:value="${categories.getId()}"
-                                    th:text ="${categories.getText()}" name="category"></option>
-                        </select>
-                    </label>
+                    <select id="itemCategory" name="itemCategory">
+                        <option value="" > 상품 종류를 선택해주세요. </option>
+                        <option value="옷">의류</option>
+                        <option value="용품/장비">용품/장비</option>
+                        <option value="신발">신발</option>
+                    </select>
                 </td>
             </tr>
-            <tr>
+            <tr class="goodsName">
                 <th>상품 이름</th>
                 <td>
-                    <label class="label">
-                        <span hidden>상품 이름</span>
-                        <input id="inputTitle" class="title-input" maxlength="100"
-                               name="itemName"
-                               placeholder="상품 이름을 입력해주세요."
-                               type="text">
-                    </label>
+                    <input class="inputGoodsName" name="inputGoodsName" type="text" placeholder="상품의 이름을 입력하세요." maxlength="100">
                 </td>
             </tr>
-            <tr>
-                <th>브랜드</th>
+            <tr class="goodsBrand">
+                <th>상품 브랜드</th>
                 <td>
-                    <label class="label">
-                        <span hidden>브랜드 이름</span>
-                        <select id="seller" th:name="brand">
-                            <option value=" " > 상품 브랜드를 선택해주세요. </option>
-                            <option th:each="sellers : ${seller}"
-                                    th:value="${sellers.getIndex()}"
-                                    th:text ="${sellers.getStoreName()}"
-                                    name="sellerName"></option>
-                        </select>
-                    </label>
+                    <select id="brandCategory" name="brandCategory">
+                        <option value="" > 상품 브랜드를 선택해 주세요. </option>
+                        <option value="나이키">나이키</option>
+                        <option value="아디다스">아디다스</option>
+                    </select>
                 </td>
             </tr>
-            <tr>
-                <th>가격</th>
+            <tr class="goodsPrice">
+                <th>상품 가격</th>
                 <td>
-                    <label class="label">
-                        <span hidden>상품 가격</span>
-                        <input id="inputPrice" class="seller-input" maxlength="100"
-                               name="itemPrice"
-                               placeholder="가격을 입력해주세요."
-                               type="text">
-                    </label>
+                    <input class="inputGoodsPrice" name="price" type="text" placeholder="상품의 가격을 입력하세요." maxlength="100">&nbsp&nbsp&nbsp원
                 </td>
             </tr>
-            <tr>
-                <th>옵션</th>
-                <td class="option">
-                    <label class="label">
-                        <span hidden>옵션</span>
-                        <select multiple="multiple" id="colorOption" th:name="colors">
-                            <option value="" > 색상을 선택하세요.</option>
-                            <option
-                                    th:each="colors : ${color}"
-                                    th:value="${colors.getId()}"
-                                    th:text="${colors.getText()}"></option>
-                        </select>
-                        <select rel="SizeOption" multiple="multiple" id="SizeOption" th:name="sizes">
-                            <option value="" > 사이즈를 선택하세요.</option>
-                            <option th:each="sizes : ${size}"
-                                    th:value="${sizes.getId()}"
-                                    th:text ="${sizes.getText()}"></option>
-                        </select>
-                        <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요.">
+            <tr class="goodsOption">
+                <th>상품 옵션</th>
+                <td>
+                    <div class="color">
+                        <span class="colorText">색상</span>
+                        <div class="colorBox">
+                            <input class="newColor" name="newColor" placeholder="ex)  블랙, 그레이, 블루" type="text">
+                        </div>
+                        <div class="selectContainer">
+                            <a class="selectText">COLOR</a>
+                            <select class="colors" name="colors" id="colorOption" multiple>
 
-                    </label>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="size">
+                        <span class="sizeText">사이즈</span>
+                        <div class="sizeBox">
+                            <input class="newSize" name="newSize" placeholder="ex)  230, 260, M, L, free size" type="text">
+                        </div>
+                        <div class="selectContainer">
+                            <a class="selectText">SIZE</a>
+                            <select class="sizes" name="sizes" id="sizeOption" multiple>
+
+                            </select>
+                        </div>
+                    </div>
                 </td>
             </tr>
-            <tr>
+            <tr class="goodsImage">
                 <th>상품 대표사진</th>
                 <td>
                     <label class="label" id="label">
@@ -103,44 +90,32 @@
                         <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택... </a>
                         <div class="image-container" rel="imageContainer">
                             <img class="title-img" id="imgThumb"
-                                 src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg"
-                            >
+                                 src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg">
                         </div>
                     </label>
                 </td>
             </tr>
-            <tr>
+            <tr class="goodsDetail">
                 <th>상품 상세 내용</th>
                 <td>
                     <label class="label">
                         <span hidden>상세 내용</span>
-                        <textarea class="--object-input input" maxlength="10000" name="content"
-                                  placeholder="내용을 입력해주세요." type="text"></textarea>
+                        <textarea class="--object-input input" maxlength="10000" name="detail"
+                                  placeholder="추가로 기재할 내용이 있으면 입력하세요.(200자 내외)" type="text"></textarea>
                     </label>
                 </td>
             </tr>
-            <tr class="warning-row" rel="warningRow">
-                <th></th>
-                <td>
-                   <span class="warning" rel="warning">
-                         <i class="icon fa-solid fa-triangle-exclamation"></i>
-                        <span class="text" rel="warningText"></span>
-                   </span>
-                </td>
-            </tr>
-            <tr>
-                <th></th>
-                <td class="button">
-                    <div class="button-container" id="buttonContainer">
-                        <input class="--object-button" name="back" type="button" value="돌아가기">
-                        <input class="--object-button" name="submit" type="submit" value="등록하기">
-                    </div>
-                </td>
-            </tr>
-            </tbody>
         </table>
+        <div id="button">
+            <div class="button-container" id="buttonContainer">
+                <input class="--object-button left" name="back" type="button" value="돌아가기">
+                <input class="--object-button right" rel="submit" type="button" value="등록하기">
+            </div>
+        </div>
     </form>
-
 </main>
+<footer class="--footer footer">
+
+</footer>
 </body>
 </html>
