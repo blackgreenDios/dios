@@ -13,6 +13,7 @@ import com.blackgreen.dios.mappers.IMemberMapper;
 import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.utils.CryptoUtils;
 import com.blackgreen.dios.vos.bbs.ArticleReadVo;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -304,23 +306,12 @@ public class MemberService {
         return CommonResult.SUCCESS;
     }
 
-    //프로필 이미지 삽입
-    public Enum<? extends IResult> addProfileImage(ImageEntity image) {
-        return this.memberMapper.insertImage(image) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
-    }
-
-    //프로필 이미지 수정
-    public ImageEntity getProfileImage(int index) {
-        return this.memberMapper.selectImageByIndex(index);
-    }
 
 
 
     //닉네임 수정
     @Transactional
-    public Enum<? extends IResult> updateMyPage(UserEntity signedUser,UserEntity newUser) {
+    public Enum<? extends IResult> updateMyPage(UserEntity signedUser, UserEntity newUser, MultipartFile image) throws IOException {
 
         if(signedUser == null){
             return ModifyProfileResult.NOT_SIGNED;
@@ -333,8 +324,10 @@ public class MemberService {
         }
 
         signedUser.setNickname(newUser.getNickname());
+        signedUser.setImage(image.getBytes());
+        signedUser.setImageType(image.getContentType());
 
-        if (this.memberMapper.updateUser(signedUser) == 0) {
+        if (this.memberMapper.updateUserByMayPage(signedUser) == 0) {
             return CommonResult.FAILURE;
         }
 
@@ -451,6 +444,19 @@ public class MemberService {
         }
         return user;
 
+    }
+
+
+//    //프로필 이미지 삽입
+//    public Enum<? extends IResult> addProfileImage(ImageEntity image) {
+//        return this.memberMapper.insertImage(image) > 0
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
+//    }
+
+    //프로필 이미지 수정
+    public UserEntity getProfileImage(UserEntity user) {
+        return this.memberMapper.selectImageByEmail(user.getEmail());
     }
 
 

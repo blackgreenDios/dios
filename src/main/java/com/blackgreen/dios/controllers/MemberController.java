@@ -14,7 +14,10 @@ import com.blackgreen.dios.utils.CryptoUtils;
 import com.blackgreen.dios.vos.bbs.ArticleReadVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -200,6 +203,7 @@ public class MemberController {
         return modelAndView;
     }
 
+
     //마이페이지
     @RequestMapping(value = "myPage",
             method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
@@ -215,56 +219,21 @@ public class MemberController {
         return modelAndView;
     }
 
-//
-//    @RequestMapping(value = "myPage",
-//            method = RequestMethod.PATCH,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
-//                              @RequestParam(value = "image", required = false) MultipartFile image,
-//                              UserEntity newUser) throws IOException {
-//
-////        System.out.println(image.getOriginalFilename());
-//
-////
-////        newUser.setImageMime(image.getContentType());
-////        newUser.setImageData(image.getBytes());
-//
-//        Enum<?> result;
-//        if (signedUser == null) {
-//            result = ModifyProfileResult.NOT_SIGNED;
-//        } else {
-//            result = this.memberService.updateMyPage(signedUser,newUser);
-//        }
-//
-//        JSONObject responseObject = new JSONObject();
-//        responseObject.put("result", result.name().toLowerCase());
-//
-//        if (result == CommonResult.SUCCESS) {
-//            responseObject.put("nickname", signedUser.getNickname());
-////            responseObject.put("image", signedUser.getImageData());
-//
-//        }
-//        return responseObject.toString();
-//    }
-
+    //마이페이지 수정
     @RequestMapping(value = "myPage",
             method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
-                              @RequestParam(value = "image", required = false) MultipartFile image,
+                              @RequestParam(value = "newImage", required = false) MultipartFile newImage,
                               UserEntity newUser) throws IOException {
-
-     //   System.out.println(image.getOriginalFilename());
-//        newUser.setImageMime(image.getContentType());
-//        newUser.setImageData(image.getBytes());
+        System.out.println(newImage.getOriginalFilename());
 
         Enum<?> result;
         if (signedUser == null) {
             result = ModifyProfileResult.NOT_SIGNED;
         } else {
-            result = this.memberService.updateMyPage(signedUser,newUser);
+            result = this.memberService.updateMyPage(signedUser,newUser, newImage);
         }
 
         JSONObject responseObject = new JSONObject();
@@ -272,6 +241,8 @@ public class MemberController {
 
         if (result == CommonResult.SUCCESS) {
             responseObject.put("nickname", signedUser.getNickname());
+            responseObject.put("image",signedUser.getImage());
+            responseObject.put("imageType",signedUser.getImageType());
         }
         return responseObject.toString();
     }
@@ -426,6 +397,20 @@ public class MemberController {
             article.setUserEmail("");
         }
         return modelAndView;
+    }
+
+
+    //이미지 다운로드
+    @RequestMapping(value = "profileImage",method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getProfileImage(@SessionAttribute(value = "user")UserEntity user){
+        UserEntity image =this.memberService.getProfileImage(user);
+        if(image==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        HttpHeaders headers=new HttpHeaders();
+        headers.add("Content-Type",image.getImageType());
+        return new ResponseEntity<>(image.getImage(),headers,HttpStatus.OK);
+
     }
 
 }

@@ -127,25 +127,6 @@
         LIMIT 1
     </select>
 
-    <insert id="insertImage"
-            useGeneratedKeys="true"
-            keyColumn="index"
-            keyProperty="index"
-            parameterType="com.blackgreen.dios.entities.member.ImageEntity">
-        INSERT INTO `dios_member`.`images` (`file_name`, `file_mime`, `data`)
-        VALUES (#{fileName}, #{fileMime}, #{data})
-    </insert>
-
-    <select id="selectImageByIndex"
-            resultType="com.blackgreen.dios.entities.member.ImageEntity">
-        SELECT `user_email`     AS `userEmail`,
-               `file_name` AS `fileName`,
-               `file_mime` AS `fileMime`,
-               `data`      AS `data`
-        FROM `dios_member`.images
-        WHERE `user_email` = #{userEmail}
-        LIMIT 1
-    </select>
 
     <select id="selectUserByNickname"
             resultType="com.blackgreen.dios.entities.member.UserEntity">
@@ -163,22 +144,6 @@
 
     </select>
 
-    <select id="selectUserByName"
-            resultType="com.blackgreen.dios.entities.member.UserEntity">
-        SELECT `email`             AS `email`,
-               `password`          AS `password`,
-               `nickname`          AS `nickname`,
-               `name`              AS `name`,
-               `contact`           AS `contact`,
-               `address_postal`    AS `addressPostal`,
-               `address_primary`   AS `addressPrimary`,
-               `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
-        FROM `dios_member`.`users`
-        WHERE BINARY `name` = #{name}
-
-    </select>
-
     <select id="selectUserByContact"
             resultType="com.blackgreen.dios.entities.member.UserEntity">
         SELECT `email`             AS `email`,
@@ -193,6 +158,45 @@
         FROM `dios_member`.`users`
         WHERE BINARY `contact` = #{contact}
 
+    </select>
+
+
+
+
+
+    <update id="updateUserByMayPage"
+            parameterType="com.blackgreen.dios.entities.member.UserEntity">
+        UPDATE `dios_member`.`users`
+        SET `password`          = #{password},
+            `nickname`          = #{nickname},
+            `name`              = #{name},
+            `contact`           = #{contact},
+            `address_postal`    = #{addressPostal},
+            `address_primary`   = #{addressPrimary},
+            `address_secondary` = #{addressSecondary},
+            `image`             = #{image},
+            `image_type`        = #{imageType},
+            `registered_on`     = #{registeredOn}
+
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+
+    <select id="selectImageByEmail"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`,
+               `image`             AS `image`,
+               `image_type`        AS `imageType`
+        FROM `dios_member`.`users`
+        WHERE BINARY `email` = #{email}
     </select>
 
 </mapper>

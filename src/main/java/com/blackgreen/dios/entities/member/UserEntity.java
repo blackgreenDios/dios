@@ -14,13 +14,13 @@ public class UserEntity {
     private String addressPostal;
     private String addressPrimary;
     private String addressSecondary;
-    private String imageName;
-    private String imageMime;
-    private  byte[] imageData;
 
     private Date registeredOn;
 
     private int goalCount;
+
+    private byte[] image;
+    private String imageType;
 
 
 
@@ -102,29 +102,6 @@ public class UserEntity {
     }
 
 
-    public String getImageName() {
-        return imageName;
-    }
-
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
-    }
-
-    public String getImageMime() {
-        return imageMime;
-    }
-
-    public void setImageMime(String imageMime) {
-        this.imageMime = imageMime;
-    }
-
-    public byte[] getImageData() {
-        return imageData;
-    }
-
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
-    }
 
     public Date getRegisteredOn() {
         return registeredOn;
@@ -134,6 +111,21 @@ public class UserEntity {
         this.registeredOn = registeredOn;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
 
     @Override
     public boolean equals(Object o) {
