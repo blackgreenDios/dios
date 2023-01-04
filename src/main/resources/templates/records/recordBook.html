@@ -34,16 +34,16 @@
                     <a class="textPhoto">PHOTO</a>
                     <div class="button-container" th:if="${element.getImage() != null && currentDate == date}">
                         <i rel="modifyPhoto" class="modify fa-regular fa-image"
-                           th:if="${element.getImage() != null && element.getImage() != ''}"></i>
+                           th:if="${element.getImage() != null && element.getImage().length > 0}"></i>
                         <i rel="deletePhoto" class="delete fa-solid fa-trash"
-                           th:if="${element.getImage() != null && element.getImage() != ''}"></i>
+                           th:if="${element.getImage() != null && element.getImage().length > 0}"></i>
                     </div>
                 </div>
                 <div class="photo" rel="photo">
                     <i class="icon visible fa-solid fa-circle-plus" rel="imageSelectButton"
-                       th:if="${(element.getImage() == null || element.getImage() == '') && currentDate == date}"></i>
-                    <img class="photoBox" rel="photoBox" th:if="${element.getImage() != null && element.getImage() != ''}"
-                         th:src="${element.getImage()}">
+                       th:if="${(element.getImage() == null || element.getImage().length == 0) && currentDate == date}"></i>
+                    <img class="photoBox" rel="photoBox" th:if="${element.getImage() != null && element.getImage().length > 0}"
+                         th:src="@{'/record/image?dt=' + ${date}}">
                 </div>
                 <div class="realDelete" rel="realDeletePhoto">
                     <a class="a">

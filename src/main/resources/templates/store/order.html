@@ -9,6 +9,7 @@
     <script defer th:src="@{/store/resources/scripts/order.js}"></script>
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/store/resources/stylesheets/order.css}">
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
@@ -90,7 +91,7 @@
                         <th class="userName-container">받는분</th>
                         <td class="userName">
                             <a class="redStar">*</a>
-                            <input class="input nameInput" type="text" placeholder="오예은">
+                            <input class="input nameInput" type="text" th:value="${user.getName()}">
                             <input class="input check" type="checkbox">
                             <a class="checkText">주문자 정보와 동일</a>
                         </td>
@@ -99,11 +100,8 @@
                         <th class="contact-container">연락처</th>
                         <td class="userContact">
                             <a class="redStar">*</a>
-                            <input class="input" type="text" placeholder="010">
-                            <a class="line">-</a>
-                            <input class="input" type="text" placeholder="2574">
-                            <a class="line">-</a>
-                            <input class="input" type="text" placeholder="4960">
+                            <input class="input" type="text" th:value="${user.getContact()}">
+                            <a class="contactText">'-' 를 제외하고 입력해 주세요.</a>
                         </td>
                     </tr>
                     <tr class="address">
@@ -111,14 +109,14 @@
                         <td class="userAddress">
                             <div class="top">
                                 <a class="redStar">*</a>
-                                <input class="input code" type="text" placeholder="39012">
+                                <input class="input code" type="text" th:value="${user.getAddressPostal()}">
                                 <input class="input addressButton" type="button" value="우편번호 찾기">
                             </div>
                             <div class="middle">
-                                <input class="input addressOne" type="text" readonly>
+                                <input class="input addressOne" type="text" readonly th:value="${user.getAddressPrimary()}">
                             </div>
                             <div class="bottom">
-                                <input class="input addressTwo" type="text">
+                                <input class="input addressTwo" type="text" th:value="${user.getAddressSecondary()}">
                             </div>
                         </td>
                     </tr>

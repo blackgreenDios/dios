@@ -251,6 +251,11 @@ body > .main > .form > .setting-container > .setting {
 
     text-align: center;
 }
+body > .main > .form > .setting-container > .setting::-webkit-outer-spin-button,
+body > .main > .form > .setting-container > .setting::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 body > .main > .form > .setting-container > .setting:focus {
     outline: none;

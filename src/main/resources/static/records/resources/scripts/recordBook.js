@@ -154,12 +154,29 @@ insertPhotoContainer['images'].addEventListener('input', () => {
 insertPhotoContainer.onsubmit = e => {
     e.preventDefault();
 
+    // if (insertPhotoContainer['images'].files === null || insertPhotoContainer['images'].files === undefined || insertPhotoContainer['images'].files.length === 0) {
+    //
+    // }
+    // 이미지를 선택하지 않았을 때
+    if (( insertPhotoContainer['images'].files?.length ?? 0) === 0) {
+
+        ip.classList.add('blank');
+
+        setTimeout(()=>{
+            ip.classList.remove('blank');
+        },200);
+
+        return;
+    }
+
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    for (let file of insertPhotoContainer['images'].files) {
-        formData.append('images', file);
-    }
+    // for (let file of insertPhotoContainer['images'].files) {
+    //     formData.append('images', file);
+    // }
+
+    formData.append('images', insertPhotoContainer['images'].files.length > 0 ? insertPhotoContainer['images'].files[0] : null);
 
     xhr.open('POST', './photo');
     xhr.onreadystatechange = () => {

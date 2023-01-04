@@ -247,12 +247,15 @@ body > .main {
 }
 
 #userInfoContainer > .infoTable tr .userContact > .input {
-    width: 5rem;
+    width: 10rem;
     margin-right: 0.4rem;
 }
 
-#userInfoContainer > .infoTable tr .userContact > .line {
-    margin-right: 0.4rem;
+#userInfoContainer > .infoTable tr .userContact > .contactText {
+    font-size: 0.9rem;
+    margin-left: 0.7rem;
+
+    color: rgb(147, 143, 143);
 }
 
 #userInfoContainer > .infoTable tr .userAddress {
@@ -316,6 +319,9 @@ body > .main {
 #userInfoContainer > .infoTable tr .userMessage > .message {
     margin-left: 1.1rem;
     margin-bottom: 0.4rem;
+    padding-left: 0.4rem;
+
+    border-radius: 0.3rem;
 
     height: 1.9rem;
 }
@@ -383,6 +389,8 @@ body > .main {
 #paymentContainer > .one > .selectContent tr td > .bankSelect {
     margin-bottom: 0.4rem;
     padding-left: 0.5rem;
+
+    border-radius: 0.3rem;
 
     height: 1.9rem;
     width: 15rem;

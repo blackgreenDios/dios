@@ -7,7 +7,10 @@ import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.bbs.WriteResult;
 import com.blackgreen.dios.services.RecordService;
 import org.json.JSONObject;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 @Controller(value = "com.blackgreen.dios.controllers.RecordController")
@@ -203,6 +207,24 @@ public class RecordController {
         return modelAndView;
     }
 
+    // 기록장 : 이미지
+    @RequestMapping(value = "image",
+            method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage(@SessionAttribute(value = "user") UserEntity user,
+                                           @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
+
+        // 페이지 날짜
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
+        ElementEntity element = this.recordService.getRecords(user.getEmail(), date);
+        if (element == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", element.getImageType());
+
+        return new ResponseEntity<>(element.getImage(), headers, HttpStatus.OK);
+    }
+
     // 기록장 작성
     @PostMapping(value = "recordBook")
     @ResponseBody
@@ -276,6 +298,11 @@ public class RecordController {
 
         responseObject.put("result", result.name().toLowerCase());
         responseObject.put("date", nowDate);
+
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("url", "http://localhost:8080/record/image?dt=" + nowDate);
+        }
+
 
         return responseObject.toString();
     }
@@ -366,5 +393,6 @@ public class RecordController {
 
         return responseObject.toString();
     }
+
 
 }

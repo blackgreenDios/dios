@@ -29,7 +29,9 @@ public interface IRecordMapper {
     ElementEntity selectRecordByEmailDate (@Param(value = "userEmail") String userEmail,
                                              @Param(value = "todayDate") Date todayDate);
 
-
+    // 기록장 : 이미지 불러오기
+    ElementEntity selectImageByEmailDate (@Param(value = "userEmail") String userEmail,
+                                          @Param(value = "todayDate") Date todayDate);
 
     // 기록장 작성한 거 불러오기 : count
     CountEntity selectCountByEmail (@Param(value = "userEmail") String userEmail,

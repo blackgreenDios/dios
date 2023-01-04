@@ -112,6 +112,11 @@ public class RecordService {
         return existingRecord;
     }
 
+    // 기록장 : 이미지 불러오기
+    public ElementEntity getImage(String email, Date date) {
+        return this.recordMapper.selectRecordByEmailDate(email, date);
+    }
+
     // 기록장 작성한 거 불러오기 : count
     public CountEntity getCount (String email, Date date) {
 
@@ -163,7 +168,7 @@ public class RecordService {
 
     // photo 삭제
     public Enum<? extends IResult> clearPhoto (ElementEntity element) {
-        element.setImage(null);
+        element.setImage(new byte[0]);  // byte[] 빈 값으로 바꾸는 방법
         element.setImageType("");
 
         return this.recordMapper.insertRecord(element) > 0
