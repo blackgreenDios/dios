@@ -15,6 +15,16 @@
             window.close();
         }
     </script>
+    <script th:if="${result.equals('NOT')}">
+        alert('글을 작성할 권한이 없습니다.');
+        if(window.history.length>1){
+            window.history.back();
+        }
+        else {
+            window.close();
+        }
+    </script>
+
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/write.css}">
     <script defer th:src="@{/bbs/resources/libraries/ckeditor/ckeditor.js}"></script>

@@ -45,7 +45,7 @@
                             <i class="fa-regular fa-comment"></i>
                             <span th:text="${article.getCommentCount()}">9,999 </span>
                         </div>
-                        <div class="likeButton" id="likeButton" th:if="${session.user!=null}">
+                        <div class="likeButton" id="likeButton" >
                             <a href="#" th:class="toggle" rel="like">
 
                                 <i class="icon fa-regular fa-thumbs-up"></i>

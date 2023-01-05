@@ -400,6 +400,19 @@ public class MemberController {
         }
         return modelAndView;
     }
+    @GetMapping(value = "myPageDeliveryCheck",produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPageDeliveryCheck(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        ModelAndView modelAndView;
+
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:login");
+        } else {
+            modelAndView = new ModelAndView("member/myPageDeliveryCheck");
+        }
+
+        return modelAndView;
+    }
+
 
     //이미지 다운로드
     @RequestMapping(value = "profileImage",method = RequestMethod.GET)
