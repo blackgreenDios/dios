@@ -2,6 +2,7 @@ package com.blackgreen.dios.controllers;
 
 import com.blackgreen.dios.entities.bbs.ArticleEntity;
 import com.blackgreen.dios.entities.bbs.BoardEntity;
+import com.blackgreen.dios.entities.bbs.CommentLikeEntity;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.enums.CommonResult;
@@ -228,7 +229,7 @@ public class MemberController {
     public String patchMyPage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
                               @RequestParam(value = "newImage", required = false) MultipartFile newImage,
                               UserEntity newUser) throws IOException {
-        System.out.println(newImage.getOriginalFilename());
+//        System.out.println(newImage.getOriginalFilename());
 
         Enum<?> result;
         if (signedUser == null) {
@@ -400,7 +401,6 @@ public class MemberController {
         return modelAndView;
     }
 
-
     //이미지 다운로드
     @RequestMapping(value = "profileImage",method = RequestMethod.GET)
     public ResponseEntity<byte[]> getProfileImage(@SessionAttribute(value = "user")UserEntity user){
@@ -421,6 +421,30 @@ public class MemberController {
 
         headers.add("Content-Type",image.getImageType());
         return new ResponseEntity<>(image.getImage(),headers,HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "myPage",
+            method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteProfileImage(@SessionAttribute(value = "user", required = false) UserEntity signedUser,
+                              @RequestParam(value = "newImage", required = false) MultipartFile newImage,
+                              UserEntity newUser) throws IOException {
+        Enum<?> result;
+        if (signedUser == null) {
+            result = ModifyProfileResult.NOT_SIGNED;
+        } else {
+            result = this.memberService.deleteProfileImage(signedUser,newUser, newImage);
+        }
+
+        JSONObject responseObject = new JSONObject();
+        responseObject.put("result", result.name().toLowerCase());
+
+        if (result == CommonResult.SUCCESS) {
+            responseObject.put("image",signedUser.getImage());
+            responseObject.put("imageType",signedUser.getImageType());
+        }
+        return responseObject.toString();
     }
 
 }

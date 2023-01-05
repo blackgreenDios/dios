@@ -2,6 +2,7 @@ package com.blackgreen.dios.services;
 
 import com.blackgreen.dios.entities.bbs.ArticleEntity;
 import com.blackgreen.dios.entities.bbs.BoardEntity;
+import com.blackgreen.dios.entities.bbs.CommentLikeEntity;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
@@ -459,7 +460,20 @@ public class MemberService {
         return this.memberMapper.selectImageByEmail(user.getEmail());
     }
 
+    @Transactional
+    public Enum<? extends IResult> deleteProfileImage(UserEntity signedUser, UserEntity newUser, MultipartFile image) throws IOException {
 
+        if(signedUser == null){
+            return ModifyProfileResult.NOT_SIGNED;
+        }
+
+
+        if (this.memberMapper.deleteUserByMayPage(signedUser) == 0) {
+            return CommonResult.FAILURE;
+        }
+
+        return CommonResult.SUCCESS;
+    }
 
 }
 

@@ -9,14 +9,35 @@ Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e =>
 });
 
 
-//이미지 삭제
+// //이미지 삭제
 Form.querySelector('[rel = "imageDeleteButton"]').addEventListener('click', e => {
     e.preventDefault();
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('newImage', null);
-    xhr.open('GET', './profileImage');
+    xhr.open('DELETE', window.location.href);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'not_signed':
+                        alert('프로필을 수정할 수 있는 권한이 없거나 로그아웃되었습니다. 확인 후 다시 시도해 주세요.');
+                        window.location.href = 'login';
+                        break;
+                    case 'success':
+                        alert('이미지가 삭제되었습니다.');
+                        window.location.href = "./myPage";
+                        break;
+                    default:
+                        alert('알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요');
+            }
+        }
+    };
+    xhr.send();
 
 });
 
@@ -75,7 +96,7 @@ Form['profileSend'].addEventListener('click', e => {
                         form['nickname'].select();
                         break;
                     default:
-                        alert('알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
+                        alert('알 수 없는 이유로 프로필을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
                 }
             } else {
                 alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요');

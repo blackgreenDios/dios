@@ -160,10 +160,6 @@
 
     </select>
 
-
-
-
-
     <update id="updateUserByMayPage"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         UPDATE `dios_member`.`users`
@@ -199,5 +195,16 @@
         WHERE BINARY `email` = #{email}
     </select>
 
+    <update id="deleteUserByMayPage"
+            parameterType="com.blackgreen.dios.entities.member.UserEntity">
+        UPDATE `dios_member`.`users`
+        SET
+            `image`             = null,
+            `image_type`        = null
+
+
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
 </mapper>
 
