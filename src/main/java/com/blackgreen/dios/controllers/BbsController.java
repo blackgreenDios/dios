@@ -133,6 +133,7 @@ public class BbsController {
         if(result==CommonResult.SUCCESS){
             responseObject.put("bid",article.getBoardId());
         }
+        //
         return responseObject.toString();
 
     }
