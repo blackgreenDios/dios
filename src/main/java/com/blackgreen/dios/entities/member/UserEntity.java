@@ -22,8 +22,16 @@ public class UserEntity {
     private byte[] image;
     private String imageType;
 
+    private boolean isAdmin;
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
+    public UserEntity setAdmin(boolean admin) {
+        isAdmin = admin;
+        return this;
+    }
 
     public int getGoalCount() {
         return goalCount;

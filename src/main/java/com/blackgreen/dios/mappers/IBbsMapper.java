@@ -1,6 +1,7 @@
 package com.blackgreen.dios.mappers;
 
 import com.blackgreen.dios.entities.bbs.*;
+import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.vos.bbs.ArticleReadVo;
 import com.blackgreen.dios.vos.bbs.CommentVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -76,4 +77,7 @@ public interface IBbsMapper {
                                               @Param(value = "keyword") String keyword,
                                               @Param(value = "limit") int limit,
                                               @Param(value = "offset") int offset);
+    UserEntity selectAdminByUser(@Param(value = "email")String email);
+
+
 }
