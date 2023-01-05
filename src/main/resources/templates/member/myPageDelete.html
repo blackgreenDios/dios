@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DIOS :: 마이페이지</title>
+  <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+
+  <script defer th:src="@{/member/resources/scripts/myPage.js}"></script>
+  <script defer th:src="@{/resources/scripts/commonMyPage.js}"></script>
+  <link rel="stylesheet" th:href="@{/resources/stylesheets/commonMyPage.css}">
+  <link rel="stylesheet" th:href="@{/member/resources/stylesheets/myPage.css}">
+
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+
+<th:block th:replace="~{fragments/commonBody :: cover}"></th:block>
+<main class="--main main" th:if="${session.user != null}">
+  <form class="form" id="form">
+    <div class="title-container">
+      <h1 class="title">마이페이지</h1>
+    </div>
+    <div class="myPage-main" >
+      <th:block th:replace="~{fragments/commonMyPage :: menu}"></th:block>
+
+    </div>
+  </form>
+</main>
+</body>
+</html>
