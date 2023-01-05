@@ -22,8 +22,16 @@ public class UserEntity {
 
     private int goalCount;
 
+    private boolean isAdmin;
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
+    public UserEntity setAdmin(boolean admin) {
+        isAdmin = admin;
+        return this;
+    }
 
     public int getGoalCount() {
         return goalCount;

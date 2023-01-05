@@ -248,6 +248,23 @@
         LIMIT 1
 
     </delete>
+    <select id="selectAdminByUser"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`,
+               `goal_count`        AS `goalCount`,
+               `admin_flag`        AS `isAdmin`
+        FROM `dios_member`.`users`
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </select>
 
 
 </mapper>

@@ -38,24 +38,31 @@ public class BbsController {
                                  @RequestParam(value = "bid",  required = false) String bid) {
 
         ModelAndView modelAndView;
+
         if (user == null) {
-            modelAndView = new ModelAndView("redirect:/member/login");
+            modelAndView = new ModelAndView("redirect:login");
         } else {
             modelAndView = new ModelAndView("bbs/write");
             if (bid == null || this.bbsService.getBoard(bid) == null) {
                 modelAndView.addObject("result", CommonResult.FAILURE.name());
             } else {
-                modelAndView.addObject("result", CommonResult.SUCCESS.name());
-                BoardEntity board = this.bbsService.getBoard(bid);
+                UserEntity adminAccount = this.bbsService.getUser(user);
+                if (bid.equals("notice") && (!adminAccount.isAdmin())){
+                    modelAndView.addObject("result", CommonResult.NOT.name());
+                }else {
+                    modelAndView.addObject("result", CommonResult.SUCCESS.name());
+                    BoardEntity board = this.bbsService.getBoard(bid);
 
-                modelAndView.addObject("board", board);
-                modelAndView.addObject("bid", board);
-
+                    modelAndView.addObject("board", board);
+                    modelAndView.addObject("bid", board);
+                }
             }
         }
         return modelAndView;
 
     }
+
+
     @PostMapping(value = "write",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postWrite(@SessionAttribute(value = "user", required = false) UserEntity user,
@@ -63,6 +70,7 @@ public class BbsController {
         Enum<?> result;
         int index=0;
         JSONObject responseObject = new JSONObject();
+
         if (user == null) {
             result = WriteResult.NOT_ALLOWED;
         } else if (bid == null) {
@@ -121,6 +129,7 @@ public class BbsController {
         Enum<?> result=this.bbsService.deleteArticle(article,user);
         JSONObject responseObject=new JSONObject();
         responseObject.put("result",result.name().toLowerCase());
+        UserEntity adminAccount = this.bbsService.getUser(user);
         if(result==CommonResult.SUCCESS){
             responseObject.put("bid",article.getBoardId());
         }

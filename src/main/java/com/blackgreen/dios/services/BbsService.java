@@ -38,6 +38,10 @@ public class BbsService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+    public UserEntity getUser(UserEntity user){
+        return  this.bbsMapper.selectAdminByUser(user.getEmail());
+    }
     public ArticleReadVo readArticle(int index) {
 
         ArticleReadVo article=this.bbsMapper.selectArticleByIndex(index);

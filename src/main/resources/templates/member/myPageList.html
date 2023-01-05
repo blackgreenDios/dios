@@ -26,6 +26,7 @@
         </div>
         <div class="myPage-main">
             <th:block th:replace="~{fragments/commonMyPage :: menu}"></th:block>
+
             <input name="bid" type="hidden" th:value="${board?.getId()}">
             <div class="--content content">
                 <h1 class="title">게시글</h1>

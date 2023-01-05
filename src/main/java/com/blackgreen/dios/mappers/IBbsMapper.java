@@ -1,6 +1,7 @@
 package com.blackgreen.dios.mappers;
 
 import com.blackgreen.dios.entities.bbs.*;
+import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.vos.bbs.ArticleReadVo;
 import com.blackgreen.dios.vos.bbs.CommentVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -43,6 +44,8 @@ public interface IBbsMapper {
 
     int insertArticleLike(ArticleLikeEntity articleLike);
     int deleteArticleLike(ArticleLikeEntity articleLike);
+
+    UserEntity selectAdminByUser(@Param(value = "email")String email);
 
 
 }
