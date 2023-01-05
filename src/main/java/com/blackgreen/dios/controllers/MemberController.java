@@ -460,6 +460,41 @@ public class MemberController {
         return responseObject.toString();
     }
 
+    //회원탈퇴
+    @RequestMapping(value = "myPageDelete", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
+    public ModelAndView getMyPageDelete() {
+        ModelAndView modelAndView = new ModelAndView("member/myPageDelete");
+        return modelAndView;
+    }
+
+    @DeleteMapping(value = "myPageDelete",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteMyPage(@SessionAttribute(value = "user",required = false)UserEntity user, HttpSession session){
+        Enum<?> result=this.memberService.deleteUser(user);
+        session.setAttribute("user", null);
+        JSONObject responseObject=new JSONObject();
+        responseObject.put("result",result.name().toLowerCase());
+        if(result==CommonResult.SUCCESS){
+            responseObject.put("user",user.getEmail());
+        }
+        //
+        return responseObject.toString();
+
+    }
+
+//    @RequestMapping(value = "recoverPassword",
+//            method = RequestMethod.PATCH, //PATCH는 수정
+//            produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public String patchRecoverPassword(EmailAuthEntity emailAuth, UserEntity user, HttpSession session) {
+//        session.setAttribute("user", null);
+//        Enum<?> result = this.memberService.recoverPassword(emailAuth, user);
+//        JSONObject responseObject = new JSONObject();
+//        //String 을 받아야하면 JSON
+//        responseObject.put("result", result.name().toLowerCase());
+//        return responseObject.toString();
+//    }
+
 }
 
 

@@ -206,5 +206,12 @@
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>
+
+    <delete id="deleteUser">
+        DELETE
+        FROM `dios_member`.`users`
+        WHERE `email` = #{email}
+    </delete>
+
 </mapper>
 

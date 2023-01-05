@@ -52,6 +52,8 @@ public interface IMemberMapper {
     int deleteUserByMayPage(UserEntity user);
 
 
+    int deleteUser(@Param(value = "email") String email);
+
 
 
 }

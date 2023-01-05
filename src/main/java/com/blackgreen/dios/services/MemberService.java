@@ -475,5 +475,18 @@ public class MemberService {
         return CommonResult.SUCCESS;
     }
 
+    //회원탈퇴
+    public Enum<? extends IResult> deleteUser(UserEntity user){
+        UserEntity existingUser=this.memberMapper.selectUserByEmail(user.getEmail());
+        if(existingUser==null){
+            return CommonResult.FAILURE;
+        }
+
+        user.setEmail(existingUser.getEmail());
+
+        return this.memberMapper.deleteUser(user.getEmail())>0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
 }
 

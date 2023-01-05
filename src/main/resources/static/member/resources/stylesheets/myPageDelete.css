@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > .myPageDelete {
+    color: rgb(60, 166, 52);
+}
+
+
+#form > .myPage-main > .myPage-content {
+    margin-top: -4rem;
+    margin-left: 5rem;
+    font-family: none;
+}
+
+#form > .myPage-main > .myPage-content > .content{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+
+}
+
+#form > .myPage-main > .myPage-content > .content > h2 {
+
+
+    font-size: 2.2rem;
+    line-height: 30px;
+}
+
+#form > .myPage-main > .myPage-content > .content > .text {
+    color: rgb(141, 141, 142);
+}
+
+#form > .myPage-main > .myPage-content > .content > .agreeText{
+    width: 100%;
+    margin: 10px 0 0;
+    padding: 15px 20px 27px;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    list-style: none;
+}
+
+#form > .myPage-main > .myPage-content > .content > .agreeText >li {
+    margin: 10px 0 0;
+    padding: 0 0 0 8px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/bar_black2x2.gif) 0 9px no-repeat;
+    color: #666;
+    font-size: 13px;
+    line-height: 20px;
+}
+#form > .myPage-main > .myPage-content > .content > .last{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+#form > .myPage-main > .myPage-content > .content > .last>.lastQuestion{
+    display: flex;
+    align-items: center;
+    margin-top: 2rem;
+    justify-content: center;
+}
+form > .myPage-main > .myPage-content > .content > .last>.delete-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 7.3rem;
+    font-size: 1rem;
+    margin-top: 1rem;
+    font-weight: 700;
+    height: 3rem;
+    background-color: rgba(255, 0, 0, 80%);
+    border-radius: 0.5rem;
+    color: rgb(255, 255, 255);
+    border: 0.1rem solid rgb(234,236,238);
+}
+
+form > .myPage-main > .myPage-content > .content > .last>.delete-button:hover{
+    background-color: rgba(255, 0, 0, 90%);
+}

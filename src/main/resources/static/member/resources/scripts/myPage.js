@@ -1,6 +1,4 @@
 const Form = document.getElementById('form');
-const imageContainer = Form.querySelector('[rel="imageContainer"]');
-
 
 // 프로필 이미지 삽입
 Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e => {
@@ -30,7 +28,7 @@ Form.querySelector('[rel = "imageDeleteButton"]').addEventListener('click', e =>
                         window.location.href = "./myPage";
                         break;
                     default:
-                        alert('알 수 없는 이유로 게시글을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
+                        alert('알 수 없는 이유로 프로필을 수정하지 못하였습니다. 잠시 후 다시 시도해주세요.');
                 }
             } else {
                 alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해 주세요');
