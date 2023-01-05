@@ -1,5 +1,3 @@
-
-
 const form = window.document.getElementById('form');
 let editor;
 ClassicEditor
@@ -10,16 +8,58 @@ ClassicEditor
     })
     .then(e => editor = e);
 
+const submit = document.querySelector('[rel="submit"]');
 
-const ImageForm = document.getElementById('form');
-const itemCategory = document.getElementById('itemCategory');
-const Size = document.getElementById('SizeOption');
-const sizeSelector = window.document.querySelectorAll('[rel="SizeOption"]');
 
-Size.ariaMultiSelectable = 'true';
 const Color = document.getElementById('colorOption');
 Color.ariaMultiSelectable = 'true';
 
+const Size = document.getElementById('sizeOption');
+Size.ariaMultiSelectable = 'true';
+
+form.onsubmit = e => {
+    e.preventDefault();
+};
+
+// color
+form['newColor'].addEventListener('keyup', e => {
+
+    if (e.key === 'Enter') {
+
+        if (form['newColor'].value === '') {
+            return;
+        }
+
+        const optionElement = document.createElement('option');
+        optionElement.innerText = e.target.value;
+        optionElement.setAttribute('value', e.target.value);
+        form['colors'].append(optionElement);
+        e.target.value = '';
+        e.target.focus();
+    }
+});
+
+// size
+form['newSize'].addEventListener('keyup', e => {
+    if (e.key === 'Enter') {
+
+        if (form['newSize'].value === '') {
+            return;
+        }
+
+        const optionElement = document.createElement('option');
+        optionElement.innerText = e.target.value;
+        optionElement.setAttribute('value', e.target.value);
+        form['sizes'].append(optionElement);
+        e.target.value = '';
+        e.target.focus();
+    }
+});
+
+
+
+const ImageForm = document.getElementById('form');
+const itemCategory = document.getElementById('itemCategory');
 const seller = document.getElementById('seller');
 
 //상품 분류에서 의류 누르면 의류 사이즈 나오고, 신발 누르면 신발 사이즈 보이게 하는 코드
@@ -59,7 +99,8 @@ ImageForm['images'].addEventListener('input', () => {
 })
 
 //등록하기 눌렀을때
-ImageForm.onsubmit = e => {
+submit.addEventListener('click', e => {
+
     e.preventDefault();
 
     if (form['itemName'].value === '') {
@@ -91,13 +132,22 @@ ImageForm.onsubmit = e => {
     formData.append('price', form['itemPrice'].value);
     formData.append('count', form['count'].value);
 
-    Array.from(Size.selectedOptions).forEach(option => {
+    form['colors'].querySelectorAll(':scope > option').forEach(option => {
+        formData.append('colors', option.value);
+    });
+
+    form['sizes'].querySelectorAll(':scope > option').forEach(option => {
         formData.append('sizes', option.value);
     });
 
-    Array.from(Color.selectedOptions).forEach(option => {
-        formData.append('colors', option.value);
-    });
+
+    // Array.from(Size.selectedOptions).forEach(option => {
+    //     formData.append('sizes', option.value);
+    // });
+    //
+    // Array.from(Color.selectedOptions).forEach(option => {
+    //     formData.append('colors', option.value);
+    // });
 
     // for (let color of Color.options[Color.selectedIndex].value) {
     //     formData.append('colors', color);
@@ -122,5 +172,5 @@ ImageForm.onsubmit = e => {
         }
     }
     xhr.send(formData);
-};
+});
 

@@ -5,9 +5,9 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> DIOS :: 상품 등록 </title>
+    <title> DIOS :: 상품 수정 </title>
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
-    <link rel="stylesheet" th:href="@{/goods/stylesheets/write.css}">
+    <link rel="stylesheet" th:href="@{/goods/stylesheets/modify.css}">
     <script defer th:src="@{/resources/libraries/ckeditor/ckeditor.js}"></script>
     <script defer th:src="@{/goods/scripts/modify.js}"></script>
 </head>
@@ -24,10 +24,12 @@
                     <label class="label">
                         <span hidden>상품 분류</span>
                         <select id="itemCategory" th:name="itemCategory">
-                            <option value="" > 상품 종류를 선택해주세요. </option>
+                            <option value="" th:text="${getCategory.getText()}"> 상품 종류를 선택해주세요.</option>
                             <option th:each="categories : ${category}"
                                     th:value="${categories.getId()}"
-                                    th:text ="${categories.getText()}" name="category"></option>
+                                    th:text="${getCategory.getText() == categories.getText()
+                                    ? ''
+                                    :categories.getText() }" name="category"></option>
                         </select>
                     </label>
                 </td>
@@ -50,10 +52,10 @@
                     <label class="label">
                         <span hidden>브랜드 이름</span>
                         <select id="seller" th:name="brand">
-                            <option value=" " > 상품 브랜드를 선택해주세요. </option>
+                            <option value="" > 상품 브랜드를 선택해주세요.</option>
                             <option th:each="sellers : ${seller}"
                                     th:value="${sellers.getIndex()}"
-                                    th:text ="${sellers.getStoreName()}"
+                                    th:text="${sellers.getStoreName()}"
                                     name="sellerName"></option>
                         </select>
                     </label>
@@ -71,29 +73,42 @@
                     </label>
                 </td>
             </tr>
-            <tr>
-                <th>옵션</th>
-                <td class="option">
-                    <label class="label">
-                        <span hidden>옵션</span>
-                        <select multiple="multiple" id="colorOption" th:name="colors">
-                            <option value="" > 색상을 선택하세요.</option>
-                            <option
-                                    th:each="colors : ${color}"
-                                    th:value="${colors.getId()}"
-                                    th:text="${colors.getText()}"></option>
-                        </select>
-                        <select rel="SizeOption" multiple="multiple" id="SizeOption" th:name="sizes">
-                            <option value="" > 사이즈를 선택하세요.</option>
-                            <option th:each="sizes : ${size}"
-                                    th:value="${sizes.getId()}"
-                                    th:text ="${sizes.getText()}"></option>
-                        </select>
-                        <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요.">
 
-                    </label>
+            <tr class="goodsOption" id="goodsOption">
+                <th>상품 옵션</th>
+                <td>
+                    <div class="color">
+                        <a class="star">*</a>
+                        <span class="colorText">색상</span>
+                        <div class="colorBox">
+                            <input class="newColor" name="newColor" placeholder="ex)  블랙, 그레이, 블루" type="text">
+                        </div>
+                        <div class="selectContainer">
+                            <a class="selectText">COLOR</a>
+                            <select class="colors" name="colors" id="colorOption" multiple>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="size">
+                        <a class="star">*</a>
+                        <span class="sizeText">사이즈</span>
+                        <div class="sizeBox">
+                            <input class="newSize" name="newSize" placeholder="ex)  230, 260, M, L, free size"
+                                   type="text">
+                        </div>
+                        <div class="selectContainer">
+                            <a class="selectText">SIZE</a>
+                            <select class="sizes" name="sizes" id="sizeOption" multiple>
+                            </select>
+                        </div>
+                    </div>
+
+                    <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요.">
                 </td>
             </tr>
+
+
             <tr>
                 <th>상품 대표사진</th>
                 <td>
@@ -129,12 +144,11 @@
                 </td>
             </tr>
             <tr>
-
                 <th></th>
                 <td class="button">
                     <div class="button-container" id="buttonContainer">
                         <input class="--object-button" name="back" type="button" value="돌아가기">
-                        <input class="--object-button" name="submit" type="submit" value="수정하기">
+                        <input class="--object-button" name="submit" type="button" rel="submit" value="수정하기">
                     </div>
                 </td>
             </tr>
