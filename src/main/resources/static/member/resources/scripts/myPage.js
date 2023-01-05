@@ -9,7 +9,7 @@ Form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e =>
 });
 
 
-// //이미지 삭제
+//이미지 삭제
 Form.querySelector('[rel = "imageDeleteButton"]').addEventListener('click', e => {
     e.preventDefault();
 
@@ -73,7 +73,6 @@ Form['profileSend'].addEventListener('click', e => {
 
     formData.append('nickname', Form['nickname'].value);
     formData.append('newImage', Form['images'].files.length > 0 ? Form['images'].files[0] : null);
-    console.log(Form['images'].files.length)
 
     //이미지가 선택되면 길이가 1이상이니까 이미지 컨트롤러로 넘어가고 아니면 null
     xhr.open('PATCH', window.location.href);
