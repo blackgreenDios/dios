@@ -1,6 +1,5 @@
 package com.blackgreen.dios.controllers;
 
-import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.vos.GoodsVo;
 import org.springframework.http.MediaType;
@@ -28,16 +27,8 @@ public class StoreController {
 
     @RequestMapping(value = "order",
             method = RequestMethod.GET)
-    public ModelAndView getOrder(@SessionAttribute(value = "user",  required = false) UserEntity user) {
-
-        ModelAndView modelAndView;
-        if (user == null) {
-            modelAndView = new ModelAndView("redirect:/dios/login");
-        } else {
-            modelAndView = new ModelAndView("store/order");
-        }
-
-        modelAndView.addObject("user", user);
+    public ModelAndView getOrder() {
+        ModelAndView modelAndView = new ModelAndView("store/order");
 
         return modelAndView;
     }

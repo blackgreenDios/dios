@@ -29,9 +29,9 @@ public class GoodsService {
         this.goodsMapper = goodsMapper;
     }
 
-    public ItemColorEntity[] getColor() {
-        return this.goodsMapper.selectColor();
-    }
+//    public ItemColorEntity[] getColor() {
+//        return this.goodsMapper.selectColor();
+//    }
 
     public SellerEntity[] getSeller() {
         return this.goodsMapper.selectSeller();
@@ -41,6 +41,7 @@ public class GoodsService {
         return this.goodsMapper.selectSellerByIndexExceptImage(index);
     }
 
+
     public ItemCategoryEntity[] getItemCategory() {
         return this.goodsMapper.selectItemCategory();
     }
@@ -49,11 +50,15 @@ public class GoodsService {
         return this.goodsMapper.selectItemCategoryById(id);
     }
 
-    public SizeEntity[] getSize() {
+    public ItemSizeEntity[] getSize() {
         return this.goodsMapper.selectSize();
     }
 
-    public SizeEntity getItemSize(int itemIndex) {
+    public ItemColorEntity[] getItemColors(int itemIndex) {
+        return this.goodsMapper.selectColorsByItemIndex(itemIndex);
+    }
+
+    public ItemSizeEntity[] getItemSize(int itemIndex) {
         return this.goodsMapper.selectSizeByItemIndex(itemIndex);
     }
 
@@ -73,51 +78,43 @@ public class GoodsService {
 
         System.out.println(item);
         System.out.println(images);
-
         item.setTitleImageData(images.getBytes());
         item.setTitleImageMime(images.getContentType());
         item.setTitleImageName(images.getName());
+
+
         return this.goodsMapper.insertItem(item) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
-//    @Transactional
-//    public Enum<? extends IResult> addProduct (ProductEntity product, MultipartFile images) throws IOException {
-//
-//        product.setImage(images.getBytes());
-//        product.setImageType(images.getContentType());
-//
-//        return this.goodsMapper.insertProduct(product) > 0
-//                ? CommonResult.SUCCESS
-//                : CommonResult.FAILURE;
-//    }
-//
-//    @Transactional
-//    public Enum<? extends IResult> addProductColors (ProductColorEntity[] productColor) {
-//
-//        int result = 0;
-//        for (ProductColorEntity productColorEntity : productColor) {
-//            result += this.goodsMapper.insertProductColor(productColorEntity);
-//        }
-//
-//        return result == productColor.length
-//                ? CommonResult.SUCCESS
-//                : CommonResult.FAILURE;
-//    }
-//
-//    @Transactional
-//    public Enum<? extends IResult> addProductSizes (ProductSizeEntity[] productSize) {
-//
-//        int result = 0;
-//        for (ProductSizeEntity productSizeEntity : productSize) {
-//            result += this.goodsMapper.insertProductSize(productSizeEntity);
-//        }
-//
-//        return result == productSize.length
-//                ? CommonResult.SUCCESS
-//                : CommonResult.FAILURE;
-//    }
+
+    @Transactional
+    public Enum<? extends IResult> addItemColors(ItemColorEntity[] itemColors) {
+
+        int result = 0;
+        for (ItemColorEntity ItemColor : itemColors) {
+            result += this.goodsMapper.insertItemColor(ItemColor);
+        }
+
+        return result == itemColors.length
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+    @Transactional
+    public Enum<? extends IResult> addItemSizes(ItemSizeEntity[] ItemSizes) {
+
+        int result = 0;
+        for (ItemSizeEntity ItemSize : ItemSizes) {
+            result += this.goodsMapper.insertItemSize(ItemSize);
+        }
+
+        return result == ItemSizes.length
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
 
     public ItemImgEntity getImage(int index) {
         return this.goodsMapper.selectItemImageByIndex(index);
@@ -268,7 +265,7 @@ public class GoodsService {
         return CommonResult.SUCCESS;
     }
 
-    public Enum<? extends IResult> ModifyItem (ItemEntity item, UserEntity user,MultipartFile images) throws IOException {
+    public Enum<? extends IResult> ModifyItem(ItemEntity item, UserEntity user, MultipartFile images) throws IOException {
         if (user == null) {
             return ModifyItemResult.NOT_SIGNED;
         }
@@ -301,7 +298,7 @@ public class GoodsService {
                 : CommonResult.FAILURE;
     }
 
-    public Enum<? extends IResult> deleteItem (ItemEntity item, UserEntity user) { // 서비스에서 매개변수5개까진 ㄱㅊ 초과는 뭔가 문제있음
+    public Enum<? extends IResult> deleteItem(ItemEntity item, UserEntity user) { // 서비스에서 매개변수5개까진 ㄱㅊ 초과는 뭔가 문제있음
         // 게시글 삭제  결과 예상 : 삭제 성공, 실패: deleteArticle =0
         // 로그인이 안되어있고 + 삭제하려는 게시글이 니 글이 아닌 경우 : 보안조치, 자스 같은 경우엔 클라이언트가 수정할수있기때문에 백에서도 해줘야 함
         // 삭제하려는 게시글이 존재하지 않을때 : null일때
@@ -320,4 +317,20 @@ public class GoodsService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+
+    public Enum<? extends IResult> modifyColor(ItemColorEntity[] itemColors) throws IOException {
+
+        ItemColorEntity[] existingItemColor = new ItemColorEntity[itemColors.length];
+
+        for (int i = 0; i < itemColors.length; i++) {
+            existingItemColor[i] = this.goodsMapper.selectColorByItemIndex(itemColors[i].getItemIndex());
+            existingItemColor[i].setItemIndex(itemColors[i].getItemIndex());
+            existingItemColor[i].setColor(itemColors[i].getColor());
+        }
+        return this.goodsMapper.updateItemColor(existingItemColor) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
 }

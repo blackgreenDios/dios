@@ -322,7 +322,7 @@
                  LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
                  LEFT JOIN `dios_store`.`reviews` AS `review` ON `review`.`item_index` = `item`.`index`
         WHERE BINARY `item`.`index` = #{index}
-            LIMIT 1
+        LIMIT 1
     </select>
 
     <update id="updateItem"
@@ -340,7 +340,7 @@
             `titleImage_mime`=#{titleImageMime},
             `titleImage_data`=#{titleImageData}
         WHERE BINARY `index` = #{index}
-            LIMIT 1
+        LIMIT 1
     </update>
 
     <delete id="deleteItemByIndex">
@@ -348,27 +348,5 @@
         FROM `dios_store`.`items`
         WHERE `index` = #{index} LIMIT 1
     </delete>
-
-<!--    <insert id="insertProduct"-->
-<!--            useGeneratedKeys="true"-->
-<!--            keyColumn="index"-->
-<!--            keyProperty="index"-->
-<!--            parameterType="com.blackgreen.dios.entities.store.ProductEntity">-->
-<!--        INSERT INTO `dios_store`.`products`(`name`, `category_id`, `brand`, `price`, `image`, `image_type`, `detail`)-->
-<!--        VALUES (#{name}, #{categoryId}, #{brand}, #{price}, #{image}, #{imageType},-->
-<!--                IFNULL(#{detail}, DEFAULT(`detail`)))-->
-<!--    </insert>-->
-
-<!--    <insert id="insertProductColor"-->
-<!--            parameterType="com.blackgreen.dios.entities.store.ProductColorEntity">-->
-<!--        INSERT INTO `dios_store`.`product_colors`(`product_index`, `color`)-->
-<!--        VALUES (#{productIndex}, #{color})-->
-<!--    </insert>-->
-
-<!--    <insert id="insertProductSize"-->
-<!--            parameterType="com.blackgreen.dios.entities.store.ProductSizeEntity">-->
-<!--        INSERT INTO `dios_store`.`product_sizes` (`product_index`, `size`)-->
-<!--        VALUES (#{productIndex}, #{size})-->
-<!--    </insert>-->
 
 </mapper>

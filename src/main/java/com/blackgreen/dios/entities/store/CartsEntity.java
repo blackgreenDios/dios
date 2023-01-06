@@ -1,6 +1,6 @@
 package com.blackgreen.dios.entities.store;
 
-public class OrderItemEntity {
+public class CartsEntity {
     private int index;
     private int count;
     private int itemIndex;
