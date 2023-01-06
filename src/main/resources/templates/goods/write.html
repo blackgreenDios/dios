@@ -22,6 +22,7 @@
             <tr class="goods">
                 <th>상품 분류</th>
                 <td>
+                    <a class="star">*</a>
                     <select id="itemCategory" name="itemCategory">
                         <option value="" > 상품 종류를 선택해주세요. </option>
                         <option value="옷">의류</option>
@@ -33,12 +34,14 @@
             <tr class="goodsName">
                 <th>상품 이름</th>
                 <td>
+                    <a class="star">*</a>
                     <input class="inputGoodsName" name="inputGoodsName" type="text" placeholder="상품의 이름을 입력하세요." maxlength="100">
                 </td>
             </tr>
             <tr class="goodsBrand">
                 <th>상품 브랜드</th>
                 <td>
+                    <a class="star">*</a>
                     <select id="brandCategory" name="brandCategory">
                         <option value="" > 상품 브랜드를 선택해 주세요. </option>
                         <option value="나이키">나이키</option>
@@ -49,6 +52,7 @@
             <tr class="goodsPrice">
                 <th>상품 가격</th>
                 <td>
+                    <a class="star">*</a>
                     <input class="inputGoodsPrice" name="price" type="text" placeholder="상품의 가격을 입력하세요." maxlength="100">&nbsp&nbsp&nbsp원
                 </td>
             </tr>
@@ -56,6 +60,7 @@
                 <th>상품 옵션</th>
                 <td>
                     <div class="color">
+                        <a class="star">*</a>
                         <span class="colorText">색상</span>
                         <div class="colorBox">
                             <input class="newColor" name="newColor" placeholder="ex)  블랙, 그레이, 블루" type="text">
@@ -68,6 +73,7 @@
                         </div>
                     </div>
                     <div class="size">
+                        <a class="star">*</a>
                         <span class="sizeText">사이즈</span>
                         <div class="sizeBox">
                             <input class="newSize" name="newSize" placeholder="ex)  230, 260, M, L, free size" type="text">
@@ -84,7 +90,8 @@
             <tr class="goodsImage">
                 <th>상품 대표사진</th>
                 <td>
-                    <label class="label" id="label">
+                    <a class="star">*</a>
+                    <div class="label" id="label">
                         <input accept="image/*" multiple hidden type="file" name="images">
                         <span hidden>대표 사진</span>
                         <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택... </a>
@@ -92,7 +99,7 @@
                             <img class="title-img" id="imgThumb"
                                  src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg">
                         </div>
-                    </label>
+                    </div>
                 </td>
             </tr>
             <tr class="goodsDetail">
@@ -100,12 +107,13 @@
                 <td>
                     <label class="label">
                         <span hidden>상세 내용</span>
-                        <textarea class="--object-input input" maxlength="10000" name="detail"
-                                  placeholder="추가로 기재할 내용이 있으면 입력하세요.(200자 내외)" type="text"></textarea>
+                        <textarea class="--object-input input" name="detail"
+                                  placeholder="추가로 입력할 내용이 있으면 입력하세요. (200자 내)" type="text"></textarea>
                     </label>
                 </td>
             </tr>
         </table>
+        <div class="essential"> <a class="star">*</a> 는 필수 기재사항 입니다. </div>
         <div id="button">
             <div class="button-container" id="buttonContainer">
                 <input class="--object-button left" name="back" type="button" value="돌아가기">

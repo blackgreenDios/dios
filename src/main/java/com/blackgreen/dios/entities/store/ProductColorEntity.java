@@ -3,15 +3,15 @@ package com.blackgreen.dios.entities.store;
 import java.util.Objects;
 
 public class ProductColorEntity {
-    private String itemName;
+    private int productIndex;
     private String color;
 
-    public String getItemName() {
-        return itemName;
+    public int getProductIndex() {
+        return productIndex;
     }
 
-    public ProductColorEntity setItemName(String itemName) {
-        this.itemName = itemName;
+    public ProductColorEntity setProductIndex(int productIndex) {
+        this.productIndex = productIndex;
         return this;
     }
 
@@ -29,11 +29,11 @@ public class ProductColorEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductColorEntity that = (ProductColorEntity) o;
-        return Objects.equals(itemName, that.itemName) && Objects.equals(color, that.color);
+        return productIndex == that.productIndex && Objects.equals(color, that.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itemName, color);
+        return Objects.hash(productIndex, color);
     }
 }

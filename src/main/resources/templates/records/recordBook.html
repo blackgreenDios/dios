@@ -116,7 +116,7 @@
                     <a class="goalCount" th:text="'/ ' + ${count.getPlankSetting()}"></a>
                 </div>
             </div>
-            <div class="add-container">
+            <div class="add-container" id="add">
                 <div class="text">
                     <div class="textAdd">ADD</div>
                     <div class="button-container" th:if="${element.getAdd() != null && currentDate == date}">

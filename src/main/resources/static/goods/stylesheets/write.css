@@ -50,7 +50,7 @@ body > .main {
 
 #goodsTable tr td {
     border-bottom: 0.0625rem solid #ccc;
-    padding: 1.4rem 2rem 1.4rem 3rem;
+    padding: 1.4rem 2rem 1.4rem 2rem;
 }
 
 input {
@@ -156,12 +156,12 @@ select {
     font-weight: bold;
 }
 
-#goodsTable .goodsImage td label > .image-select-button {
+#goodsTable .goodsImage td div > .image-select-button {
     font-weight: bold;
     font-size: 0.9rem;
 }
 
-#goodsTable .goodsImage td label > .image-container {
+#goodsTable .goodsImage td div > .image-container {
     margin-top: 1rem;
 
     width: 20rem;
@@ -172,7 +172,7 @@ select {
     overflow: hidden;
 }
 
-#goodsTable .goodsImage td label > .image-container > .title-img {
+#goodsTable .goodsImage td div > .image-container > .title-img {
     height: 20rem;
 }
 
@@ -182,7 +182,10 @@ select {
 
     padding: 2rem 2rem 2rem 2rem;
 
-    font-size: 1.1rem;
+    font-size: 1rem;
+
+    border-radius: 0.2rem;
+    border: 0.08rem solid rgb(162, 158, 158);
 }
 
 #goodsTable .goodsDetail td > .label > .input:focus {
@@ -222,6 +225,25 @@ select {
     margin-left: 0.5rem;
 }
 
+.star {
+    color: rgb(232, 23, 23);
+    font-size: 1.1rem;
+
+    margin-right: 0.2rem;
+}
+
+.essential {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-end;
+
+    margin-top: 0.4rem;
+    margin-right: 0.4rem;
+
+    font-size: 0.9rem;
+    color: rgb(232, 23, 23);
+}
 
 .footer {
     margin-bottom: 10rem;

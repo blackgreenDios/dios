@@ -82,32 +82,42 @@ public class GoodsService {
                 : CommonResult.FAILURE;
     }
 
-    @Transactional
-    public Enum<? extends IResult> addProduct (ProductEntity product, MultipartFile images) throws IOException {
-
-        product.setImage(images.getBytes());
-        product.setImageType(images.getContentType());
-
-        return this.goodsMapper.insertProduct(product) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
-    }
-
-    @Transactional
-    public Enum<? extends IResult> addProductColor (ProductColorEntity productColor) {
-
-        return this.goodsMapper.insertProductColor(productColor) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
-    }
-
-    @Transactional
-    public Enum<? extends IResult> addProductSize (ProductSizeEntity productSize) {
-
-        return this.goodsMapper.insertProductSize(productSize) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
-    }
+//    @Transactional
+//    public Enum<? extends IResult> addProduct (ProductEntity product, MultipartFile images) throws IOException {
+//
+//        product.setImage(images.getBytes());
+//        product.setImageType(images.getContentType());
+//
+//        return this.goodsMapper.insertProduct(product) > 0
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
+//    }
+//
+//    @Transactional
+//    public Enum<? extends IResult> addProductColors (ProductColorEntity[] productColor) {
+//
+//        int result = 0;
+//        for (ProductColorEntity productColorEntity : productColor) {
+//            result += this.goodsMapper.insertProductColor(productColorEntity);
+//        }
+//
+//        return result == productColor.length
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
+//    }
+//
+//    @Transactional
+//    public Enum<? extends IResult> addProductSizes (ProductSizeEntity[] productSize) {
+//
+//        int result = 0;
+//        for (ProductSizeEntity productSizeEntity : productSize) {
+//            result += this.goodsMapper.insertProductSize(productSizeEntity);
+//        }
+//
+//        return result == productSize.length
+//                ? CommonResult.SUCCESS
+//                : CommonResult.FAILURE;
+//    }
 
     public ItemImgEntity getImage(int index) {
         return this.goodsMapper.selectItemImageByIndex(index);

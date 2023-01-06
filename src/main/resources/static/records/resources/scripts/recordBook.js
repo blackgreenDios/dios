@@ -341,7 +341,8 @@ deleteAdd?.addEventListener('click', e => {
                     switch (responseObject['result']) {
                         case 'success':
                             const date = responseObject['date'];
-                            window.location.href = `./recordBook?dt=${date}`;
+                            window.location.href = `./recordBook?dt=${date}#add`;
+                            window.location.reload();
                             break;
                         default:
                             alert('실패');

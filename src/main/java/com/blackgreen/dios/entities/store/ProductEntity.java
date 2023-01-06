@@ -3,6 +3,8 @@ package com.blackgreen.dios.entities.store;
 import java.util.Objects;
 
 public class ProductEntity {
+
+    private int index;
     private String name;
     private String categoryId;
     private String brand;
@@ -10,6 +12,15 @@ public class ProductEntity {
     private byte[] image;
     private String imageType;
     private String detail;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public ProductEntity setIndex(int index) {
+        this.index = index;
+        return this;
+    }
 
     public String getName() {
         return name;
@@ -35,6 +46,15 @@ public class ProductEntity {
 
     public ProductEntity setBrand(String brand) {
         this.brand = brand;
+        return this;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public ProductEntity setPrice(int price) {
+        this.price = price;
         return this;
     }
 
@@ -65,25 +85,16 @@ public class ProductEntity {
         return this;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public ProductEntity setPrice(int price) {
-        this.price = price;
-        return this;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity that = (ProductEntity) o;
-        return Objects.equals(name, that.name);
+        return index == that.index;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(index);
     }
 }
