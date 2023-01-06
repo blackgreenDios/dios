@@ -61,7 +61,7 @@
                         <th>색상</th>
                         <td>
                             <select id="colorOption" onchange="result()">
-                                <option value="">----색상을 선택해 주세요----</option>
+                                <option value="0">----색상을 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
                                 <option th:each="color: ${colors}"
                                         th:value="${color.getItemIndex}"
@@ -74,7 +74,7 @@
                         <th>사이즈</th>
                         <td>
                             <select id="sizeOption" onchange="result()">
-                                <option value="">----사이즈를 선택해 주세요----</option>
+                                <option value="0">----사이즈를 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
                                 <option th:each="size:${sizes}"
                                         th:value="${size.getItemIndex}"
@@ -98,14 +98,20 @@
                 </div>
                 </span>
                     <input type='button'
-                           onclick='count("minus")'
+                           onclick='Count("minus")'
                            value='-'/>
                     <div id='count'> 1 </div>
                     <input type='button'
-                           onclick='count("plus")'
+                           onclick='Count("plus")'
                            value='+'/>
                 </div>
             </form>
+
+            <div class="warning" th:if="${session.user == null}">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>현재 로그인 되어있지 않은 상태입니다.</span>
+                <div>장바구니 및 결제를 원하시면 로그인 후 이용해주세요.</div>
+            </div>
 
             <div class="button-container">
                 <input type="button" class="cart-button" value="BUY IT NOW"

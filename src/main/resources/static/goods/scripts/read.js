@@ -18,16 +18,20 @@ const cartButton = window.document.querySelector('[rel="cartButton"]');
 function result() {
     Array.from(sizeOption.selectedOptions).forEach(option => {
         resultSize.innerText = option.text;
-    });
-    Array.from(colorOption.selectedOptions).forEach(option => {
-        resultColor.innerText = option.text;
-    });
 
-    resultElement.classList.add('visible');
+        Array.from(colorOption.selectedOptions).forEach(option => {
+            resultColor.innerText = option.text;
+        });
+    });
+    // 모든 옵션이 선택되었을때 resultElement 를 보여주기
+    colorOption.options[colorOption.selectedIndex].value === '0' ||
+    sizeOption.options[sizeOption.selectedIndex].value === '0'
+        ? resultElement.classList.remove('visible')
+        : resultElement.classList.add('visible');
 }
 
 //사용자가 선택할 수량
-function count(type) {
+function Count(type) {
     const countElement = document.getElementById('count');
     // 현재 화면에 표시된 값
     let number = countElement.innerText;
@@ -49,36 +53,36 @@ function count(type) {
 
 
 // 장바구니 담기 버튼 클릭 시 이벤트
-cartButton.addEventListener('click', e => {
-    e.preventDefault();
-
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-
-    formData.append('count', resultForm['count'].value)
-    formData.append('itemIndex')
-    formData.append('itemPrice')
-    formData.append('colorIndex')
-    formData.append('sizeIndex')
-
-    xhr.open('GET', 'store/cart');
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const responseObject = JSON.parse(xhr.responseText);
-                switch (responseObject['result']) {
-                    case 'success':
-                        break;
-                    default:
-                        alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
-                }
-            } else {
-                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
-            }
-        }
-    };
-    xhr.send();
-});
+// cartButton.addEventListener('click', e => {
+//     e.preventDefault();
+//
+//     const xhr = new XMLHttpRequest();
+//     const formData = new FormData();
+//
+//     formData.append('count', resultForm['count'].value)
+//     formData.append('itemIndex')
+//     formData.append('itemPrice')
+//     formData.append('colorIndex')
+//     formData.append('sizeIndex')
+//
+//     xhr.open('GET', 'store/cart');
+//     xhr.onreadystatechange = () => {
+//         if (xhr.readyState === XMLHttpRequest.DONE) {
+//             if (xhr.status >= 200 && xhr.status < 300) {
+//                 const responseObject = JSON.parse(xhr.responseText);
+//                 switch (responseObject['result']) {
+//                     case 'success':
+//                         break;
+//                     default:
+//                         alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
+//                 }
+//             } else {
+//                 alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+//             }
+//         }
+//     };
+//     xhr.send();
+// });
 
 
 //상품 삭제 코드
