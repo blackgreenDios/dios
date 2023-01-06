@@ -228,6 +228,104 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
     display: flex;
 }
 
+body > .--footer {
+    padding-top: 10rem;
+}
 
+body > .--footer > .home {
+    width: 100%;
+    margin: 0 auto;
+    border-top: 1px #ddd solid;
+}
+
+body > .--footer > .home > ul > .footer-menu {
+    padding-bottom: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-family: none;
+    margin-right: 9rem;
+    margin-top: 2rem;
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service > .service-title > a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service > .service-time{
+    margin-top: 1rem;
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service > .service-time > .time-box > .time-term {
+    display: flex;
+    flex-direction: column;
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service > .service-time > .time-box > .time-term > a{
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service > .service-qna{
+    margin-top: 1rem;
+}
+
+body > .--footer > .home > ul > .footer-menu > .customer-service > .service-qna > a{
+    text-decoration: none;
+    color: rgb(0,0,0);
+}
+
+
+body > .--footer > .home > ul > .footer-menu > .menu-box {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+
+body > .--footer > .home > ul > .footer-menu > .menu-box > ul > .menu-title {
+    list-style: none;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+body > .--footer > .home > ul > .footer-menu > .menu-box > ul > .menu-item {
+    list-style: none;
+    margin-bottom: 0.6rem;
+}
+
+body > .--footer > .home > ul > .footer-menu > .menu-box > ul > .menu-item > a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: rgba(34, 34, 34, .5);
+
+}
+
+
+body > .--footer > .home > ul > .small-menu {
+    text-align: left;
+    list-style: none;
+}
+
+body > .--footer > .home > ul > .small-menu > .box > a {
+    position: relative;
+    padding: 0 15px;
+    font-size: 0.8rem;
+    line-height: 30px;
+    color: #555;
+    font-weight: bold;
+    text-decoration: none;
+
+}
 
 
