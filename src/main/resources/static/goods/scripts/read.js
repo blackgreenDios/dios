@@ -173,6 +173,7 @@ const loadReviews = () => {
                                 <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 4 ? 'selected' : ''}"></i>
                                 <i class="star  fa-solid fa-star    ${reviewObject['score'] >= 5 ? 'selected' : ''}"></i>
                             </span>
+                            
                 </div>
 
                 <div class="content-container">
