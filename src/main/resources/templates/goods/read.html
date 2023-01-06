@@ -60,30 +60,26 @@
                     <tr class="color-option">
                         <th>색상</th>
                         <td>
-                            <select>
+                            <select id="colorOption" onchange="result()">
                                 <option value="">----색상을 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
-                                <option>그레이</option>
-                                <option>베이지</option>
-                                <option>블랙</option>
+                                <option th:each="color: ${colors}"
+                                        th:value="${color.getItemIndex}"
+                                        th:text="${color.getColor()}">그레이
+                                </option>
                             </select>
                         </td>
                     </tr>
-                    <tr class="size-option" id="sizeOption">
+                    <tr class="size-option">
                         <th>사이즈</th>
                         <td>
-                            <select>
+                            <select id="sizeOption" onchange="result()">
                                 <option value="">----사이즈를 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
-                                <!--                                <option th:each="size:${sizes}"-->
-                                <!--                                        th:value="${size.getId()}"-->
-                                <!--                                        th:text="${size.getText()}"-->
-                                <!--                                >free</option>-->
-                                <option>XS</option>
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
+                                <option th:each="size:${sizes}"
+                                        th:value="${size.getItemIndex}"
+                                        th:text="${size.getSize()}">
+                                </option>
                             </select>
                         </td>
                     </tr>
@@ -91,24 +87,31 @@
                 </table>
             </form>
 
-            <div class="result" id="result">
+            <form class="resultForm" id="resultForm">
+                <input type="hidden" name="count" value="0">
+                <div class="result" id="result">
                 <span class="item-summary">
                     <span class="item-name" th:text="${goods.getItemName()}"></span>
                 <div class="option">
-                    <span class="size">사용자가 선택한 사이즈</span>
-                    <span class="color">사용자가 선택한 색상</span>
+                    <span class="color" id="resultColor">사용자가 선택한 색상</span>
+                    <span class="size" id="resultSize">사용자가 선택한 사이즈</span>
                 </div>
                 </span>
-                <span class="price"
-                      th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></span>
-            </div>
+                    <input type='button'
+                           onclick='count("minus")'
+                           value='-'/>
+                    <div id='count'> 1 </div>
+                    <input type='button'
+                           onclick='count("plus")'
+                           value='+'/>
+                </div>
+            </form>
+
             <div class="button-container">
                 <input type="button" class="cart-button" value="BUY IT NOW"
-                       th:if="${session.user !=null}"
-                       th:href="@{/store/order}">
+                       rel="orderButton" th:if="${session.user !=null}">
                 <input type="button" class="order-button" value="ADD TO CART"
-                       th:if="${session.user !=null}"
-                       th:href="@{/store/cart}">
+                       rel="cartButton" th:if="${session.user !=null}">
             </div>
 
         </div>

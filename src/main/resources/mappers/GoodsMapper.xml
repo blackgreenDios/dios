@@ -3,20 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blackgreen.dios.mappers.IGoodsMapper">
-    <select id="selectColor"
+
+    <select id="selectColorsByItemIndex"
             resultType="com.blackgreen.dios.entities.store.ItemColorEntity">
-        SELECT `id`   AS `id`,
-               `text` AS `text`
-        FROM `dios_store`.`item_colors`
-        ORDER BY `text`
+        SELECT `color`.`item_index` AS `itemIndex`,
+               `color`.`color`       AS `color`
+        FROM `dios_store`.`item_colors` AS `color`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `color`.`item_index`
+        WHERE `color`.`item_index` = #{itemIndex}
     </select>
 
-    <select id="selectColorById"
+    <select id="selectColorByItemIndex"
             resultType="com.blackgreen.dios.entities.store.ItemColorEntity">
-        SELECT `id`   AS `id`,
-               `text` AS `text`
-        FROM `dios_store`.`item_colors`
-        WHERE `id` = #{id}
+        SELECT `color`.`item_index` AS `itemIndex`,
+               `color`.`color`       AS `color`
+        FROM `dios_store`.`item_colors` AS `color`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `color`.`item_index`
+        WHERE `color`.`item_index` = #{itemIndex}
     </select>
 
     <select id="selectItemCategory"
@@ -88,7 +91,7 @@
 
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
-                 LEFT JOIN `dios_store`.`sizes` AS `size` ON `item`.`index` = `size`.`item_index`
+                 LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
         WHERE `item`.`index` = #{index} LIMIT 1
     </select>
 
@@ -115,19 +118,18 @@
     </select>
 
     <select id="selectSize"
-            resultType="com.blackgreen.dios.entities.store.SizeEntity">
-        SELECT `id`         AS `id`,
-               `item_index` AS `itemIndex`,
-               `text`       AS `text`
-        FROM `dios_store`.`sizes`
+            resultType="com.blackgreen.dios.entities.store.ItemSizeEntity">
+        SELECT `item_index` AS `itemIndex`,
+               `size`       AS `size`
+        FROM `dios_store`.`item_sizes`
     </select>
 
     <select id="selectSizeByItemIndex"
-            resultType="com.blackgreen.dios.entities.store.SizeEntity">
-        SELECT `id`         AS `id`,
-               `item_index` AS `itemIndex`,
-               `text`       AS `text`
-        FROM `dios_store`.`sizes`
+            resultType="com.blackgreen.dios.entities.store.ItemSizeEntity">
+        SELECT `size`.`item_index` AS `itemIndex`,
+               `size`.`size`       AS `size`
+        FROM `dios_store`.`item_sizes` AS `size`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `size`.`item_index` = `item`.`index`
         WHERE `item_index` = #{itemIndex}
     </select>
 
@@ -205,6 +207,18 @@
         VALUES (#{categoryId}, #{sellerIndex}, #{itemName}, #{itemDetail}, #{price}, #{count},
                 IFNULL(#{createdOn}, DEFAULT(`created_on`)),
                 #{titleImageName}, #{titleImageMime}, #{titleImageData})
+    </insert>
+
+    <insert id="insertItemColor"
+            parameterType="com.blackgreen.dios.entities.store.ItemColorEntity">
+        INSERT INTO `dios_store`.`item_colors`(`item_index`, `color`)
+        VALUES (#{itemIndex}, #{color})
+    </insert>
+
+    <insert id="insertItemSize"
+            parameterType="com.blackgreen.dios.entities.store.ItemSizeEntity">
+        INSERT INTO `dios_store`.`item_sizes`(`item_index`, `size`)
+        VALUES (#{itemIndex}, #{size})
     </insert>
 
     <insert id="insertReview"
@@ -332,8 +346,7 @@
     <delete id="deleteItemByIndex">
         DELETE
         FROM `dios_store`.`items`
-        WHERE `index` = #{index}
-            LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </delete>
 
 <!--    <insert id="insertProduct"-->

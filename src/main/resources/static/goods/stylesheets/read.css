@@ -254,21 +254,17 @@ select {
 }
 
 
-#modifyForm{
-    display: none;
-}
 
-#modifyForm.modifying{
+#modifyForm{
     z-index: 1;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-
 }
 
 #reviewForm > .content-container ,
-#modifyForm > .content-container {
+#modifyForm >.modify > .content-container {
     align-items: stretch;
     display: flex;
     flex-direction: row;
@@ -276,7 +272,7 @@ select {
 }
 
 #reviewForm > .content-container > .label,
-#modifyForm > .content-container > .label
+#modifyForm >.modify> .content-container > .label
 {
     flex: 1;
     margin-right: 0.5rem;
@@ -288,7 +284,7 @@ select {
 }
 
 #reviewForm > .content-container > .label > .input ,
-#modifyForm > .content-container > .label > .input {
+#modifyForm >.modify > .content-container > .label > .input {
 
     appearance: none;
     background-color: rgb(255, 255, 255);
@@ -300,7 +296,7 @@ select {
 }
 
 #reviewForm > .content-container > .submit-button,
-#modifyForm > .content-container > .submit-button
+#modifyForm >.modify > .content-container > .submit-button
 {
     appearance: none;
     background-color: rgb(255, 255, 255);
@@ -315,19 +311,19 @@ select {
 }
 
 #reviewForm > .content-container > .submit-button:hover,
-#modifyForm > .content-container > .submit-button:hover
+#modifyForm >.modify> .content-container > .submit-button:hover
 {
     filter: brightness(110%);
 }
 
 
 #reviewForm > .content-container > .submit-button:active ,
-#modifyForm > .content-container > .submit-button:active {
+#modifyForm >.modify > .content-container > .submit-button:active {
     filter: brightness(95%);
 }
 
 #reviewForm > .image-container ,
-#modifyForm > .image-container {
+#modifyForm >.modify > .image-container {
 
     background-color: rgb(234, 236, 238);
     border-radius: 0.5rem;
@@ -405,25 +401,25 @@ select {
 }
 
 #reviewForm > .score-container > .score ,
-#modifyForm > .score-container > .score {
+#modifyForm >.modify > .score-container > .score {
     color: rgb(211, 84, 0);
     font-size: 1.375rem;
     font-weight: 600;
 }
 
 #reviewForm > .score-container > .full-score ,
-#modifyForm > .score-container > .full-score {
+#modifyForm >.modify > .score-container > .full-score {
     color: rgb(128, 139, 150);
     font-size: 0.9rem;
 }
 
 #reviewForm > .score-container > .star-container > .star ,
-#modifyForm > .score-container > .star-container > .star {
+#modifyForm >.modify > .score-container > .star-container > .star {
     cursor: pointer;
 }
 
 #reviewForm > .score-container > .star-container > .star.selected,
-#modifyForm > .score-container > .star-container > .star.selected,
+#modifyForm >.modify > .score-container > .star-container > .star.selected,
 #reviewMenu > .review-result > .score-container > .star-container > .star.selected {
     color: rgb(211, 84, 0);
 
@@ -431,7 +427,7 @@ select {
 
 
 #reviewForm > .score-container > .star-container ,
-#modifyForm > .score-container > .star-container {
+#modifyForm >.modify > .score-container > .star-container {
     color: rgb(213, 216, 220);
     flex: 1;
     font-size: 1.375rem;
@@ -575,7 +571,8 @@ select {
     font-size: 0.8rem;
     margin-right: 3rem;
 }
-#reviewMenu > .review-container > .item > .head > .delete >.icon {
+#reviewMenu > .review-container > .item > .head > .delete >.icon ,
+#reviewMenu > .review-container > .item > .head > .modify >.icon {
     font-size: 1.26rem;
     cursor: pointer;
 }
@@ -632,24 +629,39 @@ select {
     color: rgb(213,216,218);
 }
 
-#modifyForm{
-    padding: 1.25rem;
+/*#modifyForm{*/
+/*    padding: 1.25rem;*/
 
+/*    align-items: stretch;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: flex-start;*/
+/*}*/
+
+#modify{
     align-items: stretch;
-    display: flex;
-    flex-direction: column;
+    display: none;
+    flex-direction:column;
     justify-content: flex-start;
+}
+
+#modify.visible{
+    display: flex;
 }
 
 #result{
     padding: 0.5rem;
     align-items: center;
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: center;
 
     border-bottom: 0.0625rem solid rgb(213,216,218);
     margin-bottom: 0.5rem;
+}
+
+#result.visible{
+    display: flex;
 }
 
 #result >.item-summary{

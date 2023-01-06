@@ -23,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.util.Collection;
 
-
 @Controller(value = "com.blackgreen.dios.controllers.GoodsController")
 @RequestMapping(value = "/goods")
 public class GoodsController {
@@ -33,138 +32,80 @@ public class GoodsController {
         this.goodsService = goodsService;
     }
 
-    // TODO : seller 아이디???! 세션 걸기
     @RequestMapping(value = "write",
             method = RequestMethod.GET)
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView("goods/write");
 
-//        ItemColorEntity[] colors = this.goodsService.getColor();
-//        SellerEntity[] sellers = this.goodsService.getSeller();
-//        SizeEntity[] sizes = this.goodsService.getSize();
-//        ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
-//
-//        modelAndView.addObject("color", colors);
-//        modelAndView.addObject("size", sizes);
-//        modelAndView.addObject("seller", sellers);
-//        modelAndView.addObject("category", categories);
+        ItemColorEntity[] colors = this.goodsService.getColor();
+        SellerEntity[] sellers = this.goodsService.getSeller();
+        SizeEntity[] sizes = this.goodsService.getSize();
+        ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
+
+        modelAndView.addObject("color", colors);
+        modelAndView.addObject("size", sizes);
+        modelAndView.addObject("seller", sellers);
+        modelAndView.addObject("category", categories);
 
         return modelAndView;
     }
 
 
-//    @PostMapping(value = "write")
-//    @ResponseBody
-//    public String postWrite(ItemEntity item,
-//                            @RequestParam(value = "sizes", required = false) String[] sizeId,
-//                            @RequestParam(value = "colors", required = false) String[] colorIds,
-//                            @RequestParam(value = "images", required = false) MultipartFile images) throws IOException {
-//
-//        Enum<?> result = this.goodsService.addItem(item, images);
-//        System.out.println(item.getIndex());
-//        System.out.println("---");
-//
-//        ItemColorEntity[] itemColors = new ItemColorEntity[colorIds.length];
-//        for (int i = 0; i < itemColors.length; i++) {
-//            ItemColorEntity itemColor = new ItemColorEntity();
-//            itemColor.setId(colorIds[i]);
-//            itemColors[i] = itemColor;
-//        }
-//
-//        for (ItemColorEntity itemColor : itemColors) {
-//            System.out.println(itemColor.getId());
-//            itemColor.setItemIndex(item.getIndex());
-//        }
-//
-//        System.out.println("---");
-//        SizeEntity[] sizes = new SizeEntity[sizeId.length];
-//        for (int i = 0; i < sizes.length; i++) {
-//            SizeEntity size = new SizeEntity();
-//            size.setId(sizeId[i]);
-//            sizes[i] = size;
-//        }
-//        for (SizeEntity size : sizes) {
-//            System.out.println(size.getId());
-//        }
-//
-//        JSONObject responseObject = new JSONObject();
-//        System.out.println("check image" + images);
-//
-//        for (SizeEntity size : sizes) {
-//            System.out.println("size check" + size.getId());
-//            size.setItemIndex(item.getIndex());
-//        }
-//
-////        for (ItemColorEntity color:colors) {
-////            System.out.println("size check" + color.getId());
-////            color.setItemIndex(item.getIndex());//인덱스에 저장한 후 color 에 insert
-////            System.out.println(color.getItemIndex());
-////        }
-//
-//        responseObject.put("gid", item.getIndex()); //gid는 goodsIndex 의 줄임말이다.
-//        responseObject.put("result", result.name().toLowerCase());
-//        return responseObject.toString();
-//    }
 
-//    @PostMapping(value = "product")
-//    @ResponseBody
-//    public String postProduct (@RequestParam(value = "images", required = false) MultipartFile images,
-//                               @RequestParam(value = "colors", required = false) String[] colors,
-//                               @RequestParam(value = "sizes", required = false) String[] sizes,
-//                               ProductEntity product) throws IOException {
-//
-//        // 이걸 왜 먼저 써주냐면 index가 외래키가 걸려있기 때문에 맞습니다~~
-//        Enum<?> result = this.goodsService.addProduct(product, images);
-//
-//        // color
-//        ProductColorEntity[] productColors = new ProductColorEntity[colors.length];
-//        for (int i = 0; i < colors.length; i++) {
-//            productColors[i] = new ProductColorEntity();
-//            productColors[i].setProductIndex(product.getIndex());
-//            productColors[i].setColor(colors[i]);
+    @PostMapping(value = "write")
+    @ResponseBody
+
+
+    public String postWrite(ItemEntity item,
+                            @RequestParam(value = "sizes", required = false) String[] sizeId,
+                            @RequestParam(value = "colors", required = false) String[] colorIds,
+                            @RequestParam(value = "images", required = false) MultipartFile images) throws IOException {
+
+        Enum<?> result = this.goodsService.addItem(item, images);
+        System.out.println(item.getIndex());
+        System.out.println("---");
+
+        ItemColorEntity[] itemColors = new ItemColorEntity[colorIds.length];
+        for (int i = 0; i < itemColors.length; i++) {
+            ItemColorEntity itemColor = new ItemColorEntity();
+            itemColor.setId(colorIds[i]);
+            itemColors[i] = itemColor;
+        }
+
+        for (ItemColorEntity itemColor : itemColors) {
+            System.out.println(itemColor.getId());
+            itemColor.setItemIndex(item.getIndex());
+        }
+
+        System.out.println("---");
+        SizeEntity[] sizes = new SizeEntity[sizeId.length];
+        for (int i = 0; i < sizes.length; i++) {
+            SizeEntity size = new SizeEntity();
+            size.setId(sizeId[i]);
+            sizes[i] = size;
+        }
+        for (SizeEntity size : sizes) {
+            System.out.println(size.getId());
+        }
+
+        JSONObject responseObject = new JSONObject();
+        System.out.println("check image" + images);
+
+        for (SizeEntity size : sizes) {
+            System.out.println("size check" + size.getId());
+            size.setItemIndex(item.getIndex());
+        }
+
+//        for (ItemColorEntity color:colors) {
+//            System.out.println("size check" + color.getId());
+//            color.setItemIndex(item.getIndex());//인덱스에 저장한 후 color 에 insert
+//            System.out.println(color.getItemIndex());
 //        }
-//        this.goodsService.addProductColors(productColors);
-//
-//        // size
-//        ProductSizeEntity[] productSizes = new ProductSizeEntity[sizes.length];
-//        for (int i = 0; i < colors.length; i++) {
-//            productSizes[i] = new ProductSizeEntity();
-//            productSizes[i].setProductIndex(product.getIndex());
-//            productSizes[i].setSize(sizes[i]);
-//        }
-//        this.goodsService.addProductSizes(productSizes);
-//
-//
-//
-//        JSONObject responseObject = new JSONObject();
-//        responseObject.put("result", result.name().toLowerCase());
-//
-//        return responseObject.toString();
-//    }
-//
-//    @PostMapping(value = "productColor")
-//    @ResponseBody
-//    public String postProductColor (ProductColorEntity productColor) {
-//
-//        Enum<?> result = this.goodsService.addProductColor(productColor);
-//
-//        JSONObject responseObject = new JSONObject();
-//        responseObject.put("result", result.name().toLowerCase());
-//
-//        return responseObject.toString();
-//    }
-//
-//    @PostMapping(value = "productSize")
-//    @ResponseBody
-//    public String postProductSize (ProductSizeEntity productSize) {
-//
-//        Enum<?> result = this.goodsService.addProductSize(productSize);
-//
-//        JSONObject responseObject = new JSONObject();
-//        responseObject.put("result", result.name().toLowerCase());
-//
-//        return responseObject.toString();
-//    }
+
+        responseObject.put("gid", item.getIndex()); //gid는 goodsIndex 의 줄임말이다.
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
 
     @GetMapping(value = "image") // 다운로드용 맵핑
     public ResponseEntity<byte[]> getImage(@RequestParam(value = "id") int id) {

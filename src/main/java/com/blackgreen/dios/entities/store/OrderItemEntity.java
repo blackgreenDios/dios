@@ -5,34 +5,10 @@ public class OrderItemEntity {
     private int count;
     private int itemIndex;
     private int itemPrice;
-    private String id;
-    private String clotheSizeId;
-    private String shoesSizeId;
+    private int colorIndex;
+    private int sizeIndex;
     private int orderNum;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getClotheSizeId() {
-        return clotheSizeId;
-    }
-
-    public void setClotheSizeId(String clotheSizeId) {
-        this.clotheSizeId = clotheSizeId;
-    }
-
-    public String getShoesSizeId() {
-        return shoesSizeId;
-    }
-
-    public void setShoesSizeId(String shoesSizeId) {
-        this.shoesSizeId = shoesSizeId;
-    }
 
     public int getIndex() {
         return index;
@@ -66,6 +42,22 @@ public class OrderItemEntity {
         this.itemPrice = itemPrice;
     }
 
+    public int getColorIndex() {
+        return colorIndex;
+    }
+
+    public void setColorIndex(int colorIndex) {
+        this.colorIndex = colorIndex;
+    }
+
+    public int getSizeIndex() {
+        return sizeIndex;
+    }
+
+    public void setSizeIndex(int sizeIndex) {
+        this.sizeIndex = sizeIndex;
+    }
+
     public int getOrderNum() {
         return orderNum;
     }
@@ -74,3 +66,5 @@ public class OrderItemEntity {
         this.orderNum = orderNum;
     }
 }
+
+

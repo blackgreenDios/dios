@@ -1,9 +1,9 @@
 package com.blackgreen.dios.entities.store;
 
 public class ItemColorEntity {
-    private String id;
     private int itemIndex;
-    private String text;
+    private String color;
+
 
     public int getItemIndex() {
         return itemIndex;
@@ -13,19 +13,12 @@ public class ItemColorEntity {
         this.itemIndex = itemIndex;
     }
 
-    public String getId() {
-        return id;
+    public String getColor() {
+        return color;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
 }
