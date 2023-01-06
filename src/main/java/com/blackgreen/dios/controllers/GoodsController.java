@@ -37,7 +37,6 @@ public class GoodsController {
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView("goods/write");
 
-
         SellerEntity[] sellers = this.goodsService.getSeller();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
         modelAndView.addObject("seller", sellers);
@@ -225,10 +224,36 @@ public class GoodsController {
         modelAndView.addObject("category", this.goodsService.getCategory(goods.getCategoryId()));
         modelAndView.addObject("seller", this.goodsService.getBrand(goods.getSellerIndex()));
 
-        modelAndView.addObject("sizes",this.goodsService.getItemSize(gid));
-        modelAndView.addObject("colors",this.goodsService.getItemColors(gid));
+        modelAndView.addObject("sizes", this.goodsService.getItemSize(gid));
+        modelAndView.addObject("colors", this.goodsService.getItemColors(gid));
         return modelAndView;
     }
+
+    @PostMapping(value = "read", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postRead(@SessionAttribute(value = "user", required = false) UserEntity user,
+                           @RequestParam(value = "itemIndex") int itemIndex,
+                           @RequestParam(value = "count") int count,
+                           @RequestParam(value = "orderColor") String orderColor,
+                           @RequestParam(value = "orderSize") String orderSize,
+                           CartEntity cart) throws IOException {
+
+        Enum<?> result;
+        cart.setItemIndex(itemIndex);
+        cart.setCount(count);
+        cart.setOrderSize(orderSize);
+        cart.setOrderColor(orderColor);
+
+        JSONObject responseObject = new JSONObject();
+        try {
+            result = this.goodsService.addCartItem(user, cart);
+        } catch (RollbackException ignored) {
+            result = AddReviewResult.FAILURE;
+        }
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
 
     @RequestMapping(value = "read",
             method = RequestMethod.DELETE,//DELETE로 사용한 이유: 주소를 동일하게 하고 방식을 달리 하는 것은 레스트인데,그냥 삭제할때 이렇게 쓰기로 개발자끼리 약속함
@@ -304,7 +329,9 @@ public class GoodsController {
 
     @PostMapping(value = "review")
     @ResponseBody
-    public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "images", required = false) MultipartFile[] images, ReviewEntity review) throws IOException, RollbackException {
+    public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images,
+                             ReviewEntity review) throws IOException, RollbackException {
         JSONObject responseObject = new JSONObject();
         Enum<?> result;
         try {
@@ -360,7 +387,6 @@ public class GoodsController {
 
         return modelAndView;
     }
-
 
 
 }

@@ -333,4 +333,17 @@ public class GoodsService {
                 : CommonResult.FAILURE;
     }
 
+
+    @Transactional
+    public Enum<? extends IResult> addCartItem (UserEntity user, CartEntity cart) throws IOException, RollbackException {
+        if (user == null) {
+            return AddReviewResult.NOT_SIGNED;
+        }
+        cart.setUserEmail(user.getEmail());
+        if (this.goodsMapper.insertCartItem(cart) == 0) {
+            return AddReviewResult.FAILURE;
+        }
+        return AddReviewResult.SUCCESS;
+    }
+
 }

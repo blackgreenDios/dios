@@ -239,6 +239,15 @@
         VALUES (#{reviewIndex}, #{data}, #{type})
     </insert>
 
+    <insert id="insertCartItem"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.blackgreen.dios.entities.store.CartEntity">
+        INSERT INTO `dios_store`.`carts`(`user_email`,`count`,`item_index`,`order_color`,`order_size`)
+        VALUES (#{userEmail}, #{count}, #{itemIndex}, #{orderColor}, #{orderSize})
+    </insert>
+
     <update id="updateReview"
             parameterType="com.blackgreen.dios.entities.store.ReviewEntity">
         UPDATE `dios_store`.`reviews`

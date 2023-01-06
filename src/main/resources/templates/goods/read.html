@@ -31,7 +31,9 @@
         </div>
         <div class="item-info" id="itemInfo">
             <h2 th:utext="${goods.getItemName()}"></h2>
+
             <form class="content" id="form">
+                <input name="price" type="hidden" th:value="${goods.getPrice()}">
                 <table class="table" id="table">
                     <tbody>
                     <tr class="item-category">
@@ -55,7 +57,9 @@
                     </tr>
                     <tr class="item-price">
                         <th>가격</th>
-                        <td th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
+                        <td name="price"
+                                th:value="${goods.getPrice()}"
+                                th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
                     </tr>
                     <tr class="color-option">
                         <th>색상</th>
@@ -88,7 +92,8 @@
             </form>
 
             <form class="resultForm" id="resultForm">
-                <input type="hidden" name="count" value="0">
+                <input name="itemIndex" type="hidden" th:value="${goods.getIndex()}">
+                <input type="hidden" name="count" value="1">
                 <div class="result" id="result">
                 <span class="item-summary">
                     <span class="item-name" th:text="${goods.getItemName()}"></span>

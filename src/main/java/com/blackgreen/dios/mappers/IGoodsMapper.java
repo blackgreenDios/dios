@@ -51,6 +51,8 @@ public interface IGoodsMapper {
     int insertItemSize(ItemSizeEntity size);
     int insertReview(ReviewEntity review);
 
+    int insertCartItem(CartEntity cart);
+
     int insertReviewImage(ReviewImageEntity reviewImage);
 
     int deleteReviewByIndex(int index);
