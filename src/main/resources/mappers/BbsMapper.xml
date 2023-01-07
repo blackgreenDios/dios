@@ -136,7 +136,7 @@
                               `commentLike`.`user_email` = IFNULL(#{userEmail}, '')
                  LEFT JOIN `dios_bbs`.`comment_likes` AS `commentLikeCount`
                            ON `comment`.`index` = `commentLikeCount`.`comment_index`
-        WHERE `article_index` = #{articleIndex}
+        WHERE `article_index` = #selectArticleByIndex{articleIndex}
         GROUP BY `index`
         ORDER BY `index`
     </select>

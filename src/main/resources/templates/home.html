@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HOME</title>
+    <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+    <link rel="stylesheet" th:href="@{/resources/stylesheets/home.css}">
+    <script defer th:src="@{/resources/scripts/home.js}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Gowun+Batang:wght@700&family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<main class="--main main">
+    <div class="do-container">
+        <div class="do-text-main">
+            <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dios&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="star">✦</a></a>
+        </div>
+        <div class="do">
+            <div class="squat" onload="slideShow()">
+                <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat.jpg}">
+                <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat2.jpg}">
+                <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat3.jpg}">
+            </div>
+            <div class="lunge" onload="slideShow()">
+                <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge.jpg}">
+                <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge2.jpg}">
+                <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge3.jpg}">
+            </div>
+            <div class="plank" onload="slideShow()">
+                <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank.jpg}">
+                <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank2.jpg}">
+                <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank3.jpg}">
+            </div>
+        </div>
+        <div class="content-container">
+            <a class="content">
+                측정되지 않는 것은 관리할 수 없습니다.
+                <br>
+                <br>
+                기록의 힘은 습관을 만들 때 생각 이상으로 강력합니다 !
+                <br>
+                <br>
+                dios 와 함께 기록하는 습관을 만들어 앙큼 엉덩이를 가져보세요
+                <br>
+                <br>
+                <br>
+                <a class="redText">start</a>
+                <br>
+                <i class="startIcon fa-solid fa-circle-down"></i>
+            </a>
+        </div>
+        <div class="start-container" rel="startContainer">
+            <a class="startButton">start</a>
+        </div>
+    </div>
+    <div class="shop=container">
+
+    </div>
+    <div class="best-bbs-container">
+
+    </div>
+</main>
+</body>
+</html>

@@ -50,12 +50,16 @@
                 </ul>
             </div>
 
-            <h2 class="sub-title"> DIOS 배송상품</h2>
+            <div class="title-box">
+                <div class="sub-title"><a>DIOS 배송상품</a></div>
+                <div></div>
+            </div>
+
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">
-                        <input type="checkbox" checked="" id="checkboxALL" name="" value="" title="배송상품 전체 선택">
+                        <input type="checkbox" checked id="checkboxALL" name="select" value="" title="배송상품 전체 선택" onclick='selectAll(this)'>
                     </th>
 
                     <th scope="col">상품정보</th>
@@ -65,41 +69,49 @@
                     <th scope="col">배송정보</th>
                 </tr>
                 </thead>
-                <tbody>
-                <td style="width: 40px">
-                    <div class="product">
-                        <div class="tdcell first">
-                            <input type="checkbox" checked="" name="" value="" title="배송상품 선택">
-                        </div>
-                    </div>
-                </td>
-                <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
-                    <div class="product">
-                        <div class="tdcell product">
-                            <div class="product-info">
-                                <a class="product-img" href="#"><img class="image"
-                                                                     src="https://i.pinimg.com/474x/ea/d4/08/ead408fe15be17b66d8474cd53a39d27.jpg"
-                                                                     alt="">
-                                </a>
-
-                                <a class="product-title">나이키 TC 7900</a>
-                                <a class="product-name"></a>
+                <tbody id="cartContainer">
+                <tr class="line" rel="line">
+                    <td style="width: 40px">
+                        <div class="product">
+                            <div class="tdcell first">
+                                <input type="checkbox" checked name="select" value="" title="배송상품 선택">
                             </div>
                         </div>
-                    </div>
-                </td>
-                <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
-                    <div class="product">
-                        <div class="tdcell price">
+                    </td>
+                    <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell product">
+                                <div class="product-info">
+                                    <a class="product-img" href="#"><img class="image"
+                                                                         src="https://i.pinimg.com/474x/ea/d4/08/ead408fe15be17b66d8474cd53a39d27.jpg"
+                                                                         alt="">
+                                    </a>
+
+                                    <div class="information">
+                                        <a class="product-title">나이키 TC 7900</a>
+                                        <div class="information-option">
+                                            <a class="product-option">옵션 | </a>
+                                            <a class="product-optionColor" th:text="'color : '  "></a>
+                                            <a class="product-optionSize" th:text="', size : '  "></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
                                 <span class="product-price">
                                     <a class="num">35,000원</a></span>
 
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
-                    <div class="product">
-                        <div class="tdcell count">
+                    </td>
+                    <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell count">
                                 <span class="product-count">
                                    <select class="count">
                                        <option value='1' selected>1</option>
@@ -111,31 +123,265 @@
                                    </select>
                                 </span>
 
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
-                    <div class="product">
-                        <div class="tdcell price">
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
                                 <span class="product-price">
                                     <a class="num">35,000원</a></span>
 
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td style="width: 120px">
-                    <div class="product">
-                        <div class="tdcell delivery">
+
+                    </td>
+                    <td style="width: 120px">
+                        <div class="product">
+                            <div class="tdcell delivery">
                                 <span class="product-delivery">
                                     <a class="text">무료배송</a></span>
 
+                            </div>
                         </div>
-                    </div>
-                </td>
+                    </td>
+                </tr>
+
+                <tr class="line">
+                    <td style="width: 40px">
+                        <div class="product">
+                            <div class="tdcell first">
+                                <input type="checkbox" checked="" name="" value="" title="배송상품 선택">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell product">
+                                <div class="product-info">
+                                    <a class="product-img" href="#"><img class="image"
+                                                                         src="https://i.pinimg.com/474x/ea/d4/08/ead408fe15be17b66d8474cd53a39d27.jpg"
+                                                                         alt="">
+                                    </a>
+
+                                    <div class="information">
+                                        <a class="product-title">나이키 TC 7900</a>
+                                        <div class="information-option">
+                                            <a class="product-option">옵션 | </a>
+                                            <a class="product-optionColor" th:text="'color : '  "></a>
+                                            <a class="product-optionSize" th:text="', size : '  "></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
+                                <span class="product-price">
+                                    <a class="num">35,000원</a></span>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell count">
+                                <span class="product-count">
+                                   <select class="count">
+                                       <option value='1' selected>1</option>
+                                         <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                       <option value='4'>4</option>
+                                       <option value='5'>5</option>
+                                       <option value='6'>6</option>
+                                   </select>
+                                </span>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
+                                <span class="product-price">
+                                    <a class="num">35,000원</a></span>
+
+                            </div>
+                        </div>
+
+                    </td>
+                    <td style="width: 120px">
+                        <div class="product">
+                            <div class="tdcell delivery">
+                                <span class="product-delivery">
+                                    <a class="text">무료배송</a></span>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="line">
+                    <td style="width: 40px">
+                        <div class="product">
+                            <div class="tdcell first">
+                                <input type="checkbox" checked="" name="" value="" title="배송상품 선택">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell product">
+                                <div class="product-info">
+                                    <a class="product-img" href="#"><img class="image"
+                                                                         src="https://i.pinimg.com/474x/ea/d4/08/ead408fe15be17b66d8474cd53a39d27.jpg"
+                                                                         alt="">
+                                    </a>
+
+                                    <div class="information">
+                                        <a class="product-title">나이키 TC 7900</a>
+                                        <div class="information-option">
+                                            <a class="product-option">옵션 | </a>
+                                            <a class="product-optionColor" th:text="'color : '  "></a>
+                                            <a class="product-optionSize" th:text="', size : '  "></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
+                                <span class="product-price">
+                                    <a class="num">35,000원</a></span>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell count">
+                                <span class="product-count">
+                                   <select class="count">
+                                       <option value='1' selected>1</option>
+                                         <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                       <option value='4'>4</option>
+                                       <option value='5'>5</option>
+                                       <option value='6'>6</option>
+                                   </select>
+                                </span>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
+                                <span class="product-price">
+                                    <a class="num">35,000원</a></span>
+
+                            </div>
+                        </div>
+
+                    </td>
+                    <td style="width: 120px">
+                        <div class="product">
+                            <div class="tdcell delivery">
+                                <span class="product-delivery">
+                                    <a class="text">무료배송</a></span>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="line">
+                    <td style="width: 40px">
+                        <div class="product">
+                            <div class="tdcell first">
+                                <input type="checkbox" checked="" name="" value="" title="배송상품 선택">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell product">
+                                <div class="product-info">
+                                    <a class="product-img" href="#"><img class="image"
+                                                                         src="https://i.pinimg.com/474x/ea/d4/08/ead408fe15be17b66d8474cd53a39d27.jpg"
+                                                                         alt="">
+                                    </a>
+
+                                    <div class="information">
+                                        <a class="product-title">나이키 TC 7900</a>
+                                        <div class="information-option">
+                                            <a class="product-option">옵션 | </a>
+                                            <a class="product-optionColor" th:text="'color : '  "></a>
+                                            <a class="product-optionSize" th:text="', size : '  "></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
+                                <span class="product-price">
+                                    <a class="num">35,000원</a></span>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell count">
+                                <span class="product-count">
+                                   <select class="count">
+                                       <option value='1' selected>1</option>
+                                         <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                       <option value='4'>4</option>
+                                       <option value='5'>5</option>
+                                       <option value='6'>6</option>
+                                   </select>
+                                </span>
+
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                        <div class="product">
+                            <div class="tdcell price">
+                                <span class="product-price">
+                                    <a class="num">35,000원</a></span>
+
+                            </div>
+                        </div>
+
+                    </td>
+                    <td style="width: 120px">
+                        <div class="product">
+                            <div class="tdcell delivery">
+                                <span class="product-delivery">
+                                    <a class="text">무료배송</a></span>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
                 </tbody>
             </table>
 
-            <div class="total-price">
+            <div class="total-price" id="totalPrice">
                 <div class="button-container">
                     <input type="button" class="cancel" value="선택상품 삭제">
                 </div>
@@ -162,10 +408,9 @@
             </div>
 
             <div class="total-button">
-                <input type="button" class="order select"  value="선택주문">
-                <input type="button" class="order"  value="전체주문">
+                <input type="button" class="order select" value="선택주문">
+                <input type="button" class="order" rel="orderAll" value="전체주문">
             </div>
-
 
 
         </div>

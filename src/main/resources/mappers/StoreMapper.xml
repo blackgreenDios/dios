@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blackgreen.dios.mappers.IStoreMapper">
+
+    <select id="selectCartByEmail" resultType="com.blackgreen.dios.vos.store.CartVo">
+        SELECT `cart`.`index`           AS `index`,
+               `cart`.`user_email`      AS `UserEmail`,
+               `cart`.`count`           AS `count`,
+               `cart`.`item_index`      AS `itemIndex`,
+               `cart`.`order_color`     AS `orderColor`,
+               `cart`.`order_size`      AS `orderSize`,
+               `item`.`item_name`       AS `itemName`,
+               `item`.`price`           AS `price`,
+               `item`.`titleImage_data` AS `image`,
+               `item`.`titleImage_mime` AS `imageMime`
+        FROM `dios_store`.`carts` AS `cart`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `cart`.`item_index`
+        WHERE `user_email` = #{userEmail}
+    </select>
+
+    <select id="selectCartByIndex" resultType="com.blackgreen.dios.entities.store.CartEntity">
+    SELECT `index`           AS `index`,
+    `user_email`      AS `UserEmail`,
+    `count`           AS `count`,
+    `item_index`      AS `itemIndex`,
+    `order_color`     AS `orderColor`,
+    `order_size`      AS `orderSize`
+    FROM `dios_store`.`carts`
+    WHERE `index` = #{index}
+    </select>
+
+    <delete id="deleteCartByIndex">
+        DELETE
+        FROM `dios_bbs`.`articles`
+        WHERE `index` = #{index}
+    </delete>
+
+    <update id="updateCountPlus"
+            parameterType="com.blackgreen.dios.entities.store.CartEntity">
+        UPDATE `dios_store`.`carts`
+        SET `count` = #{count} + 1
+        WHERE BINARY `index` = #{index}
+        LIMIT 1;
+    </update>
+
+    <update id="updateCountMinus"
+            parameterType="com.blackgreen.dios.entities.store.CartEntity">
+        UPDATE `dios_store`.`carts`
+        SET `count` = #{count} - 1
+        WHERE BINARY `index` = #{index}
+        LIMIT 1;
+    </update>
+
+</mapper>

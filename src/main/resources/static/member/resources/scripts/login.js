@@ -43,7 +43,7 @@ form.onsubmit=(e)=>{
                 //"{"result":"success"}"
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = 'login';
+                        window.history.length < 2 ? window.location.href = 'login' : window.history.back();
                         break;
                     default:
                         alert('알맞은 이메일과 비밀번호를 입력해주세요.')
