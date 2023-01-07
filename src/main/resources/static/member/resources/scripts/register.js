@@ -91,7 +91,7 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
                             alert('이메일 인증이 완료되지 않았습니다.');
                             break;
                         case 'contact':
-                            alert('이미 등록된 전화번호 입니다.');
+                            alert('이미 등록된 연락처 입니다.');
                             break;
                         case 'nickname':
                             alert('이미 등록된 닉네임 입니다.');

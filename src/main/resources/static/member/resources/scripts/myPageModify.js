@@ -106,8 +106,6 @@ form.querySelector('[rel = "checkSend2"]').addEventListener('click', () => {
                         form['contact'].focus();
                         form['contact'].select();
                         break;
-
-
                     default:
                         break;
                 }

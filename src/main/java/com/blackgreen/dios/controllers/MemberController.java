@@ -270,6 +270,7 @@ public class MemberController {
         Enum<?> result = user != null && user.getPassword().equals(CryptoUtils.hasSha512(password))
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
+
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
 

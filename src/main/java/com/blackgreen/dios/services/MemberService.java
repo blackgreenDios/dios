@@ -430,19 +430,22 @@ public class MemberService {
         String email = String.valueOf(responseObject.getLong("id"));
 
         UserEntity user = this.memberMapper.selectUserByEmail(email);
+
         if(user == null){
             user = new UserEntity();
             user.setEmail(email);
             user.setNickname(propertyObject.getString("nickname"));
             user.setPassword(""); //카카오 로그인은 비밀번호 못땡겨옴
             user.setName("");
-            user.setContact("");
+            user.setContact(email);
             user.setAddressPrimary("");
             user.setAddressPostal("");
             user.setAddressSecondary(""); //빈 문자열로 하면 웹에서 입력안해도 Insert 가능
 
             this.memberMapper.insertUser(user);
         }
+
+
         return user;
 
     }

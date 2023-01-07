@@ -215,9 +215,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
     background-color: rgba(11, 124, 4, 70%);
 }
 
-body > .main > .content > .form > .button-container > .button.green >.text {
-    margin-right: 1rem;
-}
+
 
 .--object-check{
     align-items: center;
