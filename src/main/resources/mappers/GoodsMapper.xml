@@ -7,7 +7,7 @@
     <select id="selectColorsByItemIndex"
             resultType="com.blackgreen.dios.entities.store.ItemColorEntity">
         SELECT `color`.`item_index` AS `itemIndex`,
-               `color`.`color`       AS `color`
+               `color`.`color`      AS `color`
         FROM `dios_store`.`item_colors` AS `color`
                  LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `color`.`item_index`
         WHERE `color`.`item_index` = #{itemIndex}
@@ -16,7 +16,7 @@
     <select id="selectColorByItemIndex"
             resultType="com.blackgreen.dios.entities.store.ItemColorEntity">
         SELECT `color`.`item_index` AS `itemIndex`,
-               `color`.`color`       AS `color`
+               `color`.`color`      AS `color`
         FROM `dios_store`.`item_colors` AS `color`
                  LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `color`.`item_index`
         WHERE `color`.`item_index` = #{itemIndex}
@@ -92,7 +92,8 @@
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
                  LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
-        WHERE `item`.`index` = #{index} LIMIT 1
+        WHERE `item`.`index` = #{index}
+        LIMIT 1
     </select>
 
 
@@ -103,7 +104,8 @@
                `item`.`titleimage_data` AS `titleimageData`
 
         FROM `dios_store`.`items` AS `item`
-        WHERE `item`.`index` = #{index} LIMIT 1
+        WHERE `item`.`index` = #{index}
+        LIMIT 1
     </select>
 
 
@@ -114,7 +116,8 @@
                `file_mime` AS `fileMime`,
                `data`      AS `data`
         FROM `dios_store`.`item_img`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </select>
 
     <select id="selectSize"
@@ -149,7 +152,8 @@
     <delete id="deleteReviewByIndex">
         DELETE
         FROM `dios_store`.`reviews`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </delete>
 
     <select id="selectReviewsByGoodsIndex"
@@ -175,7 +179,8 @@
                `data`         AS `data`,
                `type`         AS `type`
         FROM `dios_store`.`review_images`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </select>
 
     <select id="selectReviewImagesByGoodsIndexExceptData"
@@ -346,7 +351,8 @@
     <delete id="deleteItemByIndex">
         DELETE
         FROM `dios_store`.`items`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </delete>
 
 </mapper>

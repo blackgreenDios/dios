@@ -76,4 +76,7 @@ public interface IGoodsMapper {
                                       @Param(value = "limit") int limit,
                                       @Param(value = "offset") int offset);
 
+
+
+
 }
