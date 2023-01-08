@@ -91,6 +91,9 @@ public class RecordController {
             modelAndView = new ModelAndView("redirect:/dios/login");
         } else {
             modelAndView = new ModelAndView("records/lunge");
+
+            int goal = this.recordService.readCount(user);
+            modelAndView.addObject("goal", goal);
         }
 
         return modelAndView;
@@ -113,7 +116,7 @@ public class RecordController {
 
     //
     // count insert 하기 (목표 개수 성공했을 때 record 누르면 실행되는 거)
-    @RequestMapping(value = "squat",
+    @RequestMapping(value = "count",
             method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

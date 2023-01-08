@@ -18,7 +18,7 @@
 <main class="--main main">
     <div class="do-container">
         <div class="do-text-main">
-            <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dios&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="star">✦</a></a>
+            <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="star">✦</a></a>
         </div>
         <div class="do">
             <div class="squat" onload="slideShow()">
@@ -45,7 +45,7 @@
                 기록의 힘은 습관을 만들 때 생각 이상으로 강력합니다 !
                 <br>
                 <br>
-                dios 와 함께 기록하는 습관을 만들어 앙큼 엉덩이를 가져보세요
+                dios 와 함께 기록하는 습관을 만들어 앙큼 엉댕이를 가져보세요
                 <br>
                 <br>
                 <br>
@@ -58,8 +58,33 @@
             <a class="startButton">start</a>
         </div>
     </div>
-    <div class="shop=container">
-
+    <div id="function-container">
+        <div class="function">
+            <div class="manual">
+                <a class="manualTitle" th:href="@{/}">MANUAL
+                <input type="image" class="manualImage" alt="manualImage" th:src="@{/resources/images/recordBook.png}"></a>
+                <div class="text">
+                    <a class="one">사용설명서</a>
+                    <a class="two">DIOS 운동기록 사용방법</a>
+                </div>
+            </div>
+            <div class="recordBook">
+                <a class="recordBookTitle" th:href="@{'/record/recordBook?dt=' + ${date}}">A RECORD BOOK
+                <input type="image" class="recordBookImage" alt="recordBookImage" th:src="@{/resources/images/recordBook.png}"></a>
+                <div class="text">
+                    <a class="one">기록장</a>
+                    <a class="two">기록하는 습관 만들기</a>
+                </div>
+            </div>
+            <div class="shop">
+                <a class="shopTitle" th:href="@{/}">SHOP
+                <input type="image" class="shopImage" alt="shopImage" th:src="@{/resources/images/recordBook.png}"></a>
+                <div class="text">
+                    <a class="one">쇼핑몰</a>
+                    <a class="two">운동에 필요한 용품</a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="best-bbs-container">
 

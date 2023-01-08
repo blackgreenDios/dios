@@ -2,7 +2,7 @@ const countContainer = document.getElementById('countContainer');
 const progress = document.getElementById('progress');
 let goal = parseInt(progress.querySelector('[rel="goal"]').dataset.goal);
 
-const URL = "https://teachablemachine.withgoogle.com/models/YB67jFqWW/";
+const URL = "https://teachablemachine.withgoogle.com/models/T8heqFwGN/";
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 async function init() {
@@ -22,8 +22,7 @@ async function init() {
 
     // append/get elements to the DOM
     const canvas = document.getElementById("canvas");
-    canvas.width = size;
-    canvas.height = size;
+    canvas.width = size; canvas.height = size;
     ctx = canvas.getContext("2d");
     labelContainer = document.getElementById("label-container");
     for (let i = 0; i < maxPredictions; i++) { // and class labels
@@ -49,10 +48,10 @@ async function predict() {
     const prediction = await model.predict(posenetOutput);
 
     const stand = prediction[0].probability.toFixed(2);
-    const squat = prediction[1].probability.toFixed(2);
+    const lunge = prediction[1].probability.toFixed(2);
 
     if ( stand > 0.98 ) {
-        if (status === "squat") {
+        if (status === "lunge") {
             count++;
 
             // 프로그레스바
@@ -78,8 +77,8 @@ async function predict() {
         }
 
         status = "stand";
-    } else if ( parseInt(squat) === 1 ) {
-        status = "squat";
+    } else if ( parseInt(lunge) === 1 ) {
+        status = "lunge";
     }
 
     if (count === goal) {
@@ -160,8 +159,8 @@ goRecord.addEventListener('click', e => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    formData.append('squatCount', count);
-    formData.append('squatSetting', goal);
+    formData.append('lungeCount', count);
+    formData.append('lungeSetting', goal);
 
     xhr.open('POST', './count');
 
@@ -206,10 +205,10 @@ recordButton.addEventListener('click', e => {
         const xhr = new XMLHttpRequest();
         const formData = new FormData();
 
-        formData.append('squatCount', count);
-        formData.append('squatSetting', goal);
+        formData.append('lungeCount', count);
+        formData.append('lungeSetting', goal);
 
-        xhr.open('POST', './squat');
+        xhr.open('POST', './count');
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {

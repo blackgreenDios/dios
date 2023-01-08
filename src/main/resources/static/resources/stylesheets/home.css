@@ -91,6 +91,8 @@ body > .main > .do-container > .do > .plank > .plankImg {
 body > .main > .do-container > .content-container {
     font-family: 'IBM Plex Sans KR', sans-serif;
 
+    margin-top: 6rem;
+
     position: absolute;
     opacity: 0;
     transition: all ease 0.5s;
@@ -152,3 +154,95 @@ body > .main > .do-container > .start-container > .startButton {
     color: rgb(182, 16, 16);
 }
 
+#function-container {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#function-container > .function {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    margin-top: 7rem;
+    margin-bottom: 7rem;
+}
+
+#function-container > .function > .manual,
+#function-container > .function > .recordBook,
+#function-container > .function > .shop {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#function-container > .function > .manual > .manualTitle,
+#function-container > .function > .recordBook > .recordBookTitle,
+#function-container > .function > .shop > .shopTitle {
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+
+    text-decoration-line: underline;
+    text-decoration-color: #938f8f;
+
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#function-container > .function > .manual > .manualTitle > .manualImage,
+#function-container > .function > .recordBook > .recordBookTitle > .recordBookImage,
+#function-container > .function > .shop > .shopTitle > .shopImage {
+    width: 20rem;
+    border: 0.6rem solid rgb(44, 43, 43);
+
+    filter: brightness(40%);
+
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+#function-container > .function > .manual > .manualTitle > .manualImage,
+#function-container > .function > .recordBook > .recordBookTitle > .recordBookImage {
+    margin-right: 4.5rem;
+
+}
+
+#function-container > .function > .manual > .manualTitle > .manualImage:hover,
+#function-container > .function > .recordBook > .recordBookTitle > .recordBookImage:hover,
+#function-container > .function > .shop > .shopTitle > .shopImage:hover {
+    filter: brightness(100%);
+}
+
+#function-container > .function > .manual > .text,
+#function-container > .function > .recordBook > .text,
+#function-container > .function > .shop > .text {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    width: 21.5rem;
+}
+
+#function-container > .function > .manual > .text > .one,
+#function-container > .function > .recordBook > .text > .one,
+#function-container > .function > .shop > .text > .one {
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    margin-bottom: 0.8rem;
+}
+
+#function-container > .function > .manual > .text > .two,
+#function-container > .function > .recordBook > .text > .two,
+#function-container > .function > .shop > .text > .two {
+    font-size: 1rem;
+    color: rgb(147, 143, 143);
+}

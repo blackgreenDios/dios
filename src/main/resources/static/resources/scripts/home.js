@@ -24,7 +24,7 @@ function slideShow() {
     slide1[index - 1].style.display = "block";
     slide2[index - 1].style.display = "block";
 
-    setTimeout(slideShow, 3000);   //함수를 4초마다 호출
+    setTimeout(slideShow, 2000);   //함수를 4초마다 호출
 }
 
 
@@ -36,6 +36,7 @@ startContainer.addEventListener('click', e => {
 
     window.location.href = `/record/setting`;
 });
+
 
 
 

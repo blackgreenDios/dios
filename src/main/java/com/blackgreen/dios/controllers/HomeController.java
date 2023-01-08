@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Controller(value = "com.blackgreen.dios.controllers.HomeController")
 @RequestMapping(value = "/dios")
 public class HomeController {
@@ -15,6 +18,11 @@ public class HomeController {
             method = RequestMethod.GET)
     public ModelAndView getHome() {
         ModelAndView modelAndView = new ModelAndView("/home");
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        modelAndView.addObject("date", formatter.format(date));
 
         return modelAndView;
     }
