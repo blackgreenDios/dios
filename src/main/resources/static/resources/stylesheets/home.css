@@ -200,6 +200,7 @@ body > .main > .do-container > .start-container > .startButton {
 #function-container > .function > .recordBook > .recordBookTitle > .recordBookImage,
 #function-container > .function > .shop > .shopTitle > .shopImage {
     width: 20rem;
+    height: 17rem;
     border: 0.6rem solid rgb(44, 43, 43);
 
     filter: brightness(40%);

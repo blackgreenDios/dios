@@ -21,36 +21,60 @@
     </select>
 
     <select id="selectCartByIndex" resultType="com.blackgreen.dios.entities.store.CartEntity">
-    SELECT `index`           AS `index`,
-    `user_email`      AS `UserEmail`,
-    `count`           AS `count`,
-    `item_index`      AS `itemIndex`,
-    `order_color`     AS `orderColor`,
-    `order_size`      AS `orderSize`
-    FROM `dios_store`.`carts`
-    WHERE `index` = #{index}
+        SELECT `index`       AS `index`,
+               `user_email`  AS `UserEmail`,
+               `count`       AS `count`,
+               `item_index`  AS `itemIndex`,
+               `order_color` AS `orderColor`,
+               `order_size`  AS `orderSize`
+        FROM `dios_store`.`carts`
+        WHERE BINARY `index` = #{index}
     </select>
 
     <delete id="deleteCartByIndex">
         DELETE
-        FROM `dios_bbs`.`articles`
+        FROM `dios_store`.`carts`
         WHERE `index` = #{index}
     </delete>
 
-    <update id="updateCountPlus"
+    <update id="updateCount"
             parameterType="com.blackgreen.dios.entities.store.CartEntity">
         UPDATE `dios_store`.`carts`
-        SET `count` = #{count} + 1
+        SET `count` = #{count}
         WHERE BINARY `index` = #{index}
         LIMIT 1;
     </update>
 
-    <update id="updateCountMinus"
-            parameterType="com.blackgreen.dios.entities.store.CartEntity">
-        UPDATE `dios_store`.`carts`
-        SET `count` = #{count} - 1
-        WHERE BINARY `index` = #{index}
-        LIMIT 1;
-    </update>
+    <insert id="insertOrder"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.blackgreen.dios.entities.store.OrderEntity">
+        INSERT INTO `dios_store`.`orders`(`index`, `user_email`, `order_num`, `count`, `item_index`,
+                                          `order_color`, `order_size`, `price`, `order_status`, `order_date`)
+        VALUES (#{index}, #{userEmail}, #{orderNum}, #{count}, #{itemIndex},
+                #{orderColor}, #{orderSize}, #{price}, #{orderStatus}, IFNULL(#{orderDate}, DEFAULT(`order_date`)))
+    </insert>
+
+    <select id="selectOrderByEmail" resultType="com.blackgreen.dios.vos.store.OrderVo">
+        SELECT `order`.`index`          AS `index`,
+               `order`.`user_email`     AS `UserEmail`,
+               `order`.`order_num`      AS `orderNum`,
+               `order`.`count`          AS `count`,
+               `order`.`item_index`     AS `itemIndex`,
+               `order`.`order_color`    AS `orderColor`,
+               `order`.`order_size`     AS `orderSize`,
+               `order`.`price`          AS `price`,
+               `order`.`order_status`   AS `orderStatus`,
+               `order`.`order_date`     AS `orderDate`,
+               `item`.`item_name`       AS `itemName`,
+               `item`.`titleImage_data` AS `image`,
+               `item`.`titleImage_mime` AS `imageMime`,
+               `status`.`status`        AS `statusText`
+        FROM `dios_store`.`orders` AS `order`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `order`.`item_index`
+                 LEFT JOIN `dios_store`.`order_status` AS `status` ON `status`.`index` = `order`.`order_status`
+        WHERE `user_email` = #{userEmail}
+    </select>
 
 </mapper>

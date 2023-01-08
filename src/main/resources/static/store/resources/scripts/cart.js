@@ -1,23 +1,31 @@
 const cartContainer = window.document.getElementById('cartContainer');
-const totalPrice = window.document.getElementById('totalPrice');
+const priceContainer = window.document.querySelector('[rel="price"]');
+const discountContainer = window.document.querySelector('[rel="discount"]');
+const deliveryContainer = window.document.querySelector('[rel="delivery"]');
+const priceAllContainer = window.document.querySelector('[rel="priceAll"]');
+
+const cancelButton = document.querySelector('[rel="cancel"]');
+const orderAll = document.querySelector('[rel="orderAll"]');
+const selectOrder = document.querySelector('[rel="selectOrder"]');
 
 // cart item 불러오기
 const loadCart = () => {
     cartContainer.innerHTML = '';
-    totalPrice.innerHTML = '';
+    let innerPrice = parseInt('0');
+    let innerDiscount = parseInt('0');
+    let innerDelivery = parseInt('0');
+    let innerPriceAll = parseInt('0');
 
     const xhr = new XMLHttpRequest();
 
     xhr.open('GET', './cartItem');
     xhr.onreadystatechange = () => {
-        let price = parseInt('0');
-        let finalPrice = parseInt('0');
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseArray = JSON.parse(xhr.responseText);
                 for (const cartObject of responseArray) {
                     const cartHtmlText = `
-                    <tr class="line" rel="line">
+                    <div class="line" rel="line">
                     <td style="width: 40px">
                         <div class="product">
                             <div class="tdcell first">
@@ -61,9 +69,10 @@ const loadCart = () => {
                             <div class="tdcell count">
                                 <span class="product-count">
                                    <div class="count-container">
-                                       <i class="minus icon fa-solid fa-minus" onclick='count("minus")'></i>
-                                       <a class="count" rel="countResult"> ${cartObject['count']} </a>
-                                       <i class="plus icon fa-solid fa-plus"onclick='count("plus")'></i>
+                                       <i rel="minus" class="minus icon fa-solid fa-minus"></i>
+                                       <a class="count"> ${cartObject['count']} </a>
+                                       <input rel="countResult" type="hidden" value="${cartObject['count']}">
+                                       <i rel="plus" class="plus icon fa-solid fa-plus"></i>
                                    </div>
                                 </span>
 
@@ -89,35 +98,198 @@ const loadCart = () => {
                             </div>
                         </div>
                     </td>
-                </tr>`;
-
-                    const cartPriceHtmlText = `
-                    <div class="button-container">
-                    <input type="button" class="cancel" rel="cancel" value="선택상품 삭제">
-                </div>
-
-                <div class="sum-price">
-                    <a class="title">총 판매가</a>
-                    <a class="num">${(price += cartObject['price'] * cartObject['count']).toLocaleString()} 원</a>
-
-                    <a class="symbol">-</a>
-
-                    <a class="title">총 할인 금액</a>
-                    <a class="num">0원</a>
-
-                    <a class="symbol">+</a>
-
-                    <a class="title">배송비</a>
-                    <a class="num">0원</a>
-
-                    <a class="symbol">=</a>
-
-                    <a class="total-title">총 결제 금액</a>
-                    <a class="total-num">${(finalPrice += cartObject['price'] * cartObject['count']).toLocaleString()} 원</a>
                 </div>`;
 
-                    cartContainer.innerHTML += cartHtmlText;
-                    totalPrice.innerHTML = cartPriceHtmlText;
+                    // 총 판매가
+                    innerPrice += cartObject['price'] * cartObject['count'];
+
+                    const domParser = new DOMParser();
+                    const dom = domParser.parseFromString(cartHtmlText,'text/html');
+                    const cartElement = dom.querySelector('[rel="line"]');
+
+                    // 수량 변경 : 더하기 버튼 눌렀을 때
+                    const plus = dom.querySelector('[rel="plus"]');
+                    const countResult = dom.querySelector('[rel="countResult"]');
+
+                    plus?.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        countResult.value++;
+
+                        const xhr = new XMLHttpRequest();
+                        const formData = new FormData();
+                        formData.append('index', cartObject['index']);
+                        formData.append('count', cartObject['count']);
+
+                        xhr.open('PATCH', './plusCount');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    const responseObject=JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']){
+                                        case 'success':
+                                            loadCart();
+                                            break;
+                                        default:
+                                            alert('잠시후 다시 시도해 주세요.');
+                                    }
+                                } else {
+                                    alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+                                }
+                            }
+                        };
+                        xhr.send(formData);
+                    });
+
+                    // 수량 변경 : 빼기 버튼 눌렀을 때
+                    const minus = dom.querySelector('[rel="minus"]');
+
+                    minus?.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        const xhr = new XMLHttpRequest();
+                        const formData = new FormData();
+                        formData.append('index', cartObject['index']);
+                        formData.append('count', cartObject['count']);
+
+                        xhr.open('PATCH', './minusCount');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    const responseObject=JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']){
+                                        case 'success':
+                                            loadCart();
+                                            break;
+                                        case 'out_of_range':
+                                            alert('수량은 1개 이상이어야 합니다.');
+                                            break;
+                                        default:
+                                            alert('잠시후 다시 시도해 주세요.');
+                                    }
+                                } else {
+                                    alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+                                }
+                            }
+                        };
+                        xhr.send(formData);
+                    });
+
+                    // 선택상품 삭제 버튼 눌렀을 때
+                    const checkBox = dom.querySelector('[rel="checkBox"]');
+
+                    cancelButton.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        if (checkBox.checked) {
+                            const xhr = new XMLHttpRequest();
+                            const formData = new FormData();
+                            formData.append('index', cartObject['index']);
+
+                            xhr.open('DELETE', './cart');
+                            xhr.onreadystatechange = () => {
+                                if (xhr.readyState === XMLHttpRequest.DONE) {
+                                    Cover.hide();
+                                    if (xhr.status >= 200 && xhr.status < 300) {
+                                        const responseObject=JSON.parse(xhr.responseText);
+                                        switch (responseObject['result']){
+                                            case 'success':
+                                                loadCart();
+                                                break;
+                                            default:
+                                                alert('잠시후 다시 시도해 주세요.')
+                                        }
+                                    } else {
+                                        alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+                                    }
+                                }
+                            };
+                            xhr.send(formData);
+                        }
+                    });
+
+
+                    cartContainer.append(cartElement);
+
+                    // 총 결제금액 : 총 판매가 + 배송비
+                    innerPriceAll = innerPrice + innerDelivery;
+                    // 총 판매가
+                    priceContainer.innerText = innerPrice.toLocaleString() + ' 원';
+                    // 총 결제금액
+                    priceAllContainer.innerText = innerPriceAll.toLocaleString() + ' 원';
+
+                    // 선택주문 눌렀을 때
+                    selectOrder.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        if (checkBox.checked) {
+                            const xhr = new XMLHttpRequest();
+                            const formData = new FormData();
+                            formData.append('orderNum', 25744960);
+                            formData.append('count', cartObject['count']);
+                            formData.append('itemIndex', cartObject['itemIndex']);
+                            formData.append('orderColor', cartObject['orderColor']);
+                            formData.append('orderSize', cartObject['orderSize']);
+                            formData.append('price', cartObject['price']);
+                            formData.append('orderStatus', 1);
+
+                            xhr.open('POST', './order');
+                            xhr.onreadystatechange = () => {
+                                if (xhr.readyState === XMLHttpRequest.DONE) {
+                                    if (xhr.status >= 200 && xhr.status < 300) {
+                                        const responseObject=JSON.parse(xhr.responseText);
+                                        switch (responseObject['result']){
+                                            case 'success':
+                                                window.location.href = `./order`;
+                                                break;
+                                            default:
+                                                alert('잠시후 다시 시도해 주세요.')
+                                        }
+                                    } else {
+                                        alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+                                    }
+                                }
+                            };
+                            xhr.send(formData);
+                        }
+
+                    });
+
+
+                    // 전체주문 눌렀을 때
+                    orderAll.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        const xhr = new XMLHttpRequest();
+                        const formData = new FormData();
+                        formData.append('orderNum', 25744960);
+                        formData.append('count', cartObject['count']);
+                        formData.append('itemIndex', cartObject['itemIndex']);
+                        formData.append('orderColor', cartObject['orderColor']);
+                        formData.append('orderSize', cartObject['orderSize']);
+                        formData.append('price', cartObject['price']);
+                        formData.append('orderStatus', 1);
+
+                        xhr.open('POST', './order');
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                if (xhr.status >= 200 && xhr.status < 300) {
+                                    const responseObject=JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']){
+                                        case 'success':
+                                            window.location.href = `./order`;
+                                            break;
+                                        default:
+                                            alert('잠시후 다시 시도해 주세요.')
+                                    }
+                                } else {
+                                    alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+                                }
+                            }
+                        };
+                        xhr.send(formData);
+                    });
+
                 }
             } else {
 
@@ -140,31 +312,7 @@ function selectAll(selectAll) {
     })
 }
 
-// 상품수량 올리기
-function count (type) {
-    const countResult = document.querySelector('[rel="countResult"]');
-
-    // 현재 화면에 표시된 값
-    let number = countResult.innerText;
-
-    // 더하기/빼기
-    if(type === 'plus') {
-        number = parseInt(number) + 1;
-    } else if(type === 'minus')  {
-        number = parseInt(number) - 1;
-    }
-
-    // 결과 출력
-    countResult.innerText = number;
-}
 
 
 
-// 주문버튼 눌렀을 때
-const orderAll = document.querySelector('[rel="orderAll"]');
 
-orderAll.addEventListener('click', e => {
-    e.preventDefault();
-
-    window.location.href = `./order`;
-});
