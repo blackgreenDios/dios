@@ -1,28 +1,40 @@
 package com.blackgreen.dios.controllers;
 
-import com.blackgreen.dios.entities.store.ItemCategoryEntity;
-import com.blackgreen.dios.entities.store.SellerEntity;
+import com.blackgreen.dios.entities.member.UserEntity;
+import com.blackgreen.dios.services.RecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Controller(value = "com.blackgreen.dios.controllers.HomeController")
-@RequestMapping(value = "/dios")
-public class HomeController {
+@RequestMapping(value = "/")
+public class
+HomeController {
 
-    @RequestMapping(value = "home",
+    private final RecordService recordService;
+
+    public HomeController(RecordService recordService) {
+        this.recordService = recordService;
+    }
+
+    @RequestMapping(value = "/",
             method = RequestMethod.GET)
-    public ModelAndView getHome() {
+    public ModelAndView getIndex(@SessionAttribute(value = "user", required = false) UserEntity user) {
+        
         ModelAndView modelAndView = new ModelAndView("/home");
+        
+//        if (user != null) {
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            String date = formatter.format(this.recordService.getDate(user.getEmail()));
+//
+//            modelAndView.addObject("date", date);
+//        }
 
-        Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        modelAndView.addObject("date", formatter.format(date));
 
         return modelAndView;
     }

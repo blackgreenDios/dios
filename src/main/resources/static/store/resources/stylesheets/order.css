@@ -110,7 +110,7 @@ body > .main {
 
 
 #orderGoodsContainer > .orderTable > tbody > .tableBody > .info {
-    padding: 2rem 2rem 2rem 2rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 
     border-right: 0.0625rem solid #e3e1e1;
     text-align: left;
@@ -127,7 +127,7 @@ body > .main {
 }
 
 #orderGoodsContainer > .orderTable > tbody > .tableBody > .info > .photo > .image {
-    width: 4rem;
+    width: 8rem;
 }
 
 #orderGoodsContainer > .orderTable > tbody > .tableBody > .info > .info-content > .brand {

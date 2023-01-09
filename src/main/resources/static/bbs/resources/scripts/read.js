@@ -357,7 +357,7 @@ likeButton?.addEventListener('click',e =>{
                         location.href = location.href;
 
 
-                       break;
+                        break;
                     default:
                         alert('알 수 없는 이유로 요청한 작업을 완료하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
                 }

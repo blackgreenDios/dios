@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service(value = "com.blackgreen.dios.services.RecordService")
@@ -175,4 +176,10 @@ public class RecordService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+    // 디비에 저장된 최근 날짜 불러오기
+    public Date getDate (String email) {
+        return this.recordMapper.selectRecentDate(email);
+    }
+
 }

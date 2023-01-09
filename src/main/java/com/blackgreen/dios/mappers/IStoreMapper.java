@@ -16,7 +16,7 @@ public interface IStoreMapper {
 
     // cart 선택상품 삭제
     CartEntity selectCartByIndex(@Param(value = "index") int index);
-    int deleteCartByIndex (CartEntity cart);
+    int deleteCartByIndex (@Param(value = "index") int index);
 
     // 상품수량 변경 : 더하기, 빼기
     int updateCount (CartEntity cart);
@@ -25,6 +25,7 @@ public interface IStoreMapper {
     int insertOrder (OrderEntity order);
 
     // order 에 담긴 상품 불러오기
-    OrderVo[] selectOrderByEmail (@Param (value = "userEmail") String userEmail);
+    OrderVo[] selectOrderByEmail (@Param (value = "userEmail") String userEmail,
+                                  @Param (value = "orderNum") String orderNum);
 
 }

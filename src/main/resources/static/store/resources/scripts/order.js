@@ -6,17 +6,19 @@ const loadOrder = () => {
 
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', './orderItem');
+    xhr.open('GET', `./orderItem?num=${new URL(window.location.href).searchParams.get('num')}`);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseArray = JSON.parse(xhr.responseText);
                 for (const orderObject of responseArray) {
                     const orderHtmlText = `
-                    <div class="tableBody" rel="line">
+                    <table>
+                    <tbody>
+                    <tr class="tableBody" rel="line">
                         <td class="info">
                             <div class="photo">
-                                <input class="image" type="image" th:src="@{/resources/images/logo.png}">
+                                <input class="image" type="image" src="/goods/titleImage?index=${orderObject['itemIndex']}">
                             </div>
                             <div class="info-content">
                                 <div class="brand">나이키</div>
@@ -24,9 +26,11 @@ const loadOrder = () => {
                                 <div class="option">옵션 | color: ${orderObject['orderColor']}, size: ${orderObject['orderSize']}</div>
                             </div>
                         </td>
-                        <td class="price">${orderObject['price']}</td>
+                        <td class="price">${orderObject['price'].toLocaleString()} 원</td>
                         <td class="count">${orderObject['count']}</td>
-                    </div>`;
+                    </tr>
+                    </tbody>
+                    </table>`;
 
                     // // 총 판매가
                     // innerPrice += cartObject['price'] * cartObject['count'];

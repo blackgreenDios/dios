@@ -75,6 +75,7 @@
                  LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `order`.`item_index`
                  LEFT JOIN `dios_store`.`order_status` AS `status` ON `status`.`index` = `order`.`order_status`
         WHERE `user_email` = #{userEmail}
+          AND `order_num` = #{orderNum}
     </select>
 
 </mapper>

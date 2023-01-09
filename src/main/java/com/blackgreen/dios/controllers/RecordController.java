@@ -155,19 +155,24 @@ public class RecordController {
                                       @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
         ModelAndView modelAndView;
 
+
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/dios/login");
+            return modelAndView;
+        } else if (dtStr == null) {
+            // 기록장을 누르면 디비에 저장된 가장 최근 날짜로 들어가게 된다.
+            Date date = this.recordService.getDate(user.getEmail());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String recentDate = formatter.format(date);
+
+            modelAndView = new ModelAndView("redirect:/record/recordBook?dt=" + recentDate);
+            return modelAndView;
         } else {
             modelAndView = new ModelAndView("records/recordBook");
         }
 
         // 페이지 날짜
-        Date date;
-        if (dtStr == null) {
-            date = new Date();
-        } else {
-            date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
-        }
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         // 현재 날짜
@@ -366,8 +371,8 @@ public class RecordController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String DeleteImage(ElementEntity element,
-                            @SessionAttribute(value = "user", required = false) UserEntity user,
-                            @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
+                              @SessionAttribute(value = "user", required = false) UserEntity user,
+                              @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
 
         // 현재 날짜
         Date date;

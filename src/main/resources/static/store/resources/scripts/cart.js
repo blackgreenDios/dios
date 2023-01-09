@@ -25,87 +25,99 @@ const loadCart = () => {
                 const responseArray = JSON.parse(xhr.responseText);
                 for (const cartObject of responseArray) {
                     const cartHtmlText = `
-                    <div class="line" rel="line">
-                    <td style="width: 40px">
-                        <div class="product">
-                            <div class="tdcell first">
-                                <input type="checkbox" rel="checkbox" checked="" name="select" value="" title="배송상품 선택">
-                            </div>
-                        </div>
-                    </td>
-                    <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
-                        <div class="product">
-                            <div class="tdcell product">
-                                <div class="product-info">
-                                    <a class="product-img" href="#"><img class="image"
-                                                                         src="/store/cartItemImage?id=${cartObject['index']}"
-                                                                         alt="">
-                                    </a>
-
-                                    <div class="information">
-                                        <a class="product-title">${cartObject['itemName']}</a>
-                                        <div class="information-option">
-                                            <a class="product-option">옵션 | </a>
-                                            <a class="product-optionColor">color : ${cartObject['orderColor']}</a>
-                                            <a class="product-optionSize">, size : ${cartObject['orderSize']}</a>
-                                        </div>
-                                    </div>
-
+                    <table>
+                    <tbody>
+                    <tr class="line" rel="line">
+                        <td style="width: 40px">
+                            <div class="product">
+                                <div class="tdcell first">
+                                    <input type="checkbox" rel="checkbox" checked="" name="select" value="" title="배송상품 선택">
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
-                        <div class="product">
-                            <div class="tdcell price">
-                                <span class="product-price">
-                                    <a class="num">${cartObject['price'].toLocaleString()} 원</a></span>
-
+                        </td>
+                        <td style="width: 390px; border-right: 0.1rem solid rgb(204,204,204);">
+                            <div class="product">
+                                <div class="tdcell product">
+                                    <div class="product-info">
+                                        <a class="product-img" href="#"><img class="image"
+                                                                             src="/goods/titleImage?index=${cartObject['itemIndex']}"
+                                                                             alt="">
+                                        </a>
+    
+                                        <div class="information">
+                                            <a class="product-title">${cartObject['itemName']}</a>
+                                            <div class="information-option">
+                                                <a class="product-option">옵션 | </a>
+                                                <a class="product-optionColor">color : ${cartObject['orderColor']}</a>
+                                                <a class="product-optionSize">, size : ${cartObject['orderSize']}</a>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
-                        <div class="product">
-                            <div class="tdcell count">
-                                <span class="product-count">
-                                   <div class="count-container">
-                                       <i rel="minus" class="minus icon fa-solid fa-minus"></i>
-                                       <a class="count"> ${cartObject['count']} </a>
-                                       <input rel="countResult" type="hidden" value="${cartObject['count']}">
-                                       <i rel="plus" class="plus icon fa-solid fa-plus"></i>
-                                   </div>
-                                </span>
-
+                        </td>
+                        <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                            <div class="product">
+                                <div class="tdcell price">
+                                    <span class="product-price">
+                                        <a class="num">${cartObject['price'].toLocaleString()} 원</a></span>
+    
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
-                        <div class="product">
-                            <div class="tdcell price">
-                                <span class="product-price">
-                                    <a class="num">${(cartObject['price'] * cartObject['count']).toLocaleString()} 원</a></span>
-
+                        </td>
+                        <td style="width: 100px; border-right: 0.1rem solid rgb(204,204,204);">
+                            <div class="product">
+                                <div class="tdcell count">
+                                    <span class="product-count">
+                                       <div class="count-container">
+                                           <i rel="minus" class="minus icon fa-solid fa-minus"></i>
+                                           <a class="count"> ${cartObject['count']} </a>
+                                           <input rel="countResult" type="hidden" value="${cartObject['count']}">
+                                           <i rel="plus" class="plus icon fa-solid fa-plus"></i>
+                                       </div>
+                                    </span>
+    
+                                </div>
                             </div>
-                        </div>
-
-                    </td>
-                    <td style="width: 120px">
-                        <div class="product">
-                            <div class="tdcell delivery">
-                                <span class="product-delivery">
-                                    <a class="text">무료배송</a></span>
-
+                        </td>
+                        <td style="width: 110px; border-right: 0.1rem solid rgb(204,204,204);">
+                            <div class="product">
+                                <div class="tdcell price">
+                                    <span class="product-price">
+                                        <a class="num">${(cartObject['price'] * cartObject['count']).toLocaleString()} 원</a></span>
+    
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </div>`;
+    
+                        </td>
+                        <td style="width: 120px">
+                            <div class="product">
+                                <div class="tdcell delivery">
+                                    <span class="product-delivery">
+                                        <a class="text">무료배송</a></span>
+    
+                                </div>
+                            </div>
+                        </td>
+                    </tr>                    
+                    </tbody>                    
+                    </table>`;
 
                     // 총 판매가
                     innerPrice += cartObject['price'] * cartObject['count'];
 
                     const domParser = new DOMParser();
-                    const dom = domParser.parseFromString(cartHtmlText,'text/html');
+                    const dom = domParser.parseFromString(cartHtmlText, 'text/html');
+
+                    console.log(dom);
+
                     const cartElement = dom.querySelector('[rel="line"]');
+                    cartElement.dataset.index = cartObject['index'];
+                    cartElement.dataset.itemIndex = cartObject['itemIndex'];
+                    cartElement.dataset.count = cartObject['count'];
+                    cartElement.dataset.orderColor = cartObject['orderColor'];
+                    cartElement.dataset.orderSize = cartObject['orderSize'];
 
                     // 수량 변경 : 더하기 버튼 눌렀을 때
                     const plus = dom.querySelector('[rel="plus"]');
@@ -125,8 +137,8 @@ const loadCart = () => {
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                 if (xhr.status >= 200 && xhr.status < 300) {
-                                    const responseObject=JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']){
+                                    const responseObject = JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']) {
                                         case 'success':
                                             loadCart();
                                             break;
@@ -156,8 +168,8 @@ const loadCart = () => {
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                 if (xhr.status >= 200 && xhr.status < 300) {
-                                    const responseObject=JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']){
+                                    const responseObject = JSON.parse(xhr.responseText);
+                                    switch (responseObject['result']) {
                                         case 'success':
                                             loadCart();
                                             break;
@@ -175,40 +187,6 @@ const loadCart = () => {
                         xhr.send(formData);
                     });
 
-                    // 선택상품 삭제 버튼 눌렀을 때
-                    const checkBox = dom.querySelector('[rel="checkBox"]');
-
-                    cancelButton.addEventListener('click', e => {
-                        e.preventDefault();
-
-                        if (checkBox.checked) {
-                            const xhr = new XMLHttpRequest();
-                            const formData = new FormData();
-                            formData.append('index', cartObject['index']);
-
-                            xhr.open('DELETE', './cart');
-                            xhr.onreadystatechange = () => {
-                                if (xhr.readyState === XMLHttpRequest.DONE) {
-                                    Cover.hide();
-                                    if (xhr.status >= 200 && xhr.status < 300) {
-                                        const responseObject=JSON.parse(xhr.responseText);
-                                        switch (responseObject['result']){
-                                            case 'success':
-                                                loadCart();
-                                                break;
-                                            default:
-                                                alert('잠시후 다시 시도해 주세요.')
-                                        }
-                                    } else {
-                                        alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
-                                    }
-                                }
-                            };
-                            xhr.send(formData);
-                        }
-                    });
-
-
                     cartContainer.append(cartElement);
 
                     // 총 결제금액 : 총 판매가 + 배송비
@@ -218,77 +196,6 @@ const loadCart = () => {
                     // 총 결제금액
                     priceAllContainer.innerText = innerPriceAll.toLocaleString() + ' 원';
 
-                    // 선택주문 눌렀을 때
-                    selectOrder.addEventListener('click', e => {
-                        e.preventDefault();
-
-                        if (checkBox.checked) {
-                            const xhr = new XMLHttpRequest();
-                            const formData = new FormData();
-                            formData.append('orderNum', 25744960);
-                            formData.append('count', cartObject['count']);
-                            formData.append('itemIndex', cartObject['itemIndex']);
-                            formData.append('orderColor', cartObject['orderColor']);
-                            formData.append('orderSize', cartObject['orderSize']);
-                            formData.append('price', cartObject['price']);
-                            formData.append('orderStatus', 1);
-
-                            xhr.open('POST', './order');
-                            xhr.onreadystatechange = () => {
-                                if (xhr.readyState === XMLHttpRequest.DONE) {
-                                    if (xhr.status >= 200 && xhr.status < 300) {
-                                        const responseObject=JSON.parse(xhr.responseText);
-                                        switch (responseObject['result']){
-                                            case 'success':
-                                                window.location.href = `./order`;
-                                                break;
-                                            default:
-                                                alert('잠시후 다시 시도해 주세요.')
-                                        }
-                                    } else {
-                                        alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
-                                    }
-                                }
-                            };
-                            xhr.send(formData);
-                        }
-
-                    });
-
-
-                    // 전체주문 눌렀을 때
-                    orderAll.addEventListener('click', e => {
-                        e.preventDefault();
-
-                        const xhr = new XMLHttpRequest();
-                        const formData = new FormData();
-                        formData.append('orderNum', 25744960);
-                        formData.append('count', cartObject['count']);
-                        formData.append('itemIndex', cartObject['itemIndex']);
-                        formData.append('orderColor', cartObject['orderColor']);
-                        formData.append('orderSize', cartObject['orderSize']);
-                        formData.append('price', cartObject['price']);
-                        formData.append('orderStatus', 1);
-
-                        xhr.open('POST', './order');
-                        xhr.onreadystatechange = () => {
-                            if (xhr.readyState === XMLHttpRequest.DONE) {
-                                if (xhr.status >= 200 && xhr.status < 300) {
-                                    const responseObject=JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']){
-                                        case 'success':
-                                            window.location.href = `./order`;
-                                            break;
-                                        default:
-                                            alert('잠시후 다시 시도해 주세요.')
-                                    }
-                                } else {
-                                    alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
-                                }
-                            }
-                        };
-                        xhr.send(formData);
-                    });
 
                 }
             } else {
@@ -312,7 +219,122 @@ function selectAll(selectAll) {
     })
 }
 
+// 선택주문
+selectOrder.addEventListener('click', e => {
+    e.preventDefault();
 
+    const items = document.querySelectorAll('[rel="line"]');
+
+    let itemsArray = [];
+    for (let item of items) {
+        if (item.querySelector('[rel="checkbox"]').checked) {
+            itemsArray.push({
+                itemIndex: item.dataset.itemIndex,
+                count: item.dataset.count,
+                orderColor: item.dataset.orderColor,
+                orderSize: item.dataset.orderSize
+            });
+        }
+    }
+    const formData = new FormData();
+    formData.append('order', JSON.stringify(itemsArray));
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', './order');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        window.location.href = `./order?num=${responseObject['orderNum']}`;
+                        break;
+                    default:
+                        alert('잠시후 다시 시도해 주세요.')
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send(formData);
+});
+
+
+// 전체 주문
+orderAll.addEventListener('click', e => {
+    e.preventDefault();
+
+    let itemsArray = [];
+    for (let item of items) {
+        itemsArray.push({
+            itemIndex: item.dataset.itemIndex,
+            count: item.dataset.count,
+            orderColor: item.dataset.orderColor,
+            orderSize: item.dataset.orderSize
+        });
+    }
+    const formData = new FormData();
+    formData.append('order', JSON.stringify(itemsArray));
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', './order');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        window.location.href = `./order?num=${responseObject['orderNum']}`;
+                        break;
+                    default:
+                        alert('잠시후 다시 시도해 주세요.')
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send(formData);
+});
+
+
+// 선택상품 삭제 버튼 눌렀을 때
+cancelButton.addEventListener('click', e => {
+    e.preventDefault();
+
+    const items = document.querySelectorAll('[rel="line"]');
+
+    let itemsArray = [];
+    for (let item of items) {
+        if (item.querySelector('[rel="checkbox"]').checked) {
+            itemsArray.push({
+                index: item.dataset.index
+            });
+        }
+    }
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('index', JSON.stringify(itemsArray));
+
+    xhr.open('DELETE', './cart');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            Cover.hide();
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        loadCart();
+                        break;
+                    default:
+                        alert('잠시후 다시 시도해 주세요.')
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send(formData);
+});
 
 
 

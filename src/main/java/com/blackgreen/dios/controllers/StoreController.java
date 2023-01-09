@@ -8,10 +8,13 @@ import com.blackgreen.dios.entities.store.CartEntity;
 import com.blackgreen.dios.entities.store.OrderEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.bbs.WriteResult;
+import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.StoreService;
 import com.blackgreen.dios.vos.bbs.CommentVo;
 import com.blackgreen.dios.vos.store.CartVo;
 import com.blackgreen.dios.vos.store.OrderVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
@@ -27,7 +30,12 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
+import static java.lang.Integer.parseInt;
 
 @Controller(value = "com.blackgreen.dios.controllers.StoreController")
 @RequestMapping(value = "/store")
@@ -91,39 +99,19 @@ public class StoreController {
         return responseArray.toString();
     }
 
-     //cart 요소 불러오기 : 이미지
-     @RequestMapping(value = "cartItemImage",
-             method = RequestMethod.GET)
-     public ResponseEntity<byte[]> getCartItemImage(@SessionAttribute(value = "user", required = false) UserEntity user,
-                                                    @RequestParam(value = "id", required = false) int index) {
 
-        CartVo[] carts = this.storeService.getCarts(user);
-
-         if (carts == null) {
-             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         }
-
-         ResponseEntity<byte[]> result = null;
-
-         for (CartVo cart : carts) {
-
-             HttpHeaders headers = new HttpHeaders();
-             headers.add("Content-Type", cart.getImageMine());
-
-             result = new ResponseEntity<>(cart.getImage(), headers, HttpStatus.OK);
-         }
-
-         return result;
-     }
 
      // cart 선택상품 삭제
      @DeleteMapping(value = "cart",
              produces = MediaType.APPLICATION_JSON_VALUE)
      @ResponseBody
      public String deleteCart(@SessionAttribute(value = "user",required = false) UserEntity user,
-                              @RequestParam(value = "index") int index){
+                              @RequestParam(value = "index") String indexStr) throws JsonProcessingException {
 
-         Enum<?> result = this.storeService.deleteCart(index);
+         CartEntity[] carts = new ObjectMapper().readValue(indexStr, CartEntity[].class);
+
+
+         Enum<?> result = this.storeService.deleteCart(carts);
          JSONObject responseObject = new JSONObject();
 
          responseObject.put("result",result.name().toLowerCase());
@@ -179,27 +167,48 @@ public class StoreController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String postOrder(@SessionAttribute(value = "user", required = false) UserEntity user,
-                            OrderEntity order) {
-        Enum<?> result;
+                            @RequestParam(value = "order") String orderStr) throws JsonProcessingException {
+        // orderStr : "[{"itemIndex":"7","count":"3","orderColor":"핑크","orderSize":"250"},{"itemIndex":"7","count":"4","orderColor":"몰라","orderSize":"오윤정"},{"itemIndex":"6","count":"8","orderColor":"그레이","orderSize":"230"}]"
+        // 위에꺼 왜 쓰냐면 반복문으로 폼 데이터 보내면 폼 데이터 여러개를 보내버리는데 그거 넘 안 좋은 방법이라서
+        // 아예 자스에서 배열로 담은 걸 하나의 문자열로 만들어가지고 컨트롤러로 보내줘서 그걸 다시 배열로 풀어낸다.
 
-        JSONObject responseObject = new JSONObject();
-
-        if (user == null) {
-            result = CommonResult.FAILURE;
-        } else {
-
-            order.setUserEmail(user.getEmail());
-
-            result = this.storeService.addOrder(order);
-
-//            if (result == CommonResult.SUCCESS) {
-//                responseObject.put("index", order.getIndex());
+//        List<OrderEntity> orders = new ArrayList<>();
+//        JSONArray orderArray = new JSONArray(orderStr);
+//        orderArray.forEach(order -> {
+//            if (order instanceof JSONObject) {
+//                JSONObject orderObject = (JSONObject) order;
+//                OrderEntity orderEntity = new OrderEntity();
+//                orderEntity.setItemIndex(orderObject.getInt("itemIndex"));
+//                orderEntity.setCount(orderObject.getInt("count"));
+//                orders.add(orderEntity);
 //            }
-        }
+//        });
+        OrderEntity[] orders = new ObjectMapper().readValue(orderStr, OrderEntity[].class);
+        Enum<?> result;
+        result = this.storeService.addOrders(user, orders);
 
+//        Enum<?> result;
+//
+        JSONObject responseObject = new JSONObject();
+//
+//        if (user == null) {
+//            result = CommonResult.FAILURE;
+//        } else {
+//
+//            order.setUserEmail(user.getEmail());
+//
+//            result = this.storeService.addOrder(order);
+//
+////            if (result == CommonResult.SUCCESS) {
+////                responseObject.put("index", order.getIndex());
+////            }
+//        }
+//
         responseObject.put("result",result.name().toLowerCase());
-
+        responseObject.put("orderNum", orders[0].getOrderNum());
+//
         return responseObject.toString();
+
     }
 
 
@@ -223,34 +232,14 @@ public class StoreController {
 
     // order 요소 불러오기
     @GetMapping(value = "orderItem",
-            produces = MediaType.TEXT_HTML_VALUE)
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String getOrderItem(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public OrderVo[] getOrderItem(@SessionAttribute(value = "user", required = false) UserEntity user,
+                               @RequestParam(value = "num") String orderNum) {
 
         JSONArray responseArray = new JSONArray();
 
-        OrderVo[] orders = this.storeService.getOrders(user);
-
-        for (OrderVo order : orders) {
-            JSONObject orderObject = new JSONObject();
-
-            orderObject.put("index", order.getIndex());
-            orderObject.put("userEmail", order.getUserEmail());
-            orderObject.put("orderNum", order.getOrderNum());
-            orderObject.put("count", order.getCount());
-            orderObject.put("itemIndex", order.getItemIndex());
-            orderObject.put("orderColor", order.getOrderColor());
-            orderObject.put("orderSize", order.getOrderSize());
-            orderObject.put("price", order.getPrice());
-            orderObject.put("orderStatus", order.getOrderStatus());
-            orderObject.put("orderDate", order.getOrderDate());
-            orderObject.put("itemName", order.getItemName());
-            orderObject.put("image", order.getImage());
-            orderObject.put("imageMime", order.getImageMime());
-            orderObject.put("statusText", order.getStatusText());
-
-            responseArray.put(orderObject);
-        }
-        return responseArray.toString();
+        OrderVo[] orders = this.storeService.getOrders(user, orderNum);
+        return orders;
     }
 }

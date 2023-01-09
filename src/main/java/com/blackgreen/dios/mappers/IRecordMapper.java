@@ -46,5 +46,8 @@ public interface IRecordMapper {
     Date selectNextDate(@Param(value = "userEmail") String userEmail,
                         @Param(value = "todayDate") Date todayDate);
 
+    // 디비에 저장된 최근 날짜 불러오기
+    Date selectRecentDate (@Param(value = "userEmail") String userEmail);
+
 
 }
