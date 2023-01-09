@@ -31,7 +31,7 @@ const loadCart = () => {
                         <td style="width: 40px">
                             <div class="product">
                                 <div class="tdcell first">
-                                    <input type="checkbox" rel="checkbox" checked="" name="select" value="" title="배송상품 선택">
+                                    <input type="checkbox" rel="checkbox" checked="" name="select" value="" onclick='checkSelectAll(this)' title="배송상품 선택">
                                 </div>
                             </div>
                         </td>
@@ -104,13 +104,9 @@ const loadCart = () => {
                     </tbody>                    
                     </table>`;
 
-                    // 총 판매가
-                    innerPrice += cartObject['price'] * cartObject['count'];
 
                     const domParser = new DOMParser();
                     const dom = domParser.parseFromString(cartHtmlText, 'text/html');
-
-                    console.log(dom);
 
                     const cartElement = dom.querySelector('[rel="line"]');
                     cartElement.dataset.index = cartObject['index'];
@@ -118,6 +114,11 @@ const loadCart = () => {
                     cartElement.dataset.count = cartObject['count'];
                     cartElement.dataset.orderColor = cartObject['orderColor'];
                     cartElement.dataset.orderSize = cartObject['orderSize'];
+                    cartElement.dataset.price = cartObject['price'];
+
+
+                    innerPrice += cartObject['price'] * cartObject['count'];
+
 
                     // 수량 변경 : 더하기 버튼 눌렀을 때
                     const plus = dom.querySelector('[rel="plus"]');
@@ -219,6 +220,27 @@ function selectAll(selectAll) {
     })
 }
 
+// 체크박스 하나라도 해제되면 전체선택 체크박스 풀리는 거
+function checkSelectAll(check) {
+    // 전체 체크박스
+    const checkboxes
+        = document.querySelectorAll('input[name="select"]');
+    // 선택된 체크박스
+    const checked
+        = document.querySelectorAll('input[name="select"]:checked');
+    // select all 체크박스
+    const selectAll
+        = document.querySelector('input[name="select"]');
+
+    if (checkboxes.length === checked.length) {
+        selectAll.checked = true;
+    } else {
+        selectAll.checked = false;
+    }
+
+}
+
+
 // 선택주문
 selectOrder.addEventListener('click', e => {
     e.preventDefault();
@@ -263,6 +285,8 @@ selectOrder.addEventListener('click', e => {
 // 전체 주문
 orderAll.addEventListener('click', e => {
     e.preventDefault();
+
+    const items = document.querySelectorAll('[rel="line"]');
 
     let itemsArray = [];
     for (let item of items) {
@@ -335,6 +359,5 @@ cancelButton.addEventListener('click', e => {
     };
     xhr.send(formData);
 });
-
 
 

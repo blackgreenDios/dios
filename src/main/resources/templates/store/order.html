@@ -91,8 +91,9 @@
                         <th class="userName-container">받는분</th>
                         <td class="userName">
                             <a class="redStar">*</a>
-                            <input class="input nameInput" type="text" th:value="${user.getName()}">
-                            <input class="input check" type="checkbox">
+                            <input hidden rel="name" th:value="${user.getName()}">
+                            <input class="input nameInput" type="text" rel="nameText">
+                            <input class="input check" type="checkbox" rel="sameButton" onclick="check(this)">
                             <a class="checkText">주문자 정보와 동일</a>
                         </td>
                     </tr>
@@ -100,7 +101,8 @@
                         <th class="contact-container">연락처</th>
                         <td class="userContact">
                             <a class="redStar">*</a>
-                            <input class="input" type="text" th:value="${user.getContact()}">
+                            <input hidden rel="contact" type="text" th:value="${user.getContact()}">
+                            <input class="input" type="text" rel="contactText">
                             <a class="contactText">'-' 를 제외하고 입력해 주세요.</a>
                         </td>
                     </tr>
@@ -109,14 +111,17 @@
                         <td class="userAddress">
                             <div class="top">
                                 <a class="redStar">*</a>
-                                <input class="input code" type="text" th:value="${user.getAddressPostal()}">
+                                <input hidden rel="addressPostal" type="text" th:value="${user.getAddressPostal()}">
+                                <input class="input code" type="text" rel="addressPostalText">
                                 <input class="input addressButton" type="button" value="우편번호 찾기">
                             </div>
                             <div class="middle">
-                                <input class="input addressOne" type="text" readonly th:value="${user.getAddressPrimary()}">
+                                <input hidden rel="addressPrimary" type="text" readonly th:value="${user.getAddressPrimary()}">
+                                <input class="input addressOne" type="text" readonly rel="addressPrimaryText">
                             </div>
                             <div class="bottom">
-                                <input class="input addressTwo" type="text" th:value="${user.getAddressSecondary()}">
+                                <input hidden rel="addressSecondary" type="text" th:value="${user.getAddressSecondary()}">
+                                <input class="input addressTwo" type="text" rel="addressSecondaryText">
                             </div>
                         </td>
                     </tr>
@@ -178,7 +183,7 @@
                         </tr>
                         <tr>
                             <th class="deposit">입금자명</th>
-                            <td class="depositName">오예은</td>
+                            <td class="depositName">DIOS</td>
                         </tr>
                     </table>
                 </div>
@@ -187,15 +192,15 @@
                     <div class="paymentContent">
                         <div class="total">
                             <a class="totalText">총 상품금액</a>
-                            <a class="totalCount">62,000원</a>
+                            <a class="totalCount" rel="price">0 원</a>
                         </div>
                         <div class="shipment">
                             <a class="shipmentText">배송비</a>
-                            <a class="shippingCost">2,500원</a>
+                            <a class="shippingCost" rel="delivery">0 원</a>
                         </div>
                         <div class="final">
                             <a class="finalText">최종 결제금액</a>
-                            <a class="finalCost">64,500원</a>
+                            <a class="finalCost" rel="priceAll">0 원</a>
                         </div>
                         <div class="agree">
                             <a class="agreeText">주문 상품정보 및 결제대행 서비스 이용약관에 모두 동의하십니까?</a>

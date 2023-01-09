@@ -1,8 +1,14 @@
 const orderContainer = window.document.getElementById('orderContainer');
 
+const price = document.querySelector('[rel="price"]');
+const delivery = document.querySelector('[rel="delivery"]');
+const priceAll = document.querySelector('[rel="priceAll"]');
 
 const loadOrder = () => {
     orderContainer.innerHTML = '';
+    let innerPrice = parseInt('0');
+    let innerDelivery = parseInt('0');
+    let innerPriceAll = parseInt('0');
 
     const xhr = new XMLHttpRequest();
 
@@ -32,14 +38,22 @@ const loadOrder = () => {
                     </tbody>
                     </table>`;
 
-                    // // 총 판매가
-                    // innerPrice += cartObject['price'] * cartObject['count'];
+                    // 총 상품금액
+                    innerPrice += orderObject['price'] * orderObject['count'];
 
                     const domParser = new DOMParser();
-                    const dom = domParser.parseFromString(orderHtmlText,'text/html');
+                    const dom = domParser.parseFromString(orderHtmlText, 'text/html');
                     const orderElement = dom.querySelector('[rel="line"]');
 
                     orderContainer.append(orderElement);
+
+                    price.innerText = innerPrice.toLocaleString() + " 원";
+                    if (innerPrice < 50000) {
+                        innerDelivery = 2500;
+                        delivery.innerText = (innerDelivery).toLocaleString() + " 원";
+                    }
+                    priceAll.innerText = (innerPrice + innerDelivery).toLocaleString() + " 원";
+
 
                     // // 총 결제금액 : 총 판매가 + 배송비
                     // innerPriceAll = innerPrice + innerDelivery;
@@ -57,5 +71,36 @@ const loadOrder = () => {
     xhr.send();
 }
 
+loadOrder();
 
-loadOrder()
+
+
+// 주문자 정보와 동일 눌렀을 때 사용자 정보 가져오기
+
+function check(box) {
+
+    const nameText = document.querySelector('[rel="nameText"]');
+    const contactText = document.querySelector('[rel="contactText"]');
+    const addressPostalText = document.querySelector('[rel="addressPostalText"]');
+    const addressPrimaryText = document.querySelector('[rel="addressPrimaryText"]');
+    const addressSecondaryText = document.querySelector('[rel="addressSecondaryText"]');
+
+    if (box.checked === true) {
+        nameText.value = document.querySelector('[rel="name"]').value;
+        contactText.value = document.querySelector('[rel="contact"]').value;
+        addressPostalText.value = document.querySelector('[rel="addressPostal"]').value;
+        addressPrimaryText.value = document.querySelector('[rel="addressPrimary"]').value;
+        addressSecondaryText.value = document.querySelector('[rel="addressSecondary"]').value;
+    }
+    else if (box.checked === false) {
+        nameText.value = '';
+        contactText.value = '';
+        addressPostalText.value = '';
+        addressPrimaryText.value = '';
+        addressSecondaryText.value = '';
+    }
+
+}
+
+
+

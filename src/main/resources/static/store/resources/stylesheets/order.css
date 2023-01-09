@@ -124,6 +124,10 @@ body > .main {
 #orderGoodsContainer > .orderTable > tbody > .tableBody > .info > .photo {
     margin-right: 3rem;
     margin-left: 2rem;
+
+    overflow: hidden;
+    width: 8rem;
+    height: 8rem;
 }
 
 #orderGoodsContainer > .orderTable > tbody > .tableBody > .info > .photo > .image {
