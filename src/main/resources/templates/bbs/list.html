@@ -91,7 +91,9 @@
             </tfoot>
         </table>
         <div class="button-container" id="buttonContainer">
-            <a class="--object-button" id="submit" th:href="@{/dios/write(bid=${board.getId()})}">글쓰기</a>
+            <a class="--object-button" id="submit"
+               th:href="@{/dios/write(bid=${board.getId()})}"
+            >글쓰기</a>
         </div>
         <form class="search-form" id="searchForm" method="get">
             <label class="label">

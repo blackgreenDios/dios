@@ -4,6 +4,10 @@ import com.blackgreen.dios.entities.bbs.ArticleEntity;
 
 public class ArticleReadVo extends ArticleEntity {
     private String userNickname;
+
+    private byte[] userImage;
+
+    private String userImageType;
     private int commentCount;
 
     private boolean isMine;
@@ -13,6 +17,24 @@ public class ArticleReadVo extends ArticleEntity {
     private boolean isLiked;
 
     private int likeCount;
+
+    public byte[] getUserImage() {
+        return userImage;
+    }
+
+    public ArticleReadVo setUserImage(byte[] userImage) {
+        this.userImage = userImage;
+        return this;
+    }
+
+    public String getUserImageType() {
+        return userImageType;
+    }
+
+    public ArticleReadVo setUserImageType(String userImageType) {
+        this.userImageType = userImageType;
+        return this;
+    }
 
     public boolean isSigned() {
         return isSigned;

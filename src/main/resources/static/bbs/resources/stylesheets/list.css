@@ -31,10 +31,7 @@ body > .main >.content >.title{
     font-weight: inherit;
 
 }
-#table > thead tr:first-of-type > th:first-of-type{
-    border-top-left-radius: 0.5rem;
 
-}
 
 
 #table > tbody >tr:not(:last-of-type) > td{

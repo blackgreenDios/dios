@@ -283,6 +283,16 @@ public class BbsService {
                 (paging.requestPage-1)*paging.countPerPage);
 
     }
+    public ArticleReadVo[] getArticleByBest(ArticleEntity article){
+       return this.bbsMapper.selectArticleByBest(article.getBoardId());
+
+    }
+
+    public ArticleReadVo[] getArticleByNotice(ArticleEntity article){
+        return this.bbsMapper.selectArticleByNotice(article.getBoardId());
+    }
+
+
 
 
 }

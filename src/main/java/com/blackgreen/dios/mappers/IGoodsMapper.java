@@ -10,14 +10,12 @@ import org.apache.ibatis.annotations.Param;
 public interface IGoodsMapper {
     ItemColorEntity[] selectColor();
 
-    ItemColorEntity selectColorById(@Param(value = "id") String id);
-
+    ItemColorEntity selectColorByItemIndex(@Param(value = "itemIndex")int itemIndex);
+    ItemColorEntity[] selectColorsByItemIndex(@Param(value = "itemIndex")int itemIndex);
+    ItemSizeEntity[] selectSizeByItemIndex(@Param(value = "itemIndex")int itemIndex);
     SellerEntity[] selectSeller();
 
-    SizeEntity[] selectSize();
-
-    SizeEntity selectSizeByItemIndex(@Param(value = "itemIndex")int itemIndex);
-
+    ItemSizeEntity[] selectSize();
     ItemCategoryEntity[] selectItemCategory();
     GoodsVo selectItemByIndex (@Param(value = "index") int index);
 
@@ -33,6 +31,9 @@ public interface IGoodsMapper {
 
     ItemEntity selectItemTitleImageByIndex(@Param(value = "index") int index);
 
+    ItemSizeEntity selectItemSizeById(@Param(value = "id") String id);
+    ItemColorEntity selectItemColorById(@Param(value = "id") String id);
+
     int insertItemImage(ItemImgEntity image);
 
     int insertItem(ItemEntity item);
@@ -46,7 +47,11 @@ public interface IGoodsMapper {
 
     ReviewEntity selectReviewByIndex(@Param(value = "index") int index);
 
+    int insertItemColor(ItemColorEntity color);
+    int insertItemSize(ItemSizeEntity size);
     int insertReview(ReviewEntity review);
+
+    int insertCartItem(CartEntity cart);
 
     int insertReviewImage(ReviewImageEntity reviewImage);
 
@@ -58,6 +63,10 @@ public interface IGoodsMapper {
 
     int updateItem (ItemEntity item);
 
+    int updateItemColor(ItemColorEntity[] itemColor);
+    int updateItemSize(ItemSizeEntity itemSize);
+
+
     int selectItemCountByCategoryId(@Param(value = "categoryId") String categoryId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
@@ -68,5 +77,7 @@ public interface IGoodsMapper {
                                       @Param(value = "keyword") String keyword,
                                       @Param(value = "limit") int limit,
                                       @Param(value = "offset") int offset);
+
+
 
 }

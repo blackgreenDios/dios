@@ -11,7 +11,7 @@
 .dropbtn {
 
     cursor: pointer;
-    color: rgb(0, 0, 0);
+    color: rgb(0,0,0);
 
 
     border: 0;
@@ -25,6 +25,9 @@
     padding: 0.5rem 0 0.5rem 2rem;
     font-weight: bold;
 
+}
+.dropbtn:hover{
+    color: rgb(60, 166, 52);
 }
 
 .dropdown-content {
@@ -119,6 +122,7 @@ body > .--header > .--content > .--menu > .--shop {
     padding: 0.5rem 0 1rem 2rem;
     font-weight: bold;
 }
+
 
 body > .--header > .--content > .--menu.shop {
     flex: 1;

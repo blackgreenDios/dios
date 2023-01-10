@@ -37,71 +37,71 @@ public class GoodsController {
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView("goods/write");
 
-        ItemColorEntity[] colors = this.goodsService.getColor();
         SellerEntity[] sellers = this.goodsService.getSeller();
-        SizeEntity[] sizes = this.goodsService.getSize();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
-
-        modelAndView.addObject("color", colors);
-        modelAndView.addObject("size", sizes);
         modelAndView.addObject("seller", sellers);
         modelAndView.addObject("category", categories);
 
         return modelAndView;
     }
 
-
+    //상품 등록
 
     @PostMapping(value = "write")
     @ResponseBody
 
 
     public String postWrite(ItemEntity item,
-                            @RequestParam(value = "sizes", required = false) String[] sizeId,
-                            @RequestParam(value = "colors", required = false) String[] colorIds,
+                            @RequestParam(value = "sizes", required = false) String[] sizes,
+                            @RequestParam(value = "colors", required = false) String[] colors,
                             @RequestParam(value = "images", required = false) MultipartFile images) throws IOException {
 
         Enum<?> result = this.goodsService.addItem(item, images);
-        System.out.println(item.getIndex());
-        System.out.println("---");
 
-        ItemColorEntity[] itemColors = new ItemColorEntity[colorIds.length];
-        for (int i = 0; i < itemColors.length; i++) {
-            ItemColorEntity itemColor = new ItemColorEntity();
-            itemColor.setId(colorIds[i]);
-            itemColors[i] = itemColor;
+        ItemColorEntity[] itemColors = new ItemColorEntity[colors.length];
+        for (int i = 0; i < colors.length; i++) {
+            itemColors[i] = new ItemColorEntity();
+            itemColors[i].setItemIndex(item.getIndex());
+            itemColors[i].setColor(colors[i]);
         }
+        this.goodsService.addItemColors(itemColors);
 
-        for (ItemColorEntity itemColor : itemColors) {
-            System.out.println(itemColor.getId());
-            itemColor.setItemIndex(item.getIndex());
-        }
-
-        System.out.println("---");
-        SizeEntity[] sizes = new SizeEntity[sizeId.length];
+        ItemSizeEntity[] itemSize = new ItemSizeEntity[sizes.length];
         for (int i = 0; i < sizes.length; i++) {
-            SizeEntity size = new SizeEntity();
-            size.setId(sizeId[i]);
-            sizes[i] = size;
+            itemSize[i] = new ItemSizeEntity();
+            itemSize[i].setItemIndex(item.getIndex());
+            itemSize[i].setSize(sizes[i]);
         }
-        for (SizeEntity size : sizes) {
-            System.out.println(size.getId());
-        }
+        this.goodsService.addItemSizes(itemSize);
 
-        JSONObject responseObject = new JSONObject();
-        System.out.println("check image" + images);
+// select 한 값 저장해주는 코드
 
-        for (SizeEntity size : sizes) {
-            System.out.println("size check" + size.getId());
-            size.setItemIndex(item.getIndex());
-        }
-
-//        for (ItemColorEntity color:colors) {
-//            System.out.println("size check" + color.getId());
-//            color.setItemIndex(item.getIndex());//인덱스에 저장한 후 color 에 insert
-//            System.out.println(color.getItemIndex());
+//        ItemColorEntity[] itemColors = new ItemColorEntity[colorIds.length]; // 새로운 배열 만들기
+//        for (int i = 0; i < itemColors.length; i++) {
+//            ItemColorEntity itemColor = new ItemColorEntity();
+//            ItemColorEntity itemColorById = this.goodsService.getItemColorById(colorIds[i]);
+//
+//            itemColor.setId(colorIds[i] + i);
+//            itemColor.setItemIndex(item.getIndex());
+//            itemColor.setText(itemColorById.getText());
+//            itemColors[i] = itemColor;
+//            this.goodsService.addColor(itemColors[i]);
+//        }
+//
+//
+//        System.out.println("---");
+//        SizeEntity[] sizes = new SizeEntity[sizeId.length];
+//        for (int i = 0; i < sizes.length; i++) {
+//            SizeEntity size = new SizeEntity();
+//            SizeEntity sizeById = this.goodsService.getItemSizeById(sizeId[i]);
+//            size.setId(sizeId[i] + i);
+//            size.setItemIndex(item.getIndex());
+//            size.setText(sizeById.getText());
+//            sizes[i] = size;
+//            this.goodsService.addSize(sizes[i]);
 //        }
 
+        JSONObject responseObject = new JSONObject();
         responseObject.put("gid", item.getIndex()); //gid는 goodsIndex 의 줄임말이다.
         responseObject.put("result", result.name().toLowerCase());
         return responseObject.toString();
@@ -139,7 +139,6 @@ public class GoodsController {
     }
 
 
-
     //수정 페이지
     //타임리프 쓸때는 responseBody 안붙임 !!!
     @RequestMapping(value = "modify",
@@ -149,20 +148,23 @@ public class GoodsController {
                                   @RequestParam(value = "gid", required = false) int gid) {
 
         ModelAndView modelAndView = new ModelAndView("goods/modify");
+
+        GoodsVo getItem = this.goodsService.getItem(gid);// item 선택 해오기
+
         ItemEntity item = new ItemEntity();
         item.setIndex(gid);
 
         Enum<?> result = this.goodsService.prepareModifyItem(item, user);
         modelAndView.addObject("item", item);
         modelAndView.addObject("result", result.name());
-        ItemColorEntity[] colors = this.goodsService.getColor();
+
         SellerEntity[] sellers = this.goodsService.getSeller();
-        SizeEntity[] sizes = this.goodsService.getSize();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
-        modelAndView.addObject("color", colors);
-        modelAndView.addObject("size", sizes);
+        ItemCategoryEntity getCategory = this.goodsService.getCategory(getItem.getCategoryId());
         modelAndView.addObject("seller", sellers);
+
         modelAndView.addObject("category", categories);
+        modelAndView.addObject("getCategory", getCategory);
         if (result == CommonResult.SUCCESS) {   // html 에 넘겨줄려고
             modelAndView.addObject("gid", item.getIndex());
         }
@@ -177,9 +179,29 @@ public class GoodsController {
     public String patchModify(@SessionAttribute(value = "user", required = false) UserEntity user,
                               @RequestParam(value = "gid") int gid,
                               @RequestParam(value = "images", required = false) MultipartFile images,
+                              @RequestParam(value = "sizes", required = false) String[] sizes,
+                              @RequestParam(value = "colors", required = false) String[] colors,
                               ItemEntity item) throws IOException {
         item.setIndex(gid);
-        Enum<?> result = this.goodsService.ModifyItem(item, user,images);
+        Enum<?> result = this.goodsService.ModifyItem(item, user, images);
+
+        ItemColorEntity[] itemColors = new ItemColorEntity[colors.length];
+        for (int i = 0; i < colors.length; i++) {
+            itemColors[i] = new ItemColorEntity();
+            itemColors[i].setItemIndex(item.getIndex());
+            itemColors[i].setColor(colors[i]);
+        }
+
+        this.goodsService.modifyColor(itemColors);
+
+//        ItemSizeEntity[] itemSize = new ItemSizeEntity[sizes.length];
+//        for (int i = 0; i < sizes.length; i++) {
+//            itemSize[i] = new ItemSizeEntity();
+//            itemSize[i].setItemIndex(item.getIndex());
+//            itemSize[i].setSize(sizes[i]);
+//        }
+//        this.goodsService.updateItemSizes(itemSize);
+
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
@@ -187,7 +209,6 @@ public class GoodsController {
         }
         return responseObject.toString();
     }
-
 
 
     @RequestMapping(value = "read",
@@ -198,41 +219,41 @@ public class GoodsController {
 
         ModelAndView modelAndView = new ModelAndView("goods/read");
         GoodsVo goods = this.goodsService.getItem(gid);
-
-        // postWrite 에서 저장한 사이즈 값을 가져오는 구문
-        SizeEntity[] sizes = new SizeEntity[this.goodsService.getSize().length];
-        int count = 0;
-        for (int i = 0; i <sizes.length ; i++) {
-            SizeEntity size = this.goodsService.getItemSize(gid);
-            count =+ 1;
-            sizes[i] = size;
-        }
-
-        modelAndView.addObject("sizes", sizes);
-
-
-//        ItemColorEntity[] colors = new ItemColorEntity[goods.getColors().length];
-
-//        for (int i = 0; i < colors.length; i++) {
-//            colors[i] = this.goodsService.getItemColor(goods.getColors()[i]);
-//        }
-//
-//        for (ItemColorEntity color : colors) {
-//            System.out.println(color.getId());
-//            System.out.println(color.getItemIndex());
-//            System.out.println(color.getText());
-//        }
-
+        goods.setIndex(gid);
         modelAndView.addObject("goods", goods);
         modelAndView.addObject("category", this.goodsService.getCategory(goods.getCategoryId()));
         modelAndView.addObject("seller", this.goodsService.getBrand(goods.getSellerIndex()));
 
-
-//        modelAndView.addObject("color", this.goodsService.getItemColor(goods.getColors()));
-//        modelAndView.addObject("Size", goods.getSizes());
-
+        modelAndView.addObject("sizes", this.goodsService.getItemSize(gid));
+        modelAndView.addObject("colors", this.goodsService.getItemColors(gid));
         return modelAndView;
     }
+
+    @PostMapping(value = "read", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postRead(@SessionAttribute(value = "user", required = false) UserEntity user,
+                           @RequestParam(value = "itemIndex") int itemIndex,
+                           @RequestParam(value = "count") int count,
+                           @RequestParam(value = "orderColor") String orderColor,
+                           @RequestParam(value = "orderSize") String orderSize,
+                           CartEntity cart) throws IOException {
+
+        Enum<?> result;
+        cart.setItemIndex(itemIndex);
+        cart.setCount(count);
+        cart.setOrderSize(orderSize);
+        cart.setOrderColor(orderColor);
+
+        JSONObject responseObject = new JSONObject();
+        try {
+            result = this.goodsService.addCartItem(user, cart);
+        } catch (RollbackException ignored) {
+            result = AddReviewResult.FAILURE;
+        }
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
 
     @RequestMapping(value = "read",
             method = RequestMethod.DELETE,//DELETE로 사용한 이유: 주소를 동일하게 하고 방식을 달리 하는 것은 레스트인데,그냥 삭제할때 이렇게 쓰기로 개발자끼리 약속함
@@ -286,15 +307,15 @@ public class GoodsController {
 
     @DeleteMapping(value = "review", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteReview( @SessionAttribute(value = "user", required = false) UserEntity user,
-                                ReviewEntity review) {
-        Enum<?> result = this.goodsService.deleteReview(user,review);
+    public String deleteReview(@SessionAttribute(value = "user", required = false) UserEntity user,
+                               ReviewEntity review) {
+        Enum<?> result = this.goodsService.deleteReview(user, review);
         JSONObject responseJson = new JSONObject();
         responseJson.put("result", result.name().toLowerCase());
         return responseJson.toString();
     }
 
-    @PatchMapping(value = "review",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "review", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
 
     public String patchRecoverReview(@SessionAttribute(value = "user", required = false) UserEntity user, ReviewEntity review) {
@@ -308,7 +329,9 @@ public class GoodsController {
 
     @PostMapping(value = "review")
     @ResponseBody
-    public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "images", required = false) MultipartFile[] images, ReviewEntity review) throws IOException, RollbackException {
+    public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images,
+                             ReviewEntity review) throws IOException, RollbackException {
         JSONObject responseObject = new JSONObject();
         Enum<?> result;
         try {
@@ -347,22 +370,23 @@ public class GoodsController {
 
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
 
-        modelAndView.addObject("categories",categories);
+        modelAndView.addObject("categories", categories);
 
         ItemCategoryEntity category = this.goodsService.getCategory(cad);
         modelAndView.addObject("category", category.getText()); // id값으로 카테고리 가져오기
 
         int totalCount; //pagination 하려고 가져온 것
-        if ( category != null) {
+        if (category != null) {
             totalCount = this.goodsService.getItemCount(category, criterion, keyword);
             PagingModel paging = new PagingModel(totalCount, page);
             modelAndView.addObject("paging", paging);
 
-            GoodsVo[] goods = this.goodsService.getItems(category, paging,criterion,keyword);
+            GoodsVo[] goods = this.goodsService.getItems(category, paging, criterion, keyword);
             modelAndView.addObject("goods", goods);
         }
 
         return modelAndView;
     }
+
 
 }

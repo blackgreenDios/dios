@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -45,7 +45,7 @@
                             <i class="fa-regular fa-comment"></i>
                             <span th:text="${article.getCommentCount()}">9,999 </span>
                         </div>
-                        <div class="likeButton" id="likeButton" >
+                        <div class="likeButton" id="likeButton" th:if="${session.user!=null}">
                             <a href="#" th:class="toggle" rel="like">
 
                                 <i class="icon fa-regular fa-thumbs-up"></i>
@@ -67,9 +67,8 @@
                                    type="text">
                         </label>
                         <div class="secret" id="secret">
-                            <a href="#" class="toggle">
-                                <i class="icon fa-solid fa-unlock"></i>
-                            </a>
+                            <input type="checkbox" id="replySecret">
+                            <i class="fa-solid fa-lock"></i>
                         </div>
                         <input name="aid" type="hidden" th:value="${article.getIndex()}">
                         <input class="--object-button" type="submit" value="작성">

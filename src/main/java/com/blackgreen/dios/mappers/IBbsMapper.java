@@ -15,6 +15,8 @@ public interface IBbsMapper {
 
     ArticleReadVo selectArticleByIndex(@Param(value = "index") int index);
 
+
+
     int updateArticle(ArticleEntity article);
 
     ArticleReadVo[] selectArticlesByBoardId(@Param(value = "boardId") String boardId,
@@ -47,6 +49,10 @@ public interface IBbsMapper {
     int selectArticleCountByBoardId(@Param(value = "boardId") String boardId,
                                     @Param(value = "criterion") String criterion,
                                     @Param(value = "keyword") String keyword);
+
+    ArticleReadVo[] selectArticleByBest(@Param(value = "boardId") String boardId);
+
+    ArticleReadVo[] selectArticleByNotice(@Param(value = "boardId") String boardId);
 
 
     ArticleLikeEntity selectArticleLike(@Param(value = "articleIndex") int articleIndex,

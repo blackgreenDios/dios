@@ -17,11 +17,20 @@
     <div class="category-container" id="categoryContainer">
         <ul class="category">
             <!--/*@thymesVar id="boards" type="dev.yhpark.studymemberbbs.entities.bbs.BoardEntity[]"*/-->
-            <li class="--item"
-                th:each=" categoring: ${categories}">
+            <li class="--item">
+                <span class="--link">의류</span>
+            </li>
+            <li class="--item">
+                <span class="--link">신발</span>
+            </li>
+            <li class="--item">
+                <span class="--link">기구/용품/장비</span>
+            </li>
+
+            <li class="--item"   th:each=" categoring: ${categories}">
                 <span class="--link"
-                   th:value="${categoring.getId()}"
-                   th:text="${categoring.getText()}"></span>
+                      th:value="${categoring.getId()}"
+                      th:text="${categoring.getText()}"></span>
             </li>
 
             <li class="--item">
@@ -37,7 +46,8 @@
     </span>
     <div class="list-box" id="listBox">
         <ul class="search-list" id="searchList">
-            <li class="li-box" th:each="item : ${goods}">
+            <li class="li-box" th:each="item : ${goods}"
+                th:href="@{/goods/read (gid=${item.getIndex()})}">
                 <div class="li_inner">
                     <div class="image-container">
                         <a class="image-block">
@@ -48,16 +58,16 @@
                     </div>
                     <div class="item-info">
                         <p class="list-info">
-                            <a th:href="@{./read (gid=${item.getIndex()})}"
+                            <a th:href="@{/goods/read (gid=${item.getIndex()})}"
                                th:title="${item.getItemName()}"
                                th:text="${item.getItemName()}"></a>
                         </p>
                         <p class="seller">
-                            <a th:href="${item.sellerIndex}"
-                               th:text="${item.sellerIndex}"></a>
+                            <a th:href="${seller.getHomePage()}"
+                               th:text="${seller.getStoreName()}"></a>
                         </p>
                         <p class="price">
-                            <a th:text="${item.getPrice()}">12,900원</a>
+                            <a  th:text="${#numbers.formatInteger(item.getPrice(), 0, 'COMMA')+' 원'}">12,900원</a>
                         </p>
                         <p class="rating-star">
                             <span class="star-container">
@@ -67,8 +77,7 @@
                                 <i class="star filled fa-solid fa-star "></i>
                                 <i class="star filled fa-solid fa-star "></i>
                             </span>
-                            <span class="review-count"
-                                  th:text="${}">75,165</span>
+                            <span class="review-count">75,165</span>
                         </p>
                     </div>
                 </div>

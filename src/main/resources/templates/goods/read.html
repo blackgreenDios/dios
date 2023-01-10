@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/goods/stylesheets/read.css}">
     <script defer th:src="@{/goods/scripts/read.js}"></script>
 
+
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="--main">
@@ -31,7 +32,9 @@
         </div>
         <div class="item-info" id="itemInfo">
             <h2 th:utext="${goods.getItemName()}"></h2>
+
             <form class="content" id="form">
+                <input name="price" type="hidden" th:value="${goods.getPrice()}">
                 <table class="table" id="table">
                     <tbody>
                     <tr class="item-category">
@@ -55,35 +58,33 @@
                     </tr>
                     <tr class="item-price">
                         <th>가격</th>
-                        <td th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
+                        <td name="price"
+                            th:value="${goods.getPrice()}"
+                            th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
                     </tr>
                     <tr class="color-option">
                         <th>색상</th>
                         <td>
-                            <select>
-                                <option value="">----색상을 선택해 주세요----</option>
+                            <select id="colorOption" onchange="result()">
+                                <option value="0">----색상을 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
-                                <option>그레이</option>
-                                <option>베이지</option>
-                                <option>블랙</option>
+                                <option th:each="color: ${colors}"
+                                        th:value="${color.getItemIndex}"
+                                        th:text="${color.getColor()}">그레이
+                                </option>
                             </select>
                         </td>
                     </tr>
-                    <tr class="size-option" id="sizeOption">
+                    <tr class="size-option">
                         <th>사이즈</th>
                         <td>
-                            <select>
-                                <option value="">----사이즈를 선택해 주세요----</option>
+                            <select id="sizeOption" onchange="result()">
+                                <option value="0">----사이즈를 선택해 주세요----</option>
                                 <option disabled value="">------------------------</option>
-                                <!--                                <option th:each="size:${sizes}"-->
-                                <!--                                        th:value="${size.getId()}"-->
-                                <!--                                        th:text="${size.getText()}"-->
-                                <!--                                >free</option>-->
-                                <option>XS</option>
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
+                                <option th:each="size:${sizes}"
+                                        th:value="${size.getItemIndex}"
+                                        th:text="${size.getSize()}">
+                                </option>
                             </select>
                         </td>
                     </tr>
@@ -91,24 +92,47 @@
                 </table>
             </form>
 
-            <div class="result" id="result">
+            <form class="resultForm" id="resultForm">
+                <input name="itemIndex" type="hidden" th:value="${goods.getIndex()}">
+                <input id="countValue" type="hidden" name="count" value="1">
+                <div class="result" id="result">
                 <span class="item-summary">
                     <span class="item-name" th:text="${goods.getItemName()}"></span>
                 <div class="option">
-                    <span class="size">사용자가 선택한 사이즈</span>
-                    <span class="color">사용자가 선택한 색상</span>
+                    <span class="color" id="resultColor">사용자가 선택한 색상</span>
+                    <span class="size" id="resultSize">사용자가 선택한 사이즈</span>
                 </div>
                 </span>
-                <span class="price"
-                      th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></span>
+                    <input type="button"
+                           onclick='Count("minus")'
+                           value="-"/>
+                    <div id="count"> 1 </div>
+                    <input type="button"
+                           onclick='Count("plus")'
+                           value="+"/>
+                </div>
+            </form>
+
+            <div class="warning" th:if="${session.user == null}">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span>현재 로그인 되어있지 않은 상태입니다.</span>
+                <div>장바구니 및 결제를 원하시면 로그인 후 이용해주세요.</div>
             </div>
+
             <div class="button-container">
                 <input type="button" class="cart-button" value="BUY IT NOW"
-                       th:if="${session.user !=null}"
-                       th:href="@{/store/order}">
+                       rel="orderButton" th:if="${session.user !=null}">
                 <input type="button" class="order-button" value="ADD TO CART"
-                       th:if="${session.user !=null}"
-                       th:href="@{/store/cart}">
+                       rel="cartButton" th:if="${session.user !=null}">
+            </div>
+
+            <div class="blockBox" id="blockBox">
+                <div>장바구니에 해당 상품을 담았습니다.</div>
+                <div>확인하시겠습니까?</div>
+                <ul type="none">
+                    <li rel="yes">예</li>
+                    <li rel="no">아니요</li>
+                </ul>
             </div>
 
         </div>

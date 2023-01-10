@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DIOS STORE</title>
+  <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+  <script src="https://kit.fontawesome.com/d6aa13913f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" th:href="@{/store/resources/stylesheets/list.css}">
+  <script defer th:src="@{/store/resources/scripts/list.js}"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<main class="--main">
+  <div class="category-container" id="categoryContainer">
+    <ul class="category">
+      <!--/*@thymesVar id="boards" type="dev.yhpark.studymemberbbs.entities.bbs.BoardEntity[]"*/-->
+      <li class="--item">
+        <span class="--link">의류</span>
+      </li>
+      <li class="--item">
+        <span class="--link">신발</span>
+      </li>
+      <li class="--item">
+        <span class="--link">기구/용품/장비</span>
+      </li>
+
+      <li class="--item"   th:each=" categoring: ${categories}">
+                <span class="--link"
+                      th:value="${categoring.getId()}"
+                      th:text="${categoring.getText()}"></span>
+      </li>
+
+      <li class="--item">
+        <i class="fa-solid fa-bag-shopping"></i>
+        cart
+      </li>
+    </ul>
+  </div>
+  <span class="input-container">
+    <input onClick="location.href='http://localhost:8080/goods/write'"
+           type="button" value="상품 등록하기"
+           class="article-creation" id="articleCreation">
+    </span>
+  <div class="list-box" id="listBox">
+    <ul class="search-list" id="searchList">
+      <li class="li-box" th:each="item : ${goods}"
+          th:href="@{/goods/read (gid=${item.getIndex()})}">
+        <div class="li_inner">
+          <div class="image-container">
+            <a class="image-block">
+              <img class="image-li"
+                   th:src="@{./titleImage (index=${item.getIndex()})}"
+                   th:alt="${item.getTitleImageName()}">
+            </a>
+          </div>
+          <div class="item-info">
+            <p class="list-info">
+              <a th:href="@{/goods/read (gid=${item.getIndex()})}"
+                 th:title="${item.getItemName()}"
+                 th:text="${item.getItemName()}"></a>
+            </p>
+            <p class="seller">
+              <a th:href="${seller.getHomePage()}"
+                 th:text="${seller.getStoreName()}"></a>
+            </p>
+            <p class="price">
+              <a  th:text="${#numbers.formatInteger(item.getPrice(), 0, 'COMMA')+' 원'}">12,900원</a>
+            </p>
+            <p class="rating-star">
+                            <span class="star-container">
+                                <i class="star filled fa-solid fa-star "></i>
+                                <i class="star filled fa-solid fa-star "></i>
+                                <i class="star filled fa-solid fa-star "></i>
+                                <i class="star filled fa-solid fa-star "></i>
+                                <i class="star filled fa-solid fa-star "></i>
+                            </span>
+              <span class="review-count">75,165</span>
+            </p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="page-container" id="pageContainer">
+    <a class="page">
+      <i class="fa-solid fa-angles-left"></i>
+    </a>
+    <a class="page">
+      <i class="fa-solid fa-angle-left"></i>
+    </a>
+    <a class="page" href="#">1</a>
+    <a class="page" href="#">2</a>
+    <a class="page" href="#">3</a>
+
+    <a href="#" class="page">
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+    <a class="page">
+      <i class="fa-solid fa-angles-right"></i>
+    </a>
+  </div>
+
+</main>
+</body>
+</html>
