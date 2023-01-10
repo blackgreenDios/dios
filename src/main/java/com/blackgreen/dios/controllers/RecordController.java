@@ -155,7 +155,6 @@ public class RecordController {
                                       @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
         ModelAndView modelAndView;
 
-
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/dios/login");
             return modelAndView;
@@ -166,6 +165,7 @@ public class RecordController {
             String recentDate = formatter.format(date);
 
             modelAndView = new ModelAndView("redirect:/record/recordBook?dt=" + recentDate);
+
             return modelAndView;
         } else {
             modelAndView = new ModelAndView("records/recordBook");
@@ -177,7 +177,6 @@ public class RecordController {
 
         // 현재 날짜
         Date date2 = new Date();
-
         final String email = user.getEmail();
         CountEntity count = this.recordService.getCount(email, date);
         ElementEntity element = this.recordService.getRecords(email, date);

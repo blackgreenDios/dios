@@ -8,12 +8,14 @@ public class OrderEntity {
 
     private int index;
     private String userEmail;
+    private int cartIndex;
     private BigInteger orderNum;
     private int count;
     private int itemIndex;
     private String orderColor;
     private String orderSize;
     private int price;
+    private String message;
     private int orderStatus;
     private Date orderDate;
 
@@ -32,6 +34,15 @@ public class OrderEntity {
 
     public OrderEntity setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+        return this;
+    }
+
+    public int getCartIndex() {
+        return cartIndex;
+    }
+
+    public OrderEntity setCartIndex(int cartIndex) {
+        this.cartIndex = cartIndex;
         return this;
     }
 
@@ -104,6 +115,15 @@ public class OrderEntity {
 
     public OrderEntity setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
+        return this;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public OrderEntity setMessage(String message) {
+        this.message = message;
         return this;
     }
 

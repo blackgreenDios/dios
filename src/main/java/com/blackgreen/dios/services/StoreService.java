@@ -92,6 +92,7 @@ public class StoreService {
             // orders 의 배열의 길이만큼 상품이 insert 되면 성공
             count += this.storeMapper.insertOrder(order);
         }
+
         return count == orders.length
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
@@ -102,6 +103,19 @@ public class StoreService {
     public OrderVo[] getOrders (UserEntity user, String orderNum) {
 
         return this.storeMapper.selectOrderByEmail(user.getEmail(), orderNum);
+    }
+
+    // 결제 완료 눌렀을 때 : 카트에 담긴 내용 삭제
+    public Enum<? extends IResult> deleteCartItem (OrderEntity[] orders) {
+
+        int count = 0;
+        for (OrderEntity order : orders) {
+            count += this.storeMapper.deleteCartByIndex(order.getCartIndex());
+        }
+
+        return count == orders.length
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
     }
 
 

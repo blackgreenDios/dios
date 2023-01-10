@@ -50,15 +50,16 @@
             keyColumn="index"
             keyProperty="index"
             parameterType="com.blackgreen.dios.entities.store.OrderEntity">
-        INSERT INTO `dios_store`.`orders`(`index`, `user_email`, `order_num`, `count`, `item_index`,
+        INSERT INTO `dios_store`.`orders`(`index`, `user_email`, `cart_index`, `order_num`, `count`, `item_index`,
                                           `order_color`, `order_size`, `price`, `order_status`, `order_date`)
-        VALUES (#{index}, #{userEmail}, #{orderNum}, #{count}, #{itemIndex},
+        VALUES (#{index}, #{userEmail}, #{cartIndex}, #{orderNum}, #{count}, #{itemIndex},
                 #{orderColor}, #{orderSize}, #{price}, #{orderStatus}, IFNULL(#{orderDate}, DEFAULT(`order_date`)))
     </insert>
 
     <select id="selectOrderByEmail" resultType="com.blackgreen.dios.vos.store.OrderVo">
         SELECT `order`.`index`          AS `index`,
                `order`.`user_email`     AS `UserEmail`,
+               `order`.`cart_index`     AS `cartIndex`,
                `order`.`order_num`      AS `orderNum`,
                `order`.`count`          AS `count`,
                `order`.`item_index`     AS `itemIndex`,

@@ -72,7 +72,7 @@ const loadCart = () => {
                                     <span class="product-count">
                                        <div class="count-container">
                                            <i rel="minus" class="minus icon fa-solid fa-minus"></i>
-                                           <a class="count"> ${cartObject['count']} </a>
+                                           <a class="count" rel="count">${cartObject['count']}</a>
                                            <input rel="countResult" type="hidden" value="${cartObject['count']}">
                                            <i rel="plus" class="plus icon fa-solid fa-plus"></i>
                                        </div>
@@ -188,6 +188,11 @@ const loadCart = () => {
                         xhr.send(formData);
                     });
 
+                    const checkBox = cartElement.querySelector('[rel="checkbox"]');
+                    checkBox.addEventListener('input', () => {
+                        calcPrice();
+                    });
+
                     cartContainer.append(cartElement);
 
                     // 총 결제금액 : 총 판매가 + 배송비
@@ -207,13 +212,29 @@ const loadCart = () => {
     xhr.send();
 }
 
+
 loadCart();
+
+// 가격 계산하는 함수
+const calcPrice = () => {
+    const lines = document.querySelectorAll('[rel="line"]');
+    let sum = 0;
+    lines.forEach(line => {
+        const checkBox = line.querySelector('[rel="checkbox"]');
+        if (checkBox.checked) {
+            const price = parseInt(line.dataset.price);
+            const count = parseInt(line.dataset.count);
+            sum += price * count;
+        }
+    });
+    const priceAll = document.querySelector('[rel="priceAll"]');
+    priceAll.innerText = sum.toLocaleString() + '원';
+};
 
 
 // 체크박스 전체선택 / 전체해제
 function selectAll(selectAll) {
-    const checkboxes
-        = document.getElementsByName('select');
+    const checkboxes = document.getElementsByName('select');
 
     checkboxes.forEach((checkbox) => {
         checkbox.checked = selectAll.checked;
@@ -251,6 +272,7 @@ selectOrder.addEventListener('click', e => {
     for (let item of items) {
         if (item.querySelector('[rel="checkbox"]').checked) {
             itemsArray.push({
+                cartIndex: item.dataset.index,
                 itemIndex: item.dataset.itemIndex,
                 count: item.dataset.count,
                 orderColor: item.dataset.orderColor,
@@ -269,6 +291,9 @@ selectOrder.addEventListener('click', e => {
                 switch (responseObject['result']) {
                     case 'success':
                         window.location.href = `./order?num=${responseObject['orderNum']}`;
+                        break;
+                    case 'out_of_range':
+                        alert('주문할 상품이 없습니다!');
                         break;
                     default:
                         alert('잠시후 다시 시도해 주세요.')
@@ -291,6 +316,7 @@ orderAll.addEventListener('click', e => {
     let itemsArray = [];
     for (let item of items) {
         itemsArray.push({
+            cartIndex: item.dataset.index,
             itemIndex: item.dataset.itemIndex,
             count: item.dataset.count,
             orderColor: item.dataset.orderColor,
@@ -308,6 +334,9 @@ orderAll.addEventListener('click', e => {
                 switch (responseObject['result']) {
                     case 'success':
                         window.location.href = `./order?num=${responseObject['orderNum']}`;
+                        break;
+                    case 'out_of_range':
+                        alert('주문할 상품이 없습니다!');
                         break;
                     default:
                         alert('잠시후 다시 시도해 주세요.')
@@ -342,7 +371,6 @@ cancelButton.addEventListener('click', e => {
     xhr.open('DELETE', './cart');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            Cover.hide();
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
@@ -359,5 +387,7 @@ cancelButton.addEventListener('click', e => {
     };
     xhr.send(formData);
 });
+
+
 
 

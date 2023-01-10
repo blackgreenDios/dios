@@ -18,6 +18,7 @@ const loadOrder = () => {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseArray = JSON.parse(xhr.responseText);
                 for (const orderObject of responseArray) {
+                    innerDelivery = 0;
                     const orderHtmlText = `
                     <table>
                     <tbody>
@@ -45,13 +46,16 @@ const loadOrder = () => {
                     const dom = domParser.parseFromString(orderHtmlText, 'text/html');
                     const orderElement = dom.querySelector('[rel="line"]');
 
+                    orderElement.dataset.cartIndex = orderObject['cartIndex'];
+
                     orderContainer.append(orderElement);
 
                     price.innerText = innerPrice.toLocaleString() + " 원";
+
                     if (innerPrice < 50000) {
                         innerDelivery = 2500;
-                        delivery.innerText = (innerDelivery).toLocaleString() + " 원";
                     }
+                    delivery.innerText = (innerDelivery).toLocaleString() + " 원";
                     priceAll.innerText = (innerPrice + innerDelivery).toLocaleString() + " 원";
 
 
@@ -74,9 +78,7 @@ const loadOrder = () => {
 loadOrder();
 
 
-
 // 주문자 정보와 동일 눌렀을 때 사용자 정보 가져오기
-
 function check(box) {
 
     const nameText = document.querySelector('[rel="nameText"]');
@@ -91,8 +93,7 @@ function check(box) {
         addressPostalText.value = document.querySelector('[rel="addressPostal"]').value;
         addressPrimaryText.value = document.querySelector('[rel="addressPrimary"]').value;
         addressSecondaryText.value = document.querySelector('[rel="addressSecondary"]').value;
-    }
-    else if (box.checked === false) {
+    } else if (box.checked === false) {
         nameText.value = '';
         contactText.value = '';
         addressPostalText.value = '';
@@ -101,6 +102,69 @@ function check(box) {
     }
 
 }
+
+// 결제 완료 눌렀을 때 : 카트에 담긴 내용 삭제
+document.querySelector('[rel="payment"]').addEventListener('click', e => {
+
+    e.preventDefault();
+
+    const items = document.querySelectorAll('[rel="line"]');
+
+    let itemsArray = [];
+    for (let item of items) {
+
+        itemsArray.push({
+            cartIndex: item.dataset.cartIndex
+        });
+
+    }
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('cartIndex', JSON.stringify(itemsArray));
+
+    xhr.open('DELETE', './cartItem');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        window.location.href = `./orderSuccess`;
+                        break;
+                    default:
+                        alert('잠시후 다시 시도해 주세요.')
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send(formData);
+});
+
+
+// 주소찾기 창
+const findButton = document.querySelector('[rel="find"]');
+
+findButton.addEventListener('click', () => {
+
+    new daum.Postcode({
+        oncomplete: e => {
+            document.querySelector('[rel="addressFindPanel"]').classList.remove('visible');
+            document.querySelector('[rel="addressPostalText"]').value = e['zonecode'];
+            document.querySelector('[rel="addressPrimaryText"]').value = e['address'];
+            document.querySelector('[rel="addressSecondaryText"]').value = '';
+            document.querySelector('[rel="addressSecondaryText"]').focus();
+        }
+    }).embed(form.querySelector('[rel="addressFindPanelDialog"]'));
+    form.querySelector('[rel="addressFindPanel"]').classList.add('visible');
+});
+
+form.querySelector('[rel="addressFindPanel"]').addEventListener('click', () => {
+    form.querySelector('[rel="addressFindPanel"]').classList.remove('visible');
+});
+
 
 
 

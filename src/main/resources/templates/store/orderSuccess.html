@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DIOS :: 주문 완료</title>
+    <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+    <link rel="stylesheet" th:href="@{/store/resources/stylesheets/orderSuccess.css}">
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<main class="--main main">
+    <form class="form" id="form">
+        <div class="content">
+            <div class="title-container">
+                <h1 class="title">주문/결제</h1>
+                <ul class="step-list">
+                    <li>
+                         <span class="step-num one">
+                          <a class="num">01</a>
+                          <a class="text">장바구니</a>
+                          </span>
+                    </li>
+                    <a class="blank"> > </a>
+                    <li>
+                        <span class="step-num two">
+                       <a class="num">02</a>
+                       <a class="text">주문/결제</a>
+                      </span>
+                    </li>
+                    <a class="blank"> > </a>
+                    <li>
+                     <span class="step-num three">
+                          <a class="num">03</a>
+                          <a class="text">주문완료</a>
+                     </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="success">
+                <h1 class="successTitle">
+                    DIOS 상품 발송 주문이 완료되었습니다.
+                </h1>
+                <div class="orderNum-container">
+                    <a class="orderNumTitle">주문번호 | </a>
+                    <a class="orderNumText">3478632969315</a>
+                </div>
+                <div class="information-container">
+                    <div class="date-container">
+                        <a class="dateTitle">주문일시 | </a>
+                        <a class="date">2023.01.10</a>
+                    </div>
+                    <div class="user-container">
+                        <div class="name-container">
+                            <a class="nameTitle">받는 분 | </a>
+                            <a class="name">손흥민</a>
+                        </div>
+                        <div class="contact-container">
+                            <a class="contactTitle">연락처 | </a>
+                            <a class="contact">01025744960</a>
+                        </div>
+                        <div class="address-container">
+                            <a class="addressTitle">주소 | </a>
+                            <div class="address-box">
+                                <a class="address one">32412</a>
+                                <a class="address two">구미 구미 마이구미</a>
+                                <a class="address three">505동 3493호</a>
+                            </div>
+                        </div>
+                        <div class="message-container">
+                            <a class="messageTitle">배송 메세지 | </a>
+                            <a class="message">문 앞에 놓아주세요.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <input class="order" type="button" value="주문내역">
+            </div>
+        </div>
+    </form>
+</main>
+</body>
+</html>

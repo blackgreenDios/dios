@@ -108,12 +108,12 @@
                     </tr>
                     <tr class="address">
                         <th class="address-container">주소</th>
-                        <td class="userAddress">
+                        <td class="userAddress" id="addressContainer">
                             <div class="top">
                                 <a class="redStar">*</a>
                                 <input hidden rel="addressPostal" type="text" th:value="${user.getAddressPostal()}">
                                 <input class="input code" type="text" rel="addressPostalText">
-                                <input class="input addressButton" type="button" value="우편번호 찾기">
+                                <input class="input addressButton" rel="find" type="button" value="우편번호 찾기">
                             </div>
                             <div class="middle">
                                 <input hidden rel="addressPrimary" type="text" readonly th:value="${user.getAddressPrimary()}">
@@ -122,6 +122,9 @@
                             <div class="bottom">
                                 <input hidden rel="addressSecondary" type="text" th:value="${user.getAddressSecondary()}">
                                 <input class="input addressTwo" type="text" rel="addressSecondaryText">
+                            </div>
+                            <div class="panel address" rel="addressFindPanel">
+                                <div class="dialog" rel="addressFindPanelDialog"></div>
                             </div>
                         </td>
                     </tr>
@@ -151,12 +154,12 @@
                         <tr>
                             <th>결제수단</th>
                             <td>
-                                <input class="radio" type="radio" value="1">신용카드
-                                <input class="radio" type="radio" value="2">무통장입금
-                                <input class="radio" type="radio" value="3">계좌이체
+                                <input class="radio" name="payment" type="radio" value="신용카드">신용카드
+                                <input class="radio" name="payment" type="radio" value="무통장입금">무통장입금
+                                <input class="radio" name="payment" type="radio" value="계좌이체">계좌이체
                                 <br>
-                                <input class="radio" type="radio" value="4">카카오페이
-                                <input class="radio" type="radio" value="5">휴대폰결제
+                                <input class="radio" name="payment" type="radio" value="카카오페이">카카오페이
+                                <input class="radio" name="payment" type="radio" value="휴대폰결제">휴대폰결제
                             </td>
                         </tr>
                         <tr>
@@ -202,16 +205,8 @@
                             <a class="finalText">최종 결제금액</a>
                             <a class="finalCost" rel="priceAll">0 원</a>
                         </div>
-                        <div class="agree">
-                            <a class="agreeText">주문 상품정보 및 결제대행 서비스 이용약관에 모두 동의하십니까?</a>
-                            <div class="all">
-                                <input type="checkbox">
-                                <a class="allAgree">모두 동의</a>
-                                <i class="icon fa-solid fa-circle-down"></i>
-                            </div>
-                        </div>
                         <div class="button-container">
-                            <input class="payment" type="button" value="결제하기">
+                            <input class="payment" type="button" rel="payment" value="결제하기">
                         </div>
                     </div>
                 </div>

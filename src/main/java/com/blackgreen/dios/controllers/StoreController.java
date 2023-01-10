@@ -8,6 +8,7 @@ import com.blackgreen.dios.entities.store.CartEntity;
 import com.blackgreen.dios.entities.store.OrderEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.bbs.WriteResult;
+import com.blackgreen.dios.enums.store.CountResult;
 import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.StoreService;
 import com.blackgreen.dios.vos.bbs.CommentVo;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -100,42 +102,41 @@ public class StoreController {
     }
 
 
+    // cart 선택상품 삭제
+    @DeleteMapping(value = "cart",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteCart(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "index") String indexStr) throws JsonProcessingException {
 
-     // cart 선택상품 삭제
-     @DeleteMapping(value = "cart",
-             produces = MediaType.APPLICATION_JSON_VALUE)
-     @ResponseBody
-     public String deleteCart(@SessionAttribute(value = "user",required = false) UserEntity user,
-                              @RequestParam(value = "index") String indexStr) throws JsonProcessingException {
-
-         CartEntity[] carts = new ObjectMapper().readValue(indexStr, CartEntity[].class);
+        CartEntity[] carts = new ObjectMapper().readValue(indexStr, CartEntity[].class);
 
 
-         Enum<?> result = this.storeService.deleteCart(carts);
-         JSONObject responseObject = new JSONObject();
+        Enum<?> result = this.storeService.deleteCart(carts);
+        JSONObject responseObject = new JSONObject();
 
-         responseObject.put("result",result.name().toLowerCase());
+        responseObject.put("result", result.name().toLowerCase());
 
 //         if(result == CommonResult.SUCCESS){
 //             responseObject.put("index", cart.getIndex());
 //         }
 
-         return responseObject.toString();
-     }
+        return responseObject.toString();
+    }
 
-     // 수량 변경 : 더하기
+    // 수량 변경 : 더하기
     @PatchMapping(value = "plusCount",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchPlusCount (@SessionAttribute(value = "user",required = false) UserEntity user,
-                               @RequestParam(value = "index") int index) {
+    public String patchPlusCount(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                 @RequestParam(value = "index") int index) {
 
         Enum<?> result = this.storeService.updateCountPlus(index);
         JSONObject responseObject = new JSONObject();
 
         responseObject.put("result", result.name().toLowerCase());
 
-        if (result == CommonResult.SUCCESS){
+        if (result == CommonResult.SUCCESS) {
             responseObject.put("index", index);
         }
 
@@ -146,7 +147,7 @@ public class StoreController {
     @PatchMapping(value = "minusCount",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String patchMinusCount (@SessionAttribute(value = "user",required = false) UserEntity user,
+    public String patchMinusCount(@SessionAttribute(value = "user", required = false) UserEntity user,
                                   @RequestParam(value = "index") int index) {
 
         Enum<?> result = this.storeService.updateCountMinus(index);
@@ -154,7 +155,7 @@ public class StoreController {
 
         responseObject.put("result", result.name().toLowerCase());
 
-        if (result == CommonResult.SUCCESS){
+        if (result == CommonResult.SUCCESS) {
             responseObject.put("index", index);
         }
 
@@ -172,21 +173,9 @@ public class StoreController {
         // 위에꺼 왜 쓰냐면 반복문으로 폼 데이터 보내면 폼 데이터 여러개를 보내버리는데 그거 넘 안 좋은 방법이라서
         // 아예 자스에서 배열로 담은 걸 하나의 문자열로 만들어가지고 컨트롤러로 보내줘서 그걸 다시 배열로 풀어낸다.
 
-//        List<OrderEntity> orders = new ArrayList<>();
-//        JSONArray orderArray = new JSONArray(orderStr);
-//        orderArray.forEach(order -> {
-//            if (order instanceof JSONObject) {
-//                JSONObject orderObject = (JSONObject) order;
-//                OrderEntity orderEntity = new OrderEntity();
-//                orderEntity.setItemIndex(orderObject.getInt("itemIndex"));
-//                orderEntity.setCount(orderObject.getInt("count"));
-//                orders.add(orderEntity);
-//            }
-//        });
         OrderEntity[] orders = new ObjectMapper().readValue(orderStr, OrderEntity[].class);
         Enum<?> result;
         result = this.storeService.addOrders(user, orders);
-
 //        Enum<?> result;
 //
         JSONObject responseObject = new JSONObject();
@@ -204,13 +193,12 @@ public class StoreController {
 ////            }
 //        }
 //
-        responseObject.put("result",result.name().toLowerCase());
+        responseObject.put("result", result.name().toLowerCase());
         responseObject.put("orderNum", orders[0].getOrderNum());
 //
         return responseObject.toString();
 
     }
-
 
 
     // order
@@ -235,11 +223,47 @@ public class StoreController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public OrderVo[] getOrderItem(@SessionAttribute(value = "user", required = false) UserEntity user,
-                               @RequestParam(value = "num") String orderNum) {
+                                  @RequestParam(value = "num") String orderNum) {
 
         JSONArray responseArray = new JSONArray();
 
         OrderVo[] orders = this.storeService.getOrders(user, orderNum);
         return orders;
     }
+
+    // 결제 완료 눌렀을 때 : 카트에 담긴 내용 삭제
+    @DeleteMapping(value = "cartItem",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteCartItem(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                 @RequestParam(value = "cartIndex") String cartIndexStr) throws JsonProcessingException {
+
+        OrderEntity[] orders = new ObjectMapper().readValue(cartIndexStr, OrderEntity[].class);
+
+        Enum<?> result = this.storeService.deleteCartItem(orders);
+        JSONObject responseObject = new JSONObject();
+
+        responseObject.put("result", result.name().toLowerCase());
+
+//         if(result == CommonResult.SUCCESS){
+//             responseObject.put("index", cart.getIndex());
+//         }
+
+        return responseObject.toString();
+    }
+
+    @RequestMapping(value = "orderSuccess",
+            method = RequestMethod.GET)
+    public ModelAndView getOrderSuccess (@SessionAttribute(value = "user", required = false) UserEntity user) {
+
+        ModelAndView modelAndView;
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("store/orderSuccess");
+        }
+
+        return modelAndView;
+    }
+
 }
