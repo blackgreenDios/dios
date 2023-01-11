@@ -45,39 +45,47 @@
                 </h1>
                 <div class="orderNum-container">
                     <a class="orderNumTitle">주문번호 | </a>
-                    <a class="orderNumText">3478632969315</a>
+                    <a class="orderNumText" th:text="${order.getOrderNum()}"></a>
                 </div>
                 <div class="information-container">
-                    <div class="date-container">
-                        <a class="dateTitle">주문일시 | </a>
-                        <a class="date">2023.01.10</a>
-                    </div>
-                    <div class="user-container">
-                        <div class="name-container">
-                            <a class="nameTitle">받는 분 | </a>
-                            <a class="name">손흥민</a>
-                        </div>
-                        <div class="contact-container">
-                            <a class="contactTitle">연락처 | </a>
-                            <a class="contact">01025744960</a>
-                        </div>
-                        <div class="address-container">
-                            <a class="addressTitle">주소 | </a>
-                            <div class="address-box">
-                                <a class="address one">32412</a>
-                                <a class="address two">구미 구미 마이구미</a>
-                                <a class="address three">505동 3493호</a>
-                            </div>
-                        </div>
-                        <div class="message-container">
-                            <a class="messageTitle">배송 메세지 | </a>
-                            <a class="message">문 앞에 놓아주세요.</a>
-                        </div>
-                    </div>
+                    <table class="infoTable">
+                        <tr class="date-container">
+                            <th class="dateTitle">주문일시 | </th>
+                            <td class="date" th:text="${date}"></td>
+                        </tr>
+                        <tr class="item-container">
+                            <th class="itemTitle">주문상품 | </th>
+                            <td class="item" th:text="${order.getItemName()} + ' 외 (' + ${count - 1} + ')건'"></td>
+                        </tr>
+                        <tr class="name-container">
+                            <th class="nameTitle">받는 분 | </th>
+                            <td class="name" th:text="${order.getUserName()}"></td>
+                        </tr>
+                        <tr class="contact-container">
+                            <th class="contactTitle">연락처 | </th>
+                            <td class="contact" th:text="${order.getUserContact()}"></td>
+                        </tr>
+                        <tr class="address-container">
+                            <th class="addressTitle">주소 | </th>
+                            <td class="address-box">
+                                <a class="address one" th:text="${'(' + order.getUserAddressPostal() + ')'}"></a>
+                                <a class="address two" th:text="${order.getUserAddressPrimary()}"></a>
+                                <a class="address three" th:text="${order.getUserAddressSecondary()}"></a>
+                            </td>
+                        </tr>
+                        <tr class="method-container">
+                            <th class="methodTitle">결제 수단 | </th>
+                            <td class="method" th:text="${order.getPaymentMethod()}"></td>
+                        </tr>
+                        <tr class="message-container">
+                            <th class="messageTitle">배송 메세지 | </th>
+                            <td class="message" th:text="${order.getMessage()}"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="button-container">
-                <input class="order" type="button" value="주문내역">
+                <a class="order" th:href="@{/}">주문내역</a>
             </div>
         </div>
     </form>

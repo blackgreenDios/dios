@@ -1,17 +1,10 @@
 package com.blackgreen.dios.controllers;
 
-import com.blackgreen.dios.entities.bbs.ArticleEntity;
-import com.blackgreen.dios.entities.bbs.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
-import com.blackgreen.dios.entities.record.ElementEntity;
 import com.blackgreen.dios.entities.store.CartEntity;
 import com.blackgreen.dios.entities.store.OrderEntity;
 import com.blackgreen.dios.enums.CommonResult;
-import com.blackgreen.dios.enums.bbs.WriteResult;
-import com.blackgreen.dios.enums.store.CountResult;
-import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.StoreService;
-import com.blackgreen.dios.vos.bbs.CommentVo;
 import com.blackgreen.dios.vos.store.CartVo;
 import com.blackgreen.dios.vos.store.OrderVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,23 +12,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.math.BigInteger;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
@@ -213,7 +199,15 @@ public class StoreController {
             modelAndView = new ModelAndView("store/order");
         }
 
+        LocalDateTime date = LocalDateTime.now();
+        date = date.plusDays(2);
+
+        String nowDate = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+
         modelAndView.addObject("user", user);
+        // 입금기한 : 2일으로 줌
+        modelAndView.addObject("date", nowDate);
+
 
         return modelAndView;
     }
@@ -223,7 +217,7 @@ public class StoreController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public OrderVo[] getOrderItem(@SessionAttribute(value = "user", required = false) UserEntity user,
-                                  @RequestParam(value = "num") String orderNum) {
+                                  @RequestParam(value = "num") BigInteger orderNum) {
 
         JSONArray responseArray = new JSONArray();
 
@@ -231,39 +225,51 @@ public class StoreController {
         return orders;
     }
 
-    // 결제 완료 눌렀을 때 : 카트에 담긴 내용 삭제
-    @DeleteMapping(value = "cartItem",
+
+    // 결제완료 누르면 회원정보 및 결제정보 업데이트 및 카트 삭제
+    @PatchMapping(value = "orderSuccess",
             produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String deleteCartItem(@SessionAttribute(value = "user", required = false) UserEntity user,
-                                 @RequestParam(value = "cartIndex") String cartIndexStr) throws JsonProcessingException {
+    public String patchOrderSuccess(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                    OrderEntity order) {
 
-        OrderEntity[] orders = new ObjectMapper().readValue(cartIndexStr, OrderEntity[].class);
-
-        Enum<?> result = this.storeService.deleteCartItem(orders);
+        Enum<?> result = this.storeService.executeOrder(user, order);
         JSONObject responseObject = new JSONObject();
 
         responseObject.put("result", result.name().toLowerCase());
 
-//         if(result == CommonResult.SUCCESS){
-//             responseObject.put("index", cart.getIndex());
-//         }
+//        if (result == CommonResult.SUCCESS) {
+//            responseObject.put("index", index);
+//        }
 
         return responseObject.toString();
     }
 
+
     @RequestMapping(value = "orderSuccess",
             method = RequestMethod.GET)
-    public ModelAndView getOrderSuccess (@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getOrderSuccess(@SessionAttribute(value = "user", required = false) UserEntity user,
+                                        @RequestParam(value = "num") BigInteger orderNum) {
 
         ModelAndView modelAndView;
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/dios/login");
         } else {
             modelAndView = new ModelAndView("store/orderSuccess");
+            OrderVo[] orders = this.storeService.getOrder(user, orderNum);
+
+            Date date = orders[0].getOrderDate();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+            String date2 = formatter.format(date);
+
+            modelAndView.addObject("order", orders[0]);
+            modelAndView.addObject("count", orders.length);
+            modelAndView.addObject("date", date2);
         }
 
         return modelAndView;
     }
+
+
 
 }

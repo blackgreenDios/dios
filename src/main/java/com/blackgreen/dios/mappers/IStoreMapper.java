@@ -8,6 +8,8 @@ import com.blackgreen.dios.vos.store.OrderVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigInteger;
+
 @Mapper
 public interface IStoreMapper {
 
@@ -26,6 +28,10 @@ public interface IStoreMapper {
 
     // order 에 담긴 상품 불러오기
     OrderVo[] selectOrderByEmail (@Param (value = "userEmail") String userEmail,
-                                  @Param (value = "orderNum") String orderNum);
+                                  @Param (value = "orderNum") BigInteger orderNum);
+
+    // 결제완료 누르면 회원정보 및 결제정보 업데이트
+    OrderEntity[] selectOrderByOrderNum (@Param (value = "orderNum") BigInteger orderNum);
+    int updateOrder (OrderEntity order);
 
 }

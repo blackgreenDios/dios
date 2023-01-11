@@ -15,25 +15,11 @@ import java.text.SimpleDateFormat;
 public class
 HomeController {
 
-    private final RecordService recordService;
-
-    public HomeController(RecordService recordService) {
-        this.recordService = recordService;
-    }
-
     @RequestMapping(value = "/",
             method = RequestMethod.GET)
     public ModelAndView getIndex(@SessionAttribute(value = "user", required = false) UserEntity user) {
         
         ModelAndView modelAndView = new ModelAndView("/home");
-        
-//        if (user != null) {
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//            String date = formatter.format(this.recordService.getDate(user.getEmail()));
-//
-//            modelAndView.addObject("date", date);
-//        }
-
 
 
         return modelAndView;

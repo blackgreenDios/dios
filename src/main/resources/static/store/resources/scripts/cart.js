@@ -228,6 +228,8 @@ const calcPrice = () => {
         }
     });
     const priceAll = document.querySelector('[rel="priceAll"]');
+
+    priceContainer.innerText = sum.toLocaleString() + '원';
     priceAll.innerText = sum.toLocaleString() + '원';
 };
 

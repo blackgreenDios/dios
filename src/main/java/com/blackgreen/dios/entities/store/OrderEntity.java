@@ -8,6 +8,11 @@ public class OrderEntity {
 
     private int index;
     private String userEmail;
+    private String userName;
+    private String userContact;
+    private String userAddressPostal;
+    private String userAddressPrimary;
+    private String userAddressSecondary;
     private int cartIndex;
     private BigInteger orderNum;
     private int count;
@@ -16,6 +21,7 @@ public class OrderEntity {
     private String orderSize;
     private int price;
     private String message;
+    private String paymentMethod;
     private int orderStatus;
     private Date orderDate;
 
@@ -124,6 +130,60 @@ public class OrderEntity {
 
     public OrderEntity setMessage(String message) {
         this.message = message;
+        return this;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public OrderEntity setUserName(String userName) {
+        this.userName = userName;
+        return this;
+    }
+
+    public String getUserContact() {
+        return userContact;
+    }
+
+    public OrderEntity setUserContact(String userContact) {
+        this.userContact = userContact;
+        return this;
+    }
+
+    public String getUserAddressPostal() {
+        return userAddressPostal;
+    }
+
+    public OrderEntity setUserAddressPostal(String userAddressPostal) {
+        this.userAddressPostal = userAddressPostal;
+        return this;
+    }
+
+    public String getUserAddressPrimary() {
+        return userAddressPrimary;
+    }
+
+    public OrderEntity setUserAddressPrimary(String userAddressPrimary) {
+        this.userAddressPrimary = userAddressPrimary;
+        return this;
+    }
+
+    public String getUserAddressSecondary() {
+        return userAddressSecondary;
+    }
+
+    public OrderEntity setUserAddressSecondary(String userAddressSecondary) {
+        this.userAddressSecondary = userAddressSecondary;
+        return this;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public OrderEntity setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
         return this;
     }
 

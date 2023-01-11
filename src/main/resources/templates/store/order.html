@@ -131,17 +131,14 @@
                     <tr class="message">
                         <th class="message-container">배송 메세지</th>
                         <td class="userMessage">
-                            <select class="message" name="message">
+                            <select class="message" name="message" rel="message">
                                 <option value="">배송 메세지를 선택해주세요.</option>
-                                <option value="학생">부재 시 경비실에 맡겨주세요.</option>
-                                <option value="회사원">파손의 위험이 있는 상품이오니, 배송 시 주의해주세요.</option>
-                                <option value="학생">배송 전에 연락주세요.</option>
-                                <option value="회사원">택배함에 넣어주세요.</option>
-                                <option value="기타">기타</option>
+                                <option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요.</option>
+                                <option value="파손의 위험이 있는 상품이오니, 배송 시 주의해주세요.">파손의 위험이 있는 상품이오니, 배송 시 주의해주세요.</option>
+                                <option value="배송 전에 연락주세요.">배송 전에 연락주세요.</option>
+                                <option value="택배함에 넣어주세요.">택배함에 넣어주세요.</option>
+                                <option value="없음">없음</option>
                             </select>
-                            <div class="messageZone">
-                                <input class="input" type="text">
-                            </div>
                         </td>
                     </tr>
                 </table>
@@ -182,7 +179,7 @@
                         </tr>
                         <tr>
                             <th class="period">입금기한</th>
-                            <td class="periodDate">2023.01.03</td>
+                            <td class="periodDate" th:text="${date}"></td>
                         </tr>
                         <tr>
                             <th class="deposit">입금자명</th>

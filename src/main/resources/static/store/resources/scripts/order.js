@@ -28,7 +28,7 @@ const loadOrder = () => {
                                 <input class="image" type="image" src="/goods/titleImage?index=${orderObject['itemIndex']}">
                             </div>
                             <div class="info-content">
-                                <div class="brand">나이키</div>
+                                <div class="brand">${orderObject['storeName']}</div>
                                 <div class="name">${orderObject['itemName']}</div>
                                 <div class="option">옵션 | color: ${orderObject['orderColor']}, size: ${orderObject['orderSize']}</div>
                             </div>
@@ -47,14 +47,15 @@ const loadOrder = () => {
                     const orderElement = dom.querySelector('[rel="line"]');
 
                     orderElement.dataset.cartIndex = orderObject['cartIndex'];
+                    orderElement.dataset.orderNum = orderObject['orderNum'];
 
                     orderContainer.append(orderElement);
 
                     price.innerText = innerPrice.toLocaleString() + " 원";
 
-                    if (innerPrice < 50000) {
-                        innerDelivery = 2500;
-                    }
+                    // if (innerPrice < 50000) {
+                    //     innerDelivery = 2500;
+                    // }
                     delivery.innerText = (innerDelivery).toLocaleString() + " 원";
                     priceAll.innerText = (innerPrice + innerDelivery).toLocaleString() + " 원";
 
@@ -103,34 +104,58 @@ function check(box) {
 
 }
 
-// 결제 완료 눌렀을 때 : 카트에 담긴 내용 삭제
+const userName = document.querySelector('[rel="nameText"]');
+const userContact = document.querySelector('[rel="contactText"]');
+const userAddressPostal = document.querySelector('[rel="addressPostalText"]');
+const userAddressPrimary = document.querySelector('[rel="addressPrimaryText"]');
+const userAddressSecondary = document.querySelector('[rel="addressSecondaryText"]');
+const message = document.querySelector('[rel="message"]');
+
+
+// 결제완료 누르면 회원정보 및 결제정보 업데이트
 document.querySelector('[rel="payment"]').addEventListener('click', e => {
 
     e.preventDefault();
 
-    const items = document.querySelectorAll('[rel="line"]');
+    if (userName.value === '') {
+        alert('받는분 성함을 입력해주세요.');
+        return false;
+    }
 
-    let itemsArray = [];
-    for (let item of items) {
+    if (userContact.value === '') {
+        alert('받는분 연락처를 입력해주세요.');
+        return false;
+    }
 
-        itemsArray.push({
-            cartIndex: item.dataset.cartIndex
-        });
+    if (userAddressPostal.value === '' || userAddressPrimary.value === '' || userAddressSecondary.value === '') {
+        alert('정확한 주소를 입력해주세요.');
+        return false;
+    }
 
+    if (message.value === '') {
+        alert('배송 메세지를 입력해주세요.');
+        return false;
     }
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    formData.append('cartIndex', JSON.stringify(itemsArray));
+    formData.append('orderNum', new URL(window.location.href).searchParams.get('num'));
+    formData.append('userName', userName.value);
+    formData.append('userContact', userContact.value);
+    formData.append('userAddressPostal', userAddressPostal.value);
+    formData.append('userAddressPrimary', userAddressPrimary.value);
+    formData.append('userAddressSecondary', userAddressSecondary.value);
+    formData.append('message', message.value);
+    formData.append('paymentMethod', '신용카드');
 
-    xhr.open('DELETE', './cartItem');
+    xhr.open('PATCH', './orderSuccess');
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = `./orderSuccess`;
+                        window.location.href = `./orderSuccess?num=` + new URL(window.location.href).searchParams.get('num');
                         break;
                     default:
                         alert('잠시후 다시 시도해 주세요.')
@@ -142,6 +167,7 @@ document.querySelector('[rel="payment"]').addEventListener('click', e => {
     };
     xhr.send(formData);
 });
+
 
 
 // 주소찾기 창

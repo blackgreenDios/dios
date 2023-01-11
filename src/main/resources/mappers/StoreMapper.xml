@@ -35,6 +35,7 @@
         DELETE
         FROM `dios_store`.`carts`
         WHERE `index` = #{index}
+        LIMIT 1
     </delete>
 
     <update id="updateCount"
@@ -57,26 +58,66 @@
     </insert>
 
     <select id="selectOrderByEmail" resultType="com.blackgreen.dios.vos.store.OrderVo">
-        SELECT `order`.`index`          AS `index`,
-               `order`.`user_email`     AS `UserEmail`,
-               `order`.`cart_index`     AS `cartIndex`,
-               `order`.`order_num`      AS `orderNum`,
-               `order`.`count`          AS `count`,
-               `order`.`item_index`     AS `itemIndex`,
-               `order`.`order_color`    AS `orderColor`,
-               `order`.`order_size`     AS `orderSize`,
-               `order`.`price`          AS `price`,
-               `order`.`order_status`   AS `orderStatus`,
-               `order`.`order_date`     AS `orderDate`,
-               `item`.`item_name`       AS `itemName`,
-               `item`.`titleImage_data` AS `image`,
-               `item`.`titleImage_mime` AS `imageMime`,
-               `status`.`status`        AS `statusText`
+        SELECT `order`.`index`                  AS `index`,
+               `order`.`user_email`             AS `UserEmail`,
+               `order`.`user_name`              AS `userName`,
+               `order`.`user_contact`           AS `userContact`,
+               `order`.`user_address_postal`    AS `userAddressPostal`,
+               `order`.`user_address_primary`   AS `userAddressPrimary`,
+               `order`.`user_address_secondary` AS `userAddressSecondary`,
+               `order`.`cart_index`             AS `cartIndex`,
+               `order`.`order_num`              AS `orderNum`,
+               `order`.`count`                  AS `count`,
+               `order`.`item_index`             AS `itemIndex`,
+               `order`.`order_color`            AS `orderColor`,
+               `order`.`order_size`             AS `orderSize`,
+               `order`.`price`                  AS `price`,
+               `order`.`order_status`           AS `orderStatus`,
+               `order`.`message`                AS `message`,
+               `order`.`payment_method`         AS `paymentMethod`,
+               `order`.`order_date`             AS `orderDate`,
+               `item`.`item_name`               AS `itemName`,
+               `item`.`titleImage_data`         AS `image`,
+               `item`.`titleImage_mime`         AS `imageMime`,
+               `status`.`status`                AS `statusText`,
+               `item`.`seller_index`            AS `sellerIndex`,
+               `seller`.`store_name`            AS `storeName`
         FROM `dios_store`.`orders` AS `order`
                  LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `order`.`item_index`
                  LEFT JOIN `dios_store`.`order_status` AS `status` ON `status`.`index` = `order`.`order_status`
+                 LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
         WHERE `user_email` = #{userEmail}
           AND `order_num` = #{orderNum}
     </select>
+
+    <select id="selectOrderByOrderNum" resultType="com.blackgreen.dios.entities.store.OrderEntity">
+        SELECT `index`                  AS `index`,
+               `order_num`              AS `orderNum`,
+               `user_name`              AS `userName`,
+               `user_contact`           AS `userContact`,
+               `user_address_postal`    AS `userAddressPostal`,
+               `user_address_primary`   AS `userAddressPrimary`,
+               `user_address_secondary` AS `userAddressSecondary`,
+               `message`                AS `message`,
+               `payment_method`         AS `paymentMethod`,
+               `cart_index`             AS `cartIndex`
+        FROM `dios_store`.`orders`
+        WHERE `order_num` = #{orderNum}
+    </select>
+
+    <update id="updateOrder"
+            parameterType="com.blackgreen.dios.entities.store.OrderEntity">
+        UPDATE `dios_store`.`orders`
+        SET `user_name`              = #{userName},
+            `user_contact`           = #{userContact},
+            `user_address_postal`    = #{userAddressPostal},
+            `user_address_primary`   = #{userAddressPrimary},
+            `user_address_secondary` = #{userAddressSecondary},
+            `message`                = #{message},
+            `payment_method`         = #{paymentMethod},
+            `order_status`           = #{orderStatus}
+        WHERE `index` = #{index}
+        LIMIT 1
+    </update>
 
 </mapper>

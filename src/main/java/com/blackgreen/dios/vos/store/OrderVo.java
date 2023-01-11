@@ -9,6 +9,17 @@ public class OrderVo extends OrderEntity {
     private String imageMime;
     private String statusText;
 
+    private String storeName;
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public OrderVo setStoreName(String storeName) {
+        this.storeName = storeName;
+        return this;
+    }
+
     public String getItemName() {
         return itemName;
     }

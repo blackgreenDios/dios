@@ -15,7 +15,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 import static java.lang.Integer.parseInt;
 
@@ -31,13 +30,13 @@ public class StoreService {
     }
 
     // cart에 담긴 상품 불러오기
-    public CartVo[] getCarts (UserEntity user) {
+    public CartVo[] getCarts(UserEntity user) {
 
         return this.storeMapper.selectCartByEmail(user.getEmail());
     }
 
     // cart 선택상품 삭제
-    public Enum<? extends IResult> deleteCart (CartEntity[] carts) {
+    public Enum<? extends IResult> deleteCart(CartEntity[] carts) {
 
         int count = 0;
         for (CartEntity cart : carts) {
@@ -50,7 +49,7 @@ public class StoreService {
     }
 
     // 상품수량 변경 : 더하기, 빼기
-    public Enum<? extends IResult> updateCountPlus (int index) {
+    public Enum<? extends IResult> updateCountPlus(int index) {
         CartEntity cart = this.storeMapper.selectCartByIndex(index);
 
         int count = cart.getCount();
@@ -61,7 +60,7 @@ public class StoreService {
                 : CommonResult.FAILURE;
     }
 
-    public Enum<? extends IResult> updateCountMinus (int index) {
+    public Enum<? extends IResult> updateCountMinus(int index) {
         CartEntity cart = this.storeMapper.selectCartByIndex(index);
 
         if (cart.getCount() <= 1) {
@@ -77,14 +76,14 @@ public class StoreService {
 
 
     // cart -> order 로 상품정보 넘겨주기
-    public Enum<? extends IResult> addOrders (UserEntity user, OrderEntity[] orders) {
+    public Enum<? extends IResult> addOrders(UserEntity user, OrderEntity[] orders) {
         BigInteger orderNum = new BigInteger(RandomStringUtils.randomNumeric(5) + Math.abs(user.getEmail().hashCode()));
 
         int count = 0;
 
         for (OrderEntity order : orders) {
             ItemEntity item = this.goodsMapper.selectItemByIndex(order.getItemIndex());
-            order.setOrderStatus(1);
+            order.setOrderStatus(0);
             order.setUserEmail(user.getEmail());
             order.setOrderNum(orderNum);
             order.setPrice(item.getPrice());
@@ -100,23 +99,43 @@ public class StoreService {
 
 
     // order에 담긴 상품 불러오기
-    public OrderVo[] getOrders (UserEntity user, String orderNum) {
+    public OrderVo[] getOrders(UserEntity user, BigInteger orderNum) {
 
         return this.storeMapper.selectOrderByEmail(user.getEmail(), orderNum);
     }
 
-    // 결제 완료 눌렀을 때 : 카트에 담긴 내용 삭제
-    public Enum<? extends IResult> deleteCartItem (OrderEntity[] orders) {
 
-        int count = 0;
-        for (OrderEntity order : orders) {
-            count += this.storeMapper.deleteCartByIndex(order.getCartIndex());
+    // 결제 완료 누르면 회원정보 및 결제정보 업데이트 및 카트 삭제
+    public Enum<? extends IResult> executeOrder(UserEntity user, OrderEntity orderInfo) {
+        if (user == null) {
+            return CommonResult.FAILURE;
         }
+        int count = 0;
+        OrderEntity[] orders = this.storeMapper.selectOrderByOrderNum(orderInfo.getOrderNum());
+        for (OrderEntity order : orders) {
+            // 삭제
+            count += this.storeMapper.deleteCartByIndex(order.getCartIndex());
 
-        return count == orders.length
+            // 정보수정
+            order.setUserName(orderInfo.getUserName());
+            order.setUserContact(orderInfo.getUserContact());
+            order.setUserAddressPostal(orderInfo.getUserAddressPostal());
+            order.setUserAddressPrimary(orderInfo.getUserAddressPrimary());
+            order.setUserAddressSecondary(orderInfo.getUserAddressSecondary());
+            order.setMessage(orderInfo.getMessage());
+            order.setPaymentMethod(orderInfo.getPaymentMethod());
+            order.setOrderStatus(1);
+
+            count += this.storeMapper.updateOrder(order);
+        }
+        return count == orders.length * 2  // 카트와 정보수정이 동시에 일어나야돼서 곱하기 2를 해준다.
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
 
+    // 주문완료 페이지
+    public OrderVo[] getOrder (UserEntity user, BigInteger orderNum) {
 
+        return this.storeMapper.selectOrderByEmail(user.getEmail(), orderNum);
+    }
 }

@@ -86,6 +86,7 @@ body > .main {
 #form > .content > .success > .orderNum-container > .orderNumTitle {
     font-size: 1.3rem;
     color: rgb(147, 143, 143);
+    margin-right: 1rem;
 }
 
 #form > .content > .success > .orderNum-container > .orderNumText {
@@ -100,65 +101,63 @@ body > .main {
     margin-top: 2rem;
     margin-bottom: 3rem;
 
-    width: 40rem;
-    height: 10rem;
-
     align-items : center;
     display : flex;
     flex-direction : column;
     justify-content: center;
 }
 
-#form > .content > .success > .information-container > .date-container,
-#form > .content > .success > .information-container > .user-container > .name-container,
-#form > .content > .success > .information-container > .user-container > .contact-container,
-#form > .content > .success > .information-container > .user-container > .address-container {
-    margin-bottom: 0.4rem;
+#form > .content > .success > .information-container > .infoTable {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    width: 40rem;
 }
 
-#form > .content > .success > .information-container > .date-container > .dateTitle,
-#form > .content > .success > .information-container > .user-container > .name-container > .nameTitle,
-#form > .content > .success > .information-container > .user-container > .contact-container > .contactTitle,
-#form > .content > .success > .information-container > .user-container > .address-container > .addressTitle,
-#form > .content > .success > .information-container > .user-container > .message-container > .messageTitle {
-    font-size: 0.9rem;
-    color: rgb(147, 143, 143);
-
-    margin-right: 1rem;
-}
-
-#form > .content > .success > .information-container > .date-container > .date,
-#form > .content > .success > .information-container > .user-container > .name-container > .name,
-#form > .content > .success > .information-container > .user-container > .contact-container > .contact,
-#form > .content > .success > .information-container > .user-container > .address-container > .address,
-#form > .content > .success > .information-container > .user-container > .message-container > .message {
-    font-size: 1.1rem;
-}
-
-#form > .content > .success > .information-container > .user-container > .address-container {
+#form > .content > .success > .information-container > .infoTable tr {
     align-items : flex-start;
     display : flex;
     flex-direction : row;
-    justify-content: center;
-}
-
-#form > .content > .success > .information-container > .user-container > .address-container > .address-box {
-    align-items : flex-start;
-    display : flex;
-    flex-direction : column;
     justify-content: flex-start;
 
-    font-size: 1.1rem;
+    padding: 0.2rem 3rem 0.2rem 3rem;
 }
 
+#form > .content > .success > .information-container > .infoTable tr th {
+    width: 6rem;
 
+    align-items : flex-end;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-end;
 
-#form > .content > .button-container > .order {
+    font-size: 0.9rem;
+    color: rgb(147, 143, 143);
+}
+
+#form > .content > .success > .information-container > .infoTable tr td {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    padding-left: 1rem;
+
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+#form > .content > .success > .information-container > .infoTable .address-container .address-box > .address {
+    margin-right: 0.5rem;
+}
+
+#form > .content > .button-container {
     font-size: 1rem;
     font-weight: 700;
 
     background-color: rgb(220, 132, 160);
-    color: rgb(255, 255, 255);
 
     border-radius: 0.3rem;
     border: 0.1rem solid rgb(220, 132, 160);
@@ -167,9 +166,23 @@ body > .main {
 
     width: 14rem;
     height: 3.5rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
 }
 
-#form > .content > .button-container > .order:hover {
+#form > .content > .button-container:hover {
     background-color: rgb(234, 149, 180);
     border: 0.1rem solid rgb(234, 149, 180);
+}
+
+#form > .content > .button-container > .order {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+#form > .content > .success > .information-container > .infoTable .item-container .item {
+    font-weight: bold;
 }
