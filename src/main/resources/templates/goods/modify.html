@@ -15,6 +15,7 @@
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="main">
     <form id="form" class="content --content">
+        <input type="hidden" name="itemIndex" th:value="${item.getIndex()}">
         <h1 class="title">상품 수정하기</h1>
         <table class="table" id="table">
             <tbody>
@@ -24,12 +25,15 @@
                     <label class="label">
                         <span hidden>상품 분류</span>
                         <select id="itemCategory" th:name="itemCategory">
-                            <option value="" th:text="${getCategory.getText()}"> 상품 종류를 선택해주세요.</option>
+                            <option value=""> 상품 종류를 선택해주세요.</option>
                             <option th:each="categories : ${category}"
                                     th:value="${categories.getId()}"
-                                    th:text="${getCategory.getText() == categories.getText()
-                                    ? ''
-                                    :categories.getText() }" name="category"></option>
+                                    th:if="${item.getCategoryId() == categories.getId()}"
+                                    th:text="${categories.getText()}" selected name="category"></option>
+                            <option th:each="categories : ${category}"
+                                    th:value="${categories.getId()}"
+                                    th:if="${item.getCategoryId() != categories.getId()}"
+                                    th:text="${categories.getText()}" name="category"></option>
                         </select>
                     </label>
                 </td>
@@ -42,7 +46,8 @@
                         <input id="inputTitle" class="title-input" maxlength="100"
                                name="itemName"
                                placeholder="상품 이름을 입력해주세요."
-                               type="text">
+                               type="text"
+                               th:value="${item.getItemName()}">
                     </label>
                 </td>
             </tr>
@@ -52,11 +57,19 @@
                     <label class="label">
                         <span hidden>브랜드 이름</span>
                         <select id="seller" th:name="brand">
-                            <option value="" > 상품 브랜드를 선택해주세요.</option>
+                            <option value=""> 상품 브랜드를 선택해주세요.</option>
                             <option th:each="sellers : ${seller}"
                                     th:value="${sellers.getIndex()}"
+                                    th:if="${item.getSellerIndex() == sellers.getIndex()}"
+                                    th:text="${sellers.getStoreName()}" selected
+                                    name="sellerName"></option>
+
+                            <option th:each="sellers : ${seller}"
+                                    th:value="${sellers.getIndex()}"
+                                    th:if="${item.getSellerIndex() != sellers.getIndex()}"
                                     th:text="${sellers.getStoreName()}"
                                     name="sellerName"></option>
+
                         </select>
                     </label>
                 </td>
@@ -69,7 +82,8 @@
                         <input id="inputPrice" class="seller-input" maxlength="100"
                                name="itemPrice"
                                placeholder="가격을 입력해주세요."
-                               type="text">
+                               type="text"
+                               th:value="${item.getPrice()}">
                     </label>
                 </td>
             </tr>
@@ -86,9 +100,12 @@
                         <div class="selectContainer">
                             <a class="selectText">COLOR</a>
                             <select class="colors" name="colors" id="colorOption" multiple>
-
+                                <option th:each="color:${colors}"
+                                        th:value="${color.getColor()}"
+                                        th:text="${color.getColor()}"></option>
                             </select>
                         </div>
+                        <i class="fa-solid fa-trash" id="colorDeleteButton"></i>
                     </div>
                     <div class="size">
                         <a class="star">*</a>
@@ -100,11 +117,16 @@
                         <div class="selectContainer">
                             <a class="selectText">SIZE</a>
                             <select class="sizes" name="sizes" id="sizeOption" multiple>
+                                <option th:each="size:${sizes}"
+                                        th:value="${size.getSize()}"
+                                        th:text="${size.getSize()}"></option>
                             </select>
                         </div>
+                        <i class="fa-solid fa-trash" id="sizeDeleteButton"></i>
                     </div>
 
-                    <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요.">
+                    <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요."
+                           th:value="${item.getCount()}">
                 </td>
             </tr>
 
@@ -118,8 +140,8 @@
                         <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택... </a>
                         <div class="image-container" rel="imageContainer">
                             <img class="title-img" id="imgThumb"
-                                 src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg"
-                            >
+                                 th:src="@{./titleImage (index=${item.getIndex()})}"
+                                 th:alt="${item.getTitleImageName()}">
                         </div>
                     </label>
                 </td>
@@ -130,7 +152,8 @@
                     <label class="label">
                         <span hidden>상세 내용</span>
                         <textarea class="--object-input input" maxlength="10000" name="content"
-                                  placeholder="내용을 입력해주세요." type="text"></textarea>
+                                  placeholder="내용을 입력해주세요." type="text"
+                                  th:utext="${item.getItemDetail()}"></textarea>
                     </label>
                 </td>
             </tr>
@@ -147,8 +170,8 @@
                 <th></th>
                 <td class="button">
                     <div class="button-container" id="buttonContainer">
-                        <input class="--object-button" name="back" type="button" value="돌아가기">
-                        <input class="--object-button" name="submit" type="button" rel="submit" value="수정하기">
+                        <input class="—object-button" name="back" type="button" value="돌아가기">
+                        <input class="—object-button" name="submit" type="button" rel="submit" value="수정하기">
                     </div>
                 </td>
             </tr>

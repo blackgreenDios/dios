@@ -2,17 +2,24 @@ package com.blackgreen.dios.controllers;
 
 import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.store.CartEntity;
+import com.blackgreen.dios.entities.store.ItemCategoryEntity;
+import com.blackgreen.dios.entities.store.ItemEntity;
 import com.blackgreen.dios.entities.store.OrderEntity;
 import com.blackgreen.dios.enums.CommonResult;
+import com.blackgreen.dios.models.PagingModel;
+import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.StoreService;
+import com.blackgreen.dios.vos.GoodsVo;
 import com.blackgreen.dios.vos.store.CartVo;
 import com.blackgreen.dios.vos.store.OrderVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,17 +37,59 @@ import static java.lang.Integer.parseInt;
 public class StoreController {
 
     private final StoreService storeService;
+    private final GoodsService goodsService;
 
-    public StoreController(StoreService storeService) {
+
+    public StoreController(StoreService storeService, GoodsService goodsService) {
         this.storeService = storeService;
+        this.goodsService = goodsService;
     }
 
-    @RequestMapping(value = "list",
-            method = RequestMethod.GET)
-    public ModelAndView getList() {
+    @GetMapping(value = "list")
+    public ModelAndView getList(@RequestParam(value = "cad", required = false) String categoryId,
+                                @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) {
+
+        page = Math.max(1, page);
         ModelAndView modelAndView = new ModelAndView("store/list");
+
+
+        ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
+        int totalCount; //pagination 하려고 가져온 것
+        ItemCategoryEntity category = this.goodsService.getCategory(categoryId);
+
+        totalCount = this.goodsService.getItemCount();
+        PagingModel paging = new PagingModel(totalCount, page);
+        modelAndView.addObject("paging", paging);
+
+        GoodsVo[] goods = this.goodsService.getItems(paging);
+        ItemEntity[] goodsImage = this.goodsService.getItemImages();
+        modelAndView.addObject("goods", goods);
+        modelAndView.addObject("goodsImage", goodsImage);
+        modelAndView.addObject("category", categories);
+
+//
+//        for (GoodsVo item : goods) {
+//            SellerEntity seller = this.goodsService.getBrand(item.getSellerIndex());
+//            modelAndView.addObject("seller", seller);
+//        }
+
+
         return modelAndView;
     }
+
+    @GetMapping(value = "titleImage") // 다운로드용 맵핑
+    public ResponseEntity<byte[]> getTitleImage(@RequestParam(value = "index") int index) {
+        ItemEntity image = this.goodsService.getItemTitleImage(index);
+        if (image == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentLength(image.getTitleImageData().length);
+        headers.add("Content-Type", image.getTitleImageMime()); // header의 contentType이 아~주 중요해요 ~!, 이해는 하되,, 외우진 마라
+        // 프젝하다가 업로드, 다운로드 할 일이 있는데 이걸 교과서처럼 참고하삼요~!!!
+        return new ResponseEntity<>(image.getTitleImageData(), headers, HttpStatus.OK);
+    }
+
 
 
     // cart 페이지

@@ -259,3 +259,6 @@ select {
     font-weight: bold;
 }
 
+#table tr td {
+    width: 50rem;
+}

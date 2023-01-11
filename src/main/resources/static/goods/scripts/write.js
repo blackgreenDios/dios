@@ -1,6 +1,5 @@
 const form = window.document.getElementById('form');
 let editor;
-
 ClassicEditor
     .create(form['content'], {
         simpleUpload: {
@@ -22,7 +21,6 @@ form.onsubmit = e => {
     e.preventDefault();
 };
 
-
 // color
 form['newColor'].addEventListener('keyup', e => {
 
@@ -35,27 +33,11 @@ form['newColor'].addEventListener('keyup', e => {
         const optionElement = document.createElement('option');
         optionElement.innerText = e.target.value;
         optionElement.setAttribute('value', e.target.value);
-        optionElement.addEventListener('dblclick', e => {
-            alert(e.target.innerText);
-        });
         form['colors'].append(optionElement);
         e.target.value = '';
         e.target.focus();
     }
 });
-
-
-// 클릭하면 삭제
-// form['colors'].addEventListener('click', e => {
-//     e.preventDefault();
-//
-//     const optionElement = document.createElement('option');
-//     form['colors'].remove(optionElement);
-//
-// });
-
-
-
 
 // size
 form['newSize'].addEventListener('keyup', e => {
@@ -80,8 +62,8 @@ const ImageForm = document.getElementById('form');
 const itemCategory = document.getElementById('itemCategory');
 const seller = document.getElementById('seller');
 
-
 //상품 분류에서 의류 누르면 의류 사이즈 나오고, 신발 누르면 신발 사이즈 보이게 하는 코드
+
 itemCategory.addEventListener('input', () => {
     if (itemCategory.options[itemCategory.selectedIndex].value === 'clothes') {
         Size.classList.add('visible');
@@ -91,7 +73,6 @@ itemCategory.addEventListener('input', () => {
         Size.classList.remove('visible');
     }
 });
-
 
 //등록 취소 누르면 뒤로가기
 form['back'].addEventListener('click', () => window.history < 2 ? window.close() : window.history.back());

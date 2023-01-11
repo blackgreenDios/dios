@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/goods/stylesheets/read.css}">
     <script defer th:src="@{/goods/scripts/read.js}"></script>
 
+
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="--main">
@@ -31,7 +32,9 @@
         </div>
         <div class="item-info" id="itemInfo">
             <h2 th:utext="${goods.getItemName()}"></h2>
+
             <form class="content" id="form">
+                <input name="price" type="hidden" th:value="${goods.getPrice()}">
                 <table class="table" id="table">
                     <tbody>
                     <tr class="item-category">
@@ -55,7 +58,9 @@
                     </tr>
                     <tr class="item-price">
                         <th>가격</th>
-                        <td th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
+                        <td name="price"
+                            th:value="${goods.getPrice()}"
+                            th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
                     </tr>
                     <tr class="color-option">
                         <th>색상</th>
@@ -65,7 +70,7 @@
                                 <option disabled value="">------------------------</option>
                                 <option th:each="color: ${colors}"
                                         th:value="${color.getItemIndex}"
-                                        th:text="${color.getColor()}">그레이
+                                        th:text="${color.getColor()}">
                                 </option>
                             </select>
                         </td>
@@ -88,7 +93,8 @@
             </form>
 
             <form class="resultForm" id="resultForm">
-                <input type="hidden" name="count" value="0">
+                <input name="itemIndex" type="hidden" th:value="${goods.getIndex()}">
+                <input id="countValue" type="hidden" name="count" value="1">
                 <div class="result" id="result">
                 <span class="item-summary">
                     <span class="item-name" th:text="${goods.getItemName()}"></span>
@@ -97,13 +103,13 @@
                     <span class="size" id="resultSize">사용자가 선택한 사이즈</span>
                 </div>
                 </span>
-                    <input type='button'
+                    <input type="button"
                            onclick='Count("minus")'
-                           value='-'/>
-                    <div id='count'> 1 </div>
-                    <input type='button'
+                           value="-"/>
+                    <div id="count"> 1 </div>
+                    <input type="button"
                            onclick='Count("plus")'
-                           value='+'/>
+                           value="+"/>
                 </div>
             </form>
 
@@ -118,6 +124,15 @@
                        rel="orderButton" th:if="${session.user !=null}">
                 <input type="button" class="order-button" value="ADD TO CART"
                        rel="cartButton" th:if="${session.user !=null}">
+            </div>
+
+            <div class="blockBox" id="blockBox">
+                <div>장바구니에 해당 상품을 담았습니다.</div>
+                <div>확인하시겠습니까?</div>
+                <ul type="none">
+                    <li rel="yes">예</li>
+                    <li rel="no">아니요</li>
+                </ul>
             </div>
 
         </div>

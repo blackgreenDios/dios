@@ -37,7 +37,6 @@ public class GoodsController {
     public ModelAndView getIndex() {
         ModelAndView modelAndView = new ModelAndView("goods/write");
 
-
         SellerEntity[] sellers = this.goodsService.getSeller();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
         modelAndView.addObject("seller", sellers);
@@ -149,24 +148,22 @@ public class GoodsController {
                                   @RequestParam(value = "gid", required = false) int gid) {
 
         ModelAndView modelAndView = new ModelAndView("goods/modify");
-
-        GoodsVo getItem = this.goodsService.getItem(gid);// item 선택 해오기
-
         ItemEntity item = new ItemEntity();
         item.setIndex(gid);
 
         Enum<?> result = this.goodsService.prepareModifyItem(item, user);
         modelAndView.addObject("item", item);
         modelAndView.addObject("result", result.name());
-
         SellerEntity[] sellers = this.goodsService.getSeller();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
-        ItemCategoryEntity getCategory = this.goodsService.getCategory(getItem.getCategoryId());
         modelAndView.addObject("seller", sellers);
-
         modelAndView.addObject("category", categories);
-        modelAndView.addObject("getCategory", getCategory);
-        if (result == CommonResult.SUCCESS) {   // html 에 넘겨줄려고
+        ItemColorEntity[] colors = this.goodsService.getItemColors(item.getIndex());
+        modelAndView.addObject("colors", colors);
+        ItemSizeEntity[] sizes = this.goodsService.getItemSize(item.getIndex());
+        modelAndView.addObject("sizes", sizes);
+
+        if (result == CommonResult.SUCCESS) {
             modelAndView.addObject("gid", item.getIndex());
         }
 
@@ -183,25 +180,31 @@ public class GoodsController {
                               @RequestParam(value = "sizes", required = false) String[] sizes,
                               @RequestParam(value = "colors", required = false) String[] colors,
                               ItemEntity item) throws IOException {
+
         item.setIndex(gid);
         Enum<?> result = this.goodsService.ModifyItem(item, user, images);
 
-        ItemColorEntity[] itemColors = new ItemColorEntity[colors.length];
-        for (int i = 0; i < colors.length; i++) {
-            itemColors[i] = new ItemColorEntity();
-            itemColors[i].setItemIndex(item.getIndex());
-            itemColors[i].setColor(colors[i]);
+        if (colors != null) {
+            ItemColorEntity[] itemColors = new ItemColorEntity[colors.length];
+            for (int i = 0; i < colors.length; i++) {
+                itemColors[i] = new ItemColorEntity();
+                itemColors[i].setItemIndex(item.getIndex());
+                itemColors[i].setColor(colors[i]);
+            }
+            this.goodsService.addItemColors(itemColors);
         }
 
-        this.goodsService.modifyColor(itemColors);
+        if (sizes!= null){
+            ItemSizeEntity[] itemSize = new ItemSizeEntity[sizes.length];
+            for (int i = 0; i < sizes.length; i++) {
+                itemSize[i] = new ItemSizeEntity();
+                itemSize[i].setItemIndex(item.getIndex());
+                itemSize[i].setSize(sizes[i]);
+            }
+            this.goodsService.addItemSizes(itemSize);
+        }
 
-//        ItemSizeEntity[] itemSize = new ItemSizeEntity[sizes.length];
-//        for (int i = 0; i < sizes.length; i++) {
-//            itemSize[i] = new ItemSizeEntity();
-//            itemSize[i].setItemIndex(item.getIndex());
-//            itemSize[i].setSize(sizes[i]);
-//        }
-//        this.goodsService.updateItemSizes(itemSize);
+
 
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
@@ -225,10 +228,36 @@ public class GoodsController {
         modelAndView.addObject("category", this.goodsService.getCategory(goods.getCategoryId()));
         modelAndView.addObject("seller", this.goodsService.getBrand(goods.getSellerIndex()));
 
-        modelAndView.addObject("sizes",this.goodsService.getItemSize(gid));
-        modelAndView.addObject("colors",this.goodsService.getItemColors(gid));
+        modelAndView.addObject("sizes", this.goodsService.getItemSize(gid));
+        modelAndView.addObject("colors", this.goodsService.getItemColors(gid));
         return modelAndView;
     }
+
+    @PostMapping(value = "read", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String postRead(@SessionAttribute(value = "user", required = false) UserEntity user,
+                           @RequestParam(value = "itemIndex") int itemIndex,
+                           @RequestParam(value = "count") int count,
+                           @RequestParam(value = "orderColor") String orderColor,
+                           @RequestParam(value = "orderSize") String orderSize,
+                           CartEntity cart) throws IOException {
+
+        Enum<?> result;
+        cart.setItemIndex(itemIndex);
+        cart.setCount(count);
+        cart.setOrderSize(orderSize);
+        cart.setOrderColor(orderColor);
+
+        JSONObject responseObject = new JSONObject();
+        try {
+            result = this.goodsService.addCartItem(user, cart);
+        } catch (RollbackException ignored) {
+            result = AddReviewResult.FAILURE;
+        }
+        responseObject.put("result", result.name().toLowerCase());
+        return responseObject.toString();
+    }
+
 
     @RequestMapping(value = "read",
             method = RequestMethod.DELETE,//DELETE로 사용한 이유: 주소를 동일하게 하고 방식을 달리 하는 것은 레스트인데,그냥 삭제할때 이렇게 쓰기로 개발자끼리 약속함
@@ -304,7 +333,9 @@ public class GoodsController {
 
     @PostMapping(value = "review")
     @ResponseBody
-    public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user, @RequestParam(value = "images", required = false) MultipartFile[] images, ReviewEntity review) throws IOException, RollbackException {
+    public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user,
+                             @RequestParam(value = "images", required = false) MultipartFile[] images,
+                             ReviewEntity review) throws IOException, RollbackException {
         JSONObject responseObject = new JSONObject();
         Enum<?> result;
         try {
@@ -332,35 +363,43 @@ public class GoodsController {
         return responseEntity;
     }
 
-    @GetMapping(value = "list")
-    public ModelAndView getList(@RequestParam(value = "cad") String cad, //카테고리 아이디
-                                @RequestParam(value = "page", required = false,
-                                        defaultValue = "1") Integer page,
-                                @RequestParam(value = "criterion", required = false) String criterion,
-                                @RequestParam(value = "keyword", required = false) String keyword) {
-        page = Math.max(1, page);
-        ModelAndView modelAndView = new ModelAndView("store/list");
+    @DeleteMapping(value = "colors", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteColors(@RequestParam(value = "itemIndex", required = false) int itemIndex,
+                               @RequestParam(value = "color", required = false) String[] color) {
 
-        ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
-
-        modelAndView.addObject("categories", categories);
-
-        ItemCategoryEntity category = this.goodsService.getCategory(cad);
-        modelAndView.addObject("category", category.getText()); // id값으로 카테고리 가져오기
-
-        int totalCount; //pagination 하려고 가져온 것
-        if (category != null) {
-            totalCount = this.goodsService.getItemCount(category, criterion, keyword);
-            PagingModel paging = new PagingModel(totalCount, page);
-            modelAndView.addObject("paging", paging);
-
-            GoodsVo[] goods = this.goodsService.getItems(category, paging, criterion, keyword);
-            modelAndView.addObject("goods", goods);
+        ItemColorEntity[] itemColors = new ItemColorEntity[color.length];
+        for (int i = 0; i < color.length; i++) {
+            itemColors[i] = new ItemColorEntity();
+            itemColors[i].setItemIndex(itemIndex);
+            itemColors[i].setColor(color[i]);
         }
 
-        return modelAndView;
+        Enum<?> result = this.goodsService.deleteColors(itemColors);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("result", result.name().toLowerCase());
+        return responseJson.toString();
+
     }
 
+    @DeleteMapping(value = "sizes", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteSizes(@RequestParam(value = "itemIndex", required = false) int itemIndex,
+                              @RequestParam(value = "size", required = false) String[] size) {
+
+        ItemSizeEntity[] itemSizes = new ItemSizeEntity[size.length];
+        for (int i = 0; i < size.length; i++) {
+            itemSizes[i] = new ItemSizeEntity();
+            itemSizes[i].setItemIndex(itemIndex);
+            itemSizes[i].setSize(size[i]);
+        }
+
+        Enum<?> result = this.goodsService.deleteSizes(itemSizes);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("result", result.name().toLowerCase());
+        return responseJson.toString();
+
+    }
 
 
 }

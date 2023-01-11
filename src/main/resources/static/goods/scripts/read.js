@@ -1,3 +1,4 @@
+const itemForm = document.getElementById('form');
 const reviewContainer = window.document.querySelector('[rel="reviewContainer"]');
 const reviewForm = document.getElementById('reviewForm');
 const itemDelete = document.getElementById('itemDelete');
@@ -13,6 +14,10 @@ const resultColor = document.getElementById('resultColor');
 const resultSize = document.getElementById('resultSize');
 
 const cartButton = window.document.querySelector('[rel="cartButton"]');
+
+const blockBox = document.getElementById('blockBox');
+
+
 
 
 function result() {
@@ -35,15 +40,20 @@ function Count(type) {
     const countElement = document.getElementById('count');
     // 현재 화면에 표시된 값
     let number = countElement.innerText;
+    let countValue = resultForm['count'].value;
 
     // 더하기/빼기
+
+
     if (type === 'plus') {
         number = parseInt(number) + 1;
-        resultForm['count'].value += 1;
+        countValue = parseInt(countValue) + 1;
     } else if (type === 'minus') {
         number = parseInt(number) - 1;
-        resultForm['count'].value -= 1;
+        countValue = parseInt(countValue) - 1;
     }
+
+    resultForm['count'].value = countValue;
 
     number <= 0
         ? resultElement.classList.remove('visible')
@@ -52,71 +62,9 @@ function Count(type) {
 }
 
 
-// 장바구니 담기 버튼 클릭 시 이벤트
-// cartButton.addEventListener('click', e => {
-//     e.preventDefault();
-//
-//     const xhr = new XMLHttpRequest();
-//     const formData = new FormData();
-//
-//     formData.append('count', resultForm['count'].value)
-//     formData.append('itemIndex')
-//     formData.append('itemPrice')
-//     formData.append('colorIndex')
-//     formData.append('sizeIndex')
-//
-//     xhr.open('GET', 'store/cart');
-//     xhr.onreadystatechange = () => {
-//         if (xhr.readyState === XMLHttpRequest.DONE) {
-//             if (xhr.status >= 200 && xhr.status < 300) {
-//                 const responseObject = JSON.parse(xhr.responseText);
-//                 switch (responseObject['result']) {
-//                     case 'success':
-//                         break;
-//                     default:
-//                         alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
-//                 }
-//             } else {
-//                 alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
-//             }
-//         }
-//     };
-//     xhr.send();
-// });
-
-
-//상품 삭제 코드
-itemDelete.addEventListener('click', e => {
-    e.preventDefault();
-
-    if (!confirm('정말로 이 상품을 삭제할까요?')) {
-        return;
-    }
-    const xhr = new XMLHttpRequest();
-
-    xhr.open('DELETE', window.location.href);
-    xhr.onreadystatechange = () => {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const responseObject = JSON.parse(xhr.responseText);
-                switch (responseObject['result']) {
-                    case 'success':
-                        window.location.href = '/store/list';
-                        break;
-                    default:
-                        alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
-                }
-            } else {
-                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
-            }
-        }
-    };
-    xhr.send();
-
-});
-
 /*리뷰 불러오는 함수 만들기*/
 const loadReviews = () => {
+
     reviewContainer.innerHTML = '';
 
     const url = new URL(window.location.href);
@@ -136,6 +84,7 @@ const loadReviews = () => {
                     const now = new Date();
                     const
                         itemHtml = `
+
                   <div class="item visible" rel="item">
                     <div class="head">
                     <span class="nickname" name="userEmail">${reviewObject['userEmail']}</span>
@@ -202,6 +151,7 @@ const loadReviews = () => {
 
                     const modifyForm = itemElement.querySelector('[rel="modifyForm"]');
                     const modifyElement = itemElement.querySelector('[rel="modify"]');
+
 
 
                     /*리뷰 수정*/
@@ -331,9 +281,12 @@ const loadReviews = () => {
                     } else {
                         imageContainerElement.remove();
                     }
+
+                    const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
+                    const array = reviewObject['score']
+                    average(array)
                     reviewContainer.append(itemElement);
                 }
-
 
             } else {
                 alert('리뷰를 불러오지 못했습니다. 잠시 후 다시 시도해주십시오');
@@ -343,6 +296,13 @@ const loadReviews = () => {
         }
     };
     xhr.send();
+
+
+
+    // const itemElement = document.querySelector('[rel="itemElement"]');
+    //
+    // document.querySelector('[rel="score"]').innerText = itemElement.dataset.scoreAvg;
+
 };
 
 loadReviews();
@@ -434,3 +394,87 @@ if (reviewForm) {
         xhr.send(formData);
     }
 }
+
+
+//장바구니 담기 버튼 클릭 시 이벤트
+cartButton?.addEventListener('click', e => {
+    e.preventDefault();
+
+    if (!confirm('정말로 이 상품을 장바구니에 넣을까요?')) {
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+
+    formData.append('count', resultForm['count'].value);
+    formData.append('orderColor', colorOption.options[colorOption.selectedIndex].text);
+    formData.append('orderSize', sizeOption.options[sizeOption.selectedIndex].text);
+    formData.append('itemIndex', resultForm['itemIndex'].value);
+
+    xhr.open('POST', './read');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        alert('장바구니 등록 성공 !');
+                        blockBox.classList.add('visible');
+
+                        blockBox.querySelector('[rel="yes"]').addEventListener('click',e=>{
+                            e.preventDefault();
+                            window.location.href='/store/cart';
+                        });
+
+                        blockBox.querySelector('[rel="no"]').addEventListener('click',e=>{
+                            e.preventDefault();
+                            window.location.href;
+                            blockBox.classList.remove('visible');
+                        });
+
+
+
+                        break;
+                    default:
+                        alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send(formData);
+});
+
+
+//상품 삭제 코드
+itemDelete.addEventListener('click', e => {
+    e.preventDefault();
+
+    if (!confirm('정말로 이 상품을 삭제할까요?')) {
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('DELETE', window.location.href);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                const responseObject = JSON.parse(xhr.responseText);
+                switch (responseObject['result']) {
+                    case 'success':
+                        window.location.href='/store/list'
+                        break;
+                    default:
+                        alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
+                }
+            } else {
+                alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+            }
+        }
+    };
+    xhr.send();
+
+});
+

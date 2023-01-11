@@ -7,6 +7,16 @@ public class GoodsVo extends ItemEntity {
 
     private String[] sizes;
 
+    private String brandName;
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public GoodsVo setBrandName(String brandName) {
+        this.brandName = brandName;
+        return this;
+    }
 
     public String[] getColors() {
         return colors;

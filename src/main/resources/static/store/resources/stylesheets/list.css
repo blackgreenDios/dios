@@ -156,7 +156,7 @@ body {
     border-radius: 2rem;
 }
 
-.--main > .input-container > .article-creation:hover{
+--main > .input-container > .article-creation:hover{
     height: 3rem;
     width: 6.5rem;
     cursor: pointer;

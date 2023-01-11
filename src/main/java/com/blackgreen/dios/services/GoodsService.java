@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.FetchProfile;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -138,7 +139,7 @@ public class GoodsService {
 
     public ReviewVo[] getReviews(int itemIndex) {
 
-        ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndex(itemIndex);
+        ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndex(itemIndex); //상품 index를 기준으로 review select
 
         for (ReviewVo review : reviews) {
             ReviewImageEntity[] reviewImage = this.goodsMapper.selectReviewImagesByGoodsIndexExceptData(review.getIndex());
@@ -220,56 +221,63 @@ public class GoodsService {
 
     }
 
-    public int getItemCount(ItemCategoryEntity category, String criterion, String keyword) {
 
-        return this.goodsMapper.selectItemCountByCategoryId(category.getId(), criterion, keyword);
-    }
-
-
-    public GoodsVo[] getItems(ItemCategoryEntity category, PagingModel paging, String criterion, String keyword) {
-
-        return this.goodsMapper.selectItemsByCategoryId(
-                category.getId(),
-                criterion,
-                keyword,
+    public GoodsVo[] getItems( PagingModel paging) {
+        return this.goodsMapper.selectItemExceptImages(
                 paging.countPerPage,
                 (paging.requestPage - 1) * paging.countPerPage);
     }
 
+    public ItemEntity[] getItemImages() {
+        return this.goodsMapper.selectItemsTitleImage();
+    }
+
+//    public GoodsVo[] getItems( PagingModel paging) {
+//
+//        return this.goodsMapper.selectItemsByCategoryId(
+//                paging.countPerPage,
+//                (paging.requestPage - 1) * paging.countPerPage);
+//    }
+
+    @Transactional
     public Enum<? extends IResult> prepareModifyItem(ItemEntity item, UserEntity user) {
         // 수정 성공
         // 실패
         // 수정할 댓글 없음
         // 로그인이 안되어있고 + 수정하려는 댓글이 니 댓글이 아닌 경우
 
-        if (user == null) {
-            return ModifyItemResult.NOT_SIGNED;
-        }
+//        if (user == null) {
+//            return ModifyItemResult.NOT_SIGNED;
+//        }
 
         ItemEntity existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());
-
-        if (existingItem == null) {
-            return ModifyItemResult.NO_SUCH_Item;
-        }
+//        if (existingItem == null) {
+//            return ModifyItemResult.NO_SUCH_Item;
+//        }
 //        if (!existingItem.getUserEmail().equals(user.getEmail())) {
 //            return ModifyItemResult.NOT_ALLOWED;
 //        }
-        item.setIndex(existingItem.getIndex());
-        item.setCategoryId(existingItem.getCategoryId());
+
+        item.setCategoryId(existingItem.getCategoryId());// 이게 cad
         item.setSellerIndex(existingItem.getSellerIndex());
         item.setItemName(existingItem.getItemName());
         item.setItemDetail(existingItem.getItemDetail());
         item.setPrice(existingItem.getPrice());
         item.setCount(existingItem.getCount());
+        item.setCreatedOn(existingItem.getCreatedOn());
+        item.setTitleImageData(existingItem.getTitleImageData());
+        item.setTitleImageMime(existingItem.getTitleImageMime());
+        item.setTitleImageName(existingItem.getTitleImageName());
 
         return CommonResult.SUCCESS;
     }
 
+    @Transactional
     public Enum<? extends IResult> ModifyItem(ItemEntity item, UserEntity user, MultipartFile images) throws IOException {
-        if (user == null) {
-            return ModifyItemResult.NOT_SIGNED;
-        }
-        ItemEntity existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());
+//        if (user == null) {
+//            return ModifyItemResult.NOT_SIGNED;
+//        }
+        GoodsVo existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());
         if (existingItem == null) {
             return ModifyItemResult.NO_SUCH_Item;
         }
@@ -287,6 +295,7 @@ public class GoodsService {
         existingItem.setCount(item.getCount());
         existingItem.setCreatedOn(new Date());
 
+
         existingItem.setTitleImageData(images.getBytes());
         existingItem.setTitleImageMime(images.getContentType());
         existingItem.setTitleImageName(images.getName());
@@ -298,9 +307,10 @@ public class GoodsService {
                 : CommonResult.FAILURE;
     }
 
+    @Transactional
     public Enum<? extends IResult> deleteItem(ItemEntity item, UserEntity user) { // 서비스에서 매개변수5개까진 ㄱㅊ 초과는 뭔가 문제있음
         // 게시글 삭제  결과 예상 : 삭제 성공, 실패: deleteArticle =0
-        // 로그인이 안되어있고 + 삭제하려는 게시글이 니 글이 아닌 경우 : 보안조치, 자스 같은 경우엔 클라이언트가 수정할수있기때문에 백에서도 해줘야 함
+        // 로그인이 안되어있고 + 삭제하려는 게시글이 니 글이 아닌 경우 : 보안조치, 자스 같은 경우엔 클라이언트가 수정할수있기때문에 백에서도 해줘야 함 n
         // 삭제하려는 게시글이 존재하지 않을때 : null일때
         ItemEntity existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());//이 안에 적어준 article.getIndex() 은 자스에서 넘어온 인덱스 값임
 
@@ -318,19 +328,52 @@ public class GoodsService {
                 : CommonResult.FAILURE;
     }
 
-
-    public Enum<? extends IResult> modifyColor(ItemColorEntity[] itemColors) throws IOException {
-
-        ItemColorEntity[] existingItemColor = new ItemColorEntity[itemColors.length];
-
-        for (int i = 0; i < itemColors.length; i++) {
-            existingItemColor[i] = this.goodsMapper.selectColorByItemIndex(itemColors[i].getItemIndex());
-            existingItemColor[i].setItemIndex(itemColors[i].getItemIndex());
-            existingItemColor[i].setColor(itemColors[i].getColor());
+    @Transactional
+    public Enum<? extends IResult> addCartItem(UserEntity user, CartEntity cart) throws IOException, RollbackException {
+        if (user == null) {
+            return AddReviewResult.NOT_SIGNED;
         }
-        return this.goodsMapper.updateItemColor(existingItemColor) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
+        cart.setUserEmail(user.getEmail());
+        if (this.goodsMapper.insertCartItem(cart) == 0) {
+            return AddReviewResult.FAILURE;
+        }
+        return AddReviewResult.SUCCESS;
+    }
+
+    public int getItemCount() {
+        return this.goodsMapper.selectItemsCount();
+    }
+
+    @Transactional
+    public Enum<? extends IResult> deleteColors(ItemColorEntity[] colors) {
+        ItemColorEntity[] existingItemColor = new ItemColorEntity[colors.length];
+        for (ItemColorEntity color : colors) {
+            for (int i = 0; i < colors.length; i++) {
+                existingItemColor[i] = this.goodsMapper.selectItemColorByItemIndexColor(color.getItemIndex(), color.getColor());
+                color.setColor(existingItemColor[i].getColor());
+            }
+
+            if (existingItemColor != null && this.goodsMapper.deleteItemColorByItemIndexColor(color.getItemIndex(), color.getColor()) > 0) {
+                return CommonResult.SUCCESS;
+            }
+        }
+        return CommonResult.FAILURE;
+    }
+
+    @Transactional
+    public Enum<? extends IResult> deleteSizes(ItemSizeEntity[] sizes) {
+        ItemSizeEntity[] existingItemSize = new ItemSizeEntity[sizes.length];
+        for (ItemSizeEntity size : sizes) {
+            for (int i = 0; i < sizes.length; i++) {
+                existingItemSize[i] = this.goodsMapper.selectItemSizeByItemIndexSize(size.getItemIndex(), size.getSize());
+                size.setSize(existingItemSize[i].getSize());
+            }
+
+            if (existingItemSize != null && this.goodsMapper.deleteItemSizeByItemIndexSize(size.getItemIndex(), size.getSize()) > 0) {
+                return CommonResult.SUCCESS;
+            }
+        }
+        return CommonResult.FAILURE;
     }
 
 }

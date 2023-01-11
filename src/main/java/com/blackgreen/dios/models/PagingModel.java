@@ -10,7 +10,7 @@ public class PagingModel {
     public final int endPage;       // 표시 끝 페이지
 
     public PagingModel(int totalCount, int requestPage) {
-        this(10, totalCount, requestPage);
+        this(9, totalCount, requestPage);
     }
 
     public PagingModel(int countPerPage, int totalCount, int requestPage) {
@@ -19,8 +19,8 @@ public class PagingModel {
         this.requestPage = requestPage;
         this.minPage = 1;
         this.maxPage = (totalCount - 1) / countPerPage + 1;
-        this.startPage = ((requestPage - 1) / 10) * 10 + 1;
-        this.endPage = Math.min(startPage + 9, maxPage);
+        this.startPage = ((requestPage - 1) / 9) * 9 + 1;
+        this.endPage = Math.min(startPage + 8, maxPage);
     }
 
 }

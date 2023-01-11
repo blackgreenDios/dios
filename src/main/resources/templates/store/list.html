@@ -16,12 +16,9 @@
 <main class="--main">
     <div class="category-container" id="categoryContainer">
         <ul class="category">
-            <!--/*@thymesVar id="boards" type="dev.yhpark.studymemberbbs.entities.bbs.BoardEntity[]"*/-->
-            <li class="--item"
-                th:each=" categoring: ${categories}">
+            <li class="--item" th:each=" categoring: ${category}">
                 <span class="--link"
-                   th:value="${categoring.getId()}"
-                   th:text="${categoring.getText()}"></span>
+                      th:text="${categoring.getText()}"></span>
             </li>
 
             <li class="--item">
@@ -40,7 +37,8 @@
             <li class="li-box" th:each="item : ${goods}">
                 <div class="li_inner">
                     <div class="image-container">
-                        <a class="image-block">
+                        <a class="image-block"
+                           th:href="@{/goods/read (gid=${item.getIndex()})}">
                             <img class="image-li"
                                  th:src="@{./titleImage (index=${item.getIndex()})}"
                                  th:alt="${item.getTitleImageName()}">
@@ -48,16 +46,15 @@
                     </div>
                     <div class="item-info">
                         <p class="list-info">
-                            <a th:href="@{./read (gid=${item.getIndex()})}"
+                            <a th:href="@{/goods/read (gid=${item.getIndex()})}"
                                th:title="${item.getItemName()}"
                                th:text="${item.getItemName()}"></a>
                         </p>
                         <p class="seller">
-                            <a th:href="${item.sellerIndex}"
-                               th:text="${item.sellerIndex}"></a>
+                            <a th:text="${item.getBrandName()}"></a>
                         </p>
                         <p class="price">
-                            <a th:text="${item.getPrice()}">12,900원</a>
+                            <a th:text="${#numbers.formatInteger(item.getPrice(), 0, 'COMMA')+' 원'}">12,900원</a>
                         </p>
                         <p class="rating-star">
                             <span class="star-container">
@@ -67,8 +64,7 @@
                                 <i class="star filled fa-solid fa-star "></i>
                                 <i class="star filled fa-solid fa-star "></i>
                             </span>
-                            <span class="review-count"
-                                  th:text="${}">75,165</span>
+                            <span class="review-count">75,165</span>
                         </p>
                     </div>
                 </div>
@@ -76,21 +72,33 @@
         </ul>
     </div>
 
-    <div class="page-container" id="pageContainer">
-        <a class="page">
+    <div class="page-container" id="pageContainer"
+         th:with="urlBuilder = ${T(org.springframework.web.servlet.support.
+                    ServletUriComponentsBuilder).fromCurrentRequest()}">
+        <a th:if="${paging.requestPage > 1}"
+           th:href="@{${urlBuilder.replaceQueryParam('page',paging.minPage).build().toUriString()}}"
+           class="page">
             <i class="fa-solid fa-angles-left"></i>
         </a>
-        <a class="page">
+        <a th:if="${paging.requestPage > 1}"
+           th:href="@{${urlBuilder.replaceQueryParam('page',(paging.requestPage)-1).build().toUriString()}}"
+           class="page">
             <i class="fa-solid fa-angle-left"></i>
         </a>
-        <a class="page" href="#">1</a>
-        <a class="page" href="#">2</a>
-        <a class="page" href="#">3</a>
+        <a class="page"
+           th:each="page:${#numbers.sequence(paging.startPage,paging.endPage)}"
+           th:class="${'page '+(page == paging.requestPage?'selected':'')}"
+           th:text="${page}"
+           th:href="@{${urlBuilder.replaceQueryParam('page',page).build().toUriString()}}"></a>
 
-        <a href="#" class="page">
+        <a href="#" class="page"
+           th:if="${paging.requestPage < paging.maxPage}"
+           th:href="@{${urlBuilder.replaceQueryParam('page',(paging.requestPage)+1).build().toUriString()}}">
             <i class="fa-solid fa-angle-right"></i>
         </a>
-        <a class="page">
+        <a th:if="${paging.requestPage < paging.maxPage}"
+           th:href="@{${urlBuilder.replaceQueryParam('page',paging.maxPage).build().toUriString()}}"
+           class="page">
             <i class="fa-solid fa-angles-right"></i>
         </a>
     </div>

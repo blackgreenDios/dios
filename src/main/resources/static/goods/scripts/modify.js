@@ -33,10 +33,43 @@ form['newColor'].addEventListener('keyup', e => {
         const optionElement = document.createElement('option');
         optionElement.innerText = e.target.value;
         optionElement.setAttribute('value', e.target.value);
+        optionElement.dataset.virtual = "true";
         form['colors'].append(optionElement);
         e.target.value = '';
         e.target.focus();
     }
+});
+
+const colorDeleteButton = document.getElementById('colorDeleteButton');
+colorDeleteButton.addEventListener('click', () => {
+    const selectedOptions = Array.from(form['colors']
+        .querySelectorAll(':scope > option'))
+        .filter(x => x.selected);
+    const formData = new FormData();
+    let added = 0;
+    for (let selectedOption of selectedOptions) {
+        if (selectedOption.dataset.virtual === 'true') {
+            selectedOption.remove();
+        } else {
+            formData.append('color', selectedOption.value);
+            added++;
+        }
+    }
+    if (added === 0) {
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+    formData.append('itemIndex', form['itemIndex'].value);
+    xhr.open('DELETE', './colors');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                alert('선택한 색상이 삭제되었습니다!');
+                window.location.href = window.location.href;
+            }
+        }
+    };
+    xhr.send(formData);
 });
 
 // size
@@ -50,12 +83,44 @@ form['newSize'].addEventListener('keyup', e => {
         const optionElement = document.createElement('option');
         optionElement.innerText = e.target.value;
         optionElement.setAttribute('value', e.target.value);
+        optionElement.dataset.virtual = "true";
         form['sizes'].append(optionElement);
         e.target.value = '';
         e.target.focus();
     }
 });
 
+const sizeDeleteButton = document.getElementById('sizeDeleteButton');
+sizeDeleteButton.addEventListener('click', () => {
+    const selectedOptions = Array.from(form['sizes']
+        .querySelectorAll(':scope > option'))
+        .filter(x => x.selected);
+    const formData = new FormData();
+    let added = 0;
+    for (let selectedOption of selectedOptions) {
+        if (selectedOption.dataset.virtual === 'true') {
+            selectedOption.remove();
+        } else {
+            formData.append('size', selectedOption.value);
+            added++;
+        }
+    }
+    if (added === 0) {
+        return;
+    }
+    const xhr = new XMLHttpRequest();
+    formData.append('itemIndex', form['itemIndex'].value);
+    xhr.open('DELETE', './sizes');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                alert('선택한 사이즈가 삭제되었습니다!');
+                window.location.href = window.location.href;
+            }
+        }
+    };
+    xhr.send(formData);
+});
 
 
 const ImageForm = document.getElementById('form');
@@ -133,25 +198,16 @@ submit.addEventListener('click', e => {
     formData.append('count', form['count'].value);
 
     form['colors'].querySelectorAll(':scope > option').forEach(option => {
-        formData.append('colors', option.value);
+        if (option.dataset.virtual === 'true') {
+            formData.append('colors', option.value);
+        }
     });
 
     form['sizes'].querySelectorAll(':scope > option').forEach(option => {
-        formData.append('sizes', option.value);
+        if (option.dataset.virtual === 'true') {
+            formData.append('sizes', option.value);
+        }
     });
-
-
-    // Array.from(Size.selectedOptions).forEach(option => {
-    //     formData.append('sizes', option.value);
-    // });
-    //
-    // Array.from(Color.selectedOptions).forEach(option => {
-    //     formData.append('colors', option.value);
-    // });
-
-    // for (let color of Color.options[Color.selectedIndex].value) {
-    //     formData.append('colors', color);
-    // }
 
 
     xhr.open('PATCH', window.location.href);

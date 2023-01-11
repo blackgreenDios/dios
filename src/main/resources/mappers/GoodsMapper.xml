@@ -22,6 +22,17 @@
         WHERE `color`.`item_index` = #{itemIndex}
     </select>
 
+    <select id="selectItemColorByItemIndexColor"
+            resultType="com.blackgreen.dios.entities.store.ItemColorEntity">
+        SELECT `color`.`item_index` AS `itemIndex`,
+               `color`.`color`      AS `color`
+        FROM `dios_store`.`item_colors` AS `color`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `color`.`item_index`
+        WHERE `color`.`item_index` = #{itemIndex}
+          AND `color`.`color` = #{color}
+    </select>
+
+
     <select id="selectItemCategory"
             resultType="com.blackgreen.dios.entities.store.ItemCategoryEntity">
         SELECT `id`   AS `id`,
@@ -48,7 +59,6 @@
                `contact_third`  AS `contactThird`
         FROM `dios_store`.`seller`
         WHERE `index` = #{index}
-
     </select>
 
     <select id="selectSellerImageByIndex"
@@ -73,7 +83,6 @@
                `image_mime`     AS `imageMime`,
                `image_data`     AS `imageData`
         FROM `dios_store`.`seller`
-        WHERE `index` = #{index}
         ORDER BY `index`
     </select>
 
@@ -93,8 +102,29 @@
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
                  LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
-        WHERE `item`.`index` = #{index}
-        LIMIT 1
+        WHERE `item`.`index` = #{index} LIMIT 1
+    </select>
+
+    <select id="selectItemExceptImages"
+            resultType="com.blackgreen.dios.vos.GoodsVo">
+        SELECT `item`.`index`        AS `index`,
+               `item`.`category_id`  AS `categoryId`,
+               `item`.`seller_index` AS `sellerIndex`,
+               `item`.`item_name`    AS `itemName`,
+               `item`.`item_detail`  AS `itemDetail`,
+               `item`.`price`        AS `price`,
+               `item`.`count`        AS `count`,
+               `item`.`created_on`   AS `createdOn`,
+               `color`.`item_index`  AS `colorItemIndex`,
+               `size`.`item_index`   AS `SizeItemIndex`,
+               `seller`.`store_name` AS `brandName`
+        FROM `dios_store`.`items` AS `item`
+                 LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
+                 LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
+                 LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
+        GROUP BY `item`.`index`
+        LIMIT #{limit}
+            OFFSET #{offset}
     </select>
 
 
@@ -105,8 +135,29 @@
                `item`.`titleimage_data` AS `titleimageData`
 
         FROM `dios_store`.`items` AS `item`
-        WHERE `item`.`index` = #{index}
-        LIMIT 1
+        WHERE `item`.`index` = #{index} LIMIT 1
+    </select>
+
+
+    <select id="selectItemsByIndexExceptImage"
+            resultType="com.blackgreen.dios.entities.store.ItemEntity">
+        SELECT `item`.`index`        AS `index`,
+               `item`.`category_id`  AS `categoryId`,
+               `item`.`seller_index` AS `sellerIndex`,
+               `item`.`item_name`    AS `itemName`,
+               `item`.`item_detail`  AS `itemDetail`,
+               `item`.`price`        AS `price`,
+               `item`.`count`        AS `count`,
+               `item`.`created_on`   AS `createdOn`
+        FROM `dios_store`.`items` AS `item`
+    </select>
+
+    <select id="selectItemsTitleImage"
+            resultType="com.blackgreen.dios.entities.store.ItemEntity">
+        SELECT `item`.`titleimage_name` AS `titleimageName`,
+               `item`.`titleimage_mime` AS `titleimageMime`,
+               `item`.`titleimage_data` AS `titleimageData`
+        FROM `dios_store`.`items` AS `item`
     </select>
 
 
@@ -117,8 +168,7 @@
                `file_mime` AS `fileMime`,
                `data`      AS `data`
         FROM `dios_store`.`item_img`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </select>
 
     <select id="selectSize"
@@ -137,6 +187,16 @@
         WHERE `item_index` = #{itemIndex}
     </select>
 
+    <select id="selectItemSizeByItemIndexSize"
+            resultType="com.blackgreen.dios.entities.store.ItemSizeEntity">
+        SELECT `size`.`item_index` AS `itemIndex`,
+               `size`.`size`       AS `size`
+        FROM `dios_store`.`item_sizes` AS `size`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `size`.`item_index` = `item`.`index`
+        WHERE `item_index` = #{itemIndex}
+          AND `size` = #{size}
+    </select>
+
     <select id="selectReviewByIndex"
             resultType="com.blackgreen.dios.entities.store.ReviewEntity">
         SELECT `index`      AS `index`,
@@ -153,8 +213,14 @@
     <delete id="deleteReviewByIndex">
         DELETE
         FROM `dios_store`.`reviews`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
+    </delete>
+
+    <delete id="deleteItemColorByItemIndexColor">
+        DELETE
+        FROM `dios_store`.`item_colors`
+        WHERE `item_colors`.`item_index` = #{itemIndex}
+          AND `item_colors`.`color` = #{color} LIMIT 1
     </delete>
 
     <select id="selectReviewsByGoodsIndex"
@@ -165,7 +231,6 @@
                `review`.`score`      AS `score`,
                `review`.`content`    AS `content`,
                `review`.`created_on` AS `createdOn`
-
         FROM `dios_store`.`reviews` AS `review`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`
         WHERE `review`.`item_index` = #{itemIndex}
@@ -180,8 +245,7 @@
                `data`         AS `data`,
                `type`         AS `type`
         FROM `dios_store`.`review_images`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </select>
 
     <select id="selectReviewImagesByGoodsIndexExceptData"
@@ -245,6 +309,15 @@
         VALUES (#{reviewIndex}, #{data}, #{type})
     </insert>
 
+    <insert id="insertCartItem"
+            useGeneratedKeys="true"
+            keyColumn="index"
+            keyProperty="index"
+            parameterType="com.blackgreen.dios.entities.store.CartEntity">
+        INSERT INTO `dios_store`.`carts`(`user_email`, `count`, `item_index`, `order_color`, `order_size`)
+        VALUES (#{userEmail}, #{count}, #{itemIndex}, #{orderColor}, #{orderSize})
+    </insert>
+
     <update id="updateReview"
             parameterType="com.blackgreen.dios.entities.store.ReviewEntity">
         UPDATE `dios_store`.`reviews`
@@ -256,62 +329,14 @@
         WHERE BINARY `index` = #{index}
     </update>
 
-    <select id="selectItemCountByCategoryId"
-            resultType="int">
-        SELECT COUNT(0)
-        FROM `dios_store`.`items` AS `item`
+    <update id="updateItemColor"
+            parameterType="com.blackgreen.dios.entities.store.ItemColorEntity">
+        UPDATE `dios_store`.`item_colors`
+        SET `item_index` =#{itemIndex},
+            `color`=#{color}
+        WHERE BINARY `index` = #{index}
+    </update>
 
-        <if test="criterion !=null and criterion.equals('nickName')">
-            LEFT JOIN `dios_member`.`users` AS `user` ON `item`.`user_email` = `user`.`email`
-        </if>
-        WHERE `category_id` = #{categoryId}
-        <if test="criterion != null and criterion.equals('title')">
-            AND REPLACE(`item_name`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-        </if>
-        <if test="criterion !=null and criterion.equals('all')">
-            AND (REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-            OR REPLACE(`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
-        </if>
-        <if test="criterion !=null and criterion.equals('nickName')">
-            AND BINARY `user`.`nickname` = #{keyword}
-        </if>
-
-    </select>
-
-
-    <select id="selectItemsByCategoryId"
-            resultType="com.blackgreen.dios.vos.GoodsVo">
-        SELECT `item`.`index` AS `index`,
-        `item`.`category_id` AS `categoryId`,
-        `item`.`seller_index` AS `sellerIndex`,
-        `item`.`item_name` AS `itemName`,
-        `item`.`item_detail` AS `itemDetail`,
-        `item`.`price` AS `price`,
-        `item`.`count` AS `count`,
-        `item`.`created_on` AS `createdOn`,
-        COUNT(`review`.`index`) AS `reviewCount`,
-        `seller`.`store_name` AS `storeName`
-
-        FROM `dios_store`.`items` AS `item`
-        LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
-        LEFT JOIN `dios_store`.`reviews` AS `review` ON `review`.`item_index` = `item`.`index`
-
-        WHERE BINARY `item`.`category_id` = #{categoryId}
-
-        <if test="criterion != null and criterion.equals('title')">
-            AND REPLACE(`item`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-        </if>
-        <if test="criterion !=null and criterion.equals('all')">
-            AND (REPLACE(`item`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
-            OR REPLACE(`item`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
-        </if>
-        <if test="criterion !=null and criterion.equals('nickName')">
-            AND BINARY `seller`.`store_name` = #{keyword}
-        </if>
-        GROUP BY `item`.`index`
-        ORDER BY `item`.`index` DESC
-        LIMIT #{limit} OFFSET #{offset};
-    </select>
 
     <select id="selectItemByIndex"
             resultType="com.blackgreen.dios.vos.GoodsVo">
@@ -326,7 +351,6 @@
 
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
-                 LEFT JOIN `dios_store`.`reviews` AS `review` ON `review`.`item_index` = `item`.`index`
         WHERE BINARY `item`.`index` = #{index}
         LIMIT 1
     </select>
@@ -349,11 +373,24 @@
         LIMIT 1
     </update>
 
+    <delete id="deleteItemSizeByItemIndexSize">
+        DELETE
+        FROM `dios_store`.`item_sizes`
+        WHERE `item_sizes`.item_index = #{itemIndex}
+          AND `item_sizes`.`size` = #{size} LIMIT 1
+    </delete>
+
     <delete id="deleteItemByIndex">
         DELETE
         FROM `dios_store`.`items`
-        WHERE `index` = #{index}
-        LIMIT 1
+        WHERE `index` = #{index} LIMIT 1
     </delete>
+
+    <select id="selectItemsCount"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_store`.`items` AS `item`
+    </select>
+
 
 </mapper>
