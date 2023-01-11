@@ -87,7 +87,7 @@
     </select>
 
     <select id="selectItemByIndexExceptImage"
-            resultType="com.blackgreen.dios.vos.GoodsVo">
+            resultType="com.blackgreen.dios.vos.goods.GoodsVo">
         SELECT `item`.`index`        AS `index`,
                `item`.`category_id`  AS `categoryId`,
                `item`.`seller_index` AS `sellerIndex`,
@@ -106,7 +106,7 @@
     </select>
 
     <select id="selectItemExceptImages"
-            resultType="com.blackgreen.dios.vos.GoodsVo">
+            resultType="com.blackgreen.dios.vos.goods.GoodsVo">
         SELECT `item`.`index`        AS `index`,
                `item`.`category_id`  AS `categoryId`,
                `item`.`seller_index` AS `sellerIndex`,
@@ -224,7 +224,7 @@
     </delete>
 
     <select id="selectReviewsByGoodsIndex"
-            resultType="com.blackgreen.dios.vos.ReviewVo">
+            resultType="com.blackgreen.dios.vos.goods.ReviewVo">
         SELECT `review`.`index`      AS `index`,
                `review`.`user_email` AS `userEmail`,
                `review`.`item_index` AS `itemIndex`,
@@ -339,7 +339,7 @@
 
 
     <select id="selectItemByIndex"
-            resultType="com.blackgreen.dios.vos.GoodsVo">
+            resultType="com.blackgreen.dios.vos.goods.GoodsVo">
         SELECT `item`.`index`        AS `index`,
                `item`.`category_id`  AS `categoryId`,
                `item`.`seller_index` AS `sellerIndex`,

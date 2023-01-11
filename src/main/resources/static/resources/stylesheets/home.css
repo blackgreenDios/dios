@@ -1,35 +1,36 @@
 @charset "UTF-8";
 
-body > .main {
-    align-items : center;
-    display : flex;
-    flex-direction : column;
+
+body > .main > .do {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: flex-start;
 
     /*width: 100%;*/
     /*max-width: 80rem;*/
 }
 
-body > .main > .do-container {
+body > .main > .do > .do-container {
     width: 100%;
 
-    align-items : center;
-    display : flex;
-    flex-direction : column;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 
     background-color: #eae7e7;
 }
 
 
-body > .main > .do-container > .do-text-main {
+body > .main > .do > .do-container > .do-text-main {
     margin-top: 3rem;
 
     font-size: 3.5rem;
 
-    align-items : center;
-    display : flex;
-    flex-direction : row;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
 
     color: rgb(44, 43, 43);
@@ -39,10 +40,10 @@ body > .main > .do-container > .do-text-main {
     font-size: 2rem;
 }
 
-body > .main > .do-container > .do {
-    align-items : center;
-    display : flex;
-    flex-direction : row;
+body > .main > .do > .do-container > .do {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
 
     width: 100%;
@@ -51,9 +52,9 @@ body > .main > .do-container > .do {
     margin-top: 2rem;
 }
 
-body > .main > .do-container > .do > .squat,
-body > .main > .do-container > .do > .lunge,
-body > .main > .do-container > .do > .plank {
+body > .main > .do > .do-container > .do > .squat,
+body > .main > .do > .do-container > .do > .lunge,
+body > .main > .do > .do-container > .do > .plank {
     overflow: hidden;
 
     width: 27rem;
@@ -62,33 +63,33 @@ body > .main > .do-container > .do > .plank {
     margin-bottom: 2rem;
 }
 
-body > .main > .do-container > .do > .squat {
+body > .main > .do > .do-container > .do > .squat {
     border-left: 0.6rem solid rgb(44, 43, 43);
     border-top: 0.6rem solid rgb(44, 43, 43);
     border-bottom: 0.6rem solid rgb(44, 43, 43);
 }
 
-body > .main > .do-container > .do > .lunge {
+body > .main > .do > .do-container > .do > .lunge {
     border-top: 0.6rem solid rgb(44, 43, 43);
     border-bottom: 0.6rem solid rgb(44, 43, 43);
 }
 
-body > .main > .do-container > .do > .plank {
+body > .main > .do > .do-container > .do > .plank {
     border-right: 0.6rem solid rgb(44, 43, 43);
     border-top: 0.6rem solid rgb(44, 43, 43);
     border-bottom: 0.6rem solid rgb(44, 43, 43);
 }
 
 
-body > .main > .do-container > .do > .squat > .squatImg,
-body > .main > .do-container > .do > .lunge > .lungeImg,
-body > .main > .do-container > .do > .plank > .plankImg {
+body > .main > .do > .do-container > .do > .squat > .squatImg,
+body > .main > .do > .do-container > .do > .lunge > .lungeImg,
+body > .main > .do > .do-container > .do > .plank > .plankImg {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-body > .main > .do-container > .content-container {
+body > .main > .do > .do-container > .content-container {
     font-family: 'IBM Plex Sans KR', sans-serif;
 
     margin-top: 6rem;
@@ -108,22 +109,22 @@ body > .main > .do-container > .content-container {
 
 }
 
-body > .main > .do-container > .do:hover {
+body > .main > .do > .do-container > .do:hover {
     filter: brightness(20%);
 }
 
-body > .main > .do-container > .do:hover + .content-container {
+body > .main > .do > .do-container > .do:hover + .content-container {
 
     opacity: 1;
 }
 
-body > .main > .do-container > .start-container {
+body > .main > .do > .do-container > .start-container {
     margin-top: 1rem;
     margin-bottom: 3rem;
 
-    align-items : center;
-    display : flex;
-    flex-direction : column;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 
     padding: 1rem 1rem 1rem 1rem;
@@ -135,11 +136,11 @@ body > .main > .do-container > .start-container {
     cursor: pointer;
 }
 
-body > .main > .do-container > .start-container:hover {
+body > .main > .do > .do-container > .start-container:hover {
     background-color: rgb(91, 88, 88);
 }
 
-body > .main > .do-container > .start-container > .startButton {
+body > .main > .do > .do-container > .start-container > .startButton {
     text-decoration: none;
     color: rgb(255, 255, 255);
 
@@ -155,16 +156,16 @@ body > .main > .do-container > .start-container > .startButton {
 }
 
 #function-container {
-    align-items : center;
-    display : flex;
-    flex-direction : column;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
 #function-container > .function {
-    align-items : center;
-    display : flex;
-    flex-direction : row;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
 
     margin-top: 7rem;
@@ -174,9 +175,9 @@ body > .main > .do-container > .start-container > .startButton {
 #function-container > .function > .manual,
 #function-container > .function > .recordBook,
 #function-container > .function > .shop {
-    align-items : flex-start;
-    display : flex;
-    flex-direction : column;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -190,9 +191,9 @@ body > .main > .do-container > .start-container > .startButton {
     text-decoration-line: underline;
     text-decoration-color: #938f8f;
 
-    align-items : flex-start;
-    display : flex;
-    flex-direction : column;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -224,9 +225,9 @@ body > .main > .do-container > .start-container > .startButton {
 #function-container > .function > .manual > .text,
 #function-container > .function > .recordBook > .text,
 #function-container > .function > .shop > .text {
-    align-items : center;
-    display : flex;
-    flex-direction : column;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
 
     width: 21.5rem;
@@ -247,3 +248,106 @@ body > .main > .do-container > .start-container > .startButton {
     font-size: 1rem;
     color: rgb(147, 143, 143);
 }
+
+/*뎡화 라인*/
+
+.main > .bbs {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font: unset;
+    font-family: none;
+    padding: 4rem;
+    background-color: #eae7e7;
+}
+
+
+body > .main > .bbs > .best-bbs-container {
+    max-width: 40rem;
+    /*margin-right: 3rem;*/
+    margin-left: 3rem;
+    margin-right: 5rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+#table1, #table2 {
+    border-collapse: collapse;
+    font-size: 1rem;
+
+}
+
+#table1 td,
+#table2 td {
+    padding: 0.8rem 0.8rem;
+    border-top: 1px solid rgb(120, 120, 120);
+
+}
+
+#table1 th,
+#table2 th {
+    color: rgb(107, 103, 103);
+    font-weight: inherit;
+
+}
+
+
+#table1 > tbody > tr:not(:last-of-type) > td,
+#table2 > tbody > tr:not(:last-of-type) > td {
+    border-bottom: 0.0625rem solid rgb(181 176 165);
+}
+
+#table1 > tbody > tr > td,
+#table2 > tbody > tr > td {
+    color: rgb(131, 126, 126);
+    text-align: center;
+}
+
+
+#table1 > tbody > tr > td > .title,
+#table2 > tbody > tr > td > .title {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#table1 > tbody > tr > td > .title:hover,
+#table2 > tbody > tr > td > .title:hover {
+    text-decoration: underline;
+}
+
+#table1 > tbody > tr > td > .title > .comment,
+#table2 > tbody > tr > td > .title > .comment {
+    color: rgb(211, 84, 0);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+#table1 > tfoot > tr > td,
+#table2 > tfoot > tr > td {
+    color: rgb(0, 0, 0);
+
+    padding-top: 1rem;
+
+}
+
+/*footer*/
+body > .--footer {
+    background-color: #eae7e7;
+}
+
+body > .--footer > .home,
+body > .--footer > .home > .sub-menu {
+    border-top: 0.0625rem solid rgb(181 176 165);
+}
+
+

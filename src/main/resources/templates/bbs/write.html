@@ -15,6 +15,16 @@
             window.close();
         }
     </script>
+    <script th:if="${result.equals('NOT')}">
+        alert('글을 작성할 권한이 없습니다.');
+        if(window.history.length>1){
+            window.history.back();
+        }
+        else {
+            window.close();
+        }
+    </script>
+
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/write.css}">
     <script defer th:src="@{/bbs/resources/libraries/ckeditor/ckeditor.js}"></script>
@@ -28,49 +38,49 @@
         <h1 class="title" th:text="${board.getText()}">글 쓰기</h1>
         <input name="bid" type="hidden" th:value="${board.getId()}" >
         <table class="table" id="table">
-        <tbody>
-        <tr>
-            <th></th>
-            <td>
-                <label class="label">
-                    <span hidden>제목</span>
-                    <input class="--object-input input" maxlength="100" name="title" placeholder="제목을 입력해 주세요"
-                           type="text">
-                </label>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>
-                <label class="label">
-                    <span hidden>내용</span>
-                    <textarea class="--object-input input" maxlength="10000" name="content"
-                              placeholder="내용을 입력해 주세요"></textarea>
-                </label>
-            </td>
-        </tr>
-        <tr class="warning-row" rel="warningRow">
-            <th></th>
-            <td>
+            <tbody>
+            <tr>
+                <th></th>
+                <td>
+                    <label class="label">
+                        <span hidden>제목</span>
+                        <input class="--object-input input" maxlength="100" name="title" placeholder="제목을 입력해 주세요"
+                               type="text">
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <label class="label">
+                        <span hidden>내용</span>
+                        <textarea class="--object-input input" maxlength="10000" name="content"
+                                  placeholder="내용을 입력해 주세요"></textarea>
+                    </label>
+                </td>
+            </tr>
+            <tr class="warning-row" rel="warningRow">
+                <th></th>
+                <td>
                     <span class="warning">
                       <i class="icon fa-solid fa-triangle-exclamation"></i>
                       <span rel="warningText">제목을 입력해 주세요.</span>
                     </span>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>
-                <div class="button-container">
-                    <input class="--object-button" name="back" type="button" value="돌아가기">
-                    <input class="--object-button" name="submit" type="submit" value="작성하기">
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                </td>
+            </tr>
+            <tr>
+                <th></th>
+                <td>
+                    <div class="button-container">
+                        <input class="--object-button" name="back" type="button" value="돌아가기">
+                        <input class="--object-button" name="submit" type="submit" value="작성하기">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </form>
 </main>
-
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>

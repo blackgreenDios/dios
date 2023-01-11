@@ -24,15 +24,17 @@
     </insert>
     <select id="selectArticleByIndex"
             resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
-        SELECT `article`.`index`                              AS `index`,
-               `article`.`user_email`                         AS `userEmail`,
-               `article`.`board_id`                           AS `boardId`,
-               `article`.`title`                              AS `title`,
-               `article`.`content`                            AS `content`,
-               `article`.`view`                               AS `view`,
-               `article`.`written_on`                         AS `writtenOn`,
-               `article`.`modified_on`                        AS `modifiedOn`,
-               `user`.`nickname`                              AS `userNickname`,
+        SELECT `article`.`index`                                AS `index`,
+               `article`.`user_email`                           AS `userEmail`,
+               `article`.`board_id`                             AS `boardId`,
+               `article`.`title`                                AS `title`,
+               `article`.`content`                              AS `content`,
+               `article`.`view`                                 AS `view`,
+               `article`.`written_on`                           AS `writtenOn`,
+               `article`.`modified_on`                          AS `modifiedOn`,
+               `user`.`nickname`                                AS `userNickname`,
+               `user`.`image`                                   AS `userImage`,
+               `user`.`image_type`                              AS `userImageType`,
                (SELECT COUNT(0)
                 FROM `dios_bbs`.`article_likes` AS `articleLike`
                 WHERE `articleLike`.`article_index` = #{index}) AS `likeCount`,
@@ -41,6 +43,9 @@
                 WHERE `comment`.`article_index` = #{index})     AS `commentCount`
         FROM `dios_bbs`.`articles` AS `article`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+
+
+
         WHERE `article`.`index` = #{index}
     </select>
     <update id="updateArticle"
@@ -74,7 +79,7 @@
         (SELECT COUNT(0)
         FROM `dios_bbs`.`comments` AS `comment`
 
-        WHERE `comment`.`article_index` = `article`.`index`)     AS `commentCount`
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
         FROM `dios_bbs`.`articles` AS `article`
         LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
 
@@ -136,7 +141,7 @@
                               `commentLike`.`user_email` = IFNULL(#{userEmail}, '')
                  LEFT JOIN `dios_bbs`.`comment_likes` AS `commentLikeCount`
                            ON `comment`.`index` = `commentLikeCount`.`comment_index`
-        WHERE `article_index` = #selectArticleByIndex{articleIndex}
+        WHERE `article_index` = #{articleIndex}
         GROUP BY `index`
         ORDER BY `index`
     </select>
@@ -248,6 +253,202 @@
         LIMIT 1
 
     </delete>
+    <select id="selectAdminByUser"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`,
+               `goal_count`        AS `goalCount`,
+               `admin_flag`        AS `isAdmin`
+        FROM `dios_member`.`users`
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </select>
+
+
+    <!-- 콩지 -->
+    <select id="selectArticleCountByUserEmailFromQna"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_bbs`.`articles` AS `article`
+        <if test="criterion != null and criterion.equals('nickname')">
+            LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        </if>
+        WHERE `user_email` = #{userEmail} AND `board_id` = 'qna'
+
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+
+    </select>
+
+    <select id="selectArticleCountByUserEmailFromFree"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_bbs`.`articles` AS `article`
+        <if test="criterion != null and criterion.equals('nickname')">
+            LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        </if>
+        WHERE `user_email` = #{userEmail} AND `board_id` = 'free'
+
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+
+    </select>
+
+    <select id="selectArticlesByUserEmailFree"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+        `article`.`board_id` AS `boardId`,
+        `article`.`index` AS `index`,
+        `article`.`user_email` AS `userEmail`,
+        `article`.`board_id` AS `boardId`,
+        `article`.`title` AS `title`,
+        `article`.`content` AS `content`,
+        `article`.`view` AS `view`,
+        `article`.`written_on` AS `writtenOn`,
+        `article`.`modified_on` AS `modifiedOn`,
+        `user`.`nickname` AS `userNickname`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`article_likes` AS `articleLike`
+        WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`comments` AS `comment`
+
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+        LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+
+        WHERE `article`. `user_email` = #{userEmail} AND `article`.`board_id` = 'free'
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+        GROUP BY `article`.`index`
+
+        ORDER BY `article`.`index` DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectArticlesByUserEmailQna"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+        `article`.`board_id` AS `boardId`,
+        `article`.`index` AS `index`,
+        `article`.`user_email` AS `userEmail`,
+        `article`.`board_id` AS `boardId`,
+        `article`.`title` AS `title`,
+        `article`.`content` AS `content`,
+        `article`.`view` AS `view`,
+        `article`.`written_on` AS `writtenOn`,
+        `article`.`modified_on` AS `modifiedOn`,
+        `user`.`nickname` AS `userNickname`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`article_likes` AS `articleLike`
+        WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+        (SELECT COUNT(0)
+        FROM `dios_bbs`.`comments` AS `comment`
+
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+        LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+
+        WHERE `article`. `user_email` = #{userEmail} AND `article`.`board_id` = 'qna'
+        <if test="criterion != null and criterion.equals('title')">
+            AND REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+        </if>
+        <if test="criterion !=null and criterion.equals('all')">
+            AND (REPLACE(`article`.`title`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%')
+            OR REPLACE(`article`.`content`, ' ', '') LIKE CONCAT('%', REPLACE(#{keyword}, ' ', ''), '%'))
+        </if>
+        <if test="criterion !=null and criterion.equals('nickname')">
+            AND BINARY `user`.`nickname`= #{keyword}
+        </if>
+        GROUP BY `article`.`index`
+
+        ORDER BY `article`.`index` DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectArticleByBest"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+            `article`.`board_id` AS `boardId`,
+            `article`.`index` AS `index`,
+            `article`.`user_email` AS `userEmail`,
+            `article`.`board_id` AS `boardId`,
+            `article`.`title` AS `title`,
+            `article`.`content` AS `content`,
+            `article`.`view` AS `view`,
+            `user`.`nickname` AS `userNickname`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`article_likes` AS `articleLike`
+             WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`comments` AS `comment`
+
+             WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+                 LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        WHERE  `article`.`board_id` = 'free'
+        ORDER BY `likeCount` DESC
+
+        LIMIT 10
+
+    </select>
+    <select id="selectArticleByNotice"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+            `article`.`board_id` AS `boardId`,
+            `article`.`index` AS `index`,
+            `article`.`user_email` AS `userEmail`,
+            `article`.`board_id` AS `boardId`,
+            `article`.`title` AS `title`,
+            `article`.`content` AS `content`,
+            `article`.`view` AS `view`,
+            `user`.`nickname` AS `userNickname`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`article_likes` AS `articleLike`
+             WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`comments` AS `comment`
+
+             WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+                 LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        WHERE   `article`.`board_id` = 'notice'
+        GROUP BY `article`.`index`
+        ORDER BY `article`.`index` DESC
+        LIMIT 10
+
+    </select>
 
 
 </mapper>

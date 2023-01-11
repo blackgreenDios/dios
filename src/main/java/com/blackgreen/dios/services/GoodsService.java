@@ -9,14 +9,13 @@ import com.blackgreen.dios.enums.goods.ReviewDeleteResult;
 import com.blackgreen.dios.interfaces.IResult;
 import com.blackgreen.dios.mappers.IGoodsMapper;
 import com.blackgreen.dios.models.PagingModel;
-import com.blackgreen.dios.vos.GoodsVo;
-import com.blackgreen.dios.vos.ReviewVo;
+import com.blackgreen.dios.vos.goods.GoodsVo;
+import com.blackgreen.dios.vos.goods.ReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.FetchProfile;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;

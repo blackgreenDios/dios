@@ -13,6 +13,12 @@
     <link rel="stylesheet" th:href="@{/resources/stylesheets/commonMyPage.css}">
     <link rel="stylesheet" th:href="@{/member/resources/stylesheets/myPageQna.css}">
     <script defer th:src="@{/bbs/resources/scripts/list.js}"></script>
+
+    <script th:if="${session.user == null }">
+        alert('로그인 후 이용하실 수 있습니다.');
+        window.location.href = 'login';
+    </script>
+
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
@@ -25,7 +31,6 @@
         </div>
         <div class="myPage-main">
             <th:block th:replace="~{fragments/commonMyPage :: menu}"></th:block>
-            <input name="bid" type="hidden" th:value="${board?.getId()}">
             <div class="--content content">
                 <h1 class="title">Q&A</h1>
                 <table class="table" id="table">
@@ -41,7 +46,7 @@
                     </thead>
 
                     <tbody>
-                    <tr th:each="article: ${articles}" th:if="${article.getUserEmail().equals(session.user.getEmail())}">
+                    <tr th:each="article: ${articles}" th:if="${article.getUserNickname().equals(session.user.getNickname())}">
                         <td th:text="${article.getIndex()}">3</td>
                         <td>
                             <a class="title" th:href="@{/dios/read(aid=${article.getIndex()})}">
@@ -115,11 +120,12 @@
                                th:value="${#request.getParameter('keyword')}">
                     </label>
                     <input name="bid" type="hidden" th:value="${board.getId()}">
-                    <input id="search" class="--object-button" type="submit" value="검색">
+                    <input id="search" class="—object-button" type="submit" value="검색">
                 </div>
             </div>
         </div>
     </form>
 </main>
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>

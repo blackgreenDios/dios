@@ -9,7 +9,7 @@ import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.StoreService;
-import com.blackgreen.dios.vos.GoodsVo;
+import com.blackgreen.dios.vos.goods.GoodsVo;
 import com.blackgreen.dios.vos.store.CartVo;
 import com.blackgreen.dios.vos.store.OrderVo;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -62,8 +62,7 @@ body > .main {
 #form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > a {
     text-decoration: none;
     /*margin-left: -2rem;*/
-    margin-top: 0.5rem;
-    font-weight: 700;
+
     font-family: none;
     color: rgb(0, 0, 0);
 }

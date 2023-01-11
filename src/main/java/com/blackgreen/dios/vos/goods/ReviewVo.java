@@ -1,4 +1,4 @@
-package com.blackgreen.dios.vos;
+package com.blackgreen.dios.vos.goods;
 
 import com.blackgreen.dios.entities.store.ReviewEntity;
 

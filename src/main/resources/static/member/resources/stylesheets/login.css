@@ -154,7 +154,6 @@
 #form > .login > .last > .find > .find-email {
     margin-right: 1rem;
     text-decoration: none;
-    font-weight: 700;
     color: rgb(0, 0, 0);
 }
 
@@ -165,7 +164,6 @@
 #form > .login > .last > .find > .recover-password {
     margin-left: 1rem;
     text-decoration: none;
-    font-weight: 700;
     color: rgb(0, 0, 0);
 }
 

@@ -4,12 +4,10 @@ import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.store.*;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.goods.AddReviewResult;
-import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.RollbackException;
-import com.blackgreen.dios.vos.GoodsVo;
-import com.blackgreen.dios.vos.ReviewVo;
-import jdk.jfr.Category;
+import com.blackgreen.dios.vos.goods.GoodsVo;
+import com.blackgreen.dios.vos.goods.ReviewVo;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.Collection;
 
 @Controller(value = "com.blackgreen.dios.controllers.GoodsController")
 @RequestMapping(value = "/goods")
@@ -223,6 +220,24 @@ public class GoodsController {
 
         ModelAndView modelAndView = new ModelAndView("goods/read");
         GoodsVo goods = this.goodsService.getItem(gid);
+        ReviewEntity[] reviews = this.goodsService.getReviews(gid);
+        int sum = 0;
+        int reviewCount = reviews.length;
+        double ScoreAvg = 0;
+
+        for (int i = 0; i < reviews.length; i++) {
+            sum += reviews[i].getScore();
+        }
+        if (reviewCount > 0){
+            ScoreAvg = (double )sum / reviewCount;
+            ScoreAvg = (double) (Math.round(ScoreAvg*10));
+            ScoreAvg = ScoreAvg / 10;
+
+        } else {
+            ScoreAvg = 0;
+        }
+        goods.setScoreAvg(ScoreAvg);
+
         goods.setIndex(gid);
         modelAndView.addObject("goods", goods);
         modelAndView.addObject("category", this.goodsService.getCategory(goods.getCategoryId()));

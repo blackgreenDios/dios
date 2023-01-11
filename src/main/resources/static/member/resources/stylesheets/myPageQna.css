@@ -11,6 +11,7 @@
     flex-direction: column;
     justify-content: flex-start;
     margin-left: 5rem;
+    margin-top: -3rem;
 }
 
 body > .main > form > .content > .title {
@@ -22,7 +23,7 @@ body > .main > form > .content > .title {
 #table {
     border-collapse: collapse;
     font-size: 1rem;
-    min-width: 64vw;
+    min-width: 57vw;
 }
 
 #table td {

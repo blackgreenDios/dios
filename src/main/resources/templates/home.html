@@ -9,86 +9,143 @@
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/resources/stylesheets/home.css}">
     <script defer th:src="@{/resources/scripts/home.js}"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Gowun+Batang:wght@700&family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
-<main class="--main main">
-    <div class="do-container">
-        <div class="do-text-main">
-            <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="star">✦</a></a>
-        </div>
-        <div class="do">
-            <div class="squat" onload="slideShow()">
-                <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat.jpg}">
-                <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat2.jpg}">
-                <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat3.jpg}">
-            </div>
-            <div class="lunge" onload="slideShow()">
-                <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge.jpg}">
-                <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge2.jpg}">
-                <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge3.jpg}">
-            </div>
-            <div class="plank" onload="slideShow()">
-                <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank.jpg}">
-                <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank2.jpg}">
-                <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank3.jpg}">
-            </div>
-        </div>
-        <div class="content-container">
-            <a class="content">
-                측정되지 않는 것은 관리할 수 없습니다.
-                <br>
-                <br>
-                기록의 힘은 습관을 만들 때 생각 이상으로 강력합니다.
-                <br>
-                <br>
-                dios 와 함께 기록하는 습관을 만들어보세요 !
-                <br>
-                <br>
-                <br>
-                <a class="redText">start</a>
-                <br>
-                <i class="startIcon fa-solid fa-circle-down"></i>
-            </a>
-        </div>
-        <div class="start-container" rel="startContainer">
-            <a class="startButton">start</a>
-        </div>
-    </div>
-    <div id="function-container">
-        <div class="function">
-            <div class="manual">
-                <a class="manualTitle" th:href="@{/}">MANUAL
-                <input type="image" class="manualImage" alt="manualImage" th:src="@{/resources/images/manual.png}"></a>
-                <div class="text">
-                    <a class="one">사용설명서</a>
-                    <a class="two">DIOS 운동기록 사용방법</a>
-                </div>
-            </div>
-            <div class="recordBook">
-                <a class="recordBookTitle" th:href="@{record/recordBook}">A RECORD BOOK
-                <input type="image" class="recordBookImage" alt="recordBookImage" th:src="@{/resources/images/recordBook.png}"></a>
-                <div class="text">
-                    <a class="one">기록장</a>
-                    <a class="two">기록하는 습관 만들기</a>
-                </div>
-            </div>
-            <div class="shop">
-                <a class="shopTitle" th:href="@{/}">SHOP
-                <input type="image" class="shopImage" alt="shopImage" th:src="@{/resources/images/shop.png}"></a>
-                <div class="text">
-                    <a class="one">쇼핑몰</a>
-                    <a class="two">운동에 필요한 용품</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="best-bbs-container">
 
+<main class="—main main">
+    <div class="do">
+        <div class="do-container">
+            <div class="do-text-main">
+                <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="star">✦</a></a>
+            </div>
+            <div class="do">
+                <div class="squat" onload="slideShow()">
+                    <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat.jpg}">
+                    <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat2.jpg}">
+                    <input class="squatImg slide" type="image" alt="squat" th:src="@{/resources/images/squat3.jpg}">
+                </div>
+                <div class="lunge" onload="slideShow()">
+                    <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge.jpg}">
+                    <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge2.jpg}">
+                    <input class="lungeImg slide1" type="image" alt="lunge" th:src="@{/resources/images/lunge3.jpg}">
+                </div>
+                <div class="plank" onload="slideShow()">
+                    <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank.jpg}">
+                    <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank2.jpg}">
+                    <input class="plankImg slide2" type="image" alt="plank" th:src="@{/resources/images/plank3.jpg}">
+                </div>
+            </div>
+            <div class="content-container">
+                <a class="content">
+                    측정되지 않는 것은 관리할 수 없습니다.
+                    <br>
+                    <br>
+                    기록의 힘은 습관을 만들 때 생각 이상으로 강력합니다.
+                    <br>
+                    <br>
+                    dios 와 함께 기록하는 습관을 만들어보세요 !
+                    <br>
+                    <br>
+                    <br>
+                    <a class="redText">start</a>
+                    <br>
+                    <i class="startIcon fa-solid fa-circle-down"></i>
+                </a>
+            </div>
+            <div class="start-container" rel="startContainer">
+                <a class="startButton">start</a>
+            </div>
+        </div>
+        <div id="function-container">
+            <div class="function">
+                <div class="manual">
+                    <a class="manualTitle" th:href="@{/static}">MANUAL
+                        <input type="image" class="manualImage" alt="manualImage" th:src="@{/resources/images/manual.png}"></a>
+                    <div class="text">
+                        <a class="one">사용설명서</a>
+                        <a class="two">DIOS 운동기록 사용방법</a>
+                    </div>
+                </div>
+                <div class="recordBook">
+                    <a class="recordBookTitle" th:href="@{record/recordBook}">A RECORD BOOK
+                        <input type="image" class="recordBookImage" alt="recordBookImage" th:src="@{/resources/images/recordBook.png}"></a>
+                    <div class="text">
+                        <a class="one">기록장</a>
+                        <a class="two">기록하는 습관 만들기</a>
+                    </div>
+                </div>
+                <div class="shop">
+                    <a class="shopTitle" th:href="@{/store/list}">SHOP
+                        <input type="image" class="shopImage" alt="shopImage" th:src="@{/resources/images/shop.png}"></a>
+                    <div class="text">
+                        <a class="one">쇼핑몰</a>
+                        <a class="two">운동에 필요한 용품</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bbs">
+        <div class="best-bbs-container">
+            <h1 class="title">공지사항</h1>
+            <table class="table" id="table1">
+                <thead>
+                <tr>
+
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>추천</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="article:${articles}">
+
+                    <td>
+                        <a class="title" th:href="@{/dios/read(aid=${article.getIndex()})}">
+                            <span class="text" th:text="${article.getTitle()}">세번째 게시글</span>
+                            <span class="comment" th:text="${'['+article.getCommentCount()+']'}">[3]</span>
+                        </a>
+                    </td>
+                    <td th:text="${article.getUserNickname()}">쉘던</td>
+                    <td th:text="${article.getView()}">17</td>
+                    <td th:text="${article.getLikeCount()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="best-bbs-container">
+            <h1 class="title">인기글</h1>
+            <table class="table" id="table2">
+                <thead>
+                <tr>
+
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>추천</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="best:${article}">
+
+                    <td>
+                        <a class="title" th:href="@{/dios/read(aid=${best.getIndex()})}">
+                            <span class="text" th:text="${best.getTitle()}">세번째 게시글</span>
+                            <span class="comment" th:text="${'['+best.getCommentCount()+']'}">[3]</span>
+                        </a>
+                    </td>
+                    <td th:text="${best.getUserNickname()}">쉘던</td>
+                    <td th:text="${best.getView()}">17</td>
+                    <td th:text="${best.getLikeCount()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </main>
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
+
 </body>
 </html>

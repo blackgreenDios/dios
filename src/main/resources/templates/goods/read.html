@@ -106,7 +106,7 @@
                     <input type="button"
                            onclick='Count("minus")'
                            value="-"/>
-                    <div id="count"> 1 </div>
+                    <div id="count"> 1</div>
                     <input type="button"
                            onclick='Count("plus")'
                            value="+"/>
@@ -173,15 +173,16 @@
         <div class="review-result">
             <div> 이 상품을 구매한 사용자들의 구매 만족도</div>
             <div class="score-container">
+
                 <div class="star-container" rel="starContainer">
-                    <i class="star selected  fa-solid fa-star"></i>
-                    <i class="star selected  fa-solid fa-star"></i>
-                    <i class="star selected  fa-solid fa-star"></i>
-                    <i class="star selected  fa-solid fa-star"></i>
-                    <i class="star selected  fa-solid fa-star"></i>
+                    <i th:class="'star '+${goods.getScoreAvg()>=1? 'selected' : ''}+' fa-solid fa-star'"></i>
+                    <i th:class="'star '+${goods.getScoreAvg()>=2? 'selected' : ''}+' fa-solid fa-star'"></i>
+                    <i th:class="'star '+${goods.getScoreAvg()>=3? 'selected' : ''}+' fa-solid fa-star'"></i>
+                    <i th:class="'star '+${goods.getScoreAvg()>=4? 'selected' : ''}+' fa-solid fa-star'"></i>
+                    <i th:class="'star '+${goods.getScoreAvg()>=5? 'selected' : ''}+' fa-solid fa-star'"></i>
                 </div>
                 <div class="score">
-                    <span class="result-score" rel="score">4.9</span>
+                    <span class="result-score" rel="score" th:text="${goods.getScoreAvg()}"></span>
                     <span class="full-score">/5</span>
                 </div>
             </div>

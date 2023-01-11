@@ -13,7 +13,7 @@ const Warning = {
 };
 
 
-form.onsubmit=(e)=>{
+form.onsubmit = (e) => {
     e.preventDefault();
     //자동으로 경고창이 안나오게 해주는거
     Warning.hide();
@@ -43,10 +43,14 @@ form.onsubmit=(e)=>{
                 //"{"result":"success"}"
                 switch (responseObject['result']) {
                     case 'success':
-                        window.history.length < 2 ? window.location.href = 'login' : window.history.back();
+                        window.location.href = '/';
+                        // window.history.length < 2 ?
+                        //     window.location.href = 'login' : window.history.back();
                         break;
+
                     default:
-                        alert('알맞은 이메일과 비밀번호를 입력해주세요.')
+                        alert('알맞은 이메일과 비밀번호를 입력해주세요.');
+                        break;
 
                 }
             } else {
@@ -61,6 +65,7 @@ loginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
     window.open('https://kauth.kakao.com/oauth/authorize?client_id=b53a656bcd965d745a55ca52a6ccd639&redirect_uri=http://localhost:8080/dios/kakao&response_type=code', '_blank', 'width=500; height=750'); //팝업 창 염
+
 });
 
 //https://developers.kakao.com 가서 카카오 로그인 활성화

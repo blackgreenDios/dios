@@ -1,17 +1,24 @@
 package com.blackgreen.dios.services;
 
+import com.blackgreen.dios.entities.bbs.ArticleEntity;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
-import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
+import com.blackgreen.dios.entities.store.OrderEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.member.*;
 import com.blackgreen.dios.interfaces.IResult;
+import com.blackgreen.dios.mappers.IBbsMapper;
 import com.blackgreen.dios.mappers.IMemberMapper;
+import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.utils.CryptoUtils;
+//import com.blackgreen.dios.vos.store.OrderVo;
+import com.blackgreen.dios.vos.store.OrderVo;
+import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -23,6 +30,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -36,12 +44,14 @@ public class MemberService {
     private final JavaMailSender mailSender;
 
     private final TemplateEngine templateEngine;
+    private final IBbsMapper bbsMapper;
 
     @Autowired
-    public MemberService(JavaMailSender mailSender, IMemberMapper memberMapper, TemplateEngine templateEngine) {
+    public MemberService(JavaMailSender mailSender, IMemberMapper memberMapper, TemplateEngine templateEngine, IBbsMapper bbsMapper) {
         this.mailSender = mailSender;
         this.memberMapper = memberMapper;
         this.templateEngine = templateEngine;
+        this.bbsMapper = bbsMapper;
     }
 
 
@@ -66,13 +76,14 @@ public class MemberService {
         user.setAddressPrimary(existingUser.getAddressPrimary());
         user.setAddressSecondary(existingUser.getAddressSecondary());
         user.setRegisteredOn(existingUser.getRegisteredOn());
+        user.setAdmin(existingUser.isAdmin());
 
         return CommonResult.SUCCESS;
 
     }
 
     //회원가입
-    public Enum<? extends IResult> register(UserEntity user, EmailAuthEntity emailAuth,UserEntity newUser) {
+    public Enum<? extends IResult> register(UserEntity user, EmailAuthEntity emailAuth, UserEntity newUser) {
         EmailAuthEntity existingEmailAuth = this.memberMapper.selectEmailAuthByEmailCodeSalt(
                 emailAuth.getEmail(),
                 emailAuth.getCode(),
@@ -81,7 +92,6 @@ public class MemberService {
         if (existingEmailAuth == null || !existingEmailAuth.IsExpired()) {
             return RegisterResult.EMAIL_NOT_VERIFIED;
         }
-
 
 
         UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
@@ -97,7 +107,6 @@ public class MemberService {
         if (userByContact != null && !user.getEmail().equals(userByContact.getEmail())) {
             return DuplicationResult.CONTACT;
         }
-
 
 
         user.setPassword(CryptoUtils.hasSha512(user.getPassword()));
@@ -298,43 +307,31 @@ public class MemberService {
         return CommonResult.SUCCESS;
     }
 
-    //프로필 이미지 삽입
-    public Enum<? extends IResult> addProfileImage(ImageEntity image) {
-        return this.memberMapper.insertImage(image) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
-    }
-
-    //프로필 이미지 수정
-    public ImageEntity getProfileImage(int index) {
-        return this.memberMapper.selectImageByIndex(index);
-    }
-
-
 
     //닉네임 수정
     @Transactional
-    public Enum<? extends IResult> updateMyPage(UserEntity signedUser,UserEntity newUser) {
+    public Enum<? extends IResult> updateMyPage(UserEntity signedUser, UserEntity newUser, MultipartFile image) throws IOException {
 
-        if(signedUser == null){
+        if (signedUser == null) {
             return ModifyProfileResult.NOT_SIGNED;
         }
 
         //닉네임 중복검사
         UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
-        if(userByNickname != null && !userByNickname.getEmail().equals(signedUser.getEmail())){
+        if (userByNickname != null && !userByNickname.getEmail().equals(signedUser.getEmail())) {
             return DuplicationResult.NICKNAME;
         }
 
         signedUser.setNickname(newUser.getNickname());
+        signedUser.setImage(image.getBytes());
+        signedUser.setImageType(image.getContentType());
 
-        if (this.memberMapper.updateUser(signedUser) == 0) {
+        if (this.memberMapper.updateUserByMayPage(signedUser) == 0) {
             return CommonResult.FAILURE;
         }
 
         return CommonResult.SUCCESS;
     }
-
 
 
     // 회원정보 수정
@@ -431,22 +428,87 @@ public class MemberService {
         String email = String.valueOf(responseObject.getLong("id"));
 
         UserEntity user = this.memberMapper.selectUserByEmail(email);
-        if(user == null){
+
+        if (user == null) {
             user = new UserEntity();
             user.setEmail(email);
             user.setNickname(propertyObject.getString("nickname"));
             user.setPassword(""); //카카오 로그인은 비밀번호 못땡겨옴
             user.setName("");
-            user.setContact("");
+            user.setContact(email);
             user.setAddressPrimary("");
             user.setAddressPostal("");
             user.setAddressSecondary(""); //빈 문자열로 하면 웹에서 입력안해도 Insert 가능
 
             this.memberMapper.insertUser(user);
         }
+
+
         return user;
 
     }
+
+    //프로필 이미지 수정
+    public UserEntity getProfileImage(UserEntity user) {
+        return this.memberMapper.selectImageByEmail(user.getEmail());
+    }
+
+    @Transactional
+    public Enum<? extends IResult> deleteProfileImage(UserEntity signedUser, UserEntity newUser, MultipartFile image) throws IOException {
+
+        if (signedUser == null) {
+            return ModifyProfileResult.NOT_SIGNED;
+        }
+
+
+        if (this.memberMapper.deleteUserByMayPage(signedUser) == 0) {
+            return CommonResult.FAILURE;
+        }
+
+        return CommonResult.SUCCESS;
+    }
+
+    //회원탈퇴
+    public Enum<? extends IResult> deleteUser(UserEntity user) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+        if (existingUser == null) {
+            return CommonResult.FAILURE;
+        }
+
+        user.setEmail(existingUser.getEmail());
+
+        return this.memberMapper.deleteUser(user.getEmail()) > 0
+                ? CommonResult.SUCCESS
+                : CommonResult.FAILURE;
+    }
+
+
+    @Transactional
+    public OrderVo[] orderList(UserEntity user) {
+        System.out.println(user.getEmail());
+        return this.memberMapper.selectOrderList(user.getEmail());
+    }
+
+
+    public int getOrderList(OrderVo orderList) {
+        return this.memberMapper.selectOrderListCount(orderList.getUserEmail(), orderList.getOrderStatus());
+    }
+
+    public OrderVo[] getOrderListByEmail(OrderVo orderList, PagingModel paging) {
+        return this.memberMapper.selectOrderListByUserEmail(
+                orderList.getUserEmail(),
+                orderList.getOrderStatus(),
+                paging.countPerPage,
+                (paging.requestPage - 1) * paging.countPerPage);
+
+    }
+
+    public OrderVo[] getOrderListByOrderNum(OrderVo orderList) {
+        return this.memberMapper.selectOrderListDetail(
+                orderList.getOrderNum());
+    }
+
+
 
 }
 

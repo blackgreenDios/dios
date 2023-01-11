@@ -1,9 +1,8 @@
 package com.blackgreen.dios.mappers;
 
 import com.blackgreen.dios.entities.store.*;
-import com.blackgreen.dios.models.PagingModel;
-import com.blackgreen.dios.vos.GoodsVo;
-import com.blackgreen.dios.vos.ReviewVo;
+import com.blackgreen.dios.vos.goods.GoodsVo;
+import com.blackgreen.dios.vos.goods.ReviewVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

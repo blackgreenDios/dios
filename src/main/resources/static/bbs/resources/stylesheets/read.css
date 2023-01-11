@@ -1,5 +1,7 @@
 .profileImage{
-    width: 4.2%;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
 }
 .date,.view{
     font-family: none;
@@ -16,20 +18,21 @@ body> .main > .content{
     justify-content: flex-start;
 }
 
-body> .main > .content> .title{
-    font-size: 2rem;
-    font-weight: 500;
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 2.5rem;
-    margin-left: 2rem;
+/*body> .main > .content> .title{*/
+/*    font-size: 2rem;*/
+/*    font-weight: 500;*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    margin-bottom: 2.5rem;*/
+/*    margin-left: 2rem;*/
 
 
-    align-items: flex-start;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
 
-}
+/*    align-items: flex-start;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: flex-start;*/
+
+/*}*/
 
 body > .main > .content > .table .content-container {
     background-color: rgb(255, 255, 255);
@@ -64,13 +67,14 @@ body > .main >.content >.table.content-container *{
 
 #boardSummary {
     width: 80%;
-    margin-left: 3rem;
 
-    align-items: center;
+    margin-left: 2.1rem;
+
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding-bottom: 1rem;
+    justify-content: flex-start;
+    padding:  1rem 1rem;
 
 
 }
@@ -78,12 +82,14 @@ body > .main >.content >.table.content-container *{
 #table {
     margin-left: 3rem;
 
+
 }
 #title{
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: unset;
     margin-left: 3rem;
     margin-bottom: 1rem;
+
 }
 
 #left {
@@ -103,6 +109,8 @@ body > .main >.content >.table.content-container *{
 #top {
     margin-left: 1rem;
     font-size: 1.1rem;
+    color: rgb(64, 67, 68);
+
 }
 
 #bottom {
@@ -114,7 +122,7 @@ body > .main >.content >.table.content-container *{
     margin-left: 1rem;
 
     font-size: 0.9rem;
-    color: rgb(104, 111, 117);
+    color: rgb(112, 115, 117);
 }
 
 .--object-input{
@@ -165,18 +173,17 @@ body > .main > .content > .table .button-container > a[href].delete {
 
 
 }
-.secret>.toggle{
-    background-color: rgb(255,255,255);
+.secret{
 
-    color: rgb(174, 173, 175);
-    margin-right: 0.5rem ;
 
-    font-size: 170%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 1rem;
+    margin-right: 0.7rem;
 }
 
-.secret>.toggle > .icon{
-    margin-top: 0.35rem;
-}
 
 
 main,input{
@@ -285,7 +292,7 @@ main,input{
     display: none;
 }#commentContainer .comment > .head> .action-container{
 
-color: rgb(128,139,150);
+     color: rgb(128,139,150);
  }
 
 #commentContainer .comment > .head> .action-container>.action +.action{

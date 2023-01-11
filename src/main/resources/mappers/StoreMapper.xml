@@ -79,7 +79,7 @@
                `item`.`item_name`               AS `itemName`,
                `item`.`titleImage_data`         AS `image`,
                `item`.`titleImage_mime`         AS `imageMime`,
-               `status`.`status`                AS `statusText`,
+               `status`.`status`                AS `status`,
                `item`.`seller_index`            AS `sellerIndex`,
                `seller`.`store_name`            AS `storeName`
         FROM `dios_store`.`orders` AS `order`

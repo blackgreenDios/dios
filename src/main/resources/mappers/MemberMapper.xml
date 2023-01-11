@@ -103,7 +103,8 @@
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
+               `registered_on`     AS `registeredOn`,
+               `admin_flag`        AS `isAdmin`
         FROM `dios_member`.`users`
         WHERE BINARY `email` = #{email}
           AND BINARY `password` = #{password}
@@ -127,25 +128,6 @@
         LIMIT 1
     </select>
 
-    <insert id="insertImage"
-            useGeneratedKeys="true"
-            keyColumn="index"
-            keyProperty="index"
-            parameterType="com.blackgreen.dios.entities.member.ImageEntity">
-        INSERT INTO `dios_member`.`images` (`file_name`, `file_mime`, `data`)
-        VALUES (#{fileName}, #{fileMime}, #{data})
-    </insert>
-
-    <select id="selectImageByIndex"
-            resultType="com.blackgreen.dios.entities.member.ImageEntity">
-        SELECT `index`     AS `index`,
-               `file_name` AS `fileName`,
-               `file_mime` AS `fileMime`,
-               `data`      AS `data`
-        FROM `dios_member`.images
-        WHERE `index` = #{index}
-        LIMIT 1
-    </select>
 
     <select id="selectUserByNickname"
             resultType="com.blackgreen.dios.entities.member.UserEntity">
@@ -160,22 +142,6 @@
                `registered_on`     AS `registeredOn`
         FROM `dios_member`.`users`
         WHERE BINARY `nickname` = #{nickname}
-
-    </select>
-
-    <select id="selectUserByName"
-            resultType="com.blackgreen.dios.entities.member.UserEntity">
-        SELECT `email`             AS `email`,
-               `password`          AS `password`,
-               `nickname`          AS `nickname`,
-               `name`              AS `name`,
-               `contact`           AS `contact`,
-               `address_postal`    AS `addressPostal`,
-               `address_primary`   AS `addressPrimary`,
-               `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
-        FROM `dios_member`.`users`
-        WHERE BINARY `name` = #{name}
 
     </select>
 
@@ -194,6 +160,146 @@
         WHERE BINARY `contact` = #{contact}
 
     </select>
+
+    <update id="updateUserByMayPage"
+            parameterType="com.blackgreen.dios.entities.member.UserEntity">
+        UPDATE `dios_member`.`users`
+        SET `password`          = #{password},
+            `nickname`          = #{nickname},
+            `name`              = #{name},
+            `contact`           = #{contact},
+            `address_postal`    = #{addressPostal},
+            `address_primary`   = #{addressPrimary},
+            `address_secondary` = #{addressSecondary},
+            `image`             = #{image},
+            `image_type`        = #{imageType},
+            `registered_on`     = #{registeredOn}
+
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+
+    <select id="selectImageByEmail"
+            resultType="com.blackgreen.dios.entities.member.UserEntity">
+        SELECT `email`             AS `email`,
+               `password`          AS `password`,
+               `nickname`          AS `nickname`,
+               `name`              AS `name`,
+               `contact`           AS `contact`,
+               `address_postal`    AS `addressPostal`,
+               `address_primary`   AS `addressPrimary`,
+               `address_secondary` AS `addressSecondary`,
+               `registered_on`     AS `registeredOn`,
+               `image`             AS `image`,
+               `image_type`        AS `imageType`
+        FROM `dios_member`.`users`
+        WHERE BINARY `email` = #{email}
+    </select>
+
+    <update id="deleteUserByMayPage"
+            parameterType="com.blackgreen.dios.entities.member.UserEntity">
+        UPDATE `dios_member`.`users`
+        SET
+            `image`             = null,
+            `image_type`        = null
+
+
+        WHERE BINARY `email` = #{email}
+        LIMIT 1
+    </update>
+
+    <delete id="deleteUser">
+        DELETE
+        FROM `dios_member`.`users`
+        WHERE `email` = #{email}
+    </delete>
+
+    <select id="selectOrderList"
+            resultType="com.blackgreen.dios.vos.store.OrderVo">
+        SELECT `order`.`index`                                         AS `index`,
+               `order`.`user_email`                                    AS `userEmail`,
+               `order`.`order_num`                                     AS `orderNum`,
+               `order`.`count`                                         AS `count`,
+               `order`.`item_index`                                    AS `itemIndex`,
+               `order`.`order_color`                                   AS `orderColor`,
+               `order`.`order_size`                                    AS `orderSize`,
+               `order`.`price`                                         AS `price`,
+               `order`.`order_status`                                  AS `orderStatus`,
+               `order_status`.`status`                                 AS `status`,
+               `seller`.`store_name`                                   AS `storeName`,
+               `order`.`order_date`                                    AS `orderDate`,
+               `item`.`item_name`                                      AS `itemName`,
+               `item`.`seller_index`                                   AS `sellerIndex`,
+               (SELECT COUNT(0)
+                FROM `dios_store`.order_status AS `orderStatus`
+                WHERE `order_status`.`index` = `order`.`order_status`) AS `statusCount`
+        FROM `dios_store`.`orders` AS `order`
+                 LEFT JOIN `dios_store`.items AS `item` ON `item`.`index` = `order`.`item_index`
+                 LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`
+                 LEFT JOIN `dios_store`.seller AS `seller` ON item.seller_index = seller.`index`
+        WHERE BINARY `user_email` = #{userEmail}
+        ORDER BY `order`.`order_date` DESC
+    </select>
+
+    <select id="selectOrderListCount"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_store`.`orders` AS `order`
+                 LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`
+        WHERE `user_email` = #{userEmail}  AND `order_status` != 0
+    </select>
+
+    <select id="selectOrderListByUserEmail"
+            resultType="com.blackgreen.dios.vos.store.OrderVo">
+        SELECT `order`.`index`         AS `index`,
+               `order`.`user_email`    AS `userEmail`,
+               `order`.`order_num`     AS `orderNum`,
+               `order`.`count`         AS `count`,
+               `order`.`item_index`    AS `itemIndex`,
+               `order`.`order_color`   AS `orderColor`,
+               `order`.`order_size`    AS `orderSize`,
+               `order`.`price`         AS `price`,
+               `order`.`order_status`  AS `orderStatus`,
+               `order_status`.`status` AS `status`,
+               `seller`.`store_name`   AS `storeName`,
+               `order`.`order_date`    AS `orderDate`,
+               `item`.`item_name`      AS `itemName`,
+               `item`.`seller_index`   AS `sellerIndex`,
+               `order`.`count` * `order`.`price` AS priceCnt
+        FROM `dios_store`.`orders` AS `order`
+                 LEFT JOIN `dios_store`.items AS `item` ON `item`.`index` = `order`.`item_index`
+                 LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`
+                 LEFT JOIN `dios_store`.seller AS `seller` ON item.seller_index = seller.`index`
+        WHERE BINARY `user_email` = #{userEmail} AND `order_status` != 0
+        ORDER BY `order`.`order_date` DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="selectOrderListDetail"
+            resultType="com.blackgreen.dios.vos.store.OrderVo">
+        SELECT `order`.`index`                   AS `index`,
+               `order`.`user_email`              AS `userEmail`,
+               `order`.`order_num`               AS `orderNum`,
+               `order`.`count`                   AS `count`,
+               `order`.`item_index`              AS `itemIndex`,
+               `order`.`order_color`             AS `orderColor`,
+               `order`.`order_size`              AS `orderSize`,
+               `order`.`price`                   AS `price`,
+               `order`.`order_status`            AS `orderStatus`,
+               `order_status`.`status`           AS `status`,
+               `seller`.`store_name`             AS `storeName`,
+               `order`.`order_date`              AS `orderDate`,
+               `item`.`item_name`                AS `itemName`,
+               `item`.`seller_index`             AS `sellerIndex`,
+               `order`.`count` * `order`.`price` AS priceCnt
+        FROM `dios_store`.`orders` AS `order`
+                 LEFT JOIN `dios_store`.items AS `item` ON `item`.`index` = `order`.`item_index`
+                 LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`
+                 LEFT JOIN `dios_store`.seller AS `seller` ON item.seller_index = seller.`index`
+        WHERE BINARY `order`.`order_num` = #{orderNum}
+        ORDER BY `order`.`order_date`
+    </select>
+
 
 </mapper>
 

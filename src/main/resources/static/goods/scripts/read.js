@@ -282,9 +282,6 @@ const loadReviews = () => {
                         imageContainerElement.remove();
                     }
 
-                    const average = arr => arr.reduce((p, c) => p + c, 0) / arr.length;
-                    const array = reviewObject['score']
-                    average(array)
                     reviewContainer.append(itemElement);
                 }
 

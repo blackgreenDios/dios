@@ -18,14 +18,20 @@
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 
+<script th:if="${session.user == null }">
+    alert('로그인 후 이용하실 수 있습니다.');
+    window.location.href = 'login';
+</script>
+
 <th:block th:replace="~{fragments/commonBody :: cover}"></th:block>
-<main class="--main main" th:if="${session.user != null}">
+<main class="--main main" th:if="${session.user != null }">
     <form class="form" id="form">
         <div class="title-container">
             <h1 class="title">마이페이지</h1>
         </div>
         <div class="myPage-main">
             <th:block th:replace="~{fragments/commonMyPage :: menu}"></th:block>
+
             <input name="bid" type="hidden" th:value="${board?.getId()}">
             <div class="--content content">
                 <h1 class="title">게시글</h1>
@@ -122,5 +128,6 @@
         </div>
     </form>
 </main>
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>

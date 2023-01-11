@@ -752,6 +752,8 @@ ul li:nth-of-type(2):hover{
     display: none;
     flex-direction: column;
     justify-content: center;
+
+    font-family: none;
 }
 
 .blockBox.visible {

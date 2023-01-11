@@ -1,4 +1,4 @@
-package com.blackgreen.dios.vos;
+package com.blackgreen.dios.vos.goods;
 
 import com.blackgreen.dios.entities.store.ItemEntity;
 
@@ -8,6 +8,16 @@ public class GoodsVo extends ItemEntity {
     private String[] sizes;
 
     private String brandName;
+    private double ScoreAvg;
+
+    public double getScoreAvg() {
+        return ScoreAvg;
+    }
+
+    public GoodsVo setScoreAvg(double scoreAvg) {
+        ScoreAvg = scoreAvg;
+        return this;
+    }
 
     public String getBrandName() {
         return brandName;

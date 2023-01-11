@@ -6,5 +6,6 @@ import com.blackgreen.dios.interfaces.IResult;
 //성공, 실패
 public enum CommonResult implements IResult {
     FAILURE, //인증번호 및 솔트(Salt) 생성 후 테이블에 인서트
-    SUCCESS //인증번호를 전송하였습니다.
+    SUCCESS, //인증번호를 전송하였습니다.
+    NOT
 }

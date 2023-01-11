@@ -7,52 +7,59 @@ public class OrderVo extends OrderEntity {
     private String itemName;
     private byte[] image;
     private String imageMime;
-    private String statusText;
+
+    private String status;
 
     private String storeName;
 
-    public String getStoreName() {
-        return storeName;
+    private String priceCnt;
+
+
+    public String getPriceCnt() {
+        return priceCnt;
     }
 
-    public OrderVo setStoreName(String storeName) {
-        this.storeName = storeName;
-        return this;
+    public void setPriceCnt(String priceCnt) {
+        this.priceCnt = priceCnt;
     }
 
     public String getItemName() {
         return itemName;
     }
 
-    public OrderVo setItemName(String itemName) {
+    public void setItemName(String itemName) {
         this.itemName = itemName;
-        return this;
     }
 
     public byte[] getImage() {
         return image;
     }
 
-    public OrderVo setImage(byte[] image) {
+    public void setImage(byte[] image) {
         this.image = image;
-        return this;
     }
 
     public String getImageMime() {
         return imageMime;
     }
 
-    public OrderVo setImageMime(String imageMime) {
+    public void setImageMime(String imageMime) {
         this.imageMime = imageMime;
-        return this;
     }
 
-    public String getStatusText() {
-        return statusText;
+    public String getStatus() {
+        return status;
     }
 
-    public OrderVo setStatusText(String statusText) {
-        this.statusText = statusText;
-        return this;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 }
