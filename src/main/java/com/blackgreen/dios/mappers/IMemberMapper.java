@@ -62,11 +62,12 @@ public interface IMemberMapper {
     //주문내역
     OrderVo[] selectOrderList(@Param(value = "userEmail") String userEmail);
 
-    int selectOrderListCount(@Param(value = "userEmail") String userEmail);
+    int selectOrderListCount(@Param(value = "userEmail") String userEmail,@Param(value = "orderStatus") int orderStatus);
 
     OrderVo[] selectOrderListByUserEmail(
             @Param(value = "userEmail")
             String userEmail,
+            @Param(value = "orderStatus") int orderStatus,
             @Param(value = "limit")
             int limit,
             @Param(value = "offset")

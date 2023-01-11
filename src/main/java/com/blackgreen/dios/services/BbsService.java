@@ -103,7 +103,7 @@ public class BbsService {
         if (existingComment == null) {
             return CommentDeleteResult.NO_SUCH_COMMENT;
         }
-        if (user == null || !user.getEmail().equals(existingComment.getUserEmail())|| !user.isAdmin() ) {
+        if (user == null || !user.getEmail().equals(existingComment.getUserEmail()) ) {
             return CommentDeleteResult.NOT_ALLOWED;
         }
         return this.bbsMapper.deleteCommentByIndex(comment.getIndex()) > 0

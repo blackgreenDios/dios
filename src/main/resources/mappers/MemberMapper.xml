@@ -216,20 +216,20 @@
 
     <select id="selectOrderList"
             resultType="com.blackgreen.dios.vos.store.OrderVo">
-        SELECT `order`.`index`         AS `index`,
-               `order`.`user_email`    AS `userEmail`,
-               `order`.`order_num`     AS `orderNum`,
-               `order`.`count`         AS `count`,
-               `order`.`item_index`    AS `itemIndex`,
-               `order`.`order_color`   AS `orderColor`,
-               `order`.`order_size`    AS `orderSize`,
-               `order`.`price`         AS `price`,
-               `order`.`order_status`  AS `orderStatus`,
-               `order_status`.`status` AS `status`,
-               `seller`.`store_name`   AS `storeName`,
-               `order`.`order_date`    AS `orderDate`,
-               `item`.`item_name`      AS `itemName`,
-               `item`.`seller_index`   AS `sellerIndex`,
+        SELECT `order`.`index`                                         AS `index`,
+               `order`.`user_email`                                    AS `userEmail`,
+               `order`.`order_num`                                     AS `orderNum`,
+               `order`.`count`                                         AS `count`,
+               `order`.`item_index`                                    AS `itemIndex`,
+               `order`.`order_color`                                   AS `orderColor`,
+               `order`.`order_size`                                    AS `orderSize`,
+               `order`.`price`                                         AS `price`,
+               `order`.`order_status`                                  AS `orderStatus`,
+               `order_status`.`status`                                 AS `status`,
+               `seller`.`store_name`                                   AS `storeName`,
+               `order`.`order_date`                                    AS `orderDate`,
+               `item`.`item_name`                                      AS `itemName`,
+               `item`.`seller_index`                                   AS `sellerIndex`,
                (SELECT COUNT(0)
                 FROM `dios_store`.order_status AS `orderStatus`
                 WHERE `order_status`.`index` = `order`.`order_status`) AS `statusCount`
@@ -245,34 +245,9 @@
             resultType="int">
         SELECT COUNT(0)
         FROM `dios_store`.`orders` AS `order`
-        WHERE `user_email` = #{userEmail}
+                 LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`
+        WHERE `user_email` = #{userEmail}  AND `order_status` != 0
     </select>
-
-<!--    <select id="selectOrderListByUserEmail"-->
-<!--            resultType="com.blackgreen.dios.vos.store.OrderVo">-->
-<!--        SELECT `order`.`index`         AS `index`,-->
-<!--               `order`.`user_email`    AS `userEmail`,-->
-<!--               `order`.`order_num`     AS `orderNum`,-->
-<!--               `order`.`count`         AS `count`,-->
-<!--               `order`.`item_index`    AS `itemIndex`,-->
-<!--               `order`.`order_color`   AS `orderColor`,-->
-<!--               `order`.`order_size`    AS `orderSize`,-->
-<!--               `order`.`price`         AS `price`,-->
-<!--               `order`.`order_status`  AS `orderStatus`,-->
-<!--               `order_status`.`status` AS `status`,-->
-<!--               `seller`.`store_name`   AS `storeName`,-->
-<!--               `order`.`order_date`    AS `orderDate`,-->
-<!--               `item`.`item_name`      AS `itemName`,-->
-<!--               `item`.`seller_index`   AS `sellerIndex`,-->
-<!--               `order`.`count` * `order`.`price` AS priceCnt-->
-<!--        FROM `dios_store`.`orders` AS `order`-->
-<!--                 LEFT JOIN `dios_store`.items AS `item` ON `item`.`index` = `order`.`item_index`-->
-<!--                 LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`-->
-<!--                 LEFT JOIN `dios_store`.seller AS `seller` ON item.seller_index = seller.`index`-->
-<!--        WHERE BINARY `user_email` = #{userEmail}-->
-<!--        ORDER BY `order`.`order_date` DESC-->
-<!--        LIMIT #{limit} OFFSET #{offset}-->
-<!--    </select>-->
 
     <select id="selectOrderListByUserEmail"
             resultType="com.blackgreen.dios.vos.store.OrderVo">
@@ -295,7 +270,7 @@
                  LEFT JOIN `dios_store`.items AS `item` ON `item`.`index` = `order`.`item_index`
                  LEFT JOIN `dios_store`.order_status AS `order_status` ON `order`.order_status = order_status.`index`
                  LEFT JOIN `dios_store`.seller AS `seller` ON item.seller_index = seller.`index`
-        WHERE BINARY `user_email` = #{userEmail}
+        WHERE BINARY `user_email` = #{userEmail} AND `order_status` != 0
         ORDER BY `order`.`order_date` DESC
         LIMIT #{limit} OFFSET #{offset}
     </select>

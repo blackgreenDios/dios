@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
@@ -20,8 +20,8 @@
             <div id="title" th:utext="${article.getTitle()}"></div>
             <div class="board_summary" id="boardSummary">
                 <div class="left" id="left">
-
                     <img alt th:src = "@{'/dios/profileImages?aid='+${aid}}" class="profileImage" id="profileImage">
+
                     <div class="box" id="box">
                         <div class="top" id="top">
                             <div class="nickName" th:text="${article.getUserNickname()}"></div>
@@ -46,7 +46,7 @@
                             <i class="fa-regular fa-comment"></i>
                             <span th:text="${article.getCommentCount()}">9,999 </span>
                         </div>
-                        <div class="likeButton" id="likeButton" >
+                        <div class="likeButton" id="likeButton" th:if="${session.user!=null}">
                             <a href="#" th:class="toggle" rel="like">
 
                                 <i class="icon fa-regular fa-thumbs-up"></i>
@@ -66,12 +66,14 @@
                             <span hidden>댓글 작성</span>
                             <input class="--object-input" maxlength="100" name="content" placeholder="댓글을 입력해주세요."
                                    type="text">
+
                         </label>
-                        <div class="secret" id="secret">
-                            <a href="#" class="toggle">
-                                <i class="icon fa-solid fa-unlock"></i>
-                            </a>
+                        <div class="secret" id="secret" >
+                            <input type="checkbox" id="replySecret" >
+                            <i class="fa-solid fa-lock"></i>
                         </div>
+
+
                         <input name="aid" type="hidden" th:value="${article.getIndex()}">
                         <input class="--object-button" type="submit" value="작성">
                     </form>
@@ -104,6 +106,7 @@
                                         <span hidden>댓글 수정</span>
                                         <input class="--object-input" maxlength="100" name="content"
                                                placeholder="댓글을 입력해 주세요." type="text">
+
                                     </label>
                                     <input class="--object-button" type="submit" value="수정">
                                 </form>
@@ -121,11 +124,6 @@
                                     <input class="--object-input" maxlength="100" name="content"
                                            placeholder="답글을 입력해 주세요." type="text">
                                 </label>
-                                <div class="secret" >
-                                    <a href="#" class="toggle">
-                                        <i class="icon fa-solid fa-unlock"></i>
-                                    </a>
-                                </div>
                                 <input class="--object-button" type="submit" value="작성">
                             </div>
 
@@ -152,7 +150,7 @@
                                   <a class="action delete" href="#">삭제</a>
                                 </span>
                             </div>
-                            <div class="body">엳</div>
+                            <div class="body"> </div>
                         </div>
                     </div>
                 </td>
@@ -168,7 +166,8 @@
                            th:href="@{./modify (aid=${article.getIndex()})}"
                            th:if="${session.user !=null && session.user.getEmail().equals(article.getUserEmail())}">수정</a>
                         <a class="--object-button delete" href="#" id="deleteButton"
-                           th:if="${session.user !=null && session.user.getEmail().equals(article.getUserEmail())}">삭제</a>
+                           th:if="${session.user !=null && (session.user.getEmail().equals(article.getUserEmail()) ||
+                           session.user.isAdmin())}">삭제</a>
                     </div>
                 </td>
             </tr>

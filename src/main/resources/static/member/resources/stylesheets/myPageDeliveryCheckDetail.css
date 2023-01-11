@@ -362,3 +362,10 @@
     border-radius: 5px;
     text-decoration: none;
 }
+
+#form > .myPage-main > .content > .listButtonContainer > .list-button:hover {
+    background-color: #a8a7a7;
+
+}
+
+

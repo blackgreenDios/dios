@@ -491,12 +491,13 @@ public class MemberService {
 
 
     public int getOrderList(OrderVo orderList) {
-        return this.memberMapper.selectOrderListCount(orderList.getUserEmail());
+        return this.memberMapper.selectOrderListCount(orderList.getUserEmail(), orderList.getOrderStatus());
     }
 
     public OrderVo[] getOrderListByEmail(OrderVo orderList, PagingModel paging) {
         return this.memberMapper.selectOrderListByUserEmail(
                 orderList.getUserEmail(),
+                orderList.getOrderStatus(),
                 paging.countPerPage,
                 (paging.requestPage - 1) * paging.countPerPage);
 

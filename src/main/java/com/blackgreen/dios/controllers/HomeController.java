@@ -2,8 +2,6 @@ package com.blackgreen.dios.controllers;
 
 import com.blackgreen.dios.entities.bbs.ArticleEntity;
 import com.blackgreen.dios.entities.bbs.BoardEntity;
-import com.blackgreen.dios.entities.member.UserEntity;
-import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.services.BbsService;
 import com.blackgreen.dios.vos.bbs.ArticleReadVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,7 @@ public class HomeController {
     public ModelAndView getIndex(){
 
 
-        ModelAndView modelAndView=new ModelAndView("home/index");
+        ModelAndView modelAndView=new ModelAndView("/home");
         BoardEntity board1=this.bbsService.getBoard("notice");
         BoardEntity board2=this.bbsService.getBoard("free");
 
