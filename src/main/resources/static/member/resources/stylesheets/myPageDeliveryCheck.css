@@ -1,16 +1,22 @@
 @charset "UTF-8";
 
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > .myPageDeliveryCheck {
+    color: rgb(60, 166, 52);
+}
+
 #form {
     font-family: none;
 }
 
-/** {*/
-/*    box-sizing: border-box;*/
-
-/*}*/
-
-#form > .myPage-main > .content{
+#form > .myPage-main > .content {
     max-width: 60vw;
+    margin-top: -4rem;
+    margin-left: 5rem;
+}
+
+#form > .myPage-main > .content > .title {
+    margin-bottom: 2rem;
 }
 
 #form > .myPage-main > .content > .myPage-check {
@@ -43,7 +49,7 @@
 }
 
 #form > .myPage-main > .content > .myPage-check > li > em.on {
-    color: #b4d067;
+    color: rgba(11, 124, 4, 50%);
 }
 
 #form > .myPage-main > .content > .myPage-check > li > span {
@@ -54,9 +60,9 @@
 }
 
 #form > .myPage-main > .content > .myPage-check > .next {
-    color: #888;
+    color: #d1d2d3;
     font-style: normal;
-    font-size: 40px;
+    font-size: 35px;
     line-height: 50px;
     font-weight: 500;
     padding-right: 2.5rem;
@@ -195,6 +201,10 @@ button {
     background: #fafafa;
     color: #666;
     font-size: 14px;
+}
+
+#form > .myPage-main > .content > .board-list > tbody > tr > .first {
+    border-left: none;
 }
 
 #form > .myPage-main > .content > .board-list > tbody > tr > td {
@@ -363,7 +373,27 @@ button {
     background: #aaa;
     vertical-align: middle;
 }
-#form > .myPage-main > .content > .board-list > tbody > tr > .buy-money{
-    color: #f27370!important;
+
+#form > .myPage-main > .content > .board-list > tbody > tr > .buy-money {
+    color: #f27370 !important;
     font-weight: 700;
+}
+
+#form > .myPage-main > .content > .page-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#form > .myPage-main > .content > .page-container > .page.selected,
+#form > .myPage-main > .content > .page-container > .page:hover {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+#form > .myPage-main > .content > .page-container > .page {
+    color: rgb(160, 160, 160);
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
 }

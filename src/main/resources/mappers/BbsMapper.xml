@@ -368,10 +368,11 @@
         (SELECT COUNT(0)
         FROM `dios_bbs`.`article_likes` AS `articleLike`
         WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+
         (SELECT COUNT(0)
         FROM `dios_bbs`.`comments` AS `comment`
-
         WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+
         FROM `dios_bbs`.`articles` AS `article`
         LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
 

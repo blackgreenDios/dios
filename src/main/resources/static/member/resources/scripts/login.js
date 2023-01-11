@@ -13,7 +13,7 @@ const Warning = {
 };
 
 
-form.onsubmit=(e)=>{
+form.onsubmit = (e) => {
     e.preventDefault();
     //자동으로 경고창이 안나오게 해주는거
     Warning.hide();
@@ -43,9 +43,9 @@ form.onsubmit=(e)=>{
                 //"{"result":"success"}"
                 switch (responseObject['result']) {
                     case 'success':
-                        // window.location.href = 'login';
-                        window.history.length < 2 ?
-                            window.location.href = 'login' : window.history.back();
+                        window.location.href = 'login';
+                        // window.history.length < 2 ?
+                        //     window.location.href = 'login' : window.history.back();
                         break;
 
                     default:

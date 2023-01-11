@@ -62,22 +62,23 @@ public interface IBbsMapper {
                                              @Param(value = "keyword") String keyword);
 
     int selectArticleCountByUserEmailFromFree(@Param(value = "userEmail") String userEmail,
-                                             @Param(value = "criterion") String criterion,
-                                             @Param(value = "keyword") String keyword);
+                                              @Param(value = "criterion") String criterion,
+                                              @Param(value = "keyword") String keyword);
 
 
     ArticleReadVo[] selectArticlesByUserEmailFree(@Param(value = "userEmail") String userEmail,
-                                            @Param(value = "criterion") String criterion,
-                                            @Param(value = "keyword") String keyword,
-                                            @Param(value = "limit") int limit,
-                                            @Param(value = "offset") int offset);
+                                                  @Param(value = "criterion") String criterion,
+                                                  @Param(value = "keyword") String keyword,
+                                                  @Param(value = "limit") int limit,
+                                                  @Param(value = "offset") int offset);
 
     ArticleReadVo[] selectArticlesByUserEmailQna(@Param(value = "userEmail") String userEmail,
-                                              @Param(value = "criterion") String criterion,
-                                              @Param(value = "keyword") String keyword,
-                                              @Param(value = "limit") int limit,
-                                              @Param(value = "offset") int offset);
-    UserEntity selectAdminByUser(@Param(value = "email")String email);
+                                                 @Param(value = "criterion") String criterion,
+                                                 @Param(value = "keyword") String keyword,
+                                                 @Param(value = "limit") int limit,
+                                                 @Param(value = "offset") int offset);
+
+    UserEntity selectAdminByUser(@Param(value = "email") String email);
 
 
 }

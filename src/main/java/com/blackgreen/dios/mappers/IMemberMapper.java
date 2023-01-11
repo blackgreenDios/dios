@@ -3,8 +3,14 @@ package com.blackgreen.dios.mappers;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
 import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
+import com.blackgreen.dios.entities.store.OrderEntity;
+//import com.blackgreen.dios.vos.store.OrderVo;
+import com.blackgreen.dios.vos.bbs.ArticleReadVo;
+import com.blackgreen.dios.vos.store.OrderVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.math.BigInteger;
 
 @Mapper
 public interface IMemberMapper {
@@ -44,7 +50,6 @@ public interface IMemberMapper {
     UserEntity selectImageByEmail(@Param(value = "email") String email);
 
 
-
     UserEntity selectUserByNickname(@Param(value = "nickname") String nickname);
 
     UserEntity selectUserByContact(@Param(value = "contact") String contact);
@@ -54,6 +59,19 @@ public interface IMemberMapper {
 
     int deleteUser(@Param(value = "email") String email);
 
+    //주문내역
+    OrderVo[] selectOrderList(@Param(value = "userEmail") String userEmail);
 
+    int selectOrderListCount(@Param(value = "userEmail") String userEmail);
 
+    OrderVo[] selectOrderListByUserEmail(
+            @Param(value = "userEmail")
+            String userEmail,
+            @Param(value = "limit")
+            int limit,
+            @Param(value = "offset")
+            int offset);
+
+    //주문내역 상세페이지
+    OrderVo[] selectOrderListDetail(@Param(value = "orderNum") BigInteger orderNum);
 }

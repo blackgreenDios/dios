@@ -1,11 +1,9 @@
 package com.blackgreen.dios.services;
 
 import com.blackgreen.dios.entities.bbs.ArticleEntity;
-import com.blackgreen.dios.entities.bbs.BoardEntity;
-import com.blackgreen.dios.entities.bbs.CommentLikeEntity;
 import com.blackgreen.dios.entities.member.EmailAuthEntity;
-import com.blackgreen.dios.entities.member.ImageEntity;
 import com.blackgreen.dios.entities.member.UserEntity;
+import com.blackgreen.dios.entities.store.OrderEntity;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.member.*;
 import com.blackgreen.dios.interfaces.IResult;
@@ -13,12 +11,14 @@ import com.blackgreen.dios.mappers.IBbsMapper;
 import com.blackgreen.dios.mappers.IMemberMapper;
 import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.utils.CryptoUtils;
-import com.blackgreen.dios.vos.bbs.ArticleReadVo;
+//import com.blackgreen.dios.vos.store.OrderVo;
+import com.blackgreen.dios.vos.store.OrderVo;
 import org.apache.catalina.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.*;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -81,7 +82,7 @@ public class MemberService {
     }
 
     //회원가입
-    public Enum<? extends IResult> register(UserEntity user, EmailAuthEntity emailAuth,UserEntity newUser) {
+    public Enum<? extends IResult> register(UserEntity user, EmailAuthEntity emailAuth, UserEntity newUser) {
         EmailAuthEntity existingEmailAuth = this.memberMapper.selectEmailAuthByEmailCodeSalt(
                 emailAuth.getEmail(),
                 emailAuth.getCode(),
@@ -90,7 +91,6 @@ public class MemberService {
         if (existingEmailAuth == null || !existingEmailAuth.IsExpired()) {
             return RegisterResult.EMAIL_NOT_VERIFIED;
         }
-
 
 
         UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
@@ -106,7 +106,6 @@ public class MemberService {
         if (userByContact != null && !user.getEmail().equals(userByContact.getEmail())) {
             return DuplicationResult.CONTACT;
         }
-
 
 
         user.setPassword(CryptoUtils.hasSha512(user.getPassword()));
@@ -308,19 +307,17 @@ public class MemberService {
     }
 
 
-
-
     //닉네임 수정
     @Transactional
     public Enum<? extends IResult> updateMyPage(UserEntity signedUser, UserEntity newUser, MultipartFile image) throws IOException {
 
-        if(signedUser == null){
+        if (signedUser == null) {
             return ModifyProfileResult.NOT_SIGNED;
         }
 
         //닉네임 중복검사
         UserEntity userByNickname = this.memberMapper.selectUserByNickname(newUser.getNickname());
-        if(userByNickname != null && !userByNickname.getEmail().equals(signedUser.getEmail())){
+        if (userByNickname != null && !userByNickname.getEmail().equals(signedUser.getEmail())) {
             return DuplicationResult.NICKNAME;
         }
 
@@ -431,7 +428,7 @@ public class MemberService {
 
         UserEntity user = this.memberMapper.selectUserByEmail(email);
 
-        if(user == null){
+        if (user == null) {
             user = new UserEntity();
             user.setEmail(email);
             user.setNickname(propertyObject.getString("nickname"));
@@ -466,7 +463,7 @@ public class MemberService {
     @Transactional
     public Enum<? extends IResult> deleteProfileImage(UserEntity signedUser, UserEntity newUser, MultipartFile image) throws IOException {
 
-        if(signedUser == null){
+        if (signedUser == null) {
             return ModifyProfileResult.NOT_SIGNED;
         }
 
@@ -479,17 +476,45 @@ public class MemberService {
     }
 
     //회원탈퇴
-    public Enum<? extends IResult> deleteUser(UserEntity user){
-        UserEntity existingUser=this.memberMapper.selectUserByEmail(user.getEmail());
-        if(existingUser==null){
+    public Enum<? extends IResult> deleteUser(UserEntity user) {
+        UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
+        if (existingUser == null) {
             return CommonResult.FAILURE;
         }
 
         user.setEmail(existingUser.getEmail());
 
-        return this.memberMapper.deleteUser(user.getEmail())>0
+        return this.memberMapper.deleteUser(user.getEmail()) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+
+    @Transactional
+    public OrderVo[] orderList(UserEntity user) {
+        System.out.println(user.getEmail());
+        return this.memberMapper.selectOrderList(user.getEmail());
+    }
+
+
+    public int getOrderList(OrderVo orderList) {
+        return this.memberMapper.selectOrderListCount(orderList.getUserEmail());
+    }
+
+    public OrderVo[] getOrderListByEmail(OrderVo orderList, PagingModel paging) {
+        return this.memberMapper.selectOrderListByUserEmail(
+                orderList.getUserEmail(),
+                paging.countPerPage,
+                (paging.requestPage - 1) * paging.countPerPage);
+
+    }
+
+    public OrderVo[] getOrderListByOrderNum(OrderVo orderList) {
+        return this.memberMapper.selectOrderListDetail(
+                orderList.getOrderNum());
+    }
+
+
+
 }
 
