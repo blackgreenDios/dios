@@ -73,7 +73,6 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         formData.append('addressPrimary', form['addressPrimary'].value);
         formData.append('addressSecondary', form['addressSecondary'].value);
         xhr.open('POST', './register');
-        // 경로도 유심히 봐야한다. ./은
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 Cover.hide();
@@ -107,9 +106,6 @@ form.querySelector('[rel="nextButton"]').addEventListener('click', () => {
         xhr.send(formData);
     } else if (form.classList.contains('step3')) {
         window.location.href = 'login';
-        // /login으로 바로 이동하는데 현재의 경우 페이지를 만들지 않아 404오류가 뜨는 상태이다.
-        // step3의 클래스 포함할 경우 login
-        // page의 노출을 꺼려하는 경우 location.replace를 통해 뒤로가기 클릭시 숨기는 것을 원하는 page를 노출시키지 않을 수 있다.
     }
 
 });
@@ -256,5 +252,3 @@ form['emailVerify'].addEventListener('click', () => {
     }
     xhr.send(formData);
 });
-
-// 상대경로에서 가장 중요한 것은 내가 있는 위치에서 다음으로 이동하는 페이지가 달라 질 수 있다.
