@@ -14,7 +14,6 @@ public class CommentVo extends CommentEntity {
     private int likeCount;
 
 
-
     public String getUserNickname() {
         return userNickname;
     }

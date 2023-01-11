@@ -166,6 +166,7 @@ public class BbsController {
             responseArray.put(commentObject);
         }
 
+
         return responseArray.toString();
     }
     @DeleteMapping(value = "comment",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -303,15 +304,7 @@ public class BbsController {
 //        responseJson.put("result",result.name().toLowerCase());
 //        return responseJson.toString();
 //    }
-//    @DeleteMapping(value = "article-like",produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String deleteArticleLike(@SessionAttribute(value = "user",required = false)UserEntity user,
-//                                    ArticleLikeEntity articleLike){
-//        JSONObject responseJson=new JSONObject();
-//        Enum<?> result=this.bbsService.unlikeArticle(articleLike,user);
-//        responseJson.put("result",result.name().toLowerCase());
-//        return responseJson.toString();
-//    }
+
 
     @PostMapping(value = "article-like",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -333,6 +326,15 @@ public class BbsController {
         }
         responseObject.put("result",result.name().toLowerCase());
         return responseObject.toString();
+    }
+    @DeleteMapping(value = "article-like",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String deleteArticleLike(@SessionAttribute(value = "user",required = false)UserEntity user,
+                                    ArticleLikeEntity articleLike){
+        JSONObject responseJson=new JSONObject();
+        Enum<?> result=this.bbsService.unlikeArticle(articleLike,user);
+        responseJson.put("result",result.name().toLowerCase());
+        return responseJson.toString();
     }
 
     @RequestMapping(value = "profileImages",method = RequestMethod.GET)

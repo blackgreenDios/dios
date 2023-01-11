@@ -119,11 +119,6 @@
                                     <input class="--object-input" maxlength="100" name="content"
                                            placeholder="답글을 입력해 주세요." type="text">
                                 </label>
-                                <div class="secret" >
-                                    <a href="#" class="toggle">
-                                        <i class="icon fa-solid fa-unlock"></i>
-                                    </a>
-                                </div>
                                 <input class="--object-button" type="submit" value="작성">
                             </div>
 
@@ -150,7 +145,7 @@
                                   <a class="action delete" href="#">삭제</a>
                                 </span>
                             </div>
-                            <div class="body">엳</div>
+                            <div class="body"> </div>
                         </div>
                     </div>
                 </td>
@@ -166,7 +161,8 @@
                            th:href="@{./modify (aid=${article.getIndex()})}"
                            th:if="${session.user !=null && session.user.getEmail().equals(article.getUserEmail())}">수정</a>
                         <a class="--object-button delete" href="#" id="deleteButton"
-                           th:if="${session.user !=null && session.user.getEmail().equals(article.getUserEmail())}">삭제</a>
+                           th:if="${session.user !=null && (session.user.getEmail().equals(article.getUserEmail()) ||
+                           session.user.isAdmin())}">삭제</a>
                     </div>
                 </td>
             </tr>

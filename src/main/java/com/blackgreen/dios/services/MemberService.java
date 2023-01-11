@@ -74,6 +74,8 @@ public class MemberService {
         user.setAddressPostal(existingUser.getAddressPostal());
         user.setAddressPrimary(existingUser.getAddressPrimary());
         user.setAddressSecondary(existingUser.getAddressSecondary());
+        user.setAdmin(existingUser.isAdmin());
+
         user.setRegisteredOn(existingUser.getRegisteredOn());
 
         return CommonResult.SUCCESS;

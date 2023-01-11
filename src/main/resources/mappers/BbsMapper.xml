@@ -417,10 +417,7 @@
     WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
     FROM `dios_bbs`.`articles` AS `article`
     LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
-
     WHERE  `article`.`board_id` = 'free'
-
-
     ORDER BY `likeCount` DESC
 
     LIMIT 10
@@ -446,11 +443,8 @@
              WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
         FROM `dios_bbs`.`articles` AS `article`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
-
         WHERE   `article`.`board_id` = 'notice'
-
         GROUP BY `article`.`index`
-
         ORDER BY `article`.`index` DESC
         LIMIT 10
 

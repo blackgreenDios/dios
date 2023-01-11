@@ -26,7 +26,7 @@ const loadComments = () => {
                                 <span class="action-container">
                                     ${commentObject['isSigned']===true ? '<a class="action reply" href="#" rel="actionReply">답글</a>' :''}
                                     ${commentObject['isMine']===true ? '<a class="action modify" href="#" rel="actionModify">수정</a>' :''}
-                                    ${commentObject['isMine']===true ? '<a class="action delete" href="#" rel="actionDelete">삭제</a>' :''}
+                                    ${commentObject['isMine']===true  ? '<a class="action delete" href="#" rel="actionDelete">삭제</a>' :''}
                                     
                                     <a class="action cancel" href="#" rel="actionCancel">취소</a>
                                 </span>
@@ -62,11 +62,10 @@ const loadComments = () => {
                                 <input class="--object-input" maxlength="100" name="content"
                                        placeholder="답글을 입력해 주세요." type="text">
                             </label>
-                            <div class="secret" >
-                                    <a href="#" class="toggle">
-                                        <i class="icon fa-solid fa-unlock"></i>
-                                    </a>
-                                </div>
+                            <div class="secret" id="secret">
+                                <input type="checkbox" id="replySecret">
+                                <i class="fa-solid fa-lock"></i>
+                            </div>
                             <input class="--object-button" type="submit" value="작성">
                         </div>
                      </form>`;
@@ -353,8 +352,10 @@ likeButton?.addEventListener('click',e =>{
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
+                        location.reload();
 
-                        location.href = location.href;
+
+
 
 
                        break;

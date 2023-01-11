@@ -97,11 +97,16 @@ public class MemberController {
         Enum<?> result = this.memberService.login(user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
+        responseObject.put("isAdmin",user.isAdmin());
 
         if (result == CommonResult.SUCCESS) {
             session.setAttribute("user", user);
+
             //세선 저장소로 부터 값을 불러온다.
+
+
             System.out.println("성공");
+
         } else {
             System.out.println("실패");
         }

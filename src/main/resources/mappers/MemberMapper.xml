@@ -89,6 +89,7 @@
             `address_primary`   = #{addressPrimary},
             `address_secondary` = #{addressSecondary},
             `registered_on`     = #{registeredOn}
+
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>
@@ -103,7 +104,8 @@
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
+               `registered_on`     AS `registeredOn`,
+               `admin_flag`        AS `isAdmin`
         FROM `dios_member`.`users`
         WHERE BINARY `email` = #{email}
           AND BINARY `password` = #{password}
@@ -198,9 +200,8 @@
     <update id="deleteUserByMayPage"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         UPDATE `dios_member`.`users`
-        SET
-            `image`             = null,
-            `image_type`        = null
+        SET `image`      = null,
+            `image_type` = null
 
 
         WHERE BINARY `email` = #{email}
