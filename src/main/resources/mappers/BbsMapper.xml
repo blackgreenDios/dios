@@ -33,6 +33,8 @@
                `article`.`written_on`                           AS `writtenOn`,
                `article`.`modified_on`                          AS `modifiedOn`,
                `user`.`nickname`                                AS `userNickname`,
+               `user`.`image`                                   AS `userImage`,
+               `user`.`image_type`                              AS `userImageType`,
                (SELECT COUNT(0)
                 FROM `dios_bbs`.`article_likes` AS `articleLike`
                 WHERE `articleLike`.`article_index` = #{index}) AS `likeCount`,
@@ -41,6 +43,9 @@
                 WHERE `comment`.`article_index` = #{index})     AS `commentCount`
         FROM `dios_bbs`.`articles` AS `article`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+
+
+
         WHERE `article`.`index` = #{index}
     </select>
     <update id="updateArticle"
@@ -368,11 +373,10 @@
         (SELECT COUNT(0)
         FROM `dios_bbs`.`article_likes` AS `articleLike`
         WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
-
         (SELECT COUNT(0)
         FROM `dios_bbs`.`comments` AS `comment`
-        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
 
+        WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
         FROM `dios_bbs`.`articles` AS `article`
         LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
 
@@ -393,6 +397,58 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
+    <select id="selectArticleByBest"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+            `article`.`board_id` AS `boardId`,
+            `article`.`index` AS `index`,
+            `article`.`user_email` AS `userEmail`,
+            `article`.`board_id` AS `boardId`,
+            `article`.`title` AS `title`,
+            `article`.`content` AS `content`,
+            `article`.`view` AS `view`,
+            `user`.`nickname` AS `userNickname`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`article_likes` AS `articleLike`
+             WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`comments` AS `comment`
+
+             WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+                 LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        WHERE  `article`.`board_id` = 'free'
+        ORDER BY `likeCount` DESC
+
+        LIMIT 10
+
+    </select>
+    <select id="selectArticleByNotice"
+            resultType="com.blackgreen.dios.vos.bbs.ArticleReadVo">
+        SELECT
+            `article`.`board_id` AS `boardId`,
+            `article`.`index` AS `index`,
+            `article`.`user_email` AS `userEmail`,
+            `article`.`board_id` AS `boardId`,
+            `article`.`title` AS `title`,
+            `article`.`content` AS `content`,
+            `article`.`view` AS `view`,
+            `user`.`nickname` AS `userNickname`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`article_likes` AS `articleLike`
+             WHERE `articleLike`.`article_index` = `article`.`index`) AS `likeCount`,
+            (SELECT COUNT(0)
+             FROM `dios_bbs`.`comments` AS `comment`
+
+             WHERE `comment`.`article_index` = `article`.`index`) AS `commentCount`
+        FROM `dios_bbs`.`articles` AS `article`
+                 LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
+        WHERE   `article`.`board_id` = 'notice'
+        GROUP BY `article`.`index`
+        ORDER BY `article`.`index` DESC
+        LIMIT 10
+
+    </select>
 
 
 </mapper>

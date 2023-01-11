@@ -20,7 +20,8 @@
             <div id="title" th:utext="${article.getTitle()}"></div>
             <div class="board_summary" id="boardSummary">
                 <div class="left" id="left">
-                    <img alt src="/resources/images/default_profile.png" class="profileImage" id="profileImage">
+
+                    <img alt th:src = "@{'/dios/profileImages?aid='+${aid}}" class="profileImage" id="profileImage">
                     <div class="box" id="box">
                         <div class="top" id="top">
                             <div class="nickName" th:text="${article.getUserNickname()}"></div>

@@ -43,7 +43,7 @@ form.onsubmit = (e) => {
                 //"{"result":"success"}"
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = 'login';
+                        window.location.href = '/';
                         // window.history.length < 2 ?
                         //     window.location.href = 'login' : window.history.back();
                         break;

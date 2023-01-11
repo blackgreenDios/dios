@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+
+
+.main{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font: unset;
+    font-family: none;
+}
+
+
+body >.main > .best-bbs-container {
+    width: 100%;
+    max-width: 40rem;
+    margin-right: 3rem;
+    margin-left: 3rem;
+
+
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+
+#table1,#table2{
+    border-collapse: collapse;
+    font-size: 1rem;
+
+}
+#table1 td,
+#table2 td{
+    background-color: rgb(255,255,255);
+    padding: 0.8rem 0.8rem;
+    border-top: 1px solid rgb(120,120,120);
+
+}
+#table1 th
+#table2 th{
+    background-color: rgb(255,255,255);
+    color: rgb(107, 103, 103);
+    font-weight: inherit;
+
+}
+
+
+#table1 > tbody >tr:not(:last-of-type) > td,
+#table2 > tbody >tr:not(:last-of-type) > td{
+    border-bottom: 0.0625rem solid rgb(234,236,238);
+}
+
+#table1 >tbody > tr > td,
+#table2 >tbody > tr > td {
+    color: rgb(131, 126, 126);
+    text-align: center;
+}
+
+
+
+#table1 >tbody > tr > td > .title ,
+#table2 >tbody > tr > td > .title{
+    color: rgb(0,0,0);
+    text-decoration: none;
+
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#table1 >tbody > tr > td > .title:hover,
+#table2 >tbody > tr > td > .title:hover{
+    text-decoration: underline;
+}
+#table1 >tbody > tr > td > .title >.comment,
+#table2 >tbody > tr > td > .title >.comment{
+    color: rgb(211,84,0);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+#table1 >tfoot >tr >td,
+#table2 >tfoot >tr >td
+{
+    background-color: rgb(255,255,255);
+    color: rgb(0,0,0);
+
+    padding-top: 1rem;
+
+}
+
+
+
+

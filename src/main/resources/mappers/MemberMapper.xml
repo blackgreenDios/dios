@@ -103,7 +103,8 @@
                `address_postal`    AS `addressPostal`,
                `address_primary`   AS `addressPrimary`,
                `address_secondary` AS `addressSecondary`,
-               `registered_on`     AS `registeredOn`
+               `registered_on`     AS `registeredOn`,
+               `admin_flag`        AS `isAdmin`
         FROM `dios_member`.`users`
         WHERE BINARY `email` = #{email}
           AND BINARY `password` = #{password}

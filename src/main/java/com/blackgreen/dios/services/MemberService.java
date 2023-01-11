@@ -76,6 +76,7 @@ public class MemberService {
         user.setAddressPrimary(existingUser.getAddressPrimary());
         user.setAddressSecondary(existingUser.getAddressSecondary());
         user.setRegisteredOn(existingUser.getRegisteredOn());
+        user.setAdmin(existingUser.isAdmin());
 
         return CommonResult.SUCCESS;
 
@@ -446,14 +447,6 @@ public class MemberService {
         return user;
 
     }
-
-
-//    //프로필 이미지 삽입
-//    public Enum<? extends IResult> addProfileImage(ImageEntity image) {
-//        return this.memberMapper.insertImage(image) > 0
-//                ? CommonResult.SUCCESS
-//                : CommonResult.FAILURE;
-//    }
 
     //프로필 이미지 수정
     public UserEntity getProfileImage(UserEntity user) {

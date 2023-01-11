@@ -338,3 +338,8 @@ body > .--footer > .home > .sub-menu > ul > .small-menu > .box > a {
 body > .--footer > .home > .sub-menu > ul > .small-menu > .box > a:hover {
     text-decoration: underline;
 }
+
+
+.dropbtn:hover{
+    color: rgb(60, 166, 52);
+}
