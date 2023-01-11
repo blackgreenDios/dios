@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DIOS :: 주문 완료</title>
+    <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
+    <link rel="stylesheet" th:href="@{/store/resources/stylesheets/orderSuccess.css}">
+    <script defer th:src="@{/store/resources/scripts/orderSuccess.js}"></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<main class="--main main">
+    <form class="form" id="form">
+        <div class="content">
+            <div class="title-container">
+                <h1 class="title">주문/결제</h1>
+                <ul class="step-list">
+                    <li>
+                         <span class="step-num one">
+                          <a class="num">01</a>
+                          <a class="text">장바구니</a>
+                          </span>
+                    </li>
+                    <a class="blank"> > </a>
+                    <li>
+                        <span class="step-num two">
+                       <a class="num">02</a>
+                       <a class="text">주문/결제</a>
+                      </span>
+                    </li>
+                    <a class="blank"> > </a>
+                    <li>
+                     <span class="step-num three">
+                          <a class="num">03</a>
+                          <a class="text">주문완료</a>
+                     </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="success">
+                <h1 class="successTitle">
+                    DIOS 상품 발송 주문이 완료되었습니다.
+                </h1>
+                <div class="orderNum-container">
+                    <a class="orderNumTitle">주문번호 | </a>
+                    <a class="orderNumText" th:text="${order.getOrderNum()}"></a>
+                </div>
+                <div class="information-container">
+                    <table class="infoTable">
+                        <tr class="date-container">
+                            <th class="dateTitle">주문일시 | </th>
+                            <td class="date" th:text="${date}"></td>
+                        </tr>
+                        <tr class="item-container">
+                            <th class="itemTitle">주문상품 | </th>
+                            <td class="item" th:text="${order.getItemName()} + ' 외 (' + ${count - 1} + ')건'"></td>
+                        </tr>
+                        <tr class="name-container">
+                            <th class="nameTitle">받는 분 | </th>
+                            <td class="name" th:text="${order.getUserName()}"></td>
+                        </tr>
+                        <tr class="contact-container">
+                            <th class="contactTitle">연락처 | </th>
+                            <td class="contact" th:text="${order.getUserContact()}"></td>
+                        </tr>
+                        <tr class="address-container">
+                            <th class="addressTitle">주소 | </th>
+                            <td class="address-box">
+                                <a class="address one" th:text="${'(' + order.getUserAddressPostal() + ')'}"></a>
+                                <a class="address two" th:text="${order.getUserAddressPrimary()}"></a>
+                                <a class="address three" th:text="${order.getUserAddressSecondary()}"></a>
+                            </td>
+                        </tr>
+                        <tr class="method-container">
+                            <th class="methodTitle">결제 수단 | </th>
+                            <td class="method" th:text="${order.getPaymentMethod()}"></td>
+                        </tr>
+                        <tr class="message-container">
+                            <th class="messageTitle">배송 메세지 | </th>
+                            <td class="message" th:text="${order.getMessage()}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="button-container" rel="button">
+                <a class="order">주문내역</a>
+            </div>
+        </div>
+    </form>
+</main>
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
+</body>
+</html>

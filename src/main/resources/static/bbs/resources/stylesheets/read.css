@@ -1,0 +1,495 @@
+.profileImage{
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+}
+.date,.view{
+    font-family: none;
+    margin-right: 1rem;
+}
+
+
+body> .main > .content{
+    margin: 3rem 0;
+
+    align-items: stretch ;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/*body> .main > .content> .title{*/
+/*    font-size: 2rem;*/
+/*    font-weight: 500;*/
+/*    font-family: 'Montserrat', sans-serif;*/
+/*    margin-bottom: 2.5rem;*/
+/*    margin-left: 2rem;*/
+
+
+
+/*    align-items: flex-start;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: flex-start;*/
+
+/*}*/
+
+body > .main > .content > .table .content-container {
+    background-color: rgb(255, 255, 255);
+
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch ;
+    border-top: 0.0625rem solid rgb(191, 193, 196);
+    padding-bottom:  2rem ;
+
+}
+body > .--main,
+body > .--footer {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body > .--main > .--content,
+body > .--footer > .--content {
+    width: 100%;
+    max-width: 80rem;
+    margin: 0 2rem;
+    padding-top: 3rem;
+}
+body > .main >.content >.table.content-container *{
+    max-width: 100%;
+}
+
+#boardSummary {
+    width: 80%;
+
+    margin-left: 2.1rem;
+
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding:  1rem 1rem;
+
+
+}
+
+#table {
+    margin-left: 3rem;
+
+
+}
+#title{
+    font-size: 1.5rem;
+    font-weight: unset;
+    margin-left: 3rem;
+    margin-bottom: 1rem;
+
+}
+
+#left {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#box {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#top {
+    margin-left: 1rem;
+    font-size: 1.1rem;
+    color: rgb(64, 67, 68);
+
+}
+
+#bottom {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    margin-left: 1rem;
+
+    font-size: 0.9rem;
+    color: rgb(112, 115, 117);
+}
+
+.--object-input{
+    width: 100%;
+    background-color: rgb(255,255,255);
+    border: 0.0625rem solid rgb(213,216,220);
+    box-sizing: border-box;
+    padding: 0.625rem 0.875rem;
+}
+.--object-input:disabled{
+    background-color: rgb(234,236,238);
+    color: rgb(171,178,185);
+}
+.--object-button{
+    background-color: rgb(255,255,255);
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 2rem;
+}
+body > .main > .content > .table .button-container {
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 3rem;
+}
+
+body > .main > .content > .table .button-container > * + * {
+    margin-left: 0.5rem;
+}
+
+body > .main > .content > .table .button-container > .spring {
+    flex: 1;
+}
+
+body > .main > .content > .table .button-container > a[href] {
+    text-decoration: none;
+}
+body > .main > .content > .table .button-container > a[href].list,
+body > .main > .content > .table .button-container > a[href].modify,
+body > .main > .content > .table .button-container > a[href].delete {
+    background-color: rgb(255, 255, 255);
+    border: 0.0625rem solid rgb(0,0,0);
+    color: rgb(0,0,0);
+    margin-bottom: 2rem;
+
+
+}
+.secret{
+
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 1rem;
+    margin-right: 0.7rem;
+}
+
+
+
+main,input{
+    font: unset;
+    font-family: none;
+}
+#commentForm{
+    margin-top: 0.5rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#commentForm>.label{
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+#commentContainer{
+    margin-top: 0.75rem;
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+#commentContainer>*+*{
+    margin-top: 0.5rem;
+}
+
+#commentContainer .comment{
+    overflow: hidden;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+
+
+}
+
+#commentContainer .comment.sub{
+    margin-left: 5rem;
+}
+
+#commentContainer .comment > .head{
+    background-color: rgb(255,255,255);
+    color: rgb(0,0,0);
+    font-size: 1rem;
+    padding: 0.375rem 1rem;
+
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+    border-bottom: 0.0625rem solid rgb(191, 193, 196);
+
+
+
+
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+}
+
+#commentContainer .comment.mine > .head,
+#commentContainer .comment.mine > .body{
+    background-color: rgb(238, 238, 238);
+
+}
+
+#commentContainer .comment > .head> .dt{
+    color: rgb(104, 111, 117);
+    margin-left: 0.5rem;
+
+}
+
+
+#commentContainer .comment > .head> .spring{
+    flex: 1;
+}
+
+#commentContainer .comment > .head > .action-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+#commentContainer .comment > .head> .action-container>.action{
+    color: inherit;
+    text-decoration: none;
+}
+#commentContainer .comment > .head> .action-container>.action.cancel{
+    display: none;
+}
+#commentContainer .comment.modifying > .head> .action-container>.action.cancel{
+    display: inline-block;
+
+
+}
+#commentContainer .comment.modifying > .head> .action-container>.action.reply,
+#commentContainer .comment.modifying > .head> .action-container>.action.modify,
+#commentContainer .comment.modifying > .head> .action-container>.action.delete {
+    display: none;
+}#commentContainer .comment > .head> .action-container{
+
+     color: rgb(128,139,150);
+ }
+
+#commentContainer .comment > .head> .action-container>.action +.action{
+    margin-left: 0.5rem;
+}
+
+#commentContainer .comment > .head> .action-container>.action:hover{
+    text-decoration: underline;
+}
+
+#commentContainer .comment > .body{
+    background-color: rgb(255,255,255);
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#commentContainer .comment > .body >.content{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+#commentContainer .comment.modifying> .body >.content{
+    display: none;
+
+}
+#commentContainer .comment > .body >.content >.text{
+    flex: 1;
+
+}
+
+
+
+#commentContainer .comment > .body >.content >.like{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#commentContainer .comment > .body >.content >.like >.toggle {
+    width: 2rem;
+    height: 2rem;
+    color: rgb(255,255,255);
+    margin-top: 0.5rem ;
+    text-shadow:-1.2px 0 #000, 0 1.2px #000, 1.2px 0 #000, 0 -1.2px #000;
+
+
+    text-decoration: none;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
+
+
+#commentContainer .comment > .body >.content >.like >.toggle:hover{
+
+    color: rgb(242, 215, 213 );
+}
+
+
+#commentContainer .comment.liked> .body >.content >.like >.toggle{
+
+    color: rgb(203,67,53);
+
+}
+#commentContainer .comment.liked> .body >.content >.like >.toggle.prohibited{
+    cursor: not-allowed;
+}
+
+#commentContainer .comment>.body>.modify-form{
+    align-items: stretch;
+    display: none;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#commentContainer .comment.modifying>.body>.modify-form{
+    display: flex;
+}
+#commentContainer .comment>.body>.modify-form>.label{
+    flex: 1;
+    margin-right: 0.5rem;
+}
+#commentContainer .reply-form{
+    border-radius: 0.375rem;
+    margin-left: 5rem;
+    overflow: hidden;
+
+    align-items: stretch;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#commentContainer .reply-form.visible{
+    display: flex;
+}
+#commentContainer .reply-form.visible {
+    display: flex;
+}
+
+
+#commentContainer .reply-form >.head{
+    background-color: rgb(147, 146, 146);
+    color: rgb(255,255,255);
+    font-size: 0.9rem;
+    padding: 0.375rem 1rem;
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+#commentContainer .reply-form >.head >.cancel{
+    color: inherit;
+    text-decoration: none;
+}
+
+#commentContainer .reply-form >.head >.cancel:hover{
+    text-decoration: underline;
+}
+
+#commentContainer .reply-form >.body{
+    background-color: rgb(255,255,255);
+    padding: 0.75rem 1rem;
+
+    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+#commentContainer .reply-form>.body >.label{
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+
+.count{
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    color: rgb(197, 154, 154);
+}
+#likeContainer{
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+
+}
+#likeButton{
+    margin-left: 1rem;
+
+
+
+
+}
+.like-container > .likeButton >.toggle{
+    text-decoration: none;
+
+    /*text-shadow:-1.2px 0 #000, 0 1.2px #000, 1.2px 0 #000, 0 -1.2px #000;*/
+
+
+    color: rgb(68, 67, 67);
+
+}
+.like-container > .likeButton >.toggle:hover{
+    color: rgb(0,0,0);
+}
+.like-container > .likeButton > .toggle:focus
+{
+
+    color: rgb(0,0,200);
+
+}
+
+
+
+
+
+

@@ -1,0 +1,163 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.--main {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#categoryContainer {
+    background-color: rgb(255, 255, 255);
+    padding-bottom: 2rem;
+}
+
+#categoryContainer > .category {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-decoration: none;
+}
+
+#categoryContainer > .category > .--item {
+    list-style: none;
+    text-decoration: none;
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    text-align: center;
+
+    cursor: pointer;
+    border-right: 0.025rem solid rgb(0, 0, 0);
+}
+
+#categoryContainer > .category > .--item > .--link {
+    text-decoration: none;
+    list-style: none;
+    color: rgb(0, 0, 0);
+    font-size: 1.25rem;
+}
+
+#categoryContainer > .category > .--item > .--link:hover {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 1.35rem;
+}
+
+#searchList {
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
+    display: grid;
+    grid-template-rows: repeat(2, 32rem);
+    grid-template-columns: repeat(3, 25rem);
+
+}
+
+#searchList > .li-box {
+    margin: 0.5rem;
+}
+
+#listBox {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#listBox > .search-list {
+    list-style: none;
+
+}
+
+#listBox > .search-list > .li-box {
+    text-align: center;
+    border: 0.0625rem solid rgb(213, 216, 218);
+
+}
+
+#listBox > .search-list > .li-box > .li_inner {
+    cursor: pointer;
+}
+
+#pageContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+#listBox > .search-list > .li-box > .li_inner > .image-container > .image-block > .image-li {
+    padding-top: 0.65rem;
+    width: 23rem;
+    height: 21rem;
+}
+
+#listBox > .search-list > .li-box > .li_inner > .item-info > .list-info > a,
+#listBox > .search-list > .li-box > .li_inner > .item-info > .seller > a,
+#listBox > .search-list > .li-box > .li_inner > .item-info > .price > a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}
+
+#listBox > .search-list > .li-box > .li_inner > .item-info > .rating-star > .star-container > .star {
+    color: rgb(244, 208, 63);
+}
+
+#listBox > .search-list > .li-box > .li_inner > .item-info > .rating-star > .review-count {
+    font-size: 0.9rem;
+    color: rgb(192, 57, 43);
+}
+
+#pageContainer > .page {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    border-left: 0.0625rem solid rgb(76, 91, 105);
+    color: inherit;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+}
+
+#pageContainer > .page:last-of-type {
+    border-right: 0.0625rem solid rgb(76, 91, 105);
+}
+
+#pageContainer > .page.selected,
+#pageContainer > .page:hover {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.--main > .input-container{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.--main > .input-container > .article-creation {
+    height: 2.65rem;
+    width: 6rem;
+    background-color: rgb(0,0,0);
+    color: rgb(255,255,255);
+    border-radius: 2rem;
+}
+
+--main > .input-container > .article-creation:hover{
+    height: 3rem;
+    width: 6.5rem;
+    cursor: pointer;
+}

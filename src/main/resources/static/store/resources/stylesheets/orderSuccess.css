@@ -1,0 +1,188 @@
+@charset "UTF-8";
+
+body > .main {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: flex-start;
+}
+#form {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    margin-bottom: 10rem;
+    font-family: none;
+}
+
+#form > .content > .title-container {
+    margin-top: 3rem;
+
+    align-items : stretch;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    min-width: 80vw;
+
+    border-bottom: 0.25rem solid rgb(0, 0, 0);
+
+    font-family: none;
+}
+
+#form > .content > .title-container > .title {
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    font-size: 2.2rem;
+}
+
+#form > .content > .title-container > .step-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+#form > .content > .title-container > .step-list > li > .one {
+    font-size: 1rem;
+    color: rgb(157, 152, 152);
+}
+
+#form > .content > .title-container > .step-list > li > .two {
+    font-size: 1rem;
+    color: rgb(157, 152, 152);
+}
+
+#form > .content > .title-container > .step-list > .blank {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+
+
+#form > .content {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#form > .content > .success {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    margin-top: 7rem;
+}
+
+#form > .content > .success > .successTitle {
+    margin-bottom: 2rem;
+}
+
+#form > .content > .success > .orderNum-container > .orderNumTitle {
+    font-size: 1.3rem;
+    color: rgb(147, 143, 143);
+    margin-right: 1rem;
+}
+
+#form > .content > .success > .orderNum-container > .orderNumText {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#form > .content > .success > .information-container {
+    border: 0.09rem solid rgb(147, 143, 143);
+
+    padding: 2rem 2rem 2rem 2rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#form > .content > .success > .information-container > .infoTable {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    width: 40rem;
+}
+
+#form > .content > .success > .information-container > .infoTable tr {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    padding: 0.2rem 3rem 0.2rem 3rem;
+}
+
+#form > .content > .success > .information-container > .infoTable tr th {
+    width: 6rem;
+
+    align-items : flex-end;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-end;
+
+    font-size: 0.9rem;
+    color: rgb(147, 143, 143);
+}
+
+#form > .content > .success > .information-container > .infoTable tr td {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    padding-left: 1rem;
+
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+#form > .content > .success > .information-container > .infoTable .address-container .address-box > .address {
+    margin-right: 0.5rem;
+}
+
+#form > .content > .button-container {
+    font-size: 1rem;
+    font-weight: 700;
+
+    background-color: rgb(220, 132, 160);
+
+    border-radius: 0.3rem;
+    border: 0.1rem solid rgb(220, 132, 160);
+
+    cursor: pointer;
+
+    width: 14rem;
+    height: 3.5rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#form > .content > .button-container:hover {
+    background-color: rgb(234, 149, 180);
+    border: 0.1rem solid rgb(234, 149, 180);
+}
+
+#form > .content > .button-container > .order {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+}
+
+#form > .content > .success > .information-container > .infoTable .item-container .item {
+    font-weight: bold;
+}
