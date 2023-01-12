@@ -44,10 +44,10 @@ public class BbsService {
         return this.bbsMapper.selectAdminByUser(user.getEmail());
     }
 
-    public ArticleReadVo readArticle(int index) {
+    public ArticleReadVo readArticle(int index,boolean updateView) {
 
         ArticleReadVo article = this.bbsMapper.selectArticleByIndex(index);
-        if (article != null) {
+        if (article != null && updateView) {
             article.setView(article.getView() + 1);
             this.bbsMapper.updateArticle(article);
         }
