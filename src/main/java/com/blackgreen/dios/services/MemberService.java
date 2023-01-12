@@ -323,8 +323,8 @@ public class MemberService {
         }
 
         signedUser.setNickname(newUser.getNickname());
-        signedUser.setImage(image.getBytes());
-        signedUser.setImageType(image.getContentType());
+        signedUser.setImage(image == null ? null : image.getBytes()); //조건 안걸면 이미지가 null 일 때 오류뜸
+        signedUser.setImageType(image == null ? null : image.getContentType()); //마찬가지
 
         if (this.memberMapper.updateUserByMayPage(signedUser) == 0) {
             return CommonResult.FAILURE;

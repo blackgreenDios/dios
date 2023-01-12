@@ -65,6 +65,7 @@ loginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
     window.open('https://kauth.kakao.com/oauth/authorize?client_id=b53a656bcd965d745a55ca52a6ccd639&redirect_uri=http://localhost:8080/dios/kakao&response_type=code', '_blank', 'width=500; height=750'); //팝업 창 염
+    window.location.href = '/';
 
 });
 
