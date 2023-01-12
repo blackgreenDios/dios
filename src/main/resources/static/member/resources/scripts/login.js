@@ -43,7 +43,7 @@ form.onsubmit=(e)=>{
                 //"{"result":"success"}"
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href = 'login';
+                        window.location.href = '/';
                         break;
                     default:
                         alert('알맞은 이메일과 비밀번호를 입력해주세요.')
@@ -61,6 +61,7 @@ loginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
     window.open('https://kauth.kakao.com/oauth/authorize?client_id=b53a656bcd965d745a55ca52a6ccd639&redirect_uri=http://localhost:8080/dios/kakao&response_type=code', '_blank', 'width=500; height=750'); //팝업 창 염
+    window.location.href = '/';
 });
 
 //https://developers.kakao.com 가서 카카오 로그인 활성화

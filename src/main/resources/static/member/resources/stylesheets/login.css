@@ -76,6 +76,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
 }
 
 #form > .login > .input > .label.email {
@@ -103,7 +104,6 @@
     font-size: 14px;
     padding: 0 7.5rem 0 7.5rem;
     text-align: center;
-
 }
 
 #form > .login > .input > .label.login {
@@ -123,16 +123,17 @@
     text-align: center;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
-    width: 34.3rem;
+    width: 34rem;
     margin-right: -2rem;
 }
+
 
 #form > .login > .input > .label.login > .login-button:hover {
     background-color: rgba(11, 124, 4, 30%);
     color: rgb(255, 255, 255);
 }
 
-#form > .login > .input > .label.login > .login-button:active {
+#form > .login > .input > .label > .login-button:active {
     background-color: rgba(11, 124, 4, 50%);
     color: rgb(255, 255, 255);
 }
