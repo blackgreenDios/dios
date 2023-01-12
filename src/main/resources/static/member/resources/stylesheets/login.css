@@ -27,7 +27,6 @@
     font-weight: bold;
     text-align: center;
     cursor: pointer;
-
 }
 
 #form > .login > .header > li {
@@ -60,7 +59,7 @@
 }
 
 #form > .login > .header > li > .sign-in:hover {
-    color: rgba(11, 124, 4, 50%);
+    color: rgba(11, 124, 4, 70%);
 }
 
 #form > .login > .header > li > .reset:hover {
@@ -104,6 +103,7 @@
     font-size: 14px;
     padding: 0 7.5rem 0 7.5rem;
     text-align: center;
+
 }
 
 #form > .login > .input > .label.login {
@@ -123,18 +123,17 @@
     text-align: center;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
-    width: 34rem;
+    width: 34.3rem;
     margin-right: -2rem;
 }
 
-
 #form > .login > .input > .label.login > .login-button:hover {
-    background-color: rgba(11, 124, 4, 30%);
+    background-color: rgb(0,0,0);
     color: rgb(255, 255, 255);
 }
 
-#form > .login > .input > .label > .login-button:active {
-    background-color: rgba(11, 124, 4, 50%);
+#form > .login > .input > .label .login> .login-button:active {
+    background-color: rgb(0,0,0);
     color: rgb(255, 255, 255);
 }
 

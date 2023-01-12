@@ -78,15 +78,15 @@
 }
 
 #form > .myPage-main > .myPage-content > .content > .table_model > tbody > tr > td > .tdcell > .profile-photo > .modify-button > .image-select-button{
-    background-color: rgba(11, 124, 4, 50%);
+    background-color: rgba(0, 0, 0, 70%);
 }
 
 #form > .myPage-main > .myPage-content > .content > .table_model > tbody > tr > td > .tdcell > .profile-photo > .modify-button > .image-delete-button {
-    background-color: rgb(231, 58, 39,60%);
+    background-color: rgb(231, 58, 39,70%);
 }
 
 #form > .myPage-main > .myPage-content > .content > .table_model > tbody > tr > td > .tdcell > .profile-photo > .modify-button > .image-select-button:hover {
-    background-color: rgba(11, 124, 4, 70%);
+    background-color: rgb(0, 0, 0);
 }
 
 #form > .myPage-main > .myPage-content > .content > .table_model > tbody > tr > td > .tdcell > .profile-photo > .modify-button > .image-delete-button:hover {
@@ -122,7 +122,7 @@
 }
 
 #form > .myPage-main > .myPage-content > .content > .--object-button > .submit-button:hover{
-    background-color: rgba(11, 124, 4, 70%);
+    background-color: rgba(0,0,0);
     color: rgb(255,255,255);
 
 }
