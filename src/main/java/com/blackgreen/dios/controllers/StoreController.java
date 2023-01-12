@@ -166,7 +166,8 @@ public class StoreController {
     public String patchPlusCount(@SessionAttribute(value = "user", required = false) UserEntity user,
                                  @RequestParam(value = "index") int index) {
         JSONObject responseObject = new JSONObject();
-        responseObject.put("count", this.storeService.updateCountPlus(index));
+        responseObject.put("count", this.storeService.updateCountPlus(user, index));
+        responseObject.put("price", this.storeService.getCartItemPrice(user, index));
         return responseObject.toString();
     }
 
@@ -178,7 +179,8 @@ public class StoreController {
                                   @RequestParam(value = "index") int index) {
 
         JSONObject responseObject = new JSONObject();
-        responseObject.put("count", this.storeService.updateCountMinus(index));
+        responseObject.put("count", this.storeService.updateCountMinus(user, index));
+        responseObject.put("price", this.storeService.getCartItemPrice(user, index));
         return responseObject.toString();
     }
 

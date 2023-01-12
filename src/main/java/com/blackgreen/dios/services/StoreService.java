@@ -49,8 +49,8 @@ public class StoreService {
     }
 
     // 상품수량 변경 : 더하기, 빼기
-    public int updateCountPlus(int index) {
-        CartEntity cart = this.storeMapper.selectCartByIndex(index);
+    public int updateCountPlus(UserEntity user, int index) {
+        CartVo cart = this.storeMapper.selectCartByIndex(user.getEmail(), index);
 
         int count = cart.getCount();
         cart.setCount(count + 1);
@@ -59,14 +59,21 @@ public class StoreService {
         return cart.getCount();
     }
 
-    public int updateCountMinus(int index) {
-        CartEntity cart = this.storeMapper.selectCartByIndex(index);
+    public int updateCountMinus(UserEntity user, int index) {
+        CartVo cart = this.storeMapper.selectCartByIndex(user.getEmail(), index);
 
         int count = cart.getCount();
         cart.setCount(count - 1);
         this.storeMapper.updateCount(cart);
 
         return cart.getCount();
+    }
+
+    public int getCartItemPrice (UserEntity user, int index) {
+
+        CartVo cart =  this.storeMapper.selectCartByIndex(user.getEmail(), index);
+
+        return cart.getPrice();
     }
 
 
@@ -91,6 +98,8 @@ public class StoreService {
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
     }
+
+
 
 
     // order에 담긴 상품 불러오기

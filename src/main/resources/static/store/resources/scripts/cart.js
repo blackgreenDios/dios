@@ -84,7 +84,7 @@ const loadCart = () => {
                             <div class="product">
                                 <div class="tdcell price">
                                     <span class="product-price">
-                                        <a class="num">${(cartObject['price'] * cartObject['count']).toLocaleString()} 원</a></span>
+                                        <a class="num" rel="productPriceAll">${(cartObject['price'] * cartObject['count']).toLocaleString()} 원</a></span>
     
                                 </div>
                             </div>
@@ -122,6 +122,7 @@ const loadCart = () => {
                     // 수량 변경 : 더하기 버튼 눌렀을 때
                     const plus = dom.querySelector('[rel="plus"]');
                     const count =  dom.querySelector('[rel="count"]');
+                    const price =  dom.querySelector('[rel="productPriceAll"]');
 
                     plus?.addEventListener('click', e => {
                         e.preventDefault();
@@ -137,6 +138,7 @@ const loadCart = () => {
                                 if (xhr.status >= 200 && xhr.status < 300) {
                                     const responseObject = JSON.parse(xhr.responseText);
                                     count.innerText = responseObject['count'];
+                                    price.innerText = (responseObject['count'] * responseObject['price']).toLocaleString() + ' 원';
                                 } else {
                                     alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
                                 }
@@ -166,6 +168,7 @@ const loadCart = () => {
                                 if (xhr.status >= 200 && xhr.status < 300) {
                                     const responseObject = JSON.parse(xhr.responseText);
                                     count.innerText = responseObject['count'];
+                                    price.innerText = (responseObject['count'] * responseObject['price']).toLocaleString() + ' 원';
                                 } else {
                                     alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
                                 }

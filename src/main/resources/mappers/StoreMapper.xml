@@ -20,15 +20,17 @@
         WHERE `user_email` = #{userEmail}
     </select>
 
-    <select id="selectCartByIndex" resultType="com.blackgreen.dios.entities.store.CartEntity">
-        SELECT `index`       AS `index`,
-               `user_email`  AS `UserEmail`,
-               `count`       AS `count`,
-               `item_index`  AS `itemIndex`,
-               `order_color` AS `orderColor`,
-               `order_size`  AS `orderSize`
-        FROM `dios_store`.`carts`
-        WHERE BINARY `index` = #{index}
+    <select id="selectCartByIndex" resultType="com.blackgreen.dios.vos.store.CartVo">
+        SELECT `cart`.`index`       AS `index`,
+               `cart`.`user_email`  AS `UserEmail`,
+               `cart`.`count`       AS `count`,
+               `cart`.`item_index`  AS `itemIndex`,
+               `cart`.`order_color` AS `orderColor`,
+               `cart`.`order_size`  AS `orderSize`,
+               `item`.`price`           AS `price`
+        FROM `dios_store`.`carts` AS `cart`
+                 LEFT JOIN `dios_store`.`items` AS `item` ON `item`.`index` = `cart`.`item_index`
+        WHERE BINARY `cart`.`index` = #{index}
     </select>
 
     <delete id="deleteCartByIndex">
