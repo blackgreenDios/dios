@@ -30,7 +30,8 @@
     <span class="input-container">
     <input onClick="location.href='http://localhost:8080/goods/write'"
            type="button" value="상품 등록하기"
-           class="article-creation" id="articleCreation">
+           class="article-creation" id="articleCreation"
+           th:if="${session.user!=null && session.user.isAdmin()}">
     </span>
     <div class="list-box" id="listBox">
         <ul class="search-list" id="searchList">

@@ -288,8 +288,6 @@ const loadReviews = () => {
             } else {
                 alert('리뷰를 불러오지 못했습니다. 잠시 후 다시 시도해주십시오');
             }
-
-
         }
     };
     xhr.send();

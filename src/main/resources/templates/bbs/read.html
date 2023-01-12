@@ -39,7 +39,7 @@
             <tr>
                 <td colspan="8">
                     <div class="content-container">
-                        <p th:utext="${article.getContent}">글 내용</p>
+                        <p class="content" th:utext="${article.getContent}">글 내용</p>
                     </div>
                     <div class="like-container" id="likeContainer">
                         <div class="commentButton">
@@ -177,6 +177,6 @@
     </div>
 
 </main>
-
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>

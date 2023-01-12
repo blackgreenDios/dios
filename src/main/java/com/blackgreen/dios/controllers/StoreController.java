@@ -165,16 +165,8 @@ public class StoreController {
     @ResponseBody
     public String patchPlusCount(@SessionAttribute(value = "user", required = false) UserEntity user,
                                  @RequestParam(value = "index") int index) {
-
-        Enum<?> result = this.storeService.updateCountPlus(index);
         JSONObject responseObject = new JSONObject();
-
-        responseObject.put("result", result.name().toLowerCase());
-
-        if (result == CommonResult.SUCCESS) {
-            responseObject.put("index", index);
-        }
-
+        responseObject.put("count", this.storeService.updateCountPlus(index));
         return responseObject.toString();
     }
 
@@ -185,15 +177,8 @@ public class StoreController {
     public String patchMinusCount(@SessionAttribute(value = "user", required = false) UserEntity user,
                                   @RequestParam(value = "index") int index) {
 
-        Enum<?> result = this.storeService.updateCountMinus(index);
         JSONObject responseObject = new JSONObject();
-
-        responseObject.put("result", result.name().toLowerCase());
-
-        if (result == CommonResult.SUCCESS) {
-            responseObject.put("index", index);
-        }
-
+        responseObject.put("count", this.storeService.updateCountMinus(index));
         return responseObject.toString();
     }
 

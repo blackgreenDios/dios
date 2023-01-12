@@ -39,9 +39,8 @@ const loadCart = () => {
                             <div class="product">
                                 <div class="tdcell product">
                                     <div class="product-info">
-                                        <a class="product-img" href="#"><img class="image"
-                                                                             src="/goods/titleImage?index=${cartObject['itemIndex']}"
-                                                                             alt="">
+                                        <a class="product-img" href="/goods/read?gid=${cartObject['itemIndex']}">
+                                        <img class="image" src="/goods/titleImage?index=${cartObject['itemIndex']}" alt="">
                                         </a>
     
                                         <div class="information">
@@ -72,7 +71,7 @@ const loadCart = () => {
                                     <span class="product-count">
                                        <div class="count-container">
                                            <i rel="minus" class="minus icon fa-solid fa-minus"></i>
-                                           <a class="count" rel="count">${cartObject['count']}</a>
+                                           <a class="count" rel="count" data-count="${cartObject['count']}">${cartObject['count']}</a>
                                            <input rel="countResult" type="hidden" value="${cartObject['count']}">
                                            <i rel="plus" class="plus icon fa-solid fa-plus"></i>
                                        </div>
@@ -122,30 +121,22 @@ const loadCart = () => {
 
                     // 수량 변경 : 더하기 버튼 눌렀을 때
                     const plus = dom.querySelector('[rel="plus"]');
-                    const countResult = dom.querySelector('[rel="countResult"]');
+                    const count =  dom.querySelector('[rel="count"]');
 
                     plus?.addEventListener('click', e => {
                         e.preventDefault();
 
-                        countResult.value++;
 
                         const xhr = new XMLHttpRequest();
                         const formData = new FormData();
                         formData.append('index', cartObject['index']);
-                        formData.append('count', cartObject['count']);
 
                         xhr.open('PATCH', './plusCount');
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                 if (xhr.status >= 200 && xhr.status < 300) {
                                     const responseObject = JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']) {
-                                        case 'success':
-                                            loadCart();
-                                            break;
-                                        default:
-                                            alert('잠시후 다시 시도해 주세요.');
-                                    }
+                                    count.innerText = responseObject['count'];
                                 } else {
                                     alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
                                 }
@@ -160,26 +151,21 @@ const loadCart = () => {
                     minus?.addEventListener('click', e => {
                         e.preventDefault();
 
+                        if (count.innerText === 1) {
+                            alert('수량은 1개 이상이어야 합니다.');
+                            return false;
+                        }
+
                         const xhr = new XMLHttpRequest();
                         const formData = new FormData();
                         formData.append('index', cartObject['index']);
-                        formData.append('count', cartObject['count']);
 
                         xhr.open('PATCH', './minusCount');
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === XMLHttpRequest.DONE) {
                                 if (xhr.status >= 200 && xhr.status < 300) {
                                     const responseObject = JSON.parse(xhr.responseText);
-                                    switch (responseObject['result']) {
-                                        case 'success':
-                                            loadCart();
-                                            break;
-                                        case 'out_of_range':
-                                            alert('수량은 1개 이상이어야 합니다.');
-                                            break;
-                                        default:
-                                            alert('잠시후 다시 시도해 주세요.');
-                                    }
+                                    count.innerText = responseObject['count'];
                                 } else {
                                     alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
                                 }
@@ -211,7 +197,6 @@ const loadCart = () => {
     };
     xhr.send();
 }
-
 
 loadCart();
 

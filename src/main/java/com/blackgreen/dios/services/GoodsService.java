@@ -68,8 +68,11 @@ public class GoodsService {
 
 
     @Transactional
-    public Enum<? extends IResult> addItem(ItemEntity item, MultipartFile images) throws IOException {
+    public Enum<? extends IResult> addItem(UserEntity user, ItemEntity item, MultipartFile images) throws IOException {
 
+        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
+            return CommonResult.FAILURE;
+        }
 
 //        item = this.goodsMapper.selectItemByIndex(item.getIndex()); //item의 getIndex를 넘겨준적 없으니깐 0일것임,
 //                                                                      그래서 값을 넘겨야함/ 그런데 이건 select해와서 그런거임. insert하는데 굳이 고를 필요 없음
@@ -285,6 +288,10 @@ public class GoodsService {
 //            return ModifyItemResult.NOT_ALLOWED;
 //        }
 
+        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
+            return CommonResult.FAILURE;
+        }
+
         //새로 저장할 내용을 set해주깅 > 수정된 내용이 저장됨
         existingItem.setCategoryId(item.getCategoryId());
         existingItem.setSellerIndex(item.getSellerIndex());
@@ -317,6 +324,9 @@ public class GoodsService {
             return CommonResult.FAILURE;
         }
 
+        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
+            return CommonResult.FAILURE;
+        }
 //        if (user == null || !user.getEmail().equals("admin")) { // 쌤은 existingCommentfh 로 바꿨는데
 //            return CommonResult.FAILURE;
 //        }

@@ -49,29 +49,24 @@ public class StoreService {
     }
 
     // 상품수량 변경 : 더하기, 빼기
-    public Enum<? extends IResult> updateCountPlus(int index) {
+    public int updateCountPlus(int index) {
         CartEntity cart = this.storeMapper.selectCartByIndex(index);
 
         int count = cart.getCount();
         cart.setCount(count + 1);
+        this.storeMapper.updateCount(cart);
 
-        return this.storeMapper.updateCount(cart) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
+        return cart.getCount();
     }
 
-    public Enum<? extends IResult> updateCountMinus(int index) {
+    public int updateCountMinus(int index) {
         CartEntity cart = this.storeMapper.selectCartByIndex(index);
 
-        if (cart.getCount() <= 1) {
-            return CountResult.OUT_OF_RANGE;
-        }
         int count = cart.getCount();
         cart.setCount(count - 1);
+        this.storeMapper.updateCount(cart);
 
-        return this.storeMapper.updateCount(cart) > 0
-                ? CommonResult.SUCCESS
-                : CommonResult.FAILURE;
+        return cart.getCount();
     }
 
 

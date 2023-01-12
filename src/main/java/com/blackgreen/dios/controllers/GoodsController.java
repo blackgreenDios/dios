@@ -49,11 +49,12 @@ public class GoodsController {
 
 
     public String postWrite(ItemEntity item,
+                            @SessionAttribute(value = "user",required = false)UserEntity user,
                             @RequestParam(value = "sizes", required = false) String[] sizes,
                             @RequestParam(value = "colors", required = false) String[] colors,
                             @RequestParam(value = "images", required = false) MultipartFile images) throws IOException {
 
-        Enum<?> result = this.goodsService.addItem(item, images);
+        Enum<?> result = this.goodsService.addItem(user, item, images);
 
         ItemColorEntity[] itemColors = new ItemColorEntity[colors.length];
         for (int i = 0; i < colors.length; i++) {

@@ -16,10 +16,10 @@
 <main class="--main">
     <input name="gid" type="hidden" th:value="${goods.getIndex()}">
     <span class="function">
-        <a th:href="@{/goods/modify(gid=${goods.getIndex()})}" class="title" id="title">
+        <a th:href="@{/goods/modify(gid=${goods.getIndex()})}" class="title" id="title" th:if="${session.user!=null && session.user.isAdmin}">
         <span class="text">상품 수정하기</span>
     </a>
-    <a class="title" id="itemDelete">
+    <a class="title" id="itemDelete" th:if="${session.user!=null && session.user.isAdmin}">
         <span class="text">상품 삭제하기</span>
     </a>
     </span>

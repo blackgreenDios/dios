@@ -23,6 +23,8 @@ body {
 #categoryContainer {
     background-color: rgb(255, 255, 255);
     padding-bottom: 2rem;
+
+    font-family: none;
 }
 
 #categoryContainer > .category {
@@ -154,6 +156,8 @@ body {
     background-color: rgb(0,0,0);
     color: rgb(255,255,255);
     border-radius: 2rem;
+
+    cursor: pointer;
 }
 
 --main > .input-container > .article-creation:hover{

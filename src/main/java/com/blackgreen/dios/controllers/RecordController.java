@@ -102,7 +102,7 @@ public class RecordController {
     // 플랭
     @RequestMapping(value = "plank",
             method = RequestMethod.GET)
-    public ModelAndView getPlank(@SessionAttribute(value = "user", required = false) UserEntity user) {
+    public ModelAndView getPlank(@SessionAttribute(value = "user", required = false) UserEntity user) throws ParseException {
         ModelAndView modelAndView;
 
         if (user == null) {
@@ -155,12 +155,15 @@ public class RecordController {
                                       @RequestParam(value = "dt", required = false) String dtStr) throws ParseException {
         ModelAndView modelAndView;
 
+        // 현재날짜
+        Date nowDate = new Date();
+
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/dios/login");
             return modelAndView;
         } else if (dtStr == null) {
             // 기록장을 누르면 디비에 저장된 가장 최근 날짜로 들어가게 된다.
-            Date date = this.recordService.getDate(user.getEmail());
+            Date date = this.recordService.getDate(user.getEmail(), nowDate);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             String recentDate = formatter.format(date);
 

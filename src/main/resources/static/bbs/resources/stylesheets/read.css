@@ -33,6 +33,9 @@ body> .main > .content{
 /*    justify-content: flex-start;*/
 
 /*}*/
+.image > img {
+    max-width: 60rem;
+}
 
 body > .main > .content > .table .content-container {
     background-color: rgb(255, 255, 255);
@@ -44,6 +47,8 @@ body > .main > .content > .table .content-container {
     justify-content: stretch ;
     border-top: 0.0625rem solid rgb(191, 193, 196);
     padding-bottom:  2rem ;
+
+    width: 60rem;
 
 }
 body > .--main,

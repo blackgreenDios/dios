@@ -209,7 +209,7 @@ recordButton.addEventListener('click', e => {
         formData.append('squatCount', count);
         formData.append('squatSetting', goal);
 
-        xhr.open('POST', './squat');
+        xhr.open('POST', './count');
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {

@@ -25,7 +25,9 @@ const loadOrder = () => {
                     <tr class="tableBody" rel="line">
                         <td class="info">
                             <div class="photo">
-                                <input class="image" type="image" src="/goods/titleImage?index=${orderObject['itemIndex']}">
+                            <a class="img" href="/goods/read?gid=${orderObject['itemIndex']}">
+                            <img class="image" alt="" src="/goods/titleImage?index=${orderObject['itemIndex']}"></a>
+                               
                             </div>
                             <div class="info-content">
                                 <div class="brand">${orderObject['storeName']}</div>
@@ -136,6 +138,8 @@ document.querySelector('[rel="payment"]').addEventListener('click', e => {
         alert('배송 메세지를 입력해주세요.');
         return false;
     }
+
+    confirm('정말 구매하시겠습니까?');
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();

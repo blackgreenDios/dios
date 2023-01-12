@@ -178,7 +178,13 @@ public class RecordService {
     }
 
     // 디비에 저장된 최근 날짜 불러오기
-    public Date getDate (String email) {
+    public Date getDate (String email, Date date) {
+
+        // 기록장이 1도 없으면 그냥 오늘날짜로 들어가게 하기
+        if (this.recordMapper.selectRecentDate(email) == null) {
+            return date;
+        }
+
         return this.recordMapper.selectRecentDate(email);
     }
 
