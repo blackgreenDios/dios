@@ -151,7 +151,7 @@ const loadCart = () => {
                     minus?.addEventListener('click', e => {
                         e.preventDefault();
 
-                        if (count.innerText === 1) {
+                        if (count === 1) {
                             alert('수량은 1개 이상이어야 합니다.');
                             return false;
                         }
