@@ -286,6 +286,7 @@ body > .--footer > .home > ul > .footer-menu > .customer-service > .service-qna 
     padding: 0.6rem;
     cursor: pointer;
     font-size: 0.9rem;
+    border-radius: 0.5rem;
 }
 
 
