@@ -143,9 +143,9 @@ const loadComments = () => {
                                             break;
                                         case 'not_allowed':
                                             alert('해당 댓글을 수정할 권한이 없습니다.')
+                                            break;
                                         default:
                                             alert('알 수 없는 이유로 댓글을 수정하지 못하였습니다. \n\n잠시후 다시 시도해 주세요.')
-
                                     }
                                 } else {
                                     alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
@@ -183,6 +183,7 @@ const loadComments = () => {
                                             break;
                                         case 'not_allowed':
                                             alert('해당 댓글을 삭제할 권한이 없습니다.')
+                                            break;
                                         default:
                                             alert('알 수 없는 이유로 댓글을 삭제하지 못하였습니다. \n\n잠시후 다시 시도해 주세요.')
                                     }
@@ -232,11 +233,8 @@ const loadComments = () => {
                         };
                         xhr.send(formData);
 
-
                     };
-
                     commentContainer.append(commentElement, replyFormElement);
-
                 };
 
                 // for (let commentObject of responseArray.filter(x => x['commentIndex'] === undefined)) {
@@ -268,6 +266,8 @@ const loadComments = () => {
 
 loadComments();
 
+
+
 if (commentForm !== null) {
     commentForm.onsubmit = e => {
         e.preventDefault()
@@ -282,7 +282,6 @@ if (commentForm !== null) {
         const formData = new FormData();
         formData.append('articleIndex', commentForm['aid'].value);
         formData.append('content', commentForm['content'].value);
-
         xhr.open('POST', './read');
         xhr.onreadystatechange = () => {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -352,15 +351,13 @@ likeButton?.addEventListener('click',e =>{
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        location.reload();
 
-
-
+                        location.href=location.href;
 
 
                        break;
                     default:
-                        alert('알 수 없는 이유로 요청한 작업을 완료하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
+                        // alert('알 수 없는 이유로 요청한 작업을 완료하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
                 }
             } else {
                 alert('서버와 통신하지 못하였습니다.\n\n잠시 후 다시 시도해 주세요.');
@@ -371,3 +368,9 @@ likeButton?.addEventListener('click',e =>{
 
 
 });
+
+const secret=document.getElementById('replySecret');
+secret?.addEventListener('click',e=>{
+    e.preventDefault()
+
+})

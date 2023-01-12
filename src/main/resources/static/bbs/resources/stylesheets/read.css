@@ -478,15 +478,18 @@ color: rgb(128,139,150);
     color: rgb(68, 67, 67);
 
 }
-.like-container > .likeButton >.toggle:hover{
+.like-container > .likeButton >.toggle{
     color: rgb(0,0,0);
-}
-.like-container > .likeButton > .toggle:focus
-{
-
-    color: rgb(0,0,200);
+    font-weight: bold;
 
 }
+.image > img {
+    max-width: 60rem;
+}
+
+
+
+
 
 
 

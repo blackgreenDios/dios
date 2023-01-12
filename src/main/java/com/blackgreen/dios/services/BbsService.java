@@ -44,11 +44,11 @@ public class BbsService {
         return this.bbsMapper.selectAdminByUser(user.getEmail());
     }
 
-    public ArticleReadVo readArticle(int index) {
+    public ArticleReadVo readArticle(int index, boolean updateView) {
 
         ArticleReadVo article = this.bbsMapper.selectArticleByIndex(index);
-        if (article != null) {
-            article.setView(article.getView() + 1);
+        if (article!=null && updateView){
+            article.setView(article.getView()+1);
             this.bbsMapper.updateArticle(article);
         }
         return article;
@@ -71,6 +71,7 @@ public class BbsService {
         if (article == null) {
             return CommonResult.FAILURE;
         }
+
         return this.bbsMapper.insertComment(comment) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;
@@ -93,6 +94,7 @@ public class BbsService {
     }
 
     public CommentVo[] getComments(int articleIndex, UserEntity signedUser) {
+
         return this.bbsMapper.selectCommentByArticleIndex(articleIndex,
                 signedUser == null ? null : signedUser.getEmail());
 
@@ -103,7 +105,7 @@ public class BbsService {
         if (existingComment == null) {
             return CommentDeleteResult.NO_SUCH_COMMENT;
         }
-        if (user == null || !user.getEmail().equals(existingComment.getUserEmail())|| !user.isAdmin() ) {
+        if (user == null || !user.getEmail().equals(existingComment.getUserEmail()) ) {
             return CommentDeleteResult.NOT_ALLOWED;
         }
         return this.bbsMapper.deleteCommentByIndex(comment.getIndex()) > 0

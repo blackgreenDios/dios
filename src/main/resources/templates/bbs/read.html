@@ -15,12 +15,12 @@
 <th:block th:replace="~{fragments/commonBody :: cover}"></th:block>
 <main class="--main main">
     <div class="--content content">
-        <h1 class="title" th:text="${board.getText()}">COMMUNITY</h1>
         <table class="table" id="table">
             <div id="title" th:utext="${article.getTitle()}"></div>
             <div class="board_summary" id="boardSummary">
                 <div class="left" id="left">
-                    <img alt src="/resources/images/default_profile.png" class="profileImage" id="profileImage">
+                    <img alt th:src = "@{'/dios/profileImages?aid='+${aid}}" class="profileImage" id="profileImage">
+
                     <div class="box" id="box">
                         <div class="top" id="top">
                             <div class="nickName" th:text="${article.getUserNickname()}"></div>
@@ -40,19 +40,19 @@
                     <div class="content-container">
                         <p th:utext="${article.getContent}">글 내용</p>
                     </div>
-                    <div class="like-container" id="likeContainer">
+                    <div class="like-container" id="likeContainer" >
                         <div class="commentButton">
                             <i class="fa-regular fa-comment"></i>
                             <span th:text="${article.getCommentCount()}">9,999 </span>
                         </div>
-                        <div class="likeButton" id="likeButton" th:if="${session.user!=null}">
-                            <a href="#" th:class="toggle" rel="like">
-
+                        <div class="likeButton" id="likeButton"  >
+                            <a class="toggle" rel="like" >
                                 <i class="icon fa-regular fa-thumbs-up"></i>
-                            </a>
+                             </a>
                             <span th:text="${article.getLikeCount()}"> </span>
                         </div>
                     </div>
+
                 </td>
             </tr>
             </tbody>
@@ -65,11 +65,14 @@
                             <span hidden>댓글 작성</span>
                             <input class="--object-input" maxlength="100" name="content" placeholder="댓글을 입력해주세요."
                                    type="text">
+
                         </label>
-                        <div class="secret" id="secret">
-                            <input type="checkbox" id="replySecret">
+                        <div class="secret" id="secret" >
+                            <input type="checkbox" id="replySecret" >
                             <i class="fa-solid fa-lock"></i>
                         </div>
+
+
                         <input name="aid" type="hidden" th:value="${article.getIndex()}">
                         <input class="--object-button" type="submit" value="작성">
                     </form>
@@ -102,6 +105,7 @@
                                         <span hidden>댓글 수정</span>
                                         <input class="--object-input" maxlength="100" name="content"
                                                placeholder="댓글을 입력해 주세요." type="text">
+
                                     </label>
                                     <input class="--object-button" type="submit" value="수정">
                                 </form>

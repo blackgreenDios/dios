@@ -14,6 +14,18 @@ public class CommentVo extends CommentEntity {
     private int likeCount;
 
 
+
+    private String secretReply;
+
+    public String getSecretReply() {
+        return secretReply;
+    }
+
+    public CommentVo setSecretReply(String secretReply) {
+        this.secretReply = secretReply;
+        return this;
+    }
+
     public String getUserNickname() {
         return userNickname;
     }

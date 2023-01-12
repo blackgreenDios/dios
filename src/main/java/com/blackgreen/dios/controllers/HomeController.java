@@ -30,7 +30,7 @@ public class HomeController {
     public ModelAndView getIndex(){
 
 
-        ModelAndView modelAndView=new ModelAndView("home/index");
+        ModelAndView modelAndView=new ModelAndView("/home");
         BoardEntity board1=this.bbsService.getBoard("notice");
         BoardEntity board2=this.bbsService.getBoard("free");
 

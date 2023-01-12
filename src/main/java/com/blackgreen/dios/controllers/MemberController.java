@@ -97,7 +97,7 @@ public class MemberController {
         Enum<?> result = this.memberService.login(user);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
-        responseObject.put("isAdmin",user.isAdmin());
+
 
         if (result == CommonResult.SUCCESS) {
             session.setAttribute("user", user);
