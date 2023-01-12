@@ -60,7 +60,7 @@ body > .main > .content > .form.step1 > .title-container > .step-container > .st
 body > .main > .content > .form.step2 > .title-container > .step-container > .step.step2,
 body > .main > .content > .form.step3 > .title-container > .step-container > .step.step3 {
     background-color: rgb(255, 255, 255);
-    border: 2.125rem solid rgba(11, 124, 4, 30%);
+    border: 2.125rem solid rgb(0,0,0);
     color: rgb(255, 255, 255);
     margin: 1rem;
     font-size: 1.5rem;
@@ -124,7 +124,7 @@ body > .main > .content > .form > .step.step1 > .label > .title::before {
     top: 0.0625rem;
     width: 1rem;
     height: 1rem;
-    background-color: rgba(11, 124, 4, 30%);
+    background-color: rgb(0,0,0);
     border-radius: 50%;
     content: '';
     display: inline-block;
@@ -174,7 +174,7 @@ body > .main > .content > .form > .step.step2 > .table {
 }
 
 .--object-check > input[type=checkbox]:checked ~ .--checkbox {
-    background-color: rgb(7, 79, 2);
+    background-color: rgb(0,0,0);
 }
 
 
@@ -196,23 +196,23 @@ body > .main > .content > .form > .button-container > .button {
 }
 
 body > .main > .content > .form > .button-container > .button:hover {
-    background-color: rgba(11, 124, 4, 30%);
+    background-color: rgba(0, 0, 0, 70%);
 }
 
 body > .main > .content > .form > .button-container > .button:active {
-    background-color: rgba(11, 124, 4, 50%);
+    background-color: rgba(0, 0, 0, 80%);
 }
 
 body > .main > .content > .form > .button-container > .button.green {
-    background-color: rgba(11, 124, 4, 50%);
+    background-color: rgb(0, 0, 0);
 }
 
 body > .main > .content > .form > .button-container > .button.green:hover {
-    background-color: rgba(11, 124, 4, 60%);
+    background-color: rgba(0, 0, 0, 70%);
 }
 
 body > .main > .content > .form > .button-container > .button.green:active {
-    background-color: rgba(11, 124, 4, 70%);
+    background-color: rgba(0, 0, 0, 80%);
 }
 
 
@@ -247,7 +247,7 @@ body > .main > .content > .form > .button-container > .button.green:active {
 }
 
 .--object-check > input[type=checkbox]:checked ~ .--checkbox {
-    background-color: rgba(11, 124, 4, 50%);
+    background-color: rgb(0, 0, 0);
 }
 
 .--object-check>.--checkbox>.--icon{
@@ -290,16 +290,16 @@ body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .labe
     margin-left: 0.5rem;
     border-radius: 0.5rem;
     border: rgb(234,236,238);
-    background-color: rgba(11, 124, 4, 50%);
+    background-color: rgb(0, 0, 0);
     color: rgb(255,255,255);
 }
 
 body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label > input + input:hover {
-    background-color: rgba(11, 124, 4, 60%);
+    background-color: rgb(0, 0, 0);
 }
 
 body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .label > input + input:active {
-    background-color: rgba(11, 124, 4, 70%);
+    background-color: rgb(0, 0, 0);
 }
 
 body > .main > .content > .form > .step.step2 > .table > tbody > tr > td > .warning {
