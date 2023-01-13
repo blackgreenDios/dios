@@ -15,7 +15,7 @@
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="main">
     <form id="form" class="content --content">
-        <h1 class="title">상품 등록하기</h1>
+        <h1 class="title">상품 등록</h1>
         <table class="table" id="table">
             <tbody>
             <tr>
@@ -76,10 +76,10 @@
                 <th>상품 옵션</th>
                 <td>
                     <div class="color">
-                        <a class="star">*</a>
                         <span class="colorText">색상</span>
                         <div class="colorBox">
                             <input class="newColor" name="newColor" placeholder="ex)  블랙, 그레이, 블루" type="text">
+                            <a class="newColorText">상품의 색깔을 입력 후, 엔터키를 눌러주세요.</a>
                         </div>
                         <div class="selectContainer">
                             <a class="selectText">COLOR</a>
@@ -89,11 +89,11 @@
                         </div>
                     </div>
                     <div class="size">
-                        <a class="star">*</a>
                         <span class="sizeText">사이즈</span>
                         <div class="sizeBox">
                             <input class="newSize" name="newSize" placeholder="ex)  230, 260, M, L, free size"
                                    type="text">
+                            <a class="newSizeText">상품의 사이즈를 입력 후, 엔터키를 눌러주세요.</a>
                         </div>
                         <div class="selectContainer">
                             <a class="selectText">SIZE</a>
@@ -155,5 +155,6 @@
     </form>
 
 </main>
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>

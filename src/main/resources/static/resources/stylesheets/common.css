@@ -27,6 +27,15 @@
 
 }
 
+.dropbtn > .record-book {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+}
+
+.dropbtn > .record-book:hover {
+    color: rgb(60, 166, 52);
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -229,7 +238,7 @@ body > .--header > .--content > .--menu > .--item > .--link:hover {
 }
 
 body > .--footer {
-    padding-top: 10rem;
+    padding-top: 5rem;
 }
 
 body > .--footer > .home {

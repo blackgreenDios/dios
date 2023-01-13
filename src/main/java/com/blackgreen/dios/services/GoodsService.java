@@ -385,4 +385,9 @@ public class GoodsService {
         return CommonResult.FAILURE;
     }
 
+
+    public int[] getIndex () {
+        return this.goodsMapper.selectIndex();
+    }
+
 }

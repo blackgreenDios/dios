@@ -20,11 +20,6 @@
                 <span class="--link"
                       th:text="${categoring.getText()}"></span>
             </li>
-
-            <li class="--item">
-                <i class="fa-solid fa-bag-shopping"></i>
-                cart
-            </li>
         </ul>
     </div>
     <span class="input-container">
@@ -46,18 +41,18 @@
                         </a>
                     </div>
                     <div class="item-info">
-                        <p class="list-info">
+                        <div class="seller">
+                            <a th:text="${item.getBrandName()}"></a>
+                        </div>
+                        <div class="list-info">
                             <a th:href="@{/goods/read (gid=${item.getIndex()})}"
                                th:title="${item.getItemName()}"
                                th:text="${item.getItemName()}"></a>
-                        </p>
-                        <p class="seller">
-                            <a th:text="${item.getBrandName()}"></a>
-                        </p>
-                        <p class="price">
+                        </div>
+                        <div class="price">
                             <a th:text="${#numbers.formatInteger(item.getPrice(), 0, 'COMMA')+' 원'}">12,900원</a>
-                        </p>
-                        <p class="rating-star">
+                        </div>
+                        <div class="rating-star">
                             <span class="star-container">
                                 <i class="star filled fa-solid fa-star "></i>
                                 <i class="star filled fa-solid fa-star "></i>
@@ -66,7 +61,7 @@
                                 <i class="star filled fa-solid fa-star "></i>
                             </span>
                             <span class="review-count">75,165</span>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </li>

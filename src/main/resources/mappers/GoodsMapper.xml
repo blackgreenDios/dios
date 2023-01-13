@@ -102,7 +102,8 @@
         FROM `dios_store`.`items` AS `item`
                  LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
                  LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
-        WHERE `item`.`index` = #{index} LIMIT 1
+        WHERE `item`.`index` = #{index}
+        LIMIT 1
     </select>
 
     <select id="selectItemExceptImages"
@@ -123,8 +124,7 @@
                  LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
                  LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
         GROUP BY `item`.`index`
-        LIMIT #{limit}
-            OFFSET #{offset}
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
 
@@ -135,7 +135,8 @@
                `item`.`titleimage_data` AS `titleimageData`
 
         FROM `dios_store`.`items` AS `item`
-        WHERE `item`.`index` = #{index} LIMIT 1
+        WHERE `item`.`index` = #{index}
+        LIMIT 1
     </select>
 
 
@@ -168,7 +169,8 @@
                `file_mime` AS `fileMime`,
                `data`      AS `data`
         FROM `dios_store`.`item_img`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </select>
 
     <select id="selectSize"
@@ -213,14 +215,16 @@
     <delete id="deleteReviewByIndex">
         DELETE
         FROM `dios_store`.`reviews`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </delete>
 
     <delete id="deleteItemColorByItemIndexColor">
         DELETE
         FROM `dios_store`.`item_colors`
         WHERE `item_colors`.`item_index` = #{itemIndex}
-          AND `item_colors`.`color` = #{color} LIMIT 1
+          AND `item_colors`.`color` = #{color}
+        LIMIT 1
     </delete>
 
     <select id="selectReviewsByGoodsIndex"
@@ -245,7 +249,8 @@
                `data`         AS `data`,
                `type`         AS `type`
         FROM `dios_store`.`review_images`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </select>
 
     <select id="selectReviewImagesByGoodsIndexExceptData"
@@ -377,19 +382,27 @@
         DELETE
         FROM `dios_store`.`item_sizes`
         WHERE `item_sizes`.item_index = #{itemIndex}
-          AND `item_sizes`.`size` = #{size} LIMIT 1
+          AND `item_sizes`.`size` = #{size}
+        LIMIT 1
     </delete>
 
     <delete id="deleteItemByIndex">
         DELETE
         FROM `dios_store`.`items`
-        WHERE `index` = #{index} LIMIT 1
+        WHERE `index` = #{index}
+        LIMIT 1
     </delete>
 
     <select id="selectItemsCount"
             resultType="int">
         SELECT COUNT(0)
         FROM `dios_store`.`items` AS `item`
+    </select>
+
+    <select id="selectIndex"
+            resultType="int">
+        SELECT `index` AS `index`
+        FROM `dios_store`.`items`
     </select>
 
 

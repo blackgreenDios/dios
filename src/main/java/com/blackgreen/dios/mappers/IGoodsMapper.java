@@ -96,4 +96,6 @@ public interface IGoodsMapper {
 //    GoodsVo[] selectItemsByCategoryId(@Param(value = "limit") int limit,
 //                                      @Param(value = "offset") int offset);
 
+    int[] selectIndex();
+
 }
