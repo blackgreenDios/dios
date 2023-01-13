@@ -67,13 +67,21 @@ body>.main>.content>.title{
     border-spacing: 1.25rem;
 }
 
+#table > tbody tr th {
+    margin-bottom: 1rem;
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+}
+
 #inputTitle,
 #inputSeller,
 #inputPrice
 {
     width:15rem;
     height:2rem;
-    font-size:1rem;
+    font-size: 0.8rem;
+
+    padding-left: 1rem;
 }
 #inputCount{
     width: 8.6rem;
@@ -207,15 +215,31 @@ select {
 
 #goodsOption td > .color > .colorBox,
 #goodsOption td > .size > .sizeBox {
-    align-items : flex-end;
+    align-items : flex-start;
     display : flex;
     flex-direction : column;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 
 #goodsOption td > .color > .colorBox > .newColor,
 #goodsOption td > .size > .sizeBox > .newSize {
     margin-right: 3rem;
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+
+    width: 13rem;
+    height: 2rem;
+
+    font-size: 0.8rem;
+}
+
+#goodsOption td > .color > .colorBox > .newColorText,
+#goodsOption td > .size정 > .sizeBox > .newSizeText {
+    margin-top: 0.4rem;
+
+    font-size: 0.8rem;
+    color: rgb(232, 23, 23);
+    font-family: none;
 }
 
 #goodsOption td > .color > .selectContainer,
@@ -257,5 +281,13 @@ select {
     text-align: center;
     font-size: 0.87rem;
     font-weight: bold;
+}
+
+#itemCategory,
+#seller {
+    width: 16.2rem;
+    height: 2.3rem;
+
+    padding-left: 1rem;
 }
 
