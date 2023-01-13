@@ -234,7 +234,7 @@ select {
 }
 
 #goodsOption td > .color > .colorBox > .newColorText,
-#goodsOption td > .size > .sizeBox > .newSizeText {
+#goodsOption td > .size정 > .sizeBox > .newSizeText {
     margin-top: 0.4rem;
 
     font-size: 0.8rem;
