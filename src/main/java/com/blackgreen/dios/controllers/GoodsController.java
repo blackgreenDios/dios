@@ -24,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
 import java.io.IOException;
 
@@ -210,7 +211,6 @@ public class GoodsController {
         int sum = 0;
         int reviewCount = reviews.length;
         double ScoreAvg = 0;
-
         for (int i = 0; i < reviews.length; i++) {
             sum += reviews[i].getScore();
         }
@@ -223,12 +223,10 @@ public class GoodsController {
             ScoreAvg = 0;
         }
         goods.setScoreAvg(ScoreAvg);
-
         goods.setIndex(gid);
         modelAndView.addObject("goods", goods);
         modelAndView.addObject("category", this.goodsService.getCategory(goods.getCategoryId()));
         modelAndView.addObject("seller", this.goodsService.getBrand(goods.getSellerIndex()));
-
         modelAndView.addObject("sizes", this.goodsService.getItemSize(gid));
         modelAndView.addObject("colors", this.goodsService.getItemColors(gid));
         return modelAndView;
@@ -312,6 +310,8 @@ public class GoodsController {
         if (page == null) {
             page = 1;
         }
+
+
         ////////////////// pagination ///////////
         page = Math.max(1, page);
         int totalCount = this.goodsService.getReviewCount(goodsIndex);
@@ -325,16 +325,6 @@ public class GoodsController {
         responseJson.put("minPage", paging.minPage);
 
         responseJson.put("reviews", new JSONArray(objectMapper.writeValueAsString(this.goodsService.getReviewsPaging(goodsIndex, paging))));
-        ///////////
-        /*
-        {
-          "startPage": ?,
-          "endPage": ?,
-          "reviews": [
-              {}, …
-          ]
-        }
-        * */
 
         return responseJson.toString();
     }

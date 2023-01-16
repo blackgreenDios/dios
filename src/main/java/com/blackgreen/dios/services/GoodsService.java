@@ -152,8 +152,6 @@ public class GoodsService {
             ReviewImageEntity[] reviewImage = this.goodsMapper.selectReviewImagesByGoodsIndexExceptData(review.getIndex());
             int[] reviewImageIndexes = Arrays.stream(reviewImage).mapToInt(ReviewImageEntity::getIndex).toArray();
             review.setImageIndexes(reviewImageIndexes);
-//            UserEntity user = this.goodsMapper.selectUserByUserEmail(review.getUserEmail());
-//            review.setUserNickname(user.getNickname());
         }
 
         return reviews;
@@ -162,7 +160,6 @@ public class GoodsService {
     public ReviewVo[] getReviews(int itemIndex) {
 
         ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndex(itemIndex); //상품 index를 기준으로 review select
-
         for (ReviewVo review : reviews) {
             ReviewImageEntity[] reviewImage = this.goodsMapper.selectReviewImagesByGoodsIndexExceptData(review.getIndex());
             int[] reviewImageIndexes = Arrays.stream(reviewImage).mapToInt(ReviewImageEntity::getIndex).toArray();
@@ -223,19 +220,15 @@ public class GoodsService {
 
     @Transactional
     public Enum<? extends IResult> addReview(UserEntity user, ReviewVo review, MultipartFile[] images) throws IOException, RollbackException {
-
         if (user == null) {
             return AddReviewResult.NOT_SIGNED;
         }
-
         review.setUserEmail(user.getEmail());
         review.setUserNickname(user.getNickname());
-
         // 상품 구매 하지 않은 사람에게 권한없음 return
+        OrderEntity[] existingOrders = this.goodsMapper.selectOrderByItemIndexEmailStatus(review.getItemIndex(), user.getEmail(), 3);
 
-        OrderEntity[] existingOrders = this.goodsMapper.selectOrderByItemIndexEmailStatus(review.getItemIndex(),user.getEmail(),3);
-
-        if(existingOrders.length == 0 ){
+        if (existingOrders.length == 0) {
             return AddReviewResult.NOT_ALLOWED;
         }
 
@@ -379,7 +372,7 @@ public class GoodsService {
     }
 
     public int getItemCount(String categoryId) {
-           return this.goodsMapper.selectItemsCount(categoryId);
+        return this.goodsMapper.selectItemsCount(categoryId);
     }
 
     public int getReviewCount(int itemIndex) {
@@ -418,9 +411,8 @@ public class GoodsService {
         return CommonResult.FAILURE;
     }
 
-    public int[] getIndex () {
+    public int[] getIndex() {
         return this.goodsMapper.selectIndex();
     }
-
 
 }

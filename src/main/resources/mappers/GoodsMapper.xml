@@ -428,14 +428,14 @@
                `review`.`item_index` AS `itemIndex`,
                `review`.`score`      AS `score`,
                `review`.`content`    AS `content`,
-               `review`.`created_on` AS `createdOn`
+               `review`.`created_on` AS `createdOn`,
+               `user`.`nickname`     AS `userNickname`
         FROM `dios_store`.`reviews` AS `review`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`
         WHERE `review`.`item_index` = #{itemIndex}
         GROUP BY `review`.`index`
         ORDER BY `review`.`index` DESC
-        LIMIT #{limit}
-            OFFSET #{offset}
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="selectReviewCountByItemIndex"
@@ -444,8 +444,5 @@
         FROM `dios_store`.`reviews` AS `review`
         WHERE `item_index` = #{itemIndex}
     </select>
-
-
-
 
 </mapper>
