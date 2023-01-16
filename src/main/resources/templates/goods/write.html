@@ -13,6 +13,11 @@
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<script
+    th:if="${user == null || !user.isAdmin()}">
+    alert('해당 페이지는 관리자만 접근할 수 있는 페이지입니다.');
+    window.location.href='/dios/login';
+</script>
 <main class="main">
     <form id="form" class="content --content">
         <h1 class="title">상품 등록</h1>
@@ -20,7 +25,7 @@
             <tbody>
             <tr>
                 <th>상품 분류</th>
-                <td>
+                <td class="first">
                     <label class="label">
                         <span hidden>상품 분류</span>
                         <select id="itemCategory" th:name="itemCategory">
@@ -101,11 +106,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="size">
-                        <span class="sizeText">수량</span>
-                        <div class="sizeBox">
-                            <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요.">
-                            <a class="newSizeText">상품의 사이즈를 입력 후, 엔터키를 눌러주세요.</a>
+                    <div class="count">
+                        <span class="countText">수량</span>
+                        <div class="countBox">
+                            <input name="count" id="inputCount" type="text" class="newCount" placeholder="수량을 입력해주세요.">
                         </div>
                     </div>
 
@@ -113,13 +117,13 @@
             </tr>
 
 
-            <tr>
+            <tr id="img-container">
                 <th>상품 대표사진</th>
                 <td>
                     <label class="label" id="label">
                         <input accept="image/*" multiple hidden type="file" name="images">
                         <span hidden>대표 사진</span>
-                        <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택... </a>
+                        <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택 ... </a>
                         <div class="image-container" rel="imageContainer">
                             <img class="title-img" id="imgThumb"
                                  src="https://thumb.ac-illust.com/73/7387030e5a5600726e5309496353969a_t.jpeg"
@@ -147,17 +151,12 @@
                    </span>
                 </td>
             </tr>
-            <tr>
-                <th></th>
-                <td class="button">
-                    <div class="button-container" id="buttonContainer">
-                        <input class="—object-button" name="back" type="button" value="돌아가기">
-                        <input class="—object-button" name="submit" type="button" rel="submit" value="등록하기">
-                    </div>
-                </td>
-            </tr>
             </tbody>
         </table>
+        <div class="button-container" id="buttonContainer">
+            <input class="—object-button" name="back" type="button" value="돌아가기">
+            <input class="—object-button" name="submit" type="button" rel="submit" value="등록하기">
+        </div>
     </form>
 
 </main>

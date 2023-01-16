@@ -11,12 +11,17 @@ import com.blackgreen.dios.mappers.IGoodsMapper;
 import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.vos.goods.GoodsVo;
 import com.blackgreen.dios.vos.goods.ReviewVo;
+import com.blackgreen.dios.vos.goods.GoodsVo;
+import jdk.jfr.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.FetchProfile;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -70,9 +75,6 @@ public class GoodsService {
     @Transactional
     public Enum<? extends IResult> addItem(UserEntity user, ItemEntity item, MultipartFile images) throws IOException {
 
-        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
-            return CommonResult.FAILURE;
-        }
 
 //        item = this.goodsMapper.selectItemByIndex(item.getIndex()); //item의 getIndex를 넘겨준적 없으니깐 0일것임,
 //                                                                      그래서 값을 넘겨야함/ 그런데 이건 select해와서 그런거임. insert하는데 굳이 고를 필요 없음
@@ -139,6 +141,24 @@ public class GoodsService {
     }
 
 
+    public ReviewVo[] getReviewsPaging(int itemIndex, PagingModel paging) {
+
+        ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndexPaging(
+                itemIndex,
+                paging.countPerPage,
+                (paging.requestPage - 1) * paging.countPerPage); //상품 index를 기준으로 review select
+
+        for (ReviewVo review : reviews) {
+            ReviewImageEntity[] reviewImage = this.goodsMapper.selectReviewImagesByGoodsIndexExceptData(review.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(reviewImage).mapToInt(ReviewImageEntity::getIndex).toArray();
+            review.setImageIndexes(reviewImageIndexes);
+//            UserEntity user = this.goodsMapper.selectUserByUserEmail(review.getUserEmail());
+//            review.setUserNickname(user.getNickname());
+        }
+
+        return reviews;
+    }
+
     public ReviewVo[] getReviews(int itemIndex) {
 
         ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndex(itemIndex); //상품 index를 기준으로 review select
@@ -189,7 +209,11 @@ public class GoodsService {
         }
 
         existingReview.setContent(review.getContent());
-        existingReview.setScore(review.getScore());
+
+        // 점수 수정한게 있을때만 새로운 정보를 set 해주기
+        if (review.getScore() != 0) {
+            existingReview.setScore(review.getScore());
+        }
 
         return this.goodsMapper.updateReview
                 (existingReview) > 0 ?
@@ -198,15 +222,27 @@ public class GoodsService {
     }
 
     @Transactional
-    public Enum<? extends IResult> addReview(UserEntity user, ReviewEntity review, MultipartFile[] images) throws IOException, RollbackException {
+    public Enum<? extends IResult> addReview(UserEntity user, ReviewVo review, MultipartFile[] images) throws IOException, RollbackException {
 
         if (user == null) {
             return AddReviewResult.NOT_SIGNED;
         }
+
         review.setUserEmail(user.getEmail());
+        review.setUserNickname(user.getNickname());
+
+        // 상품 구매 하지 않은 사람에게 권한없음 return
+
+        OrderEntity[] existingOrders = this.goodsMapper.selectOrderByItemIndexEmailStatus(review.getItemIndex(),user.getEmail(),3);
+
+        if(existingOrders.length == 0 ){
+            return AddReviewResult.NOT_ALLOWED;
+        }
+
         if (this.goodsMapper.insertReview(review) == 0) {
             return AddReviewResult.FAILURE;
         }
+
         if (images != null && images.length > 0) {
             for (MultipartFile image : images) {
                 ReviewImageEntity reviewImage = new ReviewImageEntity();
@@ -215,19 +251,19 @@ public class GoodsService {
                 reviewImage.setType(image.getContentType());
                 if (this.goodsMapper.insertReviewImage(reviewImage) == 0) {
                     throw new RollbackException();
-
                 }
             }
         }
-        return AddReviewResult.SUCCESS;
 
+        return AddReviewResult.SUCCESS;
     }
 
 
-    public GoodsVo[] getItems( PagingModel paging) {
+    public GoodsVo[] getItems(PagingModel paging, String categoryId) {
         return this.goodsMapper.selectItemExceptImages(
                 paging.countPerPage,
-                (paging.requestPage - 1) * paging.countPerPage);
+                (paging.requestPage - 1) * paging.countPerPage,
+                categoryId);
     }
 
     public ItemEntity[] getItemImages() {
@@ -288,10 +324,6 @@ public class GoodsService {
 //            return ModifyItemResult.NOT_ALLOWED;
 //        }
 
-        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
-            return CommonResult.FAILURE;
-        }
-
         //새로 저장할 내용을 set해주깅 > 수정된 내용이 저장됨
         existingItem.setCategoryId(item.getCategoryId());
         existingItem.setSellerIndex(item.getSellerIndex());
@@ -324,12 +356,9 @@ public class GoodsService {
             return CommonResult.FAILURE;
         }
 
-        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
+        if (user == null || !user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
             return CommonResult.FAILURE;
         }
-//        if (user == null || !user.getEmail().equals("admin")) { // 쌤은 existingCommentfh 로 바꿨는데
-//            return CommonResult.FAILURE;
-//        }
 
         item.setCategoryId(existingItem.getCategoryId());
         return this.goodsMapper.deleteItemByIndex(item.getIndex()) > 0
@@ -349,8 +378,12 @@ public class GoodsService {
         return AddReviewResult.SUCCESS;
     }
 
-    public int getItemCount() {
-        return this.goodsMapper.selectItemsCount();
+    public int getItemCount(String categoryId) {
+           return this.goodsMapper.selectItemsCount(categoryId);
+    }
+
+    public int getReviewCount(int itemIndex) {
+        return this.goodsMapper.selectReviewCountByItemIndex(itemIndex);
     }
 
     @Transactional
@@ -385,9 +418,9 @@ public class GoodsService {
         return CommonResult.FAILURE;
     }
 
-
     public int[] getIndex () {
         return this.goodsMapper.selectIndex();
     }
+
 
 }

@@ -36,7 +36,7 @@
     <delete id="deleteCartByIndex">
         DELETE
         FROM `dios_store`.`carts`
-        WHERE `index` = #{index}
+        WHERE `index` = #{index} AND `user_email` = #{userEmail}
         LIMIT 1
     </delete>
 

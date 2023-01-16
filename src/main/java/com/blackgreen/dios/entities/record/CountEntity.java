@@ -11,8 +11,8 @@ public class CountEntity {
     private int squatSetting;
     private int lungeCount;
     private int lungeSetting;
-    private int plankCount;
-    private int plankSetting;
+    private int pushUpCount;
+    private int pushUpSetting;
 
     public String getUserEmail() {
         return userEmail;
@@ -68,21 +68,21 @@ public class CountEntity {
         return this;
     }
 
-    public int getPlankCount() {
-        return plankCount;
+    public int getPushUpCount() {
+        return pushUpCount;
     }
 
-    public CountEntity setPlankCount(int plankCount) {
-        this.plankCount = plankCount;
+    public CountEntity setPushUpCount(int pushUpCount) {
+        this.pushUpCount = pushUpCount;
         return this;
     }
 
-    public int getPlankSetting() {
-        return plankSetting;
+    public int getPushUpSetting() {
+        return pushUpSetting;
     }
 
-    public CountEntity setPlankSetting(int plankSetting) {
-        this.plankSetting = plankSetting;
+    public CountEntity setPushUpSetting(int pushUpSetting) {
+        this.pushUpSetting = pushUpSetting;
         return this;
     }
 

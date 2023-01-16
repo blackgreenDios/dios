@@ -1,10 +1,7 @@
 package com.blackgreen.dios.controllers;
 
 import com.blackgreen.dios.entities.member.UserEntity;
-import com.blackgreen.dios.entities.store.CartEntity;
-import com.blackgreen.dios.entities.store.ItemCategoryEntity;
-import com.blackgreen.dios.entities.store.ItemEntity;
-import com.blackgreen.dios.entities.store.OrderEntity;
+import com.blackgreen.dios.entities.store.*;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.services.GoodsService;
@@ -29,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Random;
 
 import static java.lang.Integer.parseInt;
 
@@ -55,17 +53,63 @@ public class StoreController {
 
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
         int totalCount; //pagination 하려고 가져온 것
-        ItemCategoryEntity category = this.goodsService.getCategory(categoryId);
+//        ItemCategoryEntity category = this.goodsService.getCategory(categoryId);
 
-        totalCount = this.goodsService.getItemCount();
-        PagingModel paging = new PagingModel(totalCount, page);
+
+        totalCount = this.goodsService.getItemCount(categoryId);
+
+
+        PagingModel paging = new PagingModel(6, totalCount, page);
         modelAndView.addObject("paging", paging);
 
-        GoodsVo[] goods = this.goodsService.getItems(paging);
+        // categoryId 도 매개변수로 받는 이유는 카테고리 누르면 카테고리별로 분류된 상품 보려고
+        GoodsVo[] goods = this.goodsService.getItems(paging, categoryId);
+
         ItemEntity[] goodsImage = this.goodsService.getItemImages();
         modelAndView.addObject("goods", goods);
         modelAndView.addObject("goodsImage", goodsImage);
         modelAndView.addObject("category", categories);
+        modelAndView.addObject("cad",categoryId);
+
+        for (GoodsVo item : goods) {
+            ReviewEntity[] reviews = this.goodsService.getReviews(item.getIndex());
+            int sum = 0;
+            int reviewCount = reviews.length;
+            double ScoreAvg = 0;
+
+            for (ReviewEntity review : reviews) {
+                sum += review.getScore();
+            }
+            if (reviewCount > 0) {
+                ScoreAvg = (double) sum / reviewCount;
+                ScoreAvg = (double) (Math.round(ScoreAvg * 10));
+                ScoreAvg = ScoreAvg / 10;
+            } else {
+                ScoreAvg = 0;
+            }
+            item.setReviewCount(this.goodsService.getReviewCount(item.getIndex()));
+            item.setScoreAvg(ScoreAvg);
+        }
+
+
+        Random random = new Random();
+        int[] items = this.goodsService.getIndex();
+        int num1 = items[random.nextInt(items.length - 1)];
+        int num2 = items[random.nextInt(items.length - 1)];
+        int num3 = items[random.nextInt(items.length - 1)];
+        int num4 = items[random.nextInt(items.length - 1)];
+        int num5 = items[random.nextInt(items.length - 1)];
+        int num6 = items[random.nextInt(items.length - 1)];
+        int num7 = items[random.nextInt(items.length - 1)];
+        int num8 = items[random.nextInt(items.length - 1)];
+        modelAndView.addObject("random1", num1);
+        modelAndView.addObject("random2", num2);
+        modelAndView.addObject("random3", num3);
+        modelAndView.addObject("random4", num4);
+        modelAndView.addObject("random5", num5);
+        modelAndView.addObject("random6", num6);
+        modelAndView.addObject("random7", num7);
+        modelAndView.addObject("random8", num8);
 
 //
 //        for (GoodsVo item : goods) {
@@ -89,7 +133,6 @@ public class StoreController {
         // 프젝하다가 업로드, 다운로드 할 일이 있는데 이걸 교과서처럼 참고하삼요~!!!
         return new ResponseEntity<>(image.getTitleImageData(), headers, HttpStatus.OK);
     }
-
 
 
     // cart 페이지
@@ -147,7 +190,7 @@ public class StoreController {
         CartEntity[] carts = new ObjectMapper().readValue(indexStr, CartEntity[].class);
 
 
-        Enum<?> result = this.storeService.deleteCart(carts);
+        Enum<?> result = this.storeService.deleteCart(user, carts);
         JSONObject responseObject = new JSONObject();
 
         responseObject.put("result", result.name().toLowerCase());
@@ -305,7 +348,6 @@ public class StoreController {
 
         return modelAndView;
     }
-
 
 
 }

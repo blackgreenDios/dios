@@ -133,7 +133,6 @@ select {
 
 #buttonContainer {
     margin-top: 0.5rem;
-
     align-items: stretch;
     display: flex;
     flex-direction: row;
@@ -166,6 +165,7 @@ body > .--footer > .--content {
     border: 0.0625rem solid rgb(213, 216, 220);
     box-sizing: border-box;
     padding: 0.625rem 0.875rem;
+    border-radius: 0.5rem;
 }
 
 .--object-input:disabled {
@@ -173,13 +173,7 @@ body > .--footer > .--content {
     color: rgb(171, 178, 185);
 }
 
-.--object-button {
-    border-radius: 0.5rem;
-    box-sizing: border-box;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0.4rem 2rem;
-}
+
 
 .--object-input {
     width: 100%;
@@ -200,25 +194,16 @@ body > .--footer > .--content {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 0.4rem 1.5rem;
-
 }
 
 #submit {
-    background-color: rgb(255, 255, 255);
-    border: 0.0625rem solid rgb(0, 0, 0);
-    color: rgb(0, 0, 0);
-    margin-bottom: 2rem;
+    background-color: rgb(0, 0, 0);
+    border: 0.0625rem solid rgb(0,0,0);
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
 }
 
-#submit:hover {
-    font-weight: bold;
-}
-
-#submit:active {
-    font-weight: bold;
-    border: 0.0625rem solid rgb(213, 216, 220);
-
-}
 
 main, input, select {
     font: unset;
@@ -226,10 +211,19 @@ main, input, select {
 }
 
 #search {
-    background-color: rgb(255, 255, 255);
-    border: 0.0625rem solid rgb(0, 0, 0);
-    color: rgb(0, 0, 0);
-    margin-bottom: 3rem;
+    background-color: rgb(0, 0, 0);
+    border: 0.0625rem solid rgb(0,0,0);
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    padding: 0.6rem 2rem 0.6rem 2rem;
 
+    margin-bottom: 3rem;
 }
+
+#submit:hover,
+#search:hover{
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
+}
+
 

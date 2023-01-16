@@ -4,16 +4,23 @@ import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.store.*;
 import com.blackgreen.dios.enums.CommonResult;
 import com.blackgreen.dios.enums.goods.AddReviewResult;
+import com.blackgreen.dios.interfaces.IResult;
+import com.blackgreen.dios.models.PagingModel;
 import com.blackgreen.dios.services.GoodsService;
 import com.blackgreen.dios.services.RollbackException;
 import com.blackgreen.dios.vos.goods.GoodsVo;
 import com.blackgreen.dios.vos.goods.ReviewVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,13 +38,18 @@ public class GoodsController {
 
     @RequestMapping(value = "write",
             method = RequestMethod.GET)
-    public ModelAndView getIndex() {
-        ModelAndView modelAndView = new ModelAndView("goods/write");
+    public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user) {
+
+        ModelAndView modelAndView;
+
+        modelAndView = new ModelAndView("goods/write");
 
         SellerEntity[] sellers = this.goodsService.getSeller();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
         modelAndView.addObject("seller", sellers);
         modelAndView.addObject("category", categories);
+        modelAndView.addObject("user", user);
+
 
         return modelAndView;
     }
@@ -46,10 +58,8 @@ public class GoodsController {
 
     @PostMapping(value = "write")
     @ResponseBody
-
-
     public String postWrite(ItemEntity item,
-                            @SessionAttribute(value = "user",required = false)UserEntity user,
+                            @SessionAttribute(value = "user", required = false) UserEntity user,
                             @RequestParam(value = "sizes", required = false) String[] sizes,
                             @RequestParam(value = "colors", required = false) String[] colors,
                             @RequestParam(value = "images", required = false) MultipartFile images) throws IOException {
@@ -72,32 +82,6 @@ public class GoodsController {
         }
         this.goodsService.addItemSizes(itemSize);
 
-// select 한 값 저장해주는 코드
-
-//        ItemColorEntity[] itemColors = new ItemColorEntity[colorIds.length]; // 새로운 배열 만들기
-//        for (int i = 0; i < itemColors.length; i++) {
-//            ItemColorEntity itemColor = new ItemColorEntity();
-//            ItemColorEntity itemColorById = this.goodsService.getItemColorById(colorIds[i]);
-//
-//            itemColor.setId(colorIds[i] + i);
-//            itemColor.setItemIndex(item.getIndex());
-//            itemColor.setText(itemColorById.getText());
-//            itemColors[i] = itemColor;
-//            this.goodsService.addColor(itemColors[i]);
-//        }
-//
-//
-//        System.out.println("---");
-//        SizeEntity[] sizes = new SizeEntity[sizeId.length];
-//        for (int i = 0; i < sizes.length; i++) {
-//            SizeEntity size = new SizeEntity();
-//            SizeEntity sizeById = this.goodsService.getItemSizeById(sizeId[i]);
-//            size.setId(sizeId[i] + i);
-//            size.setItemIndex(item.getIndex());
-//            size.setText(sizeById.getText());
-//            sizes[i] = size;
-//            this.goodsService.addSize(sizes[i]);
-//        }
 
         JSONObject responseObject = new JSONObject();
         responseObject.put("gid", item.getIndex()); //gid는 goodsIndex 의 줄임말이다.
@@ -161,6 +145,8 @@ public class GoodsController {
         ItemSizeEntity[] sizes = this.goodsService.getItemSize(item.getIndex());
         modelAndView.addObject("sizes", sizes);
 
+        modelAndView.addObject("user", user);
+
         if (result == CommonResult.SUCCESS) {
             modelAndView.addObject("gid", item.getIndex());
         }
@@ -192,7 +178,7 @@ public class GoodsController {
             this.goodsService.addItemColors(itemColors);
         }
 
-        if (sizes!= null){
+        if (sizes != null) {
             ItemSizeEntity[] itemSize = new ItemSizeEntity[sizes.length];
             for (int i = 0; i < sizes.length; i++) {
                 itemSize[i] = new ItemSizeEntity();
@@ -201,7 +187,6 @@ public class GoodsController {
             }
             this.goodsService.addItemSizes(itemSize);
         }
-
 
 
         JSONObject responseObject = new JSONObject();
@@ -229,9 +214,9 @@ public class GoodsController {
         for (int i = 0; i < reviews.length; i++) {
             sum += reviews[i].getScore();
         }
-        if (reviewCount > 0){
-            ScoreAvg = (double )sum / reviewCount;
-            ScoreAvg = (double) (Math.round(ScoreAvg*10));
+        if (reviewCount > 0) {
+            ScoreAvg = (double) sum / reviewCount;
+            ScoreAvg = (double) (Math.round(ScoreAvg * 10));
             ScoreAvg = ScoreAvg / 10;
 
         } else {
@@ -321,8 +306,37 @@ public class GoodsController {
 
     @GetMapping(value = "review", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ReviewVo[] getReview(@RequestParam(value = "gid") int goodsIndex) {
-        return this.goodsService.getReviews(goodsIndex);
+    public String getReview(@RequestParam(value = "gid") int goodsIndex,
+                            @RequestParam(value = "page", required = false, defaultValue = "1") Integer page) throws JsonProcessingException {
+
+        if (page == null) {
+            page = 1;
+        }
+        ////////////////// pagination ///////////
+        page = Math.max(1, page);
+        int totalCount = this.goodsService.getReviewCount(goodsIndex);
+        PagingModel paging = new PagingModel(5, totalCount, page);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("currentPage", page);
+        responseJson.put("startPage", paging.startPage);
+        responseJson.put("endPage", paging.endPage);
+        responseJson.put("maxPage", paging.maxPage);
+        responseJson.put("minPage", paging.minPage);
+
+        responseJson.put("reviews", new JSONArray(objectMapper.writeValueAsString(this.goodsService.getReviewsPaging(goodsIndex, paging))));
+        ///////////
+        /*
+        {
+          "startPage": ?,
+          "endPage": ?,
+          "reviews": [
+              {}, …
+          ]
+        }
+        * */
+
+        return responseJson.toString();
     }
 
     @DeleteMapping(value = "review", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -351,7 +365,7 @@ public class GoodsController {
     @ResponseBody
     public String postReview(@SessionAttribute(value = "user", required = false) UserEntity user,
                              @RequestParam(value = "images", required = false) MultipartFile[] images,
-                             ReviewEntity review) throws IOException, RollbackException {
+                             ReviewVo review) throws IOException, RollbackException {
         JSONObject responseObject = new JSONObject();
         Enum<?> result;
         try {

@@ -9,7 +9,7 @@ body > .main {
     align-items : center;
     display : flex;
     flex-direction : column;
-    justify-content: center;
+    justify-content: flex-start;
 
     margin-top: 2rem;
 }
@@ -74,6 +74,8 @@ body > .main > .book {
     justify-content: flex-start;
 
     box-shadow: 3px 3px 5px 3px #4d4b4b;
+
+    max-height: 60rem;
 }
 
 body > .main > .book > .one {
@@ -89,6 +91,13 @@ body > .main > .book > .one {
 
     margin-top: 3rem;
     margin-bottom: 3rem;
+}
+
+body > .main > .book > .one > .photo-container {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
 }
 
 body > .main > .book > .one > .photo-container > .text {
@@ -258,17 +267,55 @@ body > .main > .book > .one > .photo-container > .photo > .photo-container > .pp
     width: 25rem;
 }
 
-body > .main > .book > .one > .photo-container > .realDelete {
+body > .main > .book > .one > .photo-container > .realDeleteContainer {
+    position: absolute;
+    width: 33rem;
+    height: 35rem;
+
+    align-items : flex-start;
+    display : none;
+    flex-direction : row;
+    justify-content: flex-end;
+}
+
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete {
     background-color: rgb(255, 255, 255);
 
     align-items : center;
-    display : none;
+    display : flex;
     flex-direction : column;
     justify-content: center;
 
+    border: 0.1rem solid rgb(0, 0, 0);
+    box-shadow: 3px 3px 5px 3px #4d4b4b;
+    width: 15rem;
+
+    padding: 1rem 2rem 1rem 2rem;
+
+    font-size: 1.3rem;
+    font-family: 'Gowun Dodum', sans-serif;
+}
+
+body > .main > .book > .one > .diary-container > .realDeleteContainer {
     position: absolute;
-    top: 16rem;
-    left: 23rem;
+    width: 31.5rem;
+    height: 35rem;
+
+    align-items : flex-start;
+    display : none;
+    flex-direction : row;
+    justify-content: flex-end;
+}
+
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete {
+    background-color: rgb(255, 255, 255);
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    width: 15rem;
 
     border: 0.1rem solid rgb(0, 0, 0);
     box-shadow: 3px 3px 5px 3px #4d4b4b;
@@ -279,34 +326,14 @@ body > .main > .book > .one > .photo-container > .realDelete {
     font-family: 'Gowun Dodum', sans-serif;
 }
 
-body > .main > .book > .one > .diary-container > .realDelete {
-    background-color: rgb(255, 255, 255);
-
-    align-items : center;
-    display : none;
-    flex-direction : column;
-    justify-content: center;
-
-    position: absolute;
-    left: 23rem;
-
-    border: 0.1rem solid rgb(0, 0, 0);
-    box-shadow: 3px 3px 5px 3px #4d4b4b;
-
-    padding: 1rem 2rem 1rem 2rem;
-
-    font-size: 1.3rem;
-    font-family: 'Gowun Dodum', sans-serif;
-}
-
-body > .main > .book > .one > .photo-container > .realDelete > .a > .icon,
-body > .main > .book > .one > .diary-container > .realDelete > .a > .icon {
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .a > .icon,
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .a > .icon {
     color: rgb(234, 201, 8);
     font-size: 2rem;
 }
 
-body > .main > .book > .one > .photo-container > .realDelete > .option,
-body > .main > .book > .one > .diary-container > .realDelete > .option {
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .option,
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .option {
     align-items : center;
     display : flex;
     flex-direction : row;
@@ -321,10 +348,10 @@ body > .main > .book > .one > .diary-container > .realDelete > .option {
     font-size: 1.2rem;
 }
 
-body > .main > .book > .one > .photo-container > .realDelete > .option > .yes,
-body > .main > .book > .one > .photo-container > .realDelete > .option > .no,
-body > .main > .book > .one > .diary-container > .realDelete > .option > .yes,
-body > .main > .book > .one > .diary-container > .realDelete > .option > .no {
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .option > .yes,
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .option > .no,
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .option > .yes,
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .option > .no {
 
     background-color: rgb(147, 142, 142);
     border: 0.06rem solid rgb(115, 112, 112);
@@ -334,21 +361,21 @@ body > .main > .book > .one > .diary-container > .realDelete > .option > .no {
     padding: 0.2rem 1.5rem 0.2rem 1.5rem;
 }
 
-body > .main > .book > .one > .photo-container > .realDelete > .option > .yes,
-body > .main > .book > .one > .diary-container > .realDelete > .option > .yes {
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .option > .yes,
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .option > .yes {
     margin-right: 1.5rem;
 }
 
-body > .main > .book > .one > .photo-container > .realDelete > .option > .yes:hover,
-body > .main > .book > .one > .photo-container > .realDelete > .option > .no:hover
-body > .main > .book > .one > .diary-container > .realDelete > .option > .yes:hover,
-body > .main > .book > .one > .diary-container > .realDelete > .option > .no:hover {
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .option > .yes:hover,
+body > .main > .book > .one > .photo-container > .realDeleteContainer > .realDelete > .option > .no:hover
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .option > .yes:hover,
+body > .main > .book > .one > .diary-container > .realDeleteContainer > .realDelete > .option > .no:hover {
 
     background-color: rgb(115, 112, 112);
 }
 
-body > .main > .book > .one > .photo-container > .realDelete.visible,
-body > .main > .book > .one > .diary-container > .realDelete.visible {
+body > .main > .book > .one > .photo-container > .realDeleteContainer.visible,
+body > .main > .book > .one > .diary-container > .realDeleteContainer.visible {
     display: flex;
 }
 
@@ -409,7 +436,7 @@ body > .main > .book > .two > .record-container {
 
 body > .main > .book > .two > .record-container > .squat-container,
 body > .main > .book > .two > .record-container > .lunge-container,
-body > .main > .book > .two > .record-container > .plank-container {
+body > .main > .book > .two > .record-container > .pushUp-container {
     align-items : center;
     display : flex;
     flex-direction : row;
@@ -420,7 +447,7 @@ body > .main > .book > .two > .record-container > .plank-container {
 
 body > .main > .book > .two > .record-container > .squat-container > .icon,
 body > .main > .book > .two > .record-container > .lunge-container > .icon,
-body > .main > .book > .two > .record-container > .plank-container > .icon {
+body > .main > .book > .two > .record-container > .pushUp-container > .icon {
     margin-right: 1rem;
 
     color: rgb(110, 129, 129);
@@ -429,8 +456,8 @@ body > .main > .book > .two > .record-container > .plank-container > .icon {
 }
 
 body > .main > .book > .two > .record-container > .squat-container > .squatText,
-body > .main > .book > .two > .record-container > .plank-container > .plankText {
-    margin-right: 5.5rem;
+body > .main > .book > .two > .record-container > .pushUp-container > .pushUpText {
+    width: 9rem;
 
     font-size: 1.5rem;
     font-weight: 700;
@@ -439,8 +466,7 @@ body > .main > .book > .two > .record-container > .plank-container > .plankText 
 }
 
 body > .main > .book > .two > .record-container > .lunge-container > .lungeText {
-    margin-right: 6.9rem;
-
+    width: 9rem;
     font-size: 1.5rem;
     font-weight: 700;
 
@@ -449,8 +475,10 @@ body > .main > .book > .two > .record-container > .lunge-container > .lungeText 
 
 body > .main > .book > .two > .record-container > .squat-container > .count,
 body > .main > .book > .two > .record-container > .lunge-container > .count,
-body > .main > .book > .two > .record-container > .plank-container > .count {
+body > .main > .book > .two > .record-container > .pushUp-container > .count {
     margin-right: 1rem;
+    width: 5rem;
+    text-align: right;
 
     font-size: 4rem;
     color: rgb(232, 23, 23);
@@ -458,8 +486,9 @@ body > .main > .book > .two > .record-container > .plank-container > .count {
 
 body > .main > .book > .two > .record-container > .squat-container > .goalCount,
 body > .main > .book > .two > .record-container > .lunge-container > .goalCount,
-body > .main > .book > .two > .record-container > .plank-container > .goalCount {
+body > .main > .book > .two > .record-container > .pushUp-container > .goalCount {
     font-size: 2rem;
+    width: 7rem;
 }
 
 body > .main > .book > .two > .add-container {
@@ -556,33 +585,42 @@ body > .main > .book > .two > .add-container > .add > .icon:hover {
     color: rgb(155, 154, 146);
 }
 
+body > .main > .book > .two > .add-container > .realDeleteContainer {
+    position: absolute;
+    width: 31.5rem;
+    height: 35rem;
 
-body > .main > .book > .two > .add-container > .realDelete {
+    align-items : flex-start;
+    display : none;
+    flex-direction : row;
+    justify-content: flex-end;
+}
+
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete {
     background-color: rgb(255, 255, 255);
 
     align-items : center;
-    display : none;
+    display : flex;
     flex-direction : column;
     justify-content: center;
 
-    position: absolute;
-    right: 8rem;
+    width: 15rem;
 
     border: 0.1rem solid rgb(0, 0, 0);
     box-shadow: 3px 3px 5px 3px #4d4b4b;
 
     padding: 1rem 2rem 1rem 2rem;
 
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-family: 'Gowun Dodum', sans-serif;
 }
 
-body > .main > .book > .two > .add-container > .realDelete > .a > .icon {
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .a > .icon {
     color: rgb(234, 201, 8);
     font-size: 2rem;
 }
 
-body > .main > .book > .two > .add-container > .realDelete > .option {
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .option {
     align-items : center;
     display : flex;
     flex-direction : row;
@@ -597,8 +635,8 @@ body > .main > .book > .two > .add-container > .realDelete > .option {
     font-size: 1.2rem;
 }
 
-body > .main > .book > .two > .add-container > .realDelete > .option > .yes,
-body > .main > .book > .two > .add-container > .realDelete > .option > .no {
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .option > .yes,
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .option > .no {
 
     background-color: rgb(147, 142, 142);
     border: 0.06rem solid rgb(115, 112, 112);
@@ -608,17 +646,17 @@ body > .main > .book > .two > .add-container > .realDelete > .option > .no {
     padding: 0.2rem 1.5rem 0.2rem 1.5rem;
 }
 
-body > .main > .book > .two > .add-container > .realDelete > .option > .yes {
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .option > .yes {
     margin-right: 1.5rem;
 }
 
-body > .main > .book > .two > .add-container > .realDelete > .option > .yes:hover,
-body > .main > .book > .two > .add-container > .realDelete > .option > .no:hover {
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .option > .yes:hover,
+body > .main > .book > .two > .add-container > .realDeleteContainer > .realDelete > .option > .no:hover {
 
     background-color: rgb(115, 112, 112);
 }
 
-body > .main > .book > .two > .add-container > .realDelete.visible {
+body > .main > .book > .two > .add-container > .realDeleteContainer.visible {
     display: flex;
 }
 
@@ -784,16 +822,26 @@ textarea:focus {
     height: 100%;
     background-color: rgba(0, 0, 0, 80%);
 
-    align-items : center;
-    flex-direction : column;
-    justify-content: center;
-
     display: none;
     position: fixed;
     z-index: 9;
+
+    align-items : center;
+    flex-direction : column;
+    justify-content: flex-start;
 }
 
-#calendarContainer > .top {
+#calendarContainer > .cc {
+    width: 80rem;
+    height: 70rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#calendarContainer > .cc > .top {
     background-color: #2C3E50;
     border: 0.06rem solid rgb(44, 43, 43);
     border-top-left-radius: 1rem;
@@ -802,36 +850,35 @@ textarea:focus {
 
     position: absolute;
 
-    top: 3.5%;
-    left: 17%;
+    width: 50rem;
+    height: 40rem;
 
-    width: 60rem;
-    height: 7rem;
+    align-items : flex-start;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-end;
 }
 
-#calendarContainer > .top > .icon {
+#calendarContainer > .cc > .top > .icon {
     color: rgb(255, 255, 255);
     font-size: 1.5rem;
 
-    position: absolute;
-    top: 0.3rem;
-    right: 1rem;
+    margin-right: 0.8rem;
+    margin-top: 0.5rem;
 
     cursor: pointer;
 }
 
-#calendarContainer > .top > .icon:hover {
+#calendarContainer > .cc > .top > .icon:hover {
     color: rgb(224, 218, 218);
 }
 
 #calendar {
     position: absolute;
 
-    top: 8%;
-    left: 17%;
 
-    width: 60rem;
-    height: 45rem;
+    width: 50rem;
+    height: 35rem;
 
     background-color: rgb(255, 255, 255);
 

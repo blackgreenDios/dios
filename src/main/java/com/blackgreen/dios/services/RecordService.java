@@ -42,7 +42,6 @@ public class RecordService {
     }
 
     // 스쿼트화면에 목표개수 띄우기
-    // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
     public int readCount(UserEntity user) {
 
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
@@ -53,11 +52,11 @@ public class RecordService {
 
     // 기록장 작성
     @Transactional
-    public Enum<? extends IResult> addRecord (ElementEntity element){
+    public Enum<? extends IResult> addRecord (UserEntity user, ElementEntity element){
 
-//        if (user == null) {
-//            return CommonResult.FAILURE;
-//        }
+        if (user == null) {
+            return CommonResult.FAILURE;
+        }
 
         return this.recordMapper.insertRecord(element) > 0
                 ? CommonResult.SUCCESS
@@ -65,7 +64,11 @@ public class RecordService {
     }
 
     // 기록장 작성 : 이미지
-    public Enum<? extends IResult> addRecordPhoto (ElementEntity element, MultipartFile images) throws IOException {
+    public Enum<? extends IResult> addRecordPhoto (UserEntity user, ElementEntity element, MultipartFile images) throws IOException {
+
+        if (user == null) {
+            return CommonResult.FAILURE;
+        }
 
         element.setImage(images.getBytes());
         element.setImageType(images.getContentType());
@@ -168,7 +171,12 @@ public class RecordService {
     }
 
     // photo 삭제
-    public Enum<? extends IResult> clearPhoto (ElementEntity element) {
+    public Enum<? extends IResult> clearPhoto (UserEntity user, ElementEntity element) {
+
+        if (user == null) {
+            return CommonResult.FAILURE;
+        }
+
         element.setImage(new byte[0]);  // byte[] 빈 값으로 바꾸는 방법
         element.setImageType("");
 

@@ -47,8 +47,7 @@
                             <span th:text="${article.getCommentCount()}">9,999 </span>
                         </div>
                         <div class="likeButton" id="likeButton" >
-                            <a href="#" th:class="toggle" rel="like">
-
+                            <a href="#" class="toggle" th:classappend="${isLiked ? 'liked' : ''}" rel="like">
                                 <i class="icon fa-regular fa-thumbs-up"></i>
                             </a>
                             <span th:text="${article.getLikeCount()}"> </span>

@@ -13,10 +13,15 @@
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
+<script
+        th:if="${user == null || !user.isAdmin()}">
+    alert('해당 페이지는 관리자만 접근할 수 있는 페이지입니다.');
+    window.location.href='/dios/login';
+</script>
 <main class="main">
     <form id="form" class="content --content">
         <input type="hidden" name="itemIndex" th:value="${item.getIndex()}">
-        <h1 class="title">상품 수정하기</h1>
+        <h1 class="title">상품 수정</h1>
         <table class="table" id="table">
             <tbody>
             <tr>
@@ -92,52 +97,53 @@
                 <th>상품 옵션</th>
                 <td>
                     <div class="color">
-                        <a class="star">*</a>
                         <span class="colorText">색상</span>
                         <div class="colorBox">
                             <input class="newColor" name="newColor" placeholder="ex)  블랙, 그레이, 블루" type="text">
+                            <a class="newColorText">상품의 색깔을 입력 후, 엔터키를 눌러주세요.</a>
                         </div>
                         <div class="selectContainer">
                             <a class="selectText">COLOR</a>
                             <select class="colors" name="colors" id="colorOption" multiple>
-                                <option th:each="color:${colors}"
+                                <option th:each="color : ${colors}"
                                         th:value="${color.getColor()}"
                                         th:text="${color.getColor()}"></option>
                             </select>
                         </div>
-                        <i class="fa-solid fa-trash" id="colorDeleteButton"></i>
                     </div>
                     <div class="size">
-                        <a class="star">*</a>
                         <span class="sizeText">사이즈</span>
                         <div class="sizeBox">
                             <input class="newSize" name="newSize" placeholder="ex)  230, 260, M, L, free size"
                                    type="text">
+                            <a class="newSizeText">상품의 사이즈 입력 후, 엔터키를 눌러주세요.</a>
                         </div>
                         <div class="selectContainer">
                             <a class="selectText">SIZE</a>
                             <select class="sizes" name="sizes" id="sizeOption" multiple>
-                                <option th:each="size:${sizes}"
+                                <option th:each="size : ${sizes}"
                                         th:value="${size.getSize()}"
                                         th:text="${size.getSize()}"></option>
                             </select>
                         </div>
-                        <i class="fa-solid fa-trash" id="sizeDeleteButton"></i>
+                    </div>
+                    <div class="count">
+                        <span class="countText">수량</span>
+                        <div class="countBox">
+                            <input name="count" id="inputCount" type="text" class="newCount" placeholder="수량을 입력해주세요.">
+                        </div>
                     </div>
 
-                    <input name="count" id="inputCount" type="text" class="count" placeholder="수량을 입력해주세요."
-                           th:value="${item.getCount()}">
                 </td>
             </tr>
 
-
-            <tr>
+            <tr id="img-container">
                 <th>상품 대표사진</th>
                 <td>
                     <label class="label" id="label">
                         <input accept="image/*" multiple hidden type="file" name="images">
                         <span hidden>대표 사진</span>
-                        <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택... </a>
+                        <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택 ... </a>
                         <div class="image-container" rel="imageContainer">
                             <img class="title-img" id="imgThumb"
                                  th:src="@{./titleImage (index=${item.getIndex()})}"
@@ -149,7 +155,7 @@
             <tr>
                 <th>상품 상세 내용</th>
                 <td>
-                    <label class="label">
+                    <label class="label" id="detail">
                         <span hidden>상세 내용</span>
                         <textarea class="--object-input input" maxlength="10000" name="content"
                                   placeholder="내용을 입력해주세요." type="text"
@@ -166,19 +172,16 @@
                    </span>
                 </td>
             </tr>
-            <tr>
-                <th></th>
-                <td class="button">
-                    <div class="button-container" id="buttonContainer">
-                        <input class="—object-button" name="back" type="button" value="돌아가기">
-                        <input class="—object-button" name="submit" type="button" rel="submit" value="수정하기">
-                    </div>
-                </td>
-            </tr>
             </tbody>
         </table>
+        <div class="button-container" id="buttonContainer">
+            <input class="—object-button" name="back" type="button" value="돌아가기">
+            <input class="—object-button" name="submit" type="button" rel="submit" value="등록하기">
+        </div>
     </form>
 
 </main>
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>
+

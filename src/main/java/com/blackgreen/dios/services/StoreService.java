@@ -36,11 +36,11 @@ public class StoreService {
     }
 
     // cart 선택상품 삭제
-    public Enum<? extends IResult> deleteCart(CartEntity[] carts) {
+    public Enum<? extends IResult> deleteCart(UserEntity user, CartEntity[] carts) {
 
         int count = 0;
         for (CartEntity cart : carts) {
-            count += this.storeMapper.deleteCartByIndex(cart.getIndex());
+            count += this.storeMapper.deleteCartByIndex(user.getEmail(), cart.getIndex());
         }
 
         return count == carts.length
@@ -118,7 +118,7 @@ public class StoreService {
         OrderEntity[] orders = this.storeMapper.selectOrderByOrderNum(orderInfo.getOrderNum());
         for (OrderEntity order : orders) {
             // 삭제
-            count += this.storeMapper.deleteCartByIndex(order.getCartIndex());
+            count += this.storeMapper.deleteCartByIndex(user.getEmail(), order.getCartIndex());
 
             // 정보수정
             order.setUserName(orderInfo.getUserName());

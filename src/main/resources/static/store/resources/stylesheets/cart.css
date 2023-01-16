@@ -24,7 +24,7 @@ body > .main {
     flex-direction : row;
     justify-content: center;
 
-    min-width: 80vw;
+    width: 72rem;
 
     border-bottom: 0.25rem solid rgb(0, 0, 0);
 
@@ -255,27 +255,27 @@ body > main > form > .content > .total-button > .order {
 
     background-color: rgb(255,255,255);
     color: rgb(0,0,0);
-    border-radius: 0.3rem;
+    border-radius: 0.5rem;
     border: 0.1rem solid rgb(232, 229, 229);
 }
 
 body > main > form > .content > .total-button > .order:hover {
-    background-color: rgb(238, 234, 234);
+    background-color: rgb(245, 242, 242);
 }
 
 body > main > form > .content > .total-button > .order.select{
     margin-right: 3rem;
 
-    background-color: rgb(220, 132, 160);
+    background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
 
-    border-radius: 0.3rem;
-    border: 0.1rem solid rgb(220, 132, 160);
+    border-radius: 0.5rem;
+    border: 0.1rem solid rgb(255, 255, 255);
 }
 
 body > main > form > .content > .total-button > .order.select:hover {
-    background-color: rgb(234, 149, 180);
-    border: 0.1rem solid rgb(234, 149, 180);
+    background-color: rgb(66, 65, 65);
+    border: 0.1rem solid rgb(241, 244, 246);
 }
 
 .information {

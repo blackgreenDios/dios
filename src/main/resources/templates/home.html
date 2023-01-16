@@ -9,6 +9,9 @@
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/resources/stylesheets/home.css}">
     <script defer th:src="@{/resources/scripts/home.js}"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&family=Gaegu:wght@700&family=Gowun+Batang:wght@700&family=Gowun+Dodum&family=IBM+Plex+Sans+KR:wght@500&display=swap" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
@@ -17,7 +20,8 @@
     <div class="do">
         <div class="do-container">
             <div class="do-text-main">
-                <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="star">✦</a></a>
+                <a class="text"><a class="star">✦</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+                        class="star">✦</a></a>
             </div>
             <div class="do">
                 <div class="squat" onload="slideShow()">
@@ -47,7 +51,6 @@
                     dios 와 함께 기록하는 습관을 만들어보세요 !
                     <br>
                     <br>
-                    <br>
                     <a class="redText">start</a>
                     <br>
                     <i class="startIcon fa-solid fa-circle-down"></i>
@@ -60,8 +63,9 @@
         <div id="function-container">
             <div class="function">
                 <div class="manual">
-                    <a class="manualTitle" th:href="@{/static}">MANUAL
-                        <input type="image" class="manualImage" alt="manualImage" th:src="@{/resources/images/manual.png}"></a>
+                    <div class="manualTitle" rel="manual">MANUAL
+                        <input type="image" class="manualImage" alt="manualImage"
+                               th:src="@{/resources/images/manual.png}"></div>
                     <div class="text">
                         <a class="one">사용설명서</a>
                         <a class="two">DIOS 운동기록 사용방법</a>
@@ -69,7 +73,8 @@
                 </div>
                 <div class="recordBook">
                     <a class="recordBookTitle" th:href="@{record/recordBook}">A RECORD BOOK
-                        <input type="image" class="recordBookImage" alt="recordBookImage" th:src="@{/resources/images/recordBook.png}"></a>
+                        <input type="image" class="recordBookImage" alt="recordBookImage"
+                               th:src="@{/resources/images/recordBook.png}"></a>
                     <div class="text">
                         <a class="one">기록장</a>
                         <a class="two">기록하는 습관 만들기</a>
@@ -77,7 +82,8 @@
                 </div>
                 <div class="shop">
                     <a class="shopTitle" th:href="@{/store/list}">SHOP
-                        <input type="image" class="shopImage" alt="shopImage" th:src="@{/resources/images/shop.png}"></a>
+                        <input type="image" class="shopImage" alt="shopImage"
+                               th:src="@{/resources/images/shop.png}"></a>
                     <div class="text">
                         <a class="one">쇼핑몰</a>
                         <a class="two">운동에 필요한 용품</a>
@@ -85,6 +91,18 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="register">
+        <div class="registerText">
+            <a class="rt">
+                지금 회원가입하고
+                <br>
+                DIOS 의 다양한 혜택을 누려보세요 !</a>
+        </div>
+        <a class="registerButton" id="hover"
+           th:href="@{/dios/register}">
+            <span>회원가입 하기 &nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i></span>
+        </a>
     </div>
     <div class="bbs">
         <a class="img-container" th:href="@{'/goods/read?gid=' + ${random}}">
@@ -147,6 +165,77 @@
             </a>
         </div>
     </div>
+
+
+
+    <div id="manual-container" rel="manualContainer">
+        <a class="button-left">
+            <i class="icon fa-solid fa-arrow-left"></i>
+        </a>
+        <div class="outer">
+            <div class="inner-list">
+                <div class="inner">
+                    <div class="icon-box">
+                        <i class="icon fa-solid fa-xmark" rel="exit"></i>
+                    </div>
+                    <div class="setting">
+                        <div class="setting-content">
+                            <a class="text">1. 목표를 설정하세요</a>
+                        </div>
+                        <div class="setting-img">
+                            <img class="si" alt="setting" th:src="@{/resources/images/589078084.GIF}">
+                        </div>
+                    </div>
+                </div>
+                <div class="inner">
+                    <div class="icon-box">
+                        <i class="icon fa-solid fa-xmark" rel="exit"></i>
+                    </div>
+                    <div class="setting">
+                        <div class="setting-content">
+                            <a class="text">2. START 버튼을 클릭하여 카메라를 켜주세요</a>
+                            <a class="text second">( 카메라가 켜질 때 까지 기다려주세요! )</a>
+                        </div>
+                        <div class="setting-img">
+                            <img class="si" alt="setting" th:src="@{/resources/images/589078084.GIF}">
+                        </div>
+                    </div>
+                </div>
+                <div class="inner">
+                    <div class="icon-box">
+                        <i class="icon fa-solid fa-xmark" rel="exit"></i>
+                    </div>
+                    <div class="setting">
+                        <div class="setting-content">
+                            <div class="text">3. 정확한 측정을 위해 <a class="line">가급적 밝은 곳</a>에서</div>
+                            <div class="text two"><a class="line">몸 전체</a><i class="icon fa-solid fa-star"></i>가 다 나오게 진행 해주세요</div>
+                        </div>
+                        <div class="setting-img">
+                            <img class="si" alt="setting" th:src="@{/resources/images/589078084.GIF}">
+                        </div>
+                    </div>
+                </div>
+                <div class="inner">
+                    <div class="icon-box">
+                        <i class="icon fa-solid fa-xmark" rel="exit"></i>
+                    </div>
+                    <div class="setting">
+                        <div class="setting-content">
+                            <a class="text">4. 목표를 달성하면 자동으로 기록장에 기록됩니다</a>
+                        </div>
+                        <div class="setting-img">
+                            <img class="si" alt="setting" th:src="@{/resources/images/589078084.GIF}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="button-right">
+            <i class="icon fa-solid fa-arrow-right"></i>
+        </a>
+    </div>
+
+
 </main>
 <th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 

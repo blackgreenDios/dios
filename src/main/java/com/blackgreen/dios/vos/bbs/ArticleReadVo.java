@@ -18,6 +18,7 @@ public class ArticleReadVo extends ArticleEntity {
 
     private int likeCount;
 
+
     public byte[] getUserImage() {
         return userImage;
     }

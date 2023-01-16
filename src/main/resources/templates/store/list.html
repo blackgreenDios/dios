@@ -14,58 +14,136 @@
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="--main">
-    <div class="category-container" id="categoryContainer">
-        <ul class="category">
-            <li class="--item" th:each=" categoring: ${category}">
-                <span class="--link"
-                      th:text="${categoring.getText()}"></span>
-            </li>
-        </ul>
+    <div class="input-container" id="inputContainer"
+         th:if="${session.user!=null && session.user.isAdmin()}">
+        <div class="temp"></div>
+        <div class="button-container" rel="write">
+            <a class="article-creation">상품 등록하기</a>
+        </div>
     </div>
-    <span class="input-container">
-    <input onClick="location.href='http://localhost:8080/goods/write'"
-           type="button" value="상품 등록하기"
-           class="article-creation" id="articleCreation"
-           th:if="${session.user!=null && session.user.isAdmin()}">
-    </span>
+    <div class="category-container" id="categoryContainer">
+
+        <div class="recommend" id="recommend">
+            <div class="title">
+                <a class="titleText">
+                    DIOS's  RECOMMEND
+                </a>
+            </div>
+            <div class="product one">
+                <div class="product-img" onload="slideShow()">
+                    <a class="ic slide1" th:href="@{'/goods/read?gid=' + ${random1}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random1}}">
+                    </a>
+                    <a class="ic slide1" th:href="@{'/goods/read?gid=' + ${random2}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random2}}">
+                    </a>
+                </div>
+                <div class="product-img" onload="slideShow()">
+                    <a class="ic slide2" th:href="@{'/goods/read?gid=' + ${random3}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random3}}">
+                    </a>
+                    <a class="ic slide2" th:href="@{'/goods/read?gid=' + ${random4}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random4}}">
+                    </a>
+                </div>
+                <div class="product-img" onload="slideShow()">
+                    <a class="ic slide3" th:href="@{'/goods/read?gid=' + ${random5}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random5}}">
+                    </a>
+                    <a class="ic slide3" th:href="@{'/goods/read?gid=' + ${random6}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random6}}">
+                    </a>
+                </div>
+                <div class="product-img" onload="slideShow()">
+                    <a class="ic slide4" th:href="@{'/goods/read?gid=' + ${random7}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random7}}">
+                    </a>
+                    <a class="ic slide4" th:href="@{'/goods/read?gid=' + ${random8}}">
+                        <img class="img" alt="side-img" th:src="@{'/goods/titleImage?index=' + ${random8}}">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="login">
+            <img class="img" th:src="@{'/goods/titleImage?index=22'}" alt="bg">
+            <div class="text">
+                <a class="login-text">
+                    지금 회원가입 하시면
+                    <br>
+                    매주 업데이트 되는 상품을 만나보실 수 있습니다 !
+                </a>
+                <a class="register" th:href="@{/dios/register}">
+                    회원가입 하기 &nbsp;&nbsp;<i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div id="qna">
+            <img class="img" th:src="@{'/goods/titleImage?index=24'}" alt="bg">
+            <div class="text">
+                <a class="login-text">
+                    상품안내 및 배송문의
+                </a>
+                <a class="register" href="/dios/list?bid=qna">
+                    <i class="fa-solid fa-arrow-left"></i> &nbsp;&nbsp;QnA 게시판 가기
+                </a>
+            </div>
+        </div>
+
+
+        <div class="category">
+            <div class="--item">
+                <a class="--link" th:classappend="${cad == null? ' selected':''}"
+                   th:href="@{./list}">전체 상품</a>
+            </div>
+            <div class="--item" th:each="categoring: ${category}">
+                <a class="--link"  th:classappend="${cad == categoring.getId() ? ' selected' : ''}"
+                   th:text="${categoring.getText()}"
+                   th:href="@{./list (cad=${categoring.getId()})}"></a>
+            </div>
+        </div>
+    </div>
     <div class="list-box" id="listBox">
-        <ul class="search-list" id="searchList">
-            <li class="li-box" th:each="item : ${goods}">
+        <div class="search-list" id="searchList">
+            <div class="li-box" th:each="item : ${goods}">
                 <div class="li_inner">
-                    <div class="image-container">
-                        <a class="image-block"
-                           th:href="@{/goods/read (gid=${item.getIndex()})}">
-                            <img class="image-li"
-                                 th:src="@{./titleImage (index=${item.getIndex()})}"
-                                 th:alt="${item.getTitleImageName()}">
-                        </a>
-                    </div>
-                    <div class="item-info">
-                        <div class="seller">
-                            <a th:text="${item.getBrandName()}"></a>
+                    <div class="all-container">
+                        <div class="image-container">
+                            <a class="image-block"
+                               th:href="@{/goods/read (gid=${item.getIndex()})}">
+                                <img class="image-li"
+                                     th:src="@{./titleImage (index=${item.getIndex()})}"
+                                     th:alt="${item.getTitleImageName()}">
+                            </a>
                         </div>
-                        <div class="list-info">
-                            <a th:href="@{/goods/read (gid=${item.getIndex()})}"
-                               th:title="${item.getItemName()}"
-                               th:text="${item.getItemName()}"></a>
-                        </div>
-                        <div class="price">
-                            <a th:text="${#numbers.formatInteger(item.getPrice(), 0, 'COMMA')+' 원'}">12,900원</a>
-                        </div>
-                        <div class="rating-star">
+                        <div class="item-info-container">
+                            <div class="item-info">
+                                <div class="seller">
+                                    <a class="seller-name" th:text="'[ ' + ${item.getBrandName()} + ' ]'"></a>
+                                    <a class="item-name" th:href="@{/goods/read (gid=${item.getIndex()})}"
+                                       th:title="${item.getItemName()}"
+                                       th:text="${item.getItemName()}"></a>
+                                </div>
+                                <div class="price">
+                                    <a th:text="${#numbers.formatInteger(item.getPrice(), 0, 'COMMA')+' 원'}">12,900원</a>
+                                </div>
+                                <div class="rating-star">
                             <span class="star-container">
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
-                                <i class="star filled fa-solid fa-star "></i>
+                             <i th:class="'star '+${item.getScoreAvg()>=1? 'filled' : ''}+' fa-solid fa-star'"></i>
+                                <i th:class="'star '+${item.getScoreAvg()>=2? 'filled' : ''}+' fa-solid fa-star'"></i>
+                                <i th:class="'star '+${item.getScoreAvg()>=3? 'filled' : ''}+' fa-solid fa-star'"></i>
+                                <i th:class="'star '+${item.getScoreAvg()>=4? 'filled' : ''}+' fa-solid fa-star'"></i>
+                                <i th:class="'star '+${item.getScoreAvg()>=5? 'filled' : ''}+' fa-solid fa-star'"></i>
                             </span>
-                            <span class="review-count">75,165</span>
+                                    <span class="review-count" th:text="'리뷰 : ' + ${item.getReviewCount()}"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </div>
     </div>
 
     <div class="page-container" id="pageContainer"
@@ -98,6 +176,7 @@
             <i class="fa-solid fa-angles-right"></i>
         </a>
     </div>
+
 
 </main>
 <th:block th:replace="~{fragments/commonBody :: footer}"></th:block>

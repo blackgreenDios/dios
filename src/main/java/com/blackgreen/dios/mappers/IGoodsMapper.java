@@ -85,11 +85,12 @@ public interface IGoodsMapper {
 
     int updateItemSize(ItemSizeEntity itemSize);
 
-    int selectItemsCount();
+    int selectItemsCount(String categoryId);
 
     GoodsVo[] selectItemExceptImages(
             @Param(value = "limit") int limit,
-            @Param(value = "offset") int offset);
+            @Param(value = "offset") int offset,
+            @Param(value = "categoryId") String categoryId);
 
     ItemEntity[] selectItemsTitleImage();
 
@@ -97,5 +98,15 @@ public interface IGoodsMapper {
 //                                      @Param(value = "offset") int offset);
 
     int[] selectIndex();
+
+    OrderEntity[] selectOrderByItemIndexEmailStatus(@Param(value = "itemIndex") int itemIndex,
+                                                  @Param(value = "userEmail") String userEmail,
+                                                  @Param(value = "orderStatus") int orderStatus);
+
+    ReviewVo[] selectReviewsByGoodsIndexPaging(@Param(value = "itemIndex") int itemIndex,
+                                               @Param(value = "limit") int limit,
+                                               @Param(value = "offset") int offset);
+
+    int selectReviewCountByItemIndex(@Param(value = "itemIndex") int itemIndex);
 
 }

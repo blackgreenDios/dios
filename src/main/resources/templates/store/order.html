@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ORDER</title>
+    <title>DIOS :: 주문/결제</title>
     <script defer th:src="@{/store/resources/scripts/order.js}"></script>
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/store/resources/stylesheets/order.css}">
@@ -146,6 +146,7 @@
 
             <div id="paymentContainer">
                 <div class="payment-container one">
+                    <div class="temp"></div>
                     <a class="selectTitle"><i class="fa-regular fa-circle-check"></i> &nbsp 결제수단 선택</a>
                     <table class="selectContent">
                         <tr>

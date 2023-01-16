@@ -30,15 +30,15 @@
     <insert id="insertCount"
             parameterType="com.blackgreen.dios.entities.record.CountEntity">
         INSERT INTO `dios_record`.`counts` (`user_email`, `today_date`, `squat_count`, `squat_setting`, `lunge_count`,
-                                            `lunge_setting`, `plank_count`, `plank_setting`)
+                                            `lunge_setting`, `push_up_count`, `push_up_setting`)
         VALUES (#{userEmail}, #{todayDate}, #{squatCount}, #{squatSetting}, #{lungeCount}, #{lungeSetting},
-                #{plankCount}, #{plankSetting})
+                #{pushUpCount}, #{pushUpSetting})
         ON DUPLICATE KEY UPDATE `squat_count`   = `squat_count` + #{squatCount},
                                 `squat_setting` = `squat_setting` + #{squatSetting},
                                 `lunge_count`   = `lunge_count` + #{lungeCount},
                                 `lunge_setting` = `lunge_setting` + #{lungeSetting},
-                                `plank_count`   = `plank_count` + #{plankCount},
-                                `plank_setting` = `plank_setting` + #{plankSetting}
+                                `push_up_count`   = `push_up_count` + #{pushUpCount},
+                                `push_up_setting` = `push_up_setting` + #{pushUpSetting}
     </insert>
 
     <insert id="insertRecord"
@@ -73,8 +73,8 @@
                `squat_setting` AS `squatSetting`,
                `lunge_count`   AS `lungeCount`,
                `lunge_setting` AS `lungeSetting`,
-               `plank_count`   AS `plankCount`,
-               `plank_setting` AS `plankSetting`
+               `push_up_count`   AS `pushUpCount`,
+               `push_up_setting` AS `pushUpSetting`
         FROM `dios_record`.`counts`
         WHERE `user_email` = #{userEmail}
           AND `today_date` = #{todayDate}

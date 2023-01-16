@@ -24,7 +24,7 @@ body > .main {
     flex-direction : row;
     justify-content: center;
 
-    min-width: 80vw;
+    width: 72rem;
 
     border-bottom: 0.25rem solid rgb(0, 0, 0);
 
@@ -69,6 +69,8 @@ body > .main {
     justify-content: center;
 
     margin-top: 3rem;
+
+    width: 72rem;
 }
 
 #orderGoodsContainer > .orderTitle {
@@ -80,7 +82,7 @@ body > .main {
 }
 
 #orderGoodsContainer > .orderTable {
-    min-width: 80vw;
+    width: 72rem;
 
     border-top: 0.14rem solid #d6d6d6;
     border-spacing: 0;
@@ -169,6 +171,8 @@ body > .main {
     justify-content: center;
 
     margin-top: 3rem;
+
+    width: 72rem;
 }
 
 .redStar {
@@ -194,7 +198,7 @@ body > .main {
 }
 
 #userInfoContainer > .infoTable {
-    min-width: 80vw;
+    width: 72rem;
 
     border-top: 0.14rem solid #d6d6d6;
     border-spacing: 0;
@@ -343,7 +347,7 @@ body > .main {
     flex-direction : row;
     justify-content: flex-start;
 
-    min-width: 80vw;
+    width: 72rem;
 
     margin-top: 3rem;
 }
@@ -352,6 +356,16 @@ body > .main {
     margin-right: 2rem;
     margin-top: 1rem;
     flex: 1;
+}
+
+#paymentContainer > .one > .temp {
+    position: absolute;
+    width: 40rem;
+    height: 21.1rem;
+
+    background-color: rgba(0, 0, 0, 50%);
+
+    margin-top: 2.6rem;
 }
 
 #paymentContainer > .one > .selectTitle {
@@ -367,7 +381,7 @@ body > .main {
 
     margin-top: 1rem;
 
-    width: 90%;
+    width: 40rem;
 }
 
 #paymentContainer > .one > .selectContent tr th {

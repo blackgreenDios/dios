@@ -9,10 +9,11 @@ body>.main>.content{
 }
 
 body>.main>.content>.title{
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 500;
-    margin-bottom: 2.5rem;
+    margin-bottom: 3rem;
 
+    font-family: none;
 }
 
 #form>.table .warning-row{
@@ -34,43 +35,76 @@ body>.main>.content>.title{
     justify-content: flex-start;
 }
 
-#form>.table .button-container{
+#buttonContainer {
     align-items: stretch;
     display: flex;
     flex-direction: row ;
     justify-content:flex-start;
-    margin-top: 0.25rem;
+
+    margin-top: 2rem;
 }
 
-#form>.table .button-container>[name="back"]{
+#buttonContainer > [name="back"] {
     background-color: rgb(0,0,0);
     color: rgb(255,255,255);
     margin-right: 35rem;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
+
     height: 2.65rem;
-    width: 6rem;
+    width: 8rem;
+
+    cursor: pointer;
+
+    font-family: none;
+    font-size: 0.9rem;
 }
 
-#form>.table .button-container>[name="submit"]{
+#buttonContainer > [name="submit"] {
     background-color: rgb(0,0,0);
     color: rgb(255,255,255);
-    border-radius: 2rem;
+    border-radius: 0.5rem;
+
     height: 2.65rem;
-    width: 6rem;
+    width: 8rem;
+
+    cursor: pointer;
+
+    font-family: none;
+    font-size: 0.9rem;
 }
+
+#buttonContainer > [name="back"]:hover,
+#buttonContainer > [name="submit"]:hover {
+    background-color: rgb(107, 104, 104);
+}
+
 
 #table{
     align-items: center;
     display: flex;
     flex-direction: row ;
     justify-content:flex-start;
-    border-spacing: 1.25rem;
+    border-spacing: 0;
+
+    border-top: 0.14rem solid #d6d6d6;
 }
 
 #table > tbody tr th {
     margin-bottom: 1rem;
-    padding-top: 1.3rem;
-    padding-bottom: 1.3rem;
+
+    background-color: rgb(225, 223, 223);
+
+    border-bottom: 0.0625rem solid #ccc;
+    padding: 2rem 2rem 2rem 2rem;
+}
+
+#table > tbody tr td {
+    border-bottom: 0.0625rem solid #ccc;
+    padding: 2rem 2rem 2rem 2rem;
+}
+
+#table > tbody tr .first {
+    border-top: 0.0625rem solid #ccc;
 }
 
 #inputTitle,
@@ -103,8 +137,9 @@ body>.main>.content>.title{
 #table>tbody>tr>th,
 #table>tbody>tr>th>td
 {
-    font-size: 1.25rem;
-    size: 1.25rem;
+    font-size: 1.1rem;
+    font-family: none;
+    color: rgb(89, 86, 86);
 }
 #table>tbody>tr>.option>.label{
     align-items: center;
@@ -147,9 +182,10 @@ body>.main>.content>.title{
     object-position: center;
 }
 
-#label>.image-select-button{
+#label>. image-select-button{
     color: rgb(87, 88, 89);
-    text-decoration: none;
+    font-family: none;
+    font-size: 1.1rem;
 }
 
 #label>.image-select-button:hover{
@@ -186,9 +222,13 @@ select {
     font-size: 0.8rem;
 }
 
+.ck-blurred > .image > img {
+    width: 35rem;
+}
 
 #goodsOption td > .color,
-#goodsOption td > .size {
+#goodsOption td > .size,
+#goodsOption td > .count {
     border-bottom: 0.0625rem solid #ccc;
 
     align-items: center;
@@ -200,13 +240,15 @@ select {
     height: 10rem;
 }
 
-#goodsOption td > .size {
+#goodsOption td > .count {
     border-bottom: none;
-    padding: 2rem 1rem 1rem 1rem;
+
+    padding-left: 1rem;
 }
 
 #goodsOption td > .color > .colorText,
-#goodsOption td > .size > .sizeText {
+#goodsOption td > .size > .sizeText,
+#goodsOption td > .count > .countText {
     font-weight: bold;
     font-size: 0.9rem;
 
@@ -214,7 +256,8 @@ select {
 }
 
 #goodsOption td > .color > .colorBox,
-#goodsOption td > .size > .sizeBox {
+#goodsOption td > .size > .sizeBox,
+#goodsOption td > .count > .countBox {
     align-items : flex-start;
     display : flex;
     flex-direction : column;
@@ -222,7 +265,8 @@ select {
 }
 
 #goodsOption td > .color > .colorBox > .newColor,
-#goodsOption td > .size > .sizeBox > .newSize {
+#goodsOption td > .size > .sizeBox > .newSize,
+#goodsOption td > .count > .countBox > .newCount {
     margin-right: 3rem;
     margin-top: 1.5rem;
     padding-left: 1rem;
@@ -234,7 +278,8 @@ select {
 }
 
 #goodsOption td > .color > .colorBox > .newColorText,
-#goodsOption td > .size정 > .sizeBox > .newSizeText {
+#goodsOption td > .size > .sizeBox > .newSizeText,
+#goodsOption td > .count > .countBox > .newCount {
     margin-top: 0.4rem;
 
     font-size: 0.8rem;
@@ -289,5 +334,29 @@ select {
     height: 2.3rem;
 
     padding-left: 1rem;
+}
+
+
+#label {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+    justify-content: flex-start;
+
+    margin-left: 2rem;
+}
+
+#label > .image-container {
+    overflow: hidden;
+
+    width: 20rem;
+    height: 20rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    margin-top: 1rem;
 }
 

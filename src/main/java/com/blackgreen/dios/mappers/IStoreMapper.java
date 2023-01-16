@@ -20,7 +20,8 @@ public interface IStoreMapper {
     CartVo selectCartByIndex(@Param(value = "userEmail") String userEmail,
                              @Param(value = "index") int index);
 
-    int deleteCartByIndex(@Param(value = "index") int index);
+    int deleteCartByIndex(@Param(value = "userEmail") String userEmail,
+                          @Param(value = "index") int index);
 
     // 상품수량 변경 : 더하기, 빼기
     int updateCount(CartEntity cart);

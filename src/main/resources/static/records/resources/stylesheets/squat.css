@@ -11,7 +11,7 @@ body {
 
     overflow: hidden;
 
-    font-family: 'Gowun Dodum', sans-serif;
+    /*font-family: 'Gowun Dodum', sans-serif;*/
 }
 
 body > .top-container {
@@ -84,16 +84,19 @@ body > .main-container {
 /*    border-radius: 2rem;*/
 /*}*/
 
-body > .button-container {
-    margin-top: 2rem;
+body > .buttonContainer {
+    margin-top: 1.5rem;
 
     align-items: flex-start;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+
+    width: 60rem;
+
 }
 
-body > .button-container > .bt > .button {
+body > .buttonContainer > .bt > .button {
 
     background-color: rgb(147, 143, 143);
     color: rgb(255, 255, 255);
@@ -110,9 +113,18 @@ body > .button-container > .bt > .button {
 
     transition: all 0.2s linear;
     text-decoration: none;
+
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
 }
 
-body > .button-container > .one > .button {
+body > .buttonContainer > .one {
+    flex: 1;
+}
+
+body > .buttonContainer > .one > .button {
     font-family: 'Chakra Petch', sans-serif;
     width: 20rem;
     padding: 0.7rem 0.7rem;
@@ -120,7 +132,7 @@ body > .button-container > .one > .button {
     font-size: 1.5rem;
 }
 
-body > .button-container > .one > .button:hover {
+body > .buttonContainer > .one > .button:hover {
     background-color: red;
     border: 0.2rem solid rgb(182, 16, 16);
     box-shadow: 3px 3px 3px 3px rgb(182, 16, 16);
@@ -128,7 +140,18 @@ body > .button-container > .one > .button:hover {
     transform: scale(1.1);
 }
 
-body > .button-container > .two > .button:hover {
+body > .buttonContainer > .two {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+}
+
+body > .buttonContainer > .two > .button {
+    padding: 0.8rem 2rem 0.8rem 2rem;
+}
+
+body > .buttonContainer > .two > .button:hover {
     background-color: rgb(231, 178, 13);
     border: 0.2rem solid rgb(194, 149, 13);
     box-shadow: 3px 3px 3px 3px rgb(157, 120, 9);
@@ -136,24 +159,6 @@ body > .button-container > .two > .button:hover {
     transform: scale(1.1);
 }
 
-body > .button-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-
-    margin-top: 3rem;
-}
-
-body > .button-container > .one {
-    position: absolute;
-    left: 15rem;
-}
-
-body > .button-container > .two {
-    position: absolute;
-    right: 16rem;
-}
 
 /*#progress {*/
 /*    align-items : center;*/
@@ -400,10 +405,8 @@ particule {
 
 #change,
 #stop {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    width: 90rem;
+    height: 50rem;
     background-color: rgba(0, 0, 0, 80%);
     color: rgb(255, 255, 255);
     align-items: center;
@@ -436,8 +439,13 @@ particule {
 }
 
 #stop > .stop-container > .stopText {
-    width: 30rem;
-    text-align: center;
+    width: 40rem;
+    height: 7rem;
+
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
 }
 
 #change > .change-container > .changeText {
@@ -445,6 +453,9 @@ particule {
     display : flex;
     flex-direction : column;
     justify-content: center;
+
+    width: 40rem;
+    height: 7rem;
 }
 
 #change > .change-container > .changeText > a:nth-of-type(2) {

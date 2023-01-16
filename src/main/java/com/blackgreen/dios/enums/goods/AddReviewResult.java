@@ -5,5 +5,6 @@ import com.blackgreen.dios.interfaces.IResult;
 public enum AddReviewResult implements IResult {
     SUCCESS,
     FAILURE,
-    NOT_SIGNED
+    NOT_SIGNED,
+    NOT_ALLOWED
 }

@@ -24,7 +24,7 @@ body > .main {
     flex-direction : row;
     justify-content: center;
 
-    min-width: 80vw;
+    width: 72rem;
 
     border-bottom: 0.25rem solid rgb(0, 0, 0);
 
@@ -156,11 +156,12 @@ body > .main {
 #form > .content > .button-container {
     font-size: 1rem;
     font-weight: 700;
+    color: rgb(255, 255, 255);
 
-    background-color: rgb(220, 132, 160);
+    background-color: rgb(0, 0, 0);
 
     border-radius: 0.3rem;
-    border: 0.1rem solid rgb(220, 132, 160);
+    border: 0.1rem solid rgb(0, 0, 0);
 
     cursor: pointer;
 
@@ -174,8 +175,8 @@ body > .main {
 }
 
 #form > .content > .button-container:hover {
-    background-color: rgb(234, 149, 180);
-    border: 0.1rem solid rgb(234, 149, 180);
+    background-color: rgb(66, 65, 65);
+    border: 0.1rem solid rgb(66, 65, 65);
 }
 
 #form > .content > .button-container > .order {

@@ -46,14 +46,16 @@
                     <img class="photoBox" rel="photoBox" th:if="${element.getImage() != null && element.getImage().length > 0}"
                          th:src="@{'/record/image?dt=' + ${date}}">
                 </div>
-                <div class="realDelete" rel="realDeletePhoto">
-                    <a class="a">
-                        <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
-                        삭제 하시겠습니까?
-                    </a>
-                    <div class="option">
-                        <div class="yes" rel="yesPhoto">YES</div>
-                        <div class="no" rel="noPhoto">NO</div>
+                <div class="realDeleteContainer" rel="realDeletePhoto">
+                    <div class="realDelete">
+                        <a class="a">
+                            <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
+                            삭제 하시겠습니까?
+                        </a>
+                        <div class="option">
+                            <div class="yes" rel="yesPhoto">YES</div>
+                            <div class="no" rel="noPhoto">NO</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,14 +75,16 @@
                     <div class="textBox" rel="textBox" th:if="${element.getDiary() != null && element.getDiary() != ''}"
                          th:text="${element.getDiary()}"></div>
                 </div>
-                <div class="realDelete" rel="realDelete">
-                    <a class="a">
-                        <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
-                        삭제 하시겠습니까?
-                    </a>
-                    <div class="option">
-                        <div class="yes" rel="yes">YES</div>
-                        <div class="no" rel="no">NO</div>
+                <div class="realDeleteContainer" rel="realDelete">
+                    <div class="realDelete">
+                        <a class="a">
+                            <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
+                            삭제 하시겠습니까?
+                        </a>
+                        <div class="option">
+                            <div class="yes" rel="yes">YES</div>
+                            <div class="no" rel="no">NO</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,11 +114,11 @@
                     <a class="count" th:text="${count.getLungeCount()}"></a>
                     <a class="goalCount" th:text="'/ ' + ${count.getLungeSetting()}"></a>
                 </div>
-                <div class="plank-container">
+                <div class="pushUp-container">
                     <i class="icon fa-regular fa-circle-check"></i>
-                    <a class="plankText">플랭크</a>
-                    <a class="count" th:text="${count.getPlankCount()}"></a>
-                    <a class="goalCount" th:text="'/ ' + ${count.getPlankSetting()}"></a>
+                    <a class="pushUpText">팔굽혀펴기</a>
+                    <a class="count" th:text="${count.getPushUpCount()}"></a>
+                    <a class="goalCount" th:text="'/ ' + ${count.getPushUpSetting()}"></a>
                 </div>
             </div>
             <div class="add-container" id="add">
@@ -133,14 +137,16 @@
                     <div class="textBox" rel="textBox" th:if="${element.getAdd() != null && element.getAdd() != ''}"
                          th:text="${element.getAdd()}"></div>
                 </div>
-                <div class="realDelete" rel="realDeleteAdd">
-                    <a class="a">
-                        <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
-                        삭제 하시겠습니까?
-                    </a>
-                    <div class="option">
-                        <div class="yes" rel="yesAdd">YES</div>
-                        <div class="no" rel="noAdd">NO</div>
+                <div class="realDeleteContainer" rel="realDeleteAdd">
+                    <div class="realDelete">
+                        <a class="a">
+                            <i class="icon fa-solid fa-triangle-exclamation"></i>&nbsp
+                            삭제 하시겠습니까?
+                        </a>
+                        <div class="option">
+                            <div class="yes" rel="yesAdd">YES</div>
+                            <div class="no" rel="noAdd">NO</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -184,10 +190,12 @@
         </div>
     </form>
     <div id="calendarContainer" rel="calendarContainer">
-        <div class="top">
-            <i rel="exitButton" class="icon fa-regular fa-circle-xmark"></i>
+        <div class="cc">
+            <div class="top">
+                <i rel="exitButton" class="icon fa-regular fa-circle-xmark"></i>
+            </div>
+            <div id="calendar"></div>
         </div>
-        <div id="calendar"></div>
     </div>
 </main>
 <th:block th:replace="~{fragments/commonBody :: footer}"></th:block>

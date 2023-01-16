@@ -58,17 +58,24 @@ body> .main > .content> .title{
 
 #form> .table .button-container >[name="back"],
 #form> .table .button-container >[name="submit"]{
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
     border: 0.0625rem solid rgb(0,0,0);
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+
+    border-radius: 0.5rem;
 }
 
 #form> .table .button-container >[name="back"]:hover,
 #form> .table .button-container >[name="submit"]:hover{
-    font-weight: bold;
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
 }
 #form> .table .button-container >[name="submit"]:active,
 #form> .table .button-container >[name="back"]:active{
-    font-weight: bold;
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
 
 }
 

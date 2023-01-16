@@ -123,6 +123,9 @@
                  LEFT JOIN `dios_store`.`item_colors` AS `color` ON `item`.`index` = `color`.`item_index`
                  LEFT JOIN `dios_store`.`item_sizes` AS `size` ON `item`.`index` = `size`.`item_index`
                  LEFT JOIN `dios_store`.`seller` AS `seller` ON `item`.`seller_index` = `seller`.`index`
+        <if test="categoryId != null">
+        WHERE `category_id` = #{categoryId}
+        </if>
         GROUP BY `item`.`index`
         LIMIT #{limit} OFFSET #{offset}
     </select>
@@ -334,13 +337,6 @@
         WHERE BINARY `index` = #{index}
     </update>
 
-    <update id="updateItemColor"
-            parameterType="com.blackgreen.dios.entities.store.ItemColorEntity">
-        UPDATE `dios_store`.`item_colors`
-        SET `item_index` =#{itemIndex},
-            `color`=#{color}
-        WHERE BINARY `index` = #{index}
-    </update>
 
 
     <select id="selectItemByIndex"
@@ -397,6 +393,9 @@
             resultType="int">
         SELECT COUNT(0)
         FROM `dios_store`.`items` AS `item`
+        <if test="categoryId != null">
+            WHERE `category_id` = #{categoryId}
+        </if>
     </select>
 
     <select id="selectIndex"
@@ -404,6 +403,49 @@
         SELECT `index` AS `index`
         FROM `dios_store`.`items`
     </select>
+
+    <select id="selectOrderByItemIndexEmailStatus"
+            resultType="com.blackgreen.dios.entities.store.OrderEntity">
+        SELECT `index`        AS `index`,
+               `user_email`   AS `userEmail`,
+               `order_num`    AS `orderNum`,
+               `count`        AS `count`,
+               `item_index`   AS `itemIndex`,
+               `order_color`  AS `orderColor`,
+               `order_size`   AS `orderSize`,
+               `price`        AS `price`,
+               `order_status` AS `orderStatus`,
+               `order_date`   AS `orderDate`
+
+        FROM `dios_store`.`orders`
+        WHERE `item_index` = #{itemIndex} AND `user_email`=#{userEmail} AND `order_status`=#{orderStatus}
+    </select>
+
+    <select id="selectReviewsByGoodsIndexPaging"
+            resultType="com.blackgreen.dios.vos.goods.ReviewVo">
+        SELECT `review`.`index`      AS `index`,
+               `review`.`user_email` AS `userEmail`,
+               `review`.`item_index` AS `itemIndex`,
+               `review`.`score`      AS `score`,
+               `review`.`content`    AS `content`,
+               `review`.`created_on` AS `createdOn`
+        FROM `dios_store`.`reviews` AS `review`
+                 LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`
+        WHERE `review`.`item_index` = #{itemIndex}
+        GROUP BY `review`.`index`
+        ORDER BY `review`.`index` DESC
+        LIMIT #{limit}
+            OFFSET #{offset}
+    </select>
+
+    <select id="selectReviewCountByItemIndex"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_store`.`reviews` AS `review`
+        WHERE `item_index` = #{itemIndex}
+    </select>
+
+
 
 
 </mapper>

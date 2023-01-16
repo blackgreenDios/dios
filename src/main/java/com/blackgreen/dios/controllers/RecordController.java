@@ -4,7 +4,6 @@ import com.blackgreen.dios.entities.member.UserEntity;
 import com.blackgreen.dios.entities.record.CountEntity;
 import com.blackgreen.dios.entities.record.ElementEntity;
 import com.blackgreen.dios.enums.CommonResult;
-import com.blackgreen.dios.enums.bbs.WriteResult;
 import com.blackgreen.dios.services.RecordService;
 import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 @Controller(value = "com.blackgreen.dios.controllers.RecordController")
@@ -99,16 +97,19 @@ public class RecordController {
         return modelAndView;
     }
 
-    // 플랭
-    @RequestMapping(value = "plank",
+    // 팔굽
+    @RequestMapping(value = "pushUp",
             method = RequestMethod.GET)
-    public ModelAndView getPlank(@SessionAttribute(value = "user", required = false) UserEntity user) throws ParseException {
+    public ModelAndView getPushUp(@SessionAttribute(value = "user", required = false) UserEntity user) throws ParseException {
         ModelAndView modelAndView;
 
         if (user == null) {
             modelAndView = new ModelAndView("redirect:/dios/login");
         } else {
-            modelAndView = new ModelAndView("records/plank");
+            modelAndView = new ModelAndView("records/pushUp");
+
+            int goal = this.recordService.readCount(user);
+            modelAndView.addObject("goal", goal);
         }
 
         return modelAndView;
@@ -264,7 +265,7 @@ public class RecordController {
             element.setUserEmail(user.getEmail());
             element.setTodayDate(date);
 
-            result = this.recordService.addRecord(element);
+            result = this.recordService.addRecord(user, element);
         }
 
         responseObject.put("result", result.name().toLowerCase());
@@ -303,7 +304,7 @@ public class RecordController {
             element.setUserEmail(user.getEmail());
             element.setTodayDate(date);
 
-            result = this.recordService.addRecordPhoto(element, images);
+            result = this.recordService.addRecordPhoto(user, element, images);
         }
 
         responseObject.put("result", result.name().toLowerCase());
@@ -389,7 +390,7 @@ public class RecordController {
 
         element.setUserEmail(user.getEmail());
         element.setTodayDate(date);
-        Enum<?> result = this.recordService.clearPhoto(element);
+        Enum<?> result = this.recordService.clearPhoto(user, element);
 
         JSONObject responseObject = new JSONObject();
 

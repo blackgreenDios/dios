@@ -142,13 +142,21 @@ body > .main >.content >.table.content-container *{
     color: rgb(171,178,185);
 }
 .--object-button{
-    background-color: rgb(255,255,255);
+    background-color: rgb(0, 0, 0);
+    border: 0.0625rem solid rgb(0,0,0);
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+
     border-radius: 0.5rem;
-    box-sizing: border-box;
-    font-size: 1.2rem;
     cursor: pointer;
-    padding: 0.4rem 2rem;
 }
+
+.--object-button:hover {
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
+}
+
 body > .main > .content > .table .button-container {
     align-items: stretch;
     display: flex;
@@ -171,13 +179,22 @@ body > .main > .content > .table .button-container > a[href] {
 body > .main > .content > .table .button-container > a[href].list,
 body > .main > .content > .table .button-container > a[href].modify,
 body > .main > .content > .table .button-container > a[href].delete {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(0, 0, 0);
     border: 0.0625rem solid rgb(0,0,0);
-    color: rgb(0,0,0);
-    margin-bottom: 2rem;
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
 
-
+    border-radius: 0.5rem;
 }
+
+body > .main > .content > .table .button-container > a[href].list:hover,
+body > .main > .content > .table .button-container > a[href].modify:hover,
+body > .main > .content > .table .button-container > a[href].delete:hover {
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
+}
+
 .secret{
 
 
@@ -476,22 +493,21 @@ main,input{
 }
 .like-container > .likeButton >.toggle{
     text-decoration: none;
-
+    cursor: pointer;
     /*text-shadow:-1.2px 0 #000, 0 1.2px #000, 1.2px 0 #000, 0 -1.2px #000;*/
 
 
     color: rgb(68, 67, 67);
 
 }
-.like-container > .likeButton >.toggle:hover{
-    color: rgb(0,0,0);
+.like-container > .likeButton>.toggle:hover{
+    color: red;
 }
-.like-container > .likeButton > .toggle:focus
-{
 
-    color: rgb(0,0,200);
-
+.like-container > .likeButton >.toggle.liked{
+    color: red;
 }
+
 
 
 

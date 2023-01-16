@@ -1,7 +1,7 @@
 const form = document.getElementById('form');
 const squat = document.querySelector('[rel="squat"]');
 const lunge = document.querySelector('[rel="lunge"]');
-const plank = document.querySelector('[rel="plank"]');
+const pushUp = document.querySelector('[rel="pushUp"]');
 
 form.querySelectorAll('input.select').forEach(select => {
     select.addEventListener('click', () => {
@@ -15,7 +15,7 @@ form['submit'].addEventListener('click', () => {
     form.querySelector('[rel="warning"]').classList.remove('visible');
 
     // 아무것도 선택하지 않았을 때
-    if (!squat.classList.contains("selected") && !lunge.classList.contains("selected") && !plank.classList.contains("selected")) {
+    if (!squat.classList.contains("selected") && !lunge.classList.contains("selected") && !pushUp.classList.contains("selected")) {
         form.querySelector('[rel="selectWarning"]').classList.add('visible');
         return false;
     }
@@ -46,8 +46,8 @@ form['submit'].addEventListener('click', () => {
                             window.location.href = 'squat';
                         } else if (lunge.classList.contains("selected")) {
                             window.location.href = 'lunge';
-                        } else if (plank.classList.contains("selected")) {
-                            window.location.href = 'plank';
+                        } else if (pushUp.classList.contains("selected")) {
+                            window.location.href = 'pushUp';
                         }
                         break;
                     default:
