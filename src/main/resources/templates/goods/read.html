@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -9,14 +9,14 @@
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/goods/stylesheets/read.css}">
     <script defer th:src="@{/goods/scripts/read.js}"></script>
-
-
+</head>
 <body>
 <th:block th:replace="~{fragments/commonBody :: header}"></th:block>
 <main class="--main">
     <input name="gid" type="hidden" th:value="${goods.getIndex()}">
     <span class="function">
-        <a th:href="@{/goods/modify(gid=${goods.getIndex()})}" class="title" id="title" th:if="${session.user!=null && session.user.isAdmin}">
+        <a th:href="@{/goods/modify(gid=${goods.getIndex()})}" class="title" id="title"
+           th:if="${session.user!=null && session.user.isAdmin}">
         <span class="text">상품 수정하기</span>
     </a>
     <a class="title" id="itemDelete" th:if="${session.user!=null && session.user.isAdmin}">
@@ -31,7 +31,7 @@
                  th:alt="${goods.getTitleImageName()}">
         </div>
         <div class="item-info" id="itemInfo">
-            <h2 th:utext="${goods.getItemName()}"></h2>
+            <h2 th:utext="${goods.getItemName()}" style="font-family: none"></h2>
 
             <form class="content" id="form">
                 <input name="price" type="hidden" th:value="${goods.getPrice()}">
@@ -58,7 +58,7 @@
                     </tr>
                     <tr class="item-price">
                         <th>가격</th>
-                        <td name="price"
+                        <td name="price" class="price"
                             th:value="${goods.getPrice()}"
                             th:text="${#numbers.formatInteger(goods.getPrice(), 0, 'COMMA')+'원'}"></td>
                     </tr>
@@ -66,7 +66,7 @@
                         <th>색상</th>
                         <td>
                             <select id="colorOption" onchange="result()">
-                                <option value="0">----색상을 선택해 주세요----</option>
+                                <option value="0">색상을 선택해 주세요</option>
                                 <option disabled value="">------------------------</option>
                                 <option th:each="color: ${colors}"
                                         th:value="${color.getItemIndex}"
@@ -79,7 +79,7 @@
                         <th>사이즈</th>
                         <td>
                             <select id="sizeOption" onchange="result()">
-                                <option value="0">----사이즈를 선택해 주세요----</option>
+                                <option value="0">사이즈를 선택해 주세요</option>
                                 <option disabled value="">------------------------</option>
                                 <option th:each="size:${sizes}"
                                         th:value="${size.getItemIndex}"
@@ -103,11 +103,12 @@
                     <span class="size" id="resultSize">사용자가 선택한 사이즈</span>
                 </div>
                 </span>
-                    <input type="button"
+
+                    <input type="button" class="count-button"
                            onclick='Count("minus")'
                            value="-"/>
-                    <div id="count"> 1</div>
-                    <input type="button"
+                    <div id="count" class="count"> 1</div>
+                    <input type="button" class="count-button"
                            onclick='Count("plus")'
                            value="+"/>
                 </div>
@@ -115,22 +116,24 @@
 
             <div class="warning" th:if="${session.user == null}">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>현재 로그인 되어있지 않은 상태입니다.</span>
-                <div>장바구니 및 결제를 원하시면 로그인 후 이용해주세요.</div>
+                <div class="warning-text">
+                    <a>현재 로그인 되어있지 않은 상태입니다.</a>
+                    <a>장바구니 및 결제를 원하시면 로그인 후 이용해주세요.</a>
+                </div>
             </div>
 
             <div class="button-container">
-                <input type="button" class="cart-button" value="BUY IT NOW"
-                       rel="orderButton" th:if="${session.user !=null}">
                 <input type="button" class="order-button" value="ADD TO CART"
                        rel="cartButton" th:if="${session.user !=null}">
             </div>
 
             <div class="blockBox" id="blockBox">
-                <div>장바구니에 해당 상품을 담았습니다.</div>
-                <div>확인하시겠습니까?</div>
-                <ul type="none">
-                    <li rel="yes">예</li>
+                <div >
+                    장바구니에 해당 상품을 담았습니다.
+                </div>
+                <div style="margin-top: 1rem;">확인하시겠습니까?</div>
+                <ul>
+                    <li rel="yes" style="margin-right: 6rem;">예</li>
                     <li rel="no">아니요</li>
                 </ul>
             </div>
@@ -141,39 +144,44 @@
     <div class="menu-container">
         <ul class="menu">
             <li class="--item">
-                <a class="--link" href="#">detail</a>
+                <a class="--link" href="#prdDetail">detail</a>
             </li>
             <li class="--item">
-                <a class="--link" href="#">review</a>
+                <a class="--link" href="#reviewMenu">review</a>
             </li>
             <li class="--item contact">
-                <a class="--link" href="#">contact</a>
+                <a class="--link" href="#reviewContact" style="border-right:none;">contact</a>
             </li>
+
         </ul>
     </div>
-    <div class="detail-container">
-        <div class="content-container" rel="contentContainer">
-            <div class="content"
+    <div class="detail-container" id="prdDetail">
+        <div class="content-container detailinfo showstep1" rel="contentContainer">
+            <div class="content1"
                  th:utext="${goods.getItemDetail()}">
             </div>
         </div>
 
     </div>
-    <div class="btn-more">
-        <button rel="btnMore" class="detail-more" type="button">
-            <span>상품 자세히 보기</span>
+
+    <div class="btn-container">
+        <a  class="btn_open">상품정보 더보기
             <i class="fa-solid fa-arrow-down-long"></i>
-        </button>
+        </a>
     </div>
+    <div class="btn-container hide">
+        <a href="#" class="btn_close hide">상품정보 접기
+            <i class="fa-solid fa-arrow-up-long"></i></a>
+    </div>
+
     <div class="review-menu" id="reviewMenu">
         <div class="review-title">
             <h2>Review</h2>
-            <a>상품의 사용 후기를 적어주세요. </a>
+<!--            <a>상품의 사용 후기를 적어주세요. </a>-->
         </div>
         <div class="review-result">
-            <div> 이 상품을 구매한 사용자들의 구매 만족도</div>
+<!--            <div> 이 상품을 구매한 사용자들의 구매 만족도</div>-->
             <div class="score-container">
-
                 <div class="star-container" rel="starContainer">
                     <i th:class="'star '+${goods.getScoreAvg()>=1? 'selected' : ''}+' fa-solid fa-star'"></i>
                     <i th:class="'star '+${goods.getScoreAvg()>=2? 'selected' : ''}+' fa-solid fa-star'"></i>
@@ -205,11 +213,12 @@
             </span>
                 </div>
                 <div class="content-container">
+                    <a class="content-title">솔직한 상품 리뷰를 작성해주세요</a>
                     <label class="label">
-                        <span hidden>리뷰내용</span>
                         <input type="text" maxlength="100" name="content" placeholder="리뷰를 작성해주세요." class="input">
+                        <input type="submit" value="작성" class="submit-button">
+
                     </label>
-                    <input type="submit" value="작성" class="submit-button">
                 </div>
                 <div class="image-container" rel="imageContainer">
                     <div class="no-image" rel="noImage">선택된 이미지가 없습니다.</div>
@@ -221,21 +230,28 @@
         <div class="review-container" rel="reviewContainer">
             <div class="item">
                 <div class="head">
-                    <span class="nickname" name="userEmail">닉네임자리</span>
-                    <span class="star-container" rel="starContainer">
-                    <i class="star   fa-solid fa-star"></i>
-                    <i class="star   fa-solid fa-star"></i>
-                    <i class="star  fa-solid fa-star"></i>
-                    <i class="star  fa-solid fa-star"></i>
-                    <i class="star  fa-solid fa-star"></i>
+                    <span class="head-first">
+                        <span class="nickname" name="userEmail">닉네임자리</span>
+                        <span class="star-container" rel="starContainer">
+                        <i class="star  fa-solid fa-star"></i>
+                        <i class="star  fa-solid fa-star"></i>
+                        <i class="star  fa-solid fa-star"></i>
+                        <i class="star  fa-solid fa-star"></i>
+                        <i class="star  fa-solid fa-star"></i>
+                        </span>
                     </span>
-                    <span class="date" rel="date">2022-01-01</span>
+
+                    <span class="head-second">
+                        <span class="date" rel="date">2022-01-01</span>
                     <span class="delete" id="delete">
                         <i class="icon fa-regular fa-circle-xmark"></i>
                     </span>
+                    </span>
+
+
                 </div>
                 <div class="body">
-                    <div class="content" rel="content">음 좃네요</div>
+                    <div class="content" rel="content">리뷰 내용</div>
                     <div class="image-container" rel="imageContainer">
                         <img class="image"
                              src="https://i.pinimg.com/474x/ea/d4/08/ead408fe15be17b66d8474cd53a39d27.jpg"
@@ -262,45 +278,43 @@
 
                 <div class="content-container">
                     <label class="label">
-                        <span hidden>리뷰내용</span>
                         <input type="text" maxlength="100" name="content" placeholder="리뷰를 작성해주세요."
                                class="input">
                     </label>
-                    <input name="modifyButton" class="--object-button" type="submit" value="수정">
+                    <div class="modifyButtonContainer">
+                        <input name="modifyButton" class="--object-button modify" type="submit" value="수정">
+                        <input name="modifyButton" class="--object-button" type="submit" value="취소">
+                    </div>
+
                 </div>
             </form>
 
 
         </div>
+        <div class="page-container" id="pageContainer" rel="pageContainer">
+            <a class="page">
+                <i class="fa-solid fa-angles-left"></i>
+            </a>
+
+            <a class="page">
+                <i class="fa-solid fa-angle-left"></i>
+            </a>
+            <a class="page">1</a>
+            <a class="page">2</a>
+            <a class="page">3</a>
+
+            <a class="page">
+                <i class="fa-solid fa-angle-right"></i>
+            </a>
+            <a class="page">
+                <i class="fa-solid fa-angles-right"></i>
+            </a>
+        </div>
     </div>
 
-
-    </div>
-
-    <div class="page-container" id="pageContainer">
-        <a class="page">
-            <i class="fa-solid fa-angles-left"></i>
-        </a>
-
-        <a class="page">
-            <i class="fa-solid fa-angle-left"></i>
-        </a>
-        <a class="page">1</a>
-        <a class="page">2</a>
-        <a class="page">3</a>
-
-        <a class="page">
-            <i class="fa-solid fa-angle-right"></i>
-        </a>
-        <a class="page">
-            <i class="fa-solid fa-angles-right"></i>
-        </a>
-    </div>
-
-    </div>
 
     <div class="review-contact" id="reviewContact">
-        <h2>브랜드 정보</h2>
+<!--        <h2>브랜드 정보</h2>-->
         <table class="table" id="contactTable">
             <tbody>
             <tr>
@@ -318,13 +332,10 @@
                        th:href="${seller.getHomePage()}"></a>
                 </td>
             </tr>
-
             </tbody>
         </table>
     </div>
-
 </main>
-
-
+<th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>

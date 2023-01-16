@@ -80,11 +80,6 @@ public interface IGoodsMapper {
 
     int updateItem(ItemEntity item);
 
-
-    int updateItemColor(ItemColorEntity[] itemColor);
-
-    int updateItemSize(ItemSizeEntity itemSize);
-
     int selectItemsCount();
 
     GoodsVo[] selectItemExceptImages(
@@ -93,9 +88,13 @@ public interface IGoodsMapper {
 
     ItemEntity[] selectItemsTitleImage();
 
-//    GoodsVo[] selectItemsByCategoryId(@Param(value = "limit") int limit,
-//                                      @Param(value = "offset") int offset);
+    ReviewVo[] selectReviewsByGoodsIndexPaging(@Param(value = "itemIndex") int itemIndex,
+                                               @Param(value = "limit") int limit,
+                                               @Param(value = "offset") int offset);
+
+    int selectReviewCountByItemIndex(@Param(value = "itemIndex") int itemIndex);
 
     int[] selectIndex();
+
 
 }

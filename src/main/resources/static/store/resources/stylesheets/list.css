@@ -220,22 +220,18 @@ body {
 
 /* 페이징 */
 #pageContainer > .page {
+    font-family: none;
     margin-top: 3rem;
     margin-bottom: 2rem;
-    border-left: 0.0625rem solid rgb(76, 91, 105);
-    color: inherit;
+    color: rgb(160, 160, 160);
     padding: 0.5rem 0.75rem;
     text-decoration: none;
 }
 
-#pageContainer > .page:last-of-type {
-    border-right: 0.0625rem solid rgb(76, 91, 105);
-}
-
 #pageContainer > .page.selected,
 #pageContainer > .page:hover {
-    background-color: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    font-weight: bold;
 }
 .--main > .input-container{
     align-items: center;

@@ -99,6 +99,7 @@
     height: 2rem;
     border-radius: 0.375rem;
     border: 0.025rem solid rgb(199 203 207);
+    padding-left: 1rem;
 }
 
 #form > .myPage-main > .myPage-content > .content > .--object-button {

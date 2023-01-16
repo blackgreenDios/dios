@@ -10,13 +10,14 @@ public class GoodsVo extends ItemEntity {
     private String brandName;
     private double ScoreAvg;
 
+    private int reviewCount;
+
     public double getScoreAvg() {
         return ScoreAvg;
     }
 
-    public GoodsVo setScoreAvg(double scoreAvg) {
+    public void setScoreAvg(double scoreAvg) {
         ScoreAvg = scoreAvg;
-        return this;
     }
 
     public String getBrandName() {
@@ -47,4 +48,13 @@ public class GoodsVo extends ItemEntity {
     public void setSizes(String[] sizes) {
         this.sizes = sizes;
     }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
 }

@@ -1,5 +1,8 @@
 const itemForm = document.getElementById('form');
 const reviewContainer = window.document.querySelector('[rel="reviewContainer"]');
+
+const pageContainer = window.document.querySelector('[rel="pageContainer"]');
+
 const reviewForm = document.getElementById('reviewForm');
 const itemDelete = document.getElementById('itemDelete');
 
@@ -15,9 +18,36 @@ const resultSize = document.getElementById('resultSize');
 
 const cartButton = window.document.querySelector('[rel="cartButton"]');
 
+
 const blockBox = document.getElementById('blockBox');
 
+document.addEventListener('DOMContentLoaded', function(){ //DOM 생성 후 이벤트 리스너 등록
+    //더보기 버튼 이벤트 리스너
+    document.querySelector('.btn_open').addEventListener('click', function(e){
 
+        let classList = document.querySelector('.detailinfo').classList; // 더보기 프레임의 클래스 정보 얻기
+
+        if(classList.contains('showstep1')){
+            classList.remove('showstep1');
+
+        }
+        //전체보기시 더보기 버튼 감추기 & 감추기 버튼 표시
+        if(!classList.contains('showstep1')){
+            e.target.classList.add('hide');
+            document.querySelector('.btn_close').classList.remove('hide');
+
+        }
+
+    });
+});
+
+// 감추기 버튼 이벤트 리스너
+document.querySelector('.btn_close').addEventListener('click', function(e){
+    e.target.classList.add('hide');
+    document.querySelector('.btn_open').classList.remove('hide'); // 더보기 버튼 감춤
+    document.querySelector('.detailinfo').classList.add('showstep1'); // 초기 감춤 상태로 복귀
+
+});
 
 
 function result() {
@@ -63,10 +93,9 @@ function Count(type) {
 
 
 /*리뷰 불러오는 함수 만들기*/
-const loadReviews = () => {
-
+const loadReviews = (page) => {
+    page ??= 1;
     reviewContainer.innerHTML = '';
-
     const url = new URL(window.location.href);
     const searchParams = url.searchParams;  // 이건 comment?aid= 뒤에 있는 숫자를 의미한다.
     const gid = searchParams.get('gid');
@@ -74,12 +103,13 @@ const loadReviews = () => {
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
 
-    xhr.open('GET', `./review?gid=${gid}`);
+
+    xhr.open('GET', `./review?gid=${gid}&page=${page}`);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status >= 200 && xhr.status < 300) {
-                const responseArray = JSON.parse(xhr.responseText);
-                for (const reviewObject of responseArray) {
+                const responseObject = JSON.parse(xhr.responseText);
+                for (const reviewObject of responseObject['reviews']) {
                     const date = new Date(reviewObject['createdOn']);
                     const now = new Date();
                     const
@@ -87,25 +117,32 @@ const loadReviews = () => {
 
                   <div class="item visible" rel="item">
                     <div class="head">
-                    <span class="nickname" name="userEmail">${reviewObject['userEmail']}</span>
-                    <span class="star-container" rel="starContainer">
-                    <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 1 ? 'filled' : ''}"></i>
-                    <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 2 ? 'filled' : ''}"></i>
-                    <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 3 ? 'filled' : ''}"></i>
-                    <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 4 ? 'filled' : ''}"></i>
-                    <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 5 ? 'filled' : ''}"></i>
+                    <span class="head-first">
+                        <span class="nickname" name="userEmail">${reviewObject['userEmail']}</span>
+                        <span class="star-container" rel="starContainer">
+                        <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 1 ? 'filled' : ''}"></i>
+                        <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 2 ? 'filled' : ''}"></i>
+                        <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 3 ? 'filled' : ''}"></i>
+                        <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 4 ? 'filled' : ''}"></i>
+                        <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 5 ? 'filled' : ''}"></i>
+                        </span>
                     </span>
-                    <span class="date" rel="date">${date.getDate() === now.getDate()
+                    
+                    <span class="head-second">
+                        <span class="date" rel="date">${date.getDate() === now.getDate()
                             ? '오늘' :
                             date.getDate() === now.getDate() - 1 ?
                                 '하루전' :
                                 date.getFullYear() + '-' + date.getMonth() + 1 + '-' + date.getDate()}</span>
-                    <span class="modify" rel="modifyIcon">
+                        <span class="modify" rel="modifyIcon">
                         <i class="icon fa-solid fa-pen-to-square"></i>
+                        </span>
+                        <span class="delete" rel="delete">
+                            <i  class="icon fa-regular fa-circle-xmark"></i>
+                        </span>
                     </span>
-                    <span class="delete" rel="delete">
-                        <i  class="icon fa-regular fa-circle-xmark"></i>
-                    </span>
+                    
+                    
                 </div>
                 <div class="body">
                     <div class="content" rel="content">${reviewObject['content']}</div>
@@ -135,7 +172,10 @@ const loadReviews = () => {
                         <input type="text" maxlength="100" name="content" placeholder="리뷰를 작성해주세요."
                                class="input">
                     </label>
-                    <input name="modifyButton" class="--object-button" type="submit" value="수정">
+                    <div class="modifyButtonContainer">
+                        <input name="modifyButton" class="--object-button modify" type="submit" rel="modifyButton" value="수정">
+                        <input name="modifyButton" class="--object-button cancel" type="submit" rel="cancelButton" value="취소">
+                    </div>
                 </div>
                 
                 </div>
@@ -153,7 +193,6 @@ const loadReviews = () => {
                     const modifyElement = itemElement.querySelector('[rel="modify"]');
 
 
-
                     /*리뷰 수정*/
                     /*수정 아이콘 눌렀을때 input 박스 설정*/
                     itemElement.querySelector('[rel="modifyIcon"]')?.addEventListener('click', e => {
@@ -163,6 +202,13 @@ const loadReviews = () => {
                         modifyForm['content'].value = reviewObject['content'];
                         modifyForm.querySelector('[rel="score"]').innerText = reviewObject['score'];
                         modifyForm['content'].focus();
+
+                    });
+
+                    //취소버튼 누르면 수정란 사라지기
+                    itemElement.querySelector('[rel="cancelButton"]')?.addEventListener('click', e => {
+                        e.preventDefault();
+                        modifyElement.classList.remove('visible');
                     });
 
                     const modifyStarArray = Array.from(modifyForm
@@ -180,7 +226,7 @@ const loadReviews = () => {
                     }
 
 
-                    modifyForm.onsubmit = e => {
+                    itemElement.querySelector('[rel="modifyButton"]')?.addEventListener('click', e => {
                         e.preventDefault();
 
                         if (!confirm('정말로 리뷰를 수정할까요?')) {
@@ -198,7 +244,7 @@ const loadReviews = () => {
 
                         formData.append('score', modifyForm['score'].value);
                         formData.append('content', modifyForm['content'].value);
-                        formData.append('index', reviewObject['index']);
+                        formData.append('index', reviewObject['index'].value);
 
                         xhr.open('PATCH', './review');
                         xhr.onreadystatechange = () => {
@@ -207,7 +253,7 @@ const loadReviews = () => {
                                     const responseObject = JSON.parse(xhr.responseText);
                                     switch (responseObject['result']) {
                                         case 'success':
-                                            loadReviews(reviewForm['itemIndex'].value);
+                                            loadReviews();(reviewForm['itemIndex'].value);
                                             modifyForm['score'] = '';
                                             modifyForm['content'].value = '';
                                             break;
@@ -227,7 +273,7 @@ const loadReviews = () => {
 
                         };
                         xhr.send(formData);
-                    };
+                    });
 
 
                     /*리뷰 삭제*/
@@ -256,7 +302,7 @@ const loadReviews = () => {
                                             alert('해당 댓글을 삭제할 권한이 없습니다.');
                                             break;
                                         case 'success':
-                                            loadReviews(reviewForm['itemIndex'].value);
+                                            loadReviews();(reviewForm['itemIndex'].value);
                                             break;
                                         default:
                                             alert('알 수 없는 일로 리뷰를 삭제하지 못하였습니다. 잠시 후 다시 시도해 주세요.');
@@ -270,6 +316,7 @@ const loadReviews = () => {
 
 
                     const imageContainerElement = itemElement.querySelector('[rel="imageContainer"]');
+
                     if (reviewObject['imageIndexes'].length > 0) {
                         for (const imageIndex of reviewObject['imageIndexes']) {
                             const imageElement = document.createElement('img');
@@ -285,14 +332,86 @@ const loadReviews = () => {
                     reviewContainer.append(itemElement);
                 }
 
+                pageContainer.innerHTML = '';
+
+                if (responseObject['reviews'].length > 0) { //리뷰가 존재한다면
+
+                    const minPageElement = document.createElement('a');
+                    minPageElement.setAttribute('class', 'page');
+                    // minPageElement.setAttribute('href',`./review?gid=${gid}&page=${responseObject['minPage']}`);
+
+                    const minPageIconElement = document.createElement('i');
+                    minPageIconElement.setAttribute('class', 'fa-solid fa-angles-left');
+                    minPageElement.append(minPageIconElement);
+                    minPageElement.addEventListener('click', () => {
+                        loadReviews(responseObject['minPage']);
+                    })
+                    pageContainer.append(minPageElement);
+
+
+                    const prevPageElement = document.createElement('a');
+                    prevPageElement.setAttribute('class', 'page');
+                    // prevPageElement.setAttribute('href',`./review?gid=${gid}&page=${responseObject['minPage']}`);
+
+
+                    const prevPageIconElement = document.createElement('i');
+                    prevPageIconElement.setAttribute('class', 'fa-solid fa-angle-left');
+                    prevPageElement.append(prevPageIconElement);
+                    prevPageElement.addEventListener('click', () => {
+                        loadReviews(responseObject['currentPage'] - 1);
+                    })
+                    pageContainer.append(prevPageElement);
+
+
+                    let numberPageElement = {};
+                    for (let i = responseObject['minPage']; i <= responseObject['maxPage']; i++) {
+                        numberPageElement[`numberPageElement${i}`] = document.createElement('a');
+                        numberPageElement[`numberPageElement${i}`].setAttribute('class', 'page');
+                        // numberPageElement[`numberPageElement${i}`].setAttribute('href',`./review?gid=${gid}&page=${i}`);
+                        numberPageElement[`numberPageElement${i}`].innerText = i;
+                        numberPageElement[`numberPageElement${i}`].addEventListener('click', () => {
+                            loadReviews(i);
+                        });
+                        pageContainer.append(numberPageElement[`numberPageElement${i}`]);
+                    }
+
+                    const nextPageElement = document.createElement('a');
+                    nextPageElement.setAttribute('class', 'page');
+                    // nextPageElement.setAttribute('href',`./review?gid=${gid}&page=${responseObject['maxPage']}`);
+
+                    const nextPageElementIconElement = document.createElement('i');
+                    nextPageElementIconElement.setAttribute('class', 'fa-solid fa-angle-right');
+                    nextPageElement.append(nextPageElementIconElement);
+                    nextPageElement.addEventListener('click', () => {
+                        loadReviews(responseObject['currentPage'] + 1);
+                    })
+                    pageContainer.append(nextPageElement);
+
+
+                    const maxPageElement = document.createElement('a');
+                    maxPageElement.setAttribute('class', 'page');
+                    // maxPageElement.setAttribute('href',`./review?gid=${gid}&page=${responseObject['maxPage']}`);
+
+                    const maxPageElementIconElement = document.createElement('i');
+                    maxPageElementIconElement.setAttribute('class', 'fa-solid fa-angles-right');
+                    maxPageElement.append(maxPageElementIconElement);
+                    maxPageElement.addEventListener('click', () => {
+                        loadReviews(responseObject['maxPage']);
+                    })
+                    pageContainer.append(maxPageElement);
+                } else {
+                    pageContainer.innerText = '작성된 리뷰가 없습니다. \n\n 리뷰를 작성해주세요.';
+                }
+
+
             } else {
                 alert('리뷰를 불러오지 못했습니다. 잠시 후 다시 시도해주십시오');
             }
+
+
         }
     };
-    xhr.send();
-
-
+    xhr.send(formData);
 
     // const itemElement = document.querySelector('[rel="itemElement"]');
     //
@@ -372,8 +491,10 @@ if (reviewForm) {
                     switch (responseObject['result']) {
                         case 'not_signed' :
                             alert('로그인이 되어있지 않습니다. 로그인 후 다시 시도해 주세요.');
+                            window.location.href='/dios/login'
                             break;
                         case 'success':
+                            loadReviews();
                             loadReviews(reviewForm['itemIndex'].value);
                             reviewForm['score'] = '';
                             reviewForm['content'].value = '';
@@ -395,9 +516,9 @@ if (reviewForm) {
 cartButton?.addEventListener('click', e => {
     e.preventDefault();
 
-    if (!confirm('정말로 이 상품을 장바구니에 넣을까요?')) {
-        return;
-    }
+    // if (!confirm('정말로 이 상품을 장바구니에 넣을까요?')) {
+    //     return;
+    // }
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
@@ -414,20 +535,19 @@ cartButton?.addEventListener('click', e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        alert('장바구니 등록 성공 !');
+                        // alert('장바구니 등록 성공 !');
                         blockBox.classList.add('visible');
 
-                        blockBox.querySelector('[rel="yes"]').addEventListener('click',e=>{
+                        blockBox.querySelector('[rel="yes"]').addEventListener('click', e => {
                             e.preventDefault();
-                            window.location.href='/store/cart';
+                            window.location.href = '/store/cart'
                         });
 
-                        blockBox.querySelector('[rel="no"]').addEventListener('click',e=>{
+                        blockBox.querySelector('[rel="no"]').addEventListener('click', e => {
                             e.preventDefault();
                             window.location.href;
                             blockBox.classList.remove('visible');
                         });
-
 
 
                         break;
@@ -459,7 +579,7 @@ itemDelete.addEventListener('click', e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        window.location.href='/store/list'
+                        window.location.href = '/store/list'
                         break;
                     default:
                         alert('알 수 없는 이유로 게시글을 삭제하지 못했습니다.\n\n잠시 후 다시 시도해 주세요.');
@@ -472,4 +592,6 @@ itemDelete.addEventListener('click', e => {
     xhr.send();
 
 });
+
+
 

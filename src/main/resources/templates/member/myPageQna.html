@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DIOS :: 나의 Q&A</title>
+    <title>나의 문의 내역</title>
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <script defer th:src="@{/bbs/resources/libraries/ckeditor/ckeditor.js}"></script>
 
@@ -120,7 +120,7 @@
                                th:value="${#request.getParameter('keyword')}">
                     </label>
                     <input name="bid" type="hidden" th:value="${board.getId()}">
-                    <input id="search" class="—object-button" type="submit" value="검색">
+                    <input id="search" class="--object-button" type="submit" value="검색">
                 </div>
             </div>
         </div>

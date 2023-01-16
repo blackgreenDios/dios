@@ -165,6 +165,7 @@ body > .--footer > .--content {
     border: 0.0625rem solid rgb(213, 216, 220);
     box-sizing: border-box;
     padding: 0.625rem 0.875rem;
+    border-radius: 0.5rem;
 }
 
 .--object-input:disabled {
@@ -204,7 +205,7 @@ body > .--footer > .--content {
 
 #submit {
     background-color: rgb(255, 255, 255);
-    border: 0.0625rem solid rgb(0, 0, 0);
+    border: 0.0625rem solid rgb(149 149 149);
     color: rgb(0, 0, 0);
     margin-bottom: 2rem;
 }
@@ -226,7 +227,7 @@ main, input, select {
 
 #search {
     background-color: rgb(255, 255, 255);
-    border: 0.0625rem solid rgb(0, 0, 0);
+    border: 0.0625rem solid rgb(149 149 149);
     color: rgb(0, 0, 0);
     margin-bottom: 3rem;
 

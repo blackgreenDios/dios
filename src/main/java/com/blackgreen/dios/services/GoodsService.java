@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.FetchProfile;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
@@ -68,11 +69,8 @@ public class GoodsService {
 
 
     @Transactional
-    public Enum<? extends IResult> addItem(UserEntity user, ItemEntity item, MultipartFile images) throws IOException {
+    public Enum<? extends IResult> addItem(ItemEntity item, MultipartFile images) throws IOException {
 
-        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
-            return CommonResult.FAILURE;
-        }
 
 //        item = this.goodsMapper.selectItemByIndex(item.getIndex()); //item의 getIndex를 넘겨준적 없으니깐 0일것임,
 //                                                                      그래서 값을 넘겨야함/ 그런데 이건 select해와서 그런거임. insert하는데 굳이 고를 필요 없음
@@ -139,6 +137,24 @@ public class GoodsService {
     }
 
 
+    public ReviewVo[] getReviewsPaging(int itemIndex, PagingModel paging) {
+
+        ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndexPaging(
+                itemIndex,
+                paging.countPerPage,
+                (paging.requestPage - 1) * paging.countPerPage); //상품 index를 기준으로 review select
+
+        for (ReviewVo review : reviews) {
+            ReviewImageEntity[] reviewImage = this.goodsMapper.selectReviewImagesByGoodsIndexExceptData(review.getIndex());
+            int[] reviewImageIndexes = Arrays.stream(reviewImage).mapToInt(ReviewImageEntity::getIndex).toArray();
+            review.setImageIndexes(reviewImageIndexes);
+//            UserEntity user = this.goodsMapper.selectUserByUserEmail(review.getUserEmail());
+//            review.setUserNickname(user.getNickname());
+        }
+
+        return reviews;
+    }
+
     public ReviewVo[] getReviews(int itemIndex) {
 
         ReviewVo[] reviews = this.goodsMapper.selectReviewsByGoodsIndex(itemIndex); //상품 index를 기준으로 review select
@@ -198,12 +214,13 @@ public class GoodsService {
     }
 
     @Transactional
-    public Enum<? extends IResult> addReview(UserEntity user, ReviewEntity review, MultipartFile[] images) throws IOException, RollbackException {
+    public Enum<? extends IResult> addReview(UserEntity user, ReviewVo review, MultipartFile[] images) throws IOException, RollbackException {
 
         if (user == null) {
             return AddReviewResult.NOT_SIGNED;
         }
         review.setUserEmail(user.getEmail());
+        review.setUserNickname(user.getNickname());
         if (this.goodsMapper.insertReview(review) == 0) {
             return AddReviewResult.FAILURE;
         }
@@ -224,7 +241,7 @@ public class GoodsService {
     }
 
 
-    public GoodsVo[] getItems( PagingModel paging) {
+    public GoodsVo[] getItems(PagingModel paging) {
         return this.goodsMapper.selectItemExceptImages(
                 paging.countPerPage,
                 (paging.requestPage - 1) * paging.countPerPage);
@@ -288,10 +305,6 @@ public class GoodsService {
 //            return ModifyItemResult.NOT_ALLOWED;
 //        }
 
-        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
-            return CommonResult.FAILURE;
-        }
-
         //새로 저장할 내용을 set해주깅 > 수정된 내용이 저장됨
         existingItem.setCategoryId(item.getCategoryId());
         existingItem.setSellerIndex(item.getSellerIndex());
@@ -324,9 +337,6 @@ public class GoodsService {
             return CommonResult.FAILURE;
         }
 
-        if (user ==null && user.isAdmin()) { // 쌤은 existingCommentfh 로 바꿨는데
-            return CommonResult.FAILURE;
-        }
 //        if (user == null || !user.getEmail().equals("admin")) { // 쌤은 existingCommentfh 로 바꿨는데
 //            return CommonResult.FAILURE;
 //        }
@@ -351,6 +361,10 @@ public class GoodsService {
 
     public int getItemCount() {
         return this.goodsMapper.selectItemsCount();
+    }
+
+    public int getReviewCount(int itemIndex) {
+        return this.goodsMapper.selectReviewCountByItemIndex(itemIndex);
     }
 
     @Transactional
@@ -389,5 +403,4 @@ public class GoodsService {
     public int[] getIndex () {
         return this.goodsMapper.selectIndex();
     }
-
 }

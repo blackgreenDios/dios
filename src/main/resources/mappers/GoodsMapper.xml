@@ -207,7 +207,6 @@
                `score`      AS `score`,
                `content`    AS `content`,
                `created_on` AS `createdOn`
-
         FROM `dios_store`.`reviews`
         WHERE `index` = #{index}
     </select>
@@ -234,12 +233,30 @@
                `review`.`item_index` AS `itemIndex`,
                `review`.`score`      AS `score`,
                `review`.`content`    AS `content`,
+               `review`.`created_on` AS `createdOn`,
+               `user`.`nickname`     AS `nickname`
+        FROM `dios_store`.`reviews` AS `review`
+                 LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`
+        WHERE `review`.`item_index` = #{itemIndex}
+        GROUP BY `review`.`index`
+        ORDER BY `review`.`index` DESC
+    </select>
+
+    <select id="selectReviewsByGoodsIndexPaging"
+            resultType="com.blackgreen.dios.vos.goods.ReviewVo">
+        SELECT `review`.`index`      AS `index`,
+               `review`.`user_email` AS `userEmail`,
+               `review`.`item_index` AS `itemIndex`,
+               `review`.`score`      AS `score`,
+               `review`.`content`    AS `content`,
                `review`.`created_on` AS `createdOn`
         FROM `dios_store`.`reviews` AS `review`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `review`.`user_email` = `user`.`email`
         WHERE `review`.`item_index` = #{itemIndex}
         GROUP BY `review`.`index`
         ORDER BY `review`.`index` DESC
+        LIMIT #{limit}
+            OFFSET #{offset}
     </select>
 
     <select id="selectReviewImageByIndex"
@@ -334,13 +351,6 @@
         WHERE BINARY `index` = #{index}
     </update>
 
-    <update id="updateItemColor"
-            parameterType="com.blackgreen.dios.entities.store.ItemColorEntity">
-        UPDATE `dios_store`.`item_colors`
-        SET `item_index` =#{itemIndex},
-            `color`=#{color}
-        WHERE BINARY `index` = #{index}
-    </update>
 
 
     <select id="selectItemByIndex"
@@ -404,6 +414,15 @@
         SELECT `index` AS `index`
         FROM `dios_store`.`items`
     </select>
+
+
+    <select id="selectReviewCountByItemIndex"
+            resultType="int">
+        SELECT COUNT(0)
+        FROM `dios_store`.`reviews` AS `review`
+        WHERE  `item_index` = #{itemIndex}
+    </select>
+
 
 
 </mapper>
