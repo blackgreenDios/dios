@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blackgreen.dios.mappers.IRecordMapper">
+    <!--    <select id="selectUserByEmail"-->
+    <!--            resultType="com.blackgreen.dios.entities.member.UserEntity">-->
+    <!--        SELECT `email`             AS `email`,-->
+    <!--               `password`          AS `password`,-->
+    <!--               `nickname`          AS `nickname`,-->
+    <!--               `name`              AS `name`,-->
+    <!--               `contact`           AS `contact`,-->
+    <!--               `address_postal`    AS `addressPostal`,-->
+    <!--               `address_primary`   AS `addressPrimary`,-->
+    <!--               `address_secondary` AS `addressSecondary`,-->
+    <!--               `registered_on`     AS `registeredOn`,-->
+    <!--               `goal_count`        AS `goalCount`-->
+    <!--        FROM `dios_member`.`users`-->
+    <!--        WHERE BINARY `email` = #{email}-->
+    <!--        LIMIT 1-->
+    <!--    </select>-->
+    <update id="updateCount"
+            parameterType="com.blackgreen.dios.entities.member.UserEntity">
+        UPDATE `dios_member`.`users`
+        SET `goal_count` = #{goalCount}
+        WHERE BINARY `email` = #{email}
+        LIMIT 1;
+    </update>
+
+    <insert id="insertCount"
+            parameterType="com.blackgreen.dios.entities.record.CountEntity">
+        INSERT INTO `dios_record`.`counts` (`user_email`, `today_date`, `squat_count`, `squat_setting`, `lunge_count`,
+                                            `lunge_setting`, `push_up_count`, `push_up_setting`)
+        VALUES (#{userEmail}, #{todayDate}, #{squatCount}, #{squatSetting}, #{lungeCount}, #{lungeSetting},
+                #{pushUpCount}, #{pushUpSetting})
+        ON DUPLICATE KEY UPDATE `squat_count`   = `squat_count` + #{squatCount},
+                                `squat_setting` = `squat_setting` + #{squatSetting},
+                                `lunge_count`   = `lunge_count` + #{lungeCount},
+                                `lunge_setting` = `lunge_setting` + #{lungeSetting},
+                                `push_up_count`   = `push_up_count` + #{pushUpCount},
+                                `push_up_setting` = `push_up_setting` + #{pushUpSetting}
+    </insert>
+
+    <insert id="insertRecord"
+            parameterType="com.blackgreen.dios.entities.record.ElementEntity">
+        INSERT INTO `dios_record`.`record_elements` (`user_email`, `image`, `image_type`, `diary`, `add`, `today_date`)
+        VALUES (#{userEmail}, #{image}, #{imageType}, #{diary}, #{add}, IFNULL(#{todayDate}, DEFAULT(`today_date`)))
+        ON DUPLICATE KEY UPDATE `image`      = IFNULL(#{image}, `image`),
+                                `image_type` = IFNULL(#{imageType}, `image_type`),
+                                `diary`      = IFNULL(#{diary}, `diary`),
+                                `add`        = IFNULL(#{add}, `add`)
+    </insert>
+
+    <select id="selectRecordByEmailDate"
+            resultType="com.blackgreen.dios.entities.record.ElementEntity">
+        select `user_email`   AS `userEmail`,
+               `image`        AS `image`,
+               `image_type`   AS `imageType`,
+               `diary`        AS `diary`,
+               `add`          AS `add`,
+               `done_flag`    AS `isDone`,
+               `success_flag` AS `isSuccess`,
+               `today_date`   AS `todayDate`
+        FROM `dios_record`.`record_elements`
+        WHERE `user_email` = #{userEmail}
+          AND `today_date` = #{todayDate}
+        LIMIT 1
+    </select>
+
+    <select id="selectCountByEmail"
+            resultType="com.blackgreen.dios.entities.record.CountEntity">
+        select `squat_count`   AS `squatCount`,
+               `squat_setting` AS `squatSetting`,
+               `lunge_count`   AS `lungeCount`,
+               `lunge_setting` AS `lungeSetting`,
+               `push_up_count`   AS `pushUpCount`,
+               `push_up_setting` AS `pushUpSetting`
+        FROM `dios_record`.`counts`
+        WHERE `user_email` = #{userEmail}
+          AND `today_date` = #{todayDate}
+        LIMIT 1;
+    </select>
+
+    <select id="selectPreviousDate"
+            resultType="java.util.Date"><![CDATA[
+        SELECT `today_date`
+        FROM `dios_record`.`counts`
+        WHERE `user_email` = #{userEmail}
+          AND `today_date` < #{todayDate}
+        ORDER BY `today_date` DESC
+        LIMIT 1
+        ]]></select>
+
+    <select id="selectNextDate"
+            resultType="java.util.Date"><![CDATA[
+        SELECT `today_date`
+        FROM `dios_record`.`counts`
+        WHERE `user_email` = #{userEmail}
+          AND `today_date` > #{todayDate}
+        ORDER BY `today_date`
+        LIMIT 1
+        ]]></select>
+
+    <select id="selectRecentDate"
+            resultType="java.util.Date">
+        select `today_date` AS `todayDate`
+        FROM `dios_record`.`counts`
+        WHERE `user_email` = #{userEmail}
+        ORDER BY `today_date` DESC
+        LIMIT 1
+    </select>
+
+
+</mapper>

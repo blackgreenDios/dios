@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<div class="myPage-menu" th:fragment="menu" id="myPageMenu">
+  <ul>
+    <li>
+      <h2>마이정보</h2>
+      <ul>
+        <li class="subMenu" rel="subMenu1">
+          <a href="./myPage" class="myPage" rel="title1">프로필 수정</a>
+
+        </li>
+        <li class="subMenu" rel="subMenu2">
+          <a href="./myPageModify" class="myPageModify" rel="title2">회원정보 수정</a>
+        </li>
+        <li class="subMenu" rel="subMenu3">
+          <a href="./myPagePassword" class="myPagePassword" id="myPagePassword">비밀번호 재설정</a>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <h2>마이쇼핑</h2>
+      <ul>
+        <li class="subMenu">
+          <a href="./myPageDeliveryCheck" class="myPageDeliveryCheck">주문/배송 조회</a>
+        </li>
+
+        <li class="subMenu">
+          <a href="/store/cart" class="sub-menu-title">장바구니</a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <h2>마이활동</h2>
+      <ul>
+        <li class="subMenu">
+          <a href="./myPageList" class="myPageList">게시글</a>
+        </li>
+        <li class="subMenu">
+          <a href="./myPageQna" class="myPageQna">문의 내역</a>
+        </li>
+        <li class="subMenu" rel="subMenu4">
+          <a href="./myPageDelete" class="myPageDelete" id="myPageDelete">회원탈퇴</a>
+        </li>
+
+      </ul>
+    </li>
+  </ul>
+</div>
+</html>

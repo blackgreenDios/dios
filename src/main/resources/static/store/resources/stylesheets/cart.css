@@ -1,0 +1,298 @@
+@charset "UTF-8";
+
+body > .main {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: flex-start;
+}
+#form {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    margin-bottom: 10rem;
+    font-family: none;
+}
+
+#form > .content > .title-container {
+    margin-top: 3rem;
+
+    align-items : stretch;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+
+    width: 72rem;
+
+    border-bottom: 0.25rem solid rgb(0, 0, 0);
+
+    font-family: none;
+}
+
+#form > .content > .title-container > .title {
+    display: flex;
+    align-items: flex-start;
+    flex: 1;
+    font-size: 2.2rem;
+}
+
+#form > .content > .title-container > .step-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+#form > .content > .title-container > .step-list > li > .two {
+    font-size: 1rem;
+    color: rgb(157, 152, 152);
+}
+
+#form > .content > .title-container > .step-list > li > .three {
+    font-size: 1rem;
+    color: rgb(157, 152, 152);
+}
+
+#form > .content > .title-container > .step-list > .blank {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#form > .content > .title-box {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    margin-bottom: 1rem;
+
+    width: 90%;
+}
+
+#form > .content > .title-box > .sub-title {
+    font-family: none;
+    margin-top: 4rem;
+    font-weight: 400;
+    font-size: 1.7rem;
+}
+
+#form > .content {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+#form > .content > table {
+    border-spacing: 0;
+    width: 90%;
+    margin-bottom: 2rem;
+}
+
+#form > .content > table > thead > tr > th {
+    height: 40px;
+    border-top: 2px solid #d6d6d6;
+    border-bottom: 1px solid #ccc;
+    background: #fafafa;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+body > main > form > .content > table > tbody > tr > td > .product {
+    height: 13rem;
+
+    border-bottom: 1px solid #ccc;
+    
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.product {
+    align-items : stretch;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    width: 100%;
+    padding-left: 1rem;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.product > .product-info {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+}
+
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.product > .product-info > .product-img > img {
+    width: 10rem;
+    height: 10rem;
+    padding-right: 1rem;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count-container {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count-container > .count {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count-container > .icon {
+    font-size: 0.9rem;
+    color: rgb(147, 143, 143);
+
+    cursor: pointer;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count-container > .icon:hover {
+    border: 0.0625rem solid rgb(220, 215, 215);
+    border-radius: 50%;
+    background-color: rgb(220, 215, 215);
+    font-size: 0.78rem;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count-container > .minus,
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.count > .product-count > .count-container > .count {
+    margin-right: 0.8rem;
+}
+
+body > main > form > .content > table > tbody > tr > td > .product > .tdcell.delivery > .product-delivery > .text {
+    font-weight: 600;
+}
+
+body > main > form > .content > .total-price {
+    align-items : center;
+    display : flex;
+    flex-direction : row;
+    justify-content: flex-start;
+
+    width: 90%;
+}
+
+body > main > form > .content > .total-price > .button-container {
+    flex: 1;
+}
+
+body > main > form > .content > .total-price > .button-container > .cancel {
+
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    background-color: rgb(255,255,255);
+    color: rgb(0,0,0);
+    border-radius: 0.3rem;
+    border: 0.1rem solid rgb(232, 229, 229);
+}
+
+body > main > form > .content > .total-price > .button-container > .cancel:hover {
+    background-color: rgb(238, 234, 234);
+}
+
+body > main > form > .content > .total-price > .sum-price > .title,
+body > main > form > .content > .total-price > .sum-price > .num{
+    color: #666;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+body > main > form > .content > .total-price > .sum-price > .symbol{
+    margin: 0 5px;
+    font-size: 1.4rem;
+    color: rgb(137,137,137);
+    font-weight: 700;
+}
+
+body > main > form > .content > .total-price > .sum-price > .total-title{
+    margin-right: 0.5rem;
+}
+
+body > main > form > .content > .total-price > .sum-price > .total-title,
+body > main > form > .content > .total-price > .sum-price > .total-num{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f27370;
+}
+
+body > main > form > .content > .total-price > .sum-price > .total-num{
+    font-weight: 700;
+}
+
+
+body > main > form > .content > .total-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+body > main > form > .content > .total-button > .order {
+    width: 14rem;
+    height: 3.5rem;
+
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    background-color: rgb(255,255,255);
+    color: rgb(0,0,0);
+    border-radius: 0.5rem;
+    border: 0.1rem solid rgb(232, 229, 229);
+}
+
+body > main > form > .content > .total-button > .order:hover {
+    background-color: rgb(245, 242, 242);
+}
+
+body > main > form > .content > .total-button > .order.select{
+    margin-right: 3rem;
+
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+
+    border-radius: 0.5rem;
+    border: 0.1rem solid rgb(255, 255, 255);
+}
+
+body > main > form > .content > .total-button > .order.select:hover {
+    background-color: rgb(66, 65, 65);
+    border: 0.1rem solid rgb(241, 244, 246);
+}
+
+.information {
+    align-items : flex-start;
+    display : flex;
+    flex-direction : column;
+    justify-content: flex-start;
+
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.information > .information-option {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: rgb(119, 115, 115);
+}
+
+
+

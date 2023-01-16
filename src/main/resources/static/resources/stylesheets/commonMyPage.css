@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+body > .main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#form {
+    max-width: 85rem;
+    margin: 4rem ;
+    width: 100%;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+
+#form > .title-container {
+    margin-bottom: 0.25rem;
+    justify-content: flex-start;
+    display: flex;
+
+}
+
+#form > .title-container > .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+#form > .myPage-main {
+    display: flex;
+}
+
+#form > .myPage-main > .myPage-menu {
+    z-index: 999;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: relative;
+    width: 13rem;
+    padding-left: 10px;
+}
+
+#form > .myPage-main > .myPage-menu > ul {
+    list-style: none;
+    margin-top: -1rem;
+    width: 10rem;
+}
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu {
+    list-style: none;
+    /*margin-bottom: 1rem;*/
+    margin-left: -2rem;
+    /*padding-bottom: 1rem;*/
+    height: 2rem;
+}
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > a {
+    text-decoration: none;
+    /*margin-left: -2rem;*/
+
+    font-family: none;
+    color: rgb(0, 0, 0);
+}
+
+
+#form > .myPage-main > .myPage-menu > ul > li > ul > .subMenu > a:hover {
+    color: rgb(60, 166, 52);
+
+}
+

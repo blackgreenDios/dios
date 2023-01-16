@@ -1,0 +1,129 @@
+@charset "UTF-8";
+
+
+body> .main > .content{
+    margin: 5rem 0;
+
+    align-items: stretch ;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+body> .main > .content> .title{
+    font-size: 2rem;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 2.5rem;
+
+}
+.ck-editor__editable{
+    height: 500px;
+}
+
+#form>.table .warning-row{
+    display: none;
+
+}
+#form>.table .warning-row.visible{
+    display: table-row;
+}
+#form> .table .warning-row .warning{
+    background-color: rgb(255,255,255);
+    border-radius: 0.375rem;
+    border: 0.09rem solid rgb(231, 76, 60);
+    color: rgb(231, 76, 60);
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    padding: 1rem;
+    text-align: center;
+
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.icon{
+    margin-right: 0.45rem;
+}
+
+
+#form> .table .button-container{
+    align-items: stretch ;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between ;
+    margin-top: 0.25rem;
+}
+
+#form> .table .button-container >[name="back"],
+#form> .table .button-container >[name="submit"]{
+    background-color: rgb(0, 0, 0);
+    border: 0.0625rem solid rgb(0,0,0);
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
+
+    border-radius: 0.5rem;
+}
+
+#form> .table .button-container >[name="back"]:hover,
+#form> .table .button-container >[name="submit"]:hover{
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
+}
+#form> .table .button-container >[name="submit"]:active,
+#form> .table .button-container >[name="back"]:active{
+    background-color: rgb(91, 88, 88);
+    border: 0.0625rem solid rgb(91, 88, 88);
+
+}
+
+main,input{
+    font: unset;
+    font-family: none;
+}
+
+.--object-input{
+    width: 100%;
+    background-color: rgb(255,255,255);
+    border: 0.0625rem solid rgb(213,216,220);
+    box-sizing: border-box;
+    padding: 0.625rem 0.875rem;
+}
+.--object-input:disabled{
+    background-color: rgb(234,236,238);
+    color: rgb(171,178,185);
+}
+.--object-button{
+    border-radius: 0.5rem;
+    border: 0.07rem solid;
+    box-sizing: border-box;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.4rem 2rem;
+}
+
+body > .--main,
+body > .--footer {
+    /* 이 요소들은 가로크기 100% 로 가져가는 요소들 */
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body > .--main > .--content,
+body > .--footer > .--content {
+    /* 이 요소들은 가로크기 60rem으로 가져가는 요소들 아마도 */
+    width: 100%;
+    /* 아무리 늘려도 너비가 80rem 보다는 넓어지지 않는다. 그리고 양 옆에 공간있음. 궁금하면 검사 눌러서 검사해봐 */
+    max-width: 80rem;
+    margin: 0 2rem;
+    padding-top: 3rem;
+}
+.h1{
+    font: inherit;
+    margin: unset;
+    padding: unset;
+}
