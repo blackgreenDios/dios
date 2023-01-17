@@ -202,8 +202,6 @@
         SET
             `image`             = null,
             `image_type`        = null
-
-
         WHERE BINARY `email` = #{email}
         LIMIT 1
     </update>
