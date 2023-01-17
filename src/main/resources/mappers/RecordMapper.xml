@@ -3,22 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blackgreen.dios.mappers.IRecordMapper">
-    <!--    <select id="selectUserByEmail"-->
-    <!--            resultType="com.blackgreen.dios.entities.member.UserEntity">-->
-    <!--        SELECT `email`             AS `email`,-->
-    <!--               `password`          AS `password`,-->
-    <!--               `nickname`          AS `nickname`,-->
-    <!--               `name`              AS `name`,-->
-    <!--               `contact`           AS `contact`,-->
-    <!--               `address_postal`    AS `addressPostal`,-->
-    <!--               `address_primary`   AS `addressPrimary`,-->
-    <!--               `address_secondary` AS `addressSecondary`,-->
-    <!--               `registered_on`     AS `registeredOn`,-->
-    <!--               `goal_count`        AS `goalCount`-->
-    <!--        FROM `dios_member`.`users`-->
-    <!--        WHERE BINARY `email` = #{email}-->
-    <!--        LIMIT 1-->
-    <!--    </select>-->
+
     <update id="updateCount"
             parameterType="com.blackgreen.dios.entities.member.UserEntity">
         UPDATE `dios_member`.`users`
@@ -57,10 +42,7 @@
                `image`        AS `image`,
                `image_type`   AS `imageType`,
                `diary`        AS `diary`,
-               `add`          AS `add`,
-               `done_flag`    AS `isDone`,
-               `success_flag` AS `isSuccess`,
-               `today_date`   AS `todayDate`
+               `add`          AS `add`
         FROM `dios_record`.`record_elements`
         WHERE `user_email` = #{userEmail}
           AND `today_date` = #{todayDate}

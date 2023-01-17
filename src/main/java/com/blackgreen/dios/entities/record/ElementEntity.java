@@ -10,8 +10,6 @@ public class ElementEntity {
     private String imageType;
     private String diary;
     private String add;
-    private boolean isDone;
-    private boolean isSuccess;
     private Date todayDate;
 
     private int index;
@@ -61,23 +59,6 @@ public class ElementEntity {
         return this;
     }
 
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public ElementEntity setDone(boolean done) {
-        isDone = done;
-        return this;
-    }
-
-    public boolean isSuccess() {
-        return isSuccess;
-    }
-
-    public ElementEntity setSuccess(boolean success) {
-        isSuccess = success;
-        return this;
-    }
 
     public Date getTodayDate() {
         return todayDate;

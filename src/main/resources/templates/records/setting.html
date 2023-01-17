@@ -17,6 +17,10 @@
           rel="stylesheet">
 </head>
 <body onload="slideShow()">
+<script th:if="${user == null}">
+    alert('로그인 후 이용 가능한 서비스입니다.');
+    window.location.href='/dios/login';
+</script>
 
 <input class="backgroundImg slide" type="image" th:src="@{/resources/images/lunge.jpg}">
 <input class="backgroundImg slide" type="image" th:src="@{/resources/images/lunge3.jpg}">

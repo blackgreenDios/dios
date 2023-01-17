@@ -4576,6 +4576,7 @@ var FullCalendar = (function (exports) {
             if (meta.isToday) {
                 classNames.push('fc-day-today');
                 classNames.push(theme.getClass('today'));
+
             }
             if (meta.isPast) {
                 classNames.push('fc-day-past');
@@ -4634,9 +4635,9 @@ var FullCalendar = (function (exports) {
                     calendarApi.zoomTo(dateMarker, viewType);
                 }
             };
-            return __assign({ title: formatWithOrdinals(options.navLinkHint, [dateStr, zonedDate], dateStr), 'data-navlink': '' }, (isTabbable
-                ? createAriaClickAttrs(handleInteraction)
-                : { onClick: handleInteraction }));
+            // return __assign({ title: formatWithOrdinals(options.navLinkHint, [dateStr, zonedDate], dateStr), 'data-navlink': '' }, (isTabbable
+            //     ? createAriaClickAttrs(handleInteraction)
+            //     : { onClick: handleInteraction }));
         }
         return { 'aria-label': dateStr };
     }
@@ -15005,3 +15006,17 @@ var FullCalendar = (function (exports) {
     return exports;
 
 }({}));
+
+
+
+
+
+// 잔디심기
+const dayContainer = document.getElementsByClassName('fc-daygrid-day');
+const day = document.getElementsByClassName('fc-daygrid-day-frame');
+
+dayContainer
+
+
+
+
