@@ -86,15 +86,13 @@ body > .main >.content >.table.content-container *{
 
 #table {
     margin-left: 3rem;
-
-
 }
+
 #title{
     font-size: 1.5rem;
     font-weight: unset;
     margin-left: 3rem;
     margin-bottom: 1rem;
-
 }
 
 #left {
@@ -195,16 +193,47 @@ body > .main > .content > .table .button-container > a[href].delete:hover {
     border: 0.0625rem solid rgb(91, 88, 88);
 }
 
-.secret{
-
-
+#secret,
+#replySecret,
+#modifySecret{
     align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: center;
     font-size: 1rem;
-    margin-right: 0.7rem;
+    margin-right: 0.47rem;
 }
+#secret>.toggle,
+#replySecret>.toggle,
+#modifySecret>.toggle{
+    text-decoration: none;
+    color: rgb(0,0,0);
+}
+
+#secret>.toggle>.secretIcon,
+#replySecret>.toggle>.secretIcon,
+#modifySecret>.toggle>.secretIcon{
+    display: none;
+    text-decoration: none;
+}
+#secret>.toggle>.secretIcon.visible,
+#replySecret>.toggle>.secretIcon.visible,
+#modifySecret>.toggle>.secretIcon.visible{
+    display: flex;
+}
+#secret>.toggle>.openIcon,
+#replySecret>.toggle>.openIcon,
+#modifySecret>.toggle>.openIcon{
+    display: none;
+    text-decoration: none;
+
+}
+#secret>.toggle>.openIcon.visible,
+#replySecret>.toggle>.openIcon.visible,
+#modifySecret>.toggle>.openIcon.visible{
+    display: flex;
+}
+
 
 
 
@@ -306,7 +335,6 @@ main,input{
 #commentContainer .comment.modifying > .head> .action-container>.action.cancel{
     display: inline-block;
 
-
 }
 #commentContainer .comment.modifying > .head> .action-container>.action.reply,
 #commentContainer .comment.modifying > .head> .action-container>.action.modify,
@@ -344,12 +372,16 @@ main,input{
     flex-direction: row;
     justify-content: flex-start;
 }
+
 #commentContainer .comment.modifying> .body >.content{
     display: none;
 
 }
 #commentContainer .comment > .body >.content >.text{
     flex: 1;
+}
+#commentContainer .comment > .body >.content >.text.secret{
+    color: rgb(126, 126, 126);
 
 }
 
@@ -486,27 +518,23 @@ main,input{
 }
 #likeButton{
     margin-left: 1rem;
-
-
-
-
 }
+
 .like-container > .likeButton >.toggle{
     text-decoration: none;
     cursor: pointer;
     /*text-shadow:-1.2px 0 #000, 0 1.2px #000, 1.2px 0 #000, 0 -1.2px #000;*/
-
-
-    color: rgb(68, 67, 67);
-
 }
-.like-container > .likeButton>.toggle:hover{
-    color: red;
+#likeButton >.toggle.liked {
+    color: rgb(203,67,53);
 }
 
-.like-container > .likeButton >.toggle.liked{
-    color: red;
+#table >tbody > tr > td > .title >.text{
+    text-align: start;
+    max-width: 40rem;
 }
+
+
 
 
 

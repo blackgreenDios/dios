@@ -40,6 +40,7 @@
   .fc td {
     vertical-align: top;
     padding: 0;
+    width: 6.45rem;
   }
 .fc a[data-navlink] {
     cursor: pointer;
@@ -339,7 +340,7 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
 .fc .fc-scrollgrid,
     .fc .fc-scrollgrid table { /* all tables (self included) */
       width: 100%; /* because tables don't normally do this */
-      table-layout: fixed;
+      /*table-layout: fixed;*/
     }
 .fc .fc-scrollgrid table { /* inner tables */
       border-top-style: hidden;
@@ -364,10 +365,15 @@ When it's NOT activated, the fc-button classes won't even be in the DOM.
       height: 1px; /* needs a height so inner div within grow. better than 0, for firefox */
     }
 .fc .fc-scrollgrid-section table {
-      height: 1px;
-        /* for most browsers, if a height isn't set on the table, can't do liquid-height within cells */
-        /* serves as a min-height. harmless */
+    width: 45.8rem !important;
+    height: 1px;
     }
+
+.fc .fc-scrollgrid-section table > tbody > tr{
+    height: 4.2rem;
+}
+
+
 .fc .fc-scrollgrid-section-liquid > td {
       height: 100%; /* better than `auto`, for firefox */
     }
@@ -1491,5 +1497,11 @@ A VERTICAL event
 
 .fc-theme-bootstrap5-shaded {
   background-color: var(--bs-gray-200);
+}
+
+.fc-toolbar-chunk > .fc-button-group >.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active,
+.fc-toolbar-chunk > .fc-button-group > .fc-dayGridWeek-button.fc-button.fc-button-primary,
+.fc-toolbar-chunk > .fc-button-group > .fc-dayGridDay-button.fc-button.fc-button-primary{
+    display: none;
 }
 
