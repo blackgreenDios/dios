@@ -10,9 +10,9 @@
 }
 
 #form > .myPage-main > .content {
-    max-width: 60vw;
+    max-width: 66rem;
+    width: 100%;
     margin-top: -4rem;
-    margin-left: 5rem;
 }
 
 #form > .myPage-main > .content > .title {
@@ -26,10 +26,14 @@
     margin-top: 10px;
     border-radius: 10px;
     background-color: #f5f5f5;
-    padding: 2rem;
-    min-width: 50vw;
+    padding-top: 1rem;
+    padding-left: 0rem;
+    padding-bottom: 1rem;
+    min-width: 66rem;
+    max-width: 66rem;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 #form > .myPage-main > .content > .myPage-check > li {

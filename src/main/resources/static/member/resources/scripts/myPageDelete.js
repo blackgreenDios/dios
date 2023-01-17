@@ -6,7 +6,6 @@ Form['deleteButton'].addEventListener('click', e => {
     if(!confirm('정말로 탈퇴하시겠습니까?')){
         return;
     }
-
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
     xhr.open('DELETE', window.location.href);

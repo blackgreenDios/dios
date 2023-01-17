@@ -13,9 +13,8 @@
 }
 
 #form > .myPage-main > .content {
-    max-width: 60vw;
+    max-width: 66rem;
     margin-top: -4rem;
-    margin-left: 5rem;
 }
 
 
@@ -39,7 +38,7 @@
     padding: 19px 0;
     border-radius: 5px;
     border: 2px solid #e6e6e6;
-    min-width: 55vw;
+    min-width: 66rem;
 }
 
 #form > .myPage-main > .content > .information > li:first-child {
