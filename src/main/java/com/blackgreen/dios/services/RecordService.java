@@ -30,7 +30,6 @@ public class RecordService {
     }
 
     // 목표개수 설정
-    // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
     public Enum<? extends IResult> updateGoalCount (UserEntity user, int count) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
 

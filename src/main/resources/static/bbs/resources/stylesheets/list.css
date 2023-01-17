@@ -57,6 +57,13 @@ body > .main >.content >.title{
     justify-content: flex-start;
 }
 
+#table >tbody > tr > td > .title >.text{
+    text-align: start;
+    max-width: 40rem;
+
+    padding-left: 2rem;
+}
+
 #table >tbody > tr > td > .title:hover{
     text-decoration: underline;
 }
@@ -65,6 +72,7 @@ body > .main >.content >.title{
     font-size: 0.9rem;
     font-weight: 600;
     margin-left: 0.5rem;
+
 }
 
 #table >tfoot >tr >td{
@@ -199,7 +207,7 @@ main, input, select {
 #search:hover{
     background-color: rgb(91, 88, 88);
     border: 0.0625rem solid rgb(91, 88, 88);
-}
+}x
 
 
 

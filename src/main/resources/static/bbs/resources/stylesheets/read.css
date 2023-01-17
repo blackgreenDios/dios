@@ -48,7 +48,6 @@ body > .main > .content > .table .content-container {
     border-top: 0.0625rem solid rgb(191, 193, 196);
     padding-bottom:  2rem ;
 
-    width: 60rem;
 
 }
 body > .--main,
@@ -94,6 +93,8 @@ body > .main >.content >.table.content-container *{
     font-weight: unset;
     margin-left: 3rem;
     margin-bottom: 1rem;
+
+    width: 70rem;
 
 }
 
@@ -496,17 +497,16 @@ main,input{
     cursor: pointer;
     /*text-shadow:-1.2px 0 #000, 0 1.2px #000, 1.2px 0 #000, 0 -1.2px #000;*/
 
-
-    color: rgb(68, 67, 67);
+    color: rgb(0,0,0);
 
 }
-.like-container > .likeButton>.toggle:hover{
-    color: red;
+#likeButton >.toggle.liked {
+    color: rgb(203,67,53)
+
 }
 
-.like-container > .likeButton >.toggle.liked{
-    color: red;
-}
+
+
 
 
 
