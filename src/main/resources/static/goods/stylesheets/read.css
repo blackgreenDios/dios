@@ -660,14 +660,14 @@ select {
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    margin-left: 0.3rem;
 }
 
-#reviewMenu > .review-container > .item > .head > .star-container {
-    align-items: center;
+#reviewMenu > .review-container > .item > .head  > .head-first >.star-container {
     display: flex;
-    flex-direction: row;
+    align-items: center;
     justify-content: center;
 
 }

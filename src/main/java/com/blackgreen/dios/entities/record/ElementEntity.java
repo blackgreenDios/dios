@@ -59,7 +59,6 @@ public class ElementEntity {
         return this;
     }
 
-
     public Date getTodayDate() {
         return todayDate;
     }

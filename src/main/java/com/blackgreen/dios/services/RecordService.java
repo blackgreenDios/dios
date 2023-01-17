@@ -30,6 +30,7 @@ public class RecordService {
     }
 
     // 목표개수 설정
+    // TODO : 이메일부분 세션에서 받아오는 걸로 고쳐야함 ("eun8548@naver.com" 부분)
     public Enum<? extends IResult> updateGoalCount (UserEntity user, int count) {
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
 
@@ -79,6 +80,7 @@ public class RecordService {
 
     // count insert 하기 (목표 개수 성공했을 때 record 누르면 실행되는 거 )
     public Enum<? extends IResult> insertCount (CountEntity count) {
+
 
         return this.recordMapper.insertCount(count) > 0
                 ? CommonResult.SUCCESS

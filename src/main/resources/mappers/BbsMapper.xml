@@ -35,18 +35,21 @@
                `user`.`nickname`                                AS `userNickname`,
                `user`.`image`                                   AS `userImage`,
                `user`.`image_type`                              AS `userImageType`,
+
+
                (SELECT COUNT(0)
                 FROM `dios_bbs`.`article_likes` AS `articleLike`
                 WHERE `articleLike`.`article_index` = #{index}) AS `likeCount`,
                (SELECT COUNT(0)
                 FROM `dios_bbs`.`comments` AS `comment`
                 WHERE `comment`.`article_index` = #{index})     AS `commentCount`
+
         FROM `dios_bbs`.`articles` AS `article`
                  LEFT JOIN `dios_member`.`users` AS `user` ON `article`.`user_email` = `user`.`email`
 
-
-
         WHERE `article`.`index` = #{index}
+        GROUP BY `index`
+        ORDER BY `index`
     </select>
     <update id="updateArticle"
             parameterType="com.blackgreen.dios.entities.bbs.ArticleEntity">

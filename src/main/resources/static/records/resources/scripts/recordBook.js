@@ -109,9 +109,6 @@ addWrite.onsubmit = e => {
                         const date = responseObject['date'];
                         window.location.href = `recordBook?dt=${date}`;
                         break;
-                    case 'not_user' :
-                        alert('로그인이 필요한 서비스입니다.');
-                        break;
                     default:
                         alert('오류가 발생했습니다.');
                 }

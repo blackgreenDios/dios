@@ -112,13 +112,14 @@ const loadReviews = (page) => {
                 for (const reviewObject of responseObject['reviews']) {
                     const date = new Date(reviewObject['createdOn']);
                     const now = new Date();
+
                     const
                         itemHtml = `
 
                    <div class="item visible" rel="item">
                     <div class="head">
                     <span class="head-first">
-                        <span class="nickname" name="userEmail">${reviewObject['userEmail']}</span>
+                        <span class="nickname" name="userNickname">${reviewObject['userNickname']}</span>
                         <span class="star-container" rel="starContainer">
                         <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 1 ? 'filled' : ''}"></i>
                         <i class="star  fa-solid fa-star  ${reviewObject['score'] >= 2 ? 'filled' : ''}"></i>

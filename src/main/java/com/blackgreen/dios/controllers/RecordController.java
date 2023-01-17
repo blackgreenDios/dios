@@ -37,9 +37,12 @@ public class RecordController {
 
         ModelAndView modelAndView;
 
-        modelAndView = new ModelAndView("records/setting");
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/setting");
+        }
 
-        modelAndView.addObject("user", user);
         return modelAndView;
     }
 
@@ -65,14 +68,14 @@ public class RecordController {
     public ModelAndView getSquat(@SessionAttribute(value = "user", required = false) UserEntity user) {
 
         ModelAndView modelAndView;
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/squat");
 
-        modelAndView = new ModelAndView("records/squat");
-
-        if (user != null) {
             int goal = this.recordService.readCount(user);
             modelAndView.addObject("goal", goal);
         }
-
         return modelAndView;
     }
 
@@ -80,12 +83,13 @@ public class RecordController {
     @RequestMapping(value = "lunge",
             method = RequestMethod.GET)
     public ModelAndView getLunge(@SessionAttribute(value = "user", required = false) UserEntity user) {
-
         ModelAndView modelAndView;
 
-        modelAndView = new ModelAndView("records/squat");
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/lunge");
 
-        if (user != null) {
             int goal = this.recordService.readCount(user);
             modelAndView.addObject("goal", goal);
         }
@@ -97,12 +101,13 @@ public class RecordController {
     @RequestMapping(value = "pushUp",
             method = RequestMethod.GET)
     public ModelAndView getPushUp(@SessionAttribute(value = "user", required = false) UserEntity user) throws ParseException {
-
         ModelAndView modelAndView;
 
-        modelAndView = new ModelAndView("records/pushUp");
+        if (user == null) {
+            modelAndView = new ModelAndView("redirect:/dios/login");
+        } else {
+            modelAndView = new ModelAndView("records/pushUp");
 
-        if (user != null) {
             int goal = this.recordService.readCount(user);
             modelAndView.addObject("goal", goal);
         }
@@ -130,11 +135,11 @@ public class RecordController {
 
         count.setTodayDate(now);
 
+
         Enum<?> result;
         JSONObject responseObject = new JSONObject();
 
         result = this.recordService.insertCount(count);
-
 
         responseObject.put("date", nowDate);
         responseObject.put("result", result.name().toLowerCase());
@@ -171,8 +176,7 @@ public class RecordController {
         }
 
         // 페이지 날짜
-        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);
-        ;
+        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dtStr);;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
         // 현재 날짜
@@ -255,7 +259,7 @@ public class RecordController {
 
 
         if (user == null) {
-            result = CommonResult.NOT_USER;
+            result = CommonResult.FAILURE;
         } else {
 
             element.setUserEmail(user.getEmail());

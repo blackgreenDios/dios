@@ -19,12 +19,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
     <script defer th:src="@{/records/resources/scripts/lunge.js}"></script>
-    <script th:if="${session.user == null}">
-        alert('로그인 후 이용 가능한 서비스입니다.');
-        window.location.href='/dios/login';
-    </script>
 </head>
-<body th:if="${session.user != null}">
+<body>
 <div class="top-container">
     <a class="title">LUNGE</a>
     <a th:href="@{/}" class="icon fa-solid fa-house-chimney"></a>

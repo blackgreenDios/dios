@@ -44,11 +44,11 @@ public class BbsService {
         return this.bbsMapper.selectAdminByUser(user.getEmail());
     }
 
-    public ArticleReadVo readArticle(int index) {
+    public ArticleReadVo readArticle(int index, boolean updateView) {
 
         ArticleReadVo article = this.bbsMapper.selectArticleByIndex(index);
-        if (article != null) {
-            article.setView(article.getView() + 1);
+        if (article!=null && updateView){
+            article.setView(article.getView()+1);
             this.bbsMapper.updateArticle(article);
         }
         return article;
@@ -93,8 +93,19 @@ public class BbsService {
     }
 
     public CommentVo[] getComments(int articleIndex, UserEntity signedUser) {
-        return this.bbsMapper.selectCommentByArticleIndex(articleIndex,
+        ArticleEntity article = this.bbsMapper.selectArticleByIndex(articleIndex);
+        CommentVo[] getComment = this.bbsMapper.selectCommentByArticleIndex(articleIndex,
                 signedUser == null ? null : signedUser.getEmail());
+        // 비밀댓글일때
+        for (CommentVo comment : getComment) {
+            if (comment.getSecret()) {
+                if (signedUser != null && (signedUser.isAdmin() || signedUser.getEmail().equals(article.getUserEmail()) || signedUser.getEmail().equals(comment.getUserEmail()))) {
+                } else{
+                    comment.setContent("비밀 댓글입니다.");
+                }
+            }
+        }
+        return getComment;
 
     }
 
@@ -103,7 +114,7 @@ public class BbsService {
         if (existingComment == null) {
             return CommentDeleteResult.NO_SUCH_COMMENT;
         }
-        if (user == null || !user.getEmail().equals(existingComment.getUserEmail()) ) {
+        if (user == null || !user.getEmail().equals(existingComment.getUserEmail())) {
             return CommentDeleteResult.NOT_ALLOWED;
         }
         return this.bbsMapper.deleteCommentByIndex(comment.getIndex()) > 0
@@ -119,9 +130,8 @@ public class BbsService {
         if (user == null || !user.getEmail().equals(existingComment.getUserEmail())) {
             return CommonUpdateResult.NOT_ALLOWED;
         }
-
         existingComment.setContent(comment.getContent());
-
+        existingComment.setSecret(comment.getSecret());
         return this.bbsMapper.updateComment(existingComment) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;

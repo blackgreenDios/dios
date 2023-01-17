@@ -46,11 +46,13 @@
                             <i class="fa-regular fa-comment"></i>
                             <span th:text="${article.getCommentCount()}">9,999 </span>
                         </div>
-                        <div class="likeButton" id="likeButton" >
-                            <a href="#" class="toggle" th:classappend="${isLiked ? 'liked' : ''}" rel="like">
-                                <i class="icon fa-regular fa-thumbs-up"></i>
+                        <div class="likeButton"  id="likeButton">
+                            <a rel="toggle" class="toggle" th:classappend="${isLiked
+                            ? 'liked' :''}"  >
+                                <i class="fa-regular fa-thumbs-up"></i>
                             </a>
-                            <span th:text="${article.getLikeCount()}"> </span>
+                            <span rel="liked" th:text="${article.getLikeCount()}"></span>
+
                         </div>
                     </div>
                 </td>
@@ -67,8 +69,9 @@
                                    type="text">
                         </label>
                         <div class="secret" id="secret">
-                            <a href="#" class="toggle">
-                                <i class="icon fa-solid fa-unlock"></i>
+                            <a class="toggle">
+                                <i rel="secret" class="secretIcon fa-solid fa-lock"></i>
+                                <i rel="open" class="openIcon visible fa-solid fa-lock-open"></i>
                             </a>
                         </div>
                         <input name="aid" type="hidden" th:value="${article.getIndex()}">
@@ -121,7 +124,7 @@
                                            placeholder="답글을 입력해 주세요." type="text">
                                 </label>
                                 <div class="secret" >
-                                    <a href="#" class="toggle">
+                                    <a class="toggle">
                                         <i class="icon fa-solid fa-unlock"></i>
                                     </a>
                                 </div>
