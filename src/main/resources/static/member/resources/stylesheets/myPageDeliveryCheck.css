@@ -10,7 +10,7 @@
 }
 
 #form > .myPage-main > .content {
-    max-width: 66rem;
+    max-width: 60rem;
     width: 100%;
     margin-top: -4rem;
 }
@@ -29,8 +29,8 @@
     padding-top: 1rem;
     padding-left: 0rem;
     padding-bottom: 1rem;
-    min-width: 66rem;
-    max-width: 66rem;
+    min-width: 60rem;
+    max-width: 60rem;
     align-items: center;
     justify-content: center;
     width: 100%;

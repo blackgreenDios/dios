@@ -73,7 +73,7 @@ inners?.forEach((inner) => {
     inner.style.width = 900; // inner의 width를 모두 outer의 width로 만들기
 })
 
-innerList.style.width = `${900 * 4}px`; // innerList의 width를 inner의 width * inner의 개수로 만들기
+innerList.style.width = `${900 * 5}px`; // innerList의 width를 inner의 width * inner의 개수로 만들기
 
 /*
   버튼에 이벤트 등록하기

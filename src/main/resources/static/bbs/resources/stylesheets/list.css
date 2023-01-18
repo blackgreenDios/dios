@@ -55,6 +55,8 @@ body > .main >.content >.title{
     align-items: center;
     display: flex;
     justify-content: flex-start;
+
+    width: 40rem;
 }
 
 #table >tbody > tr > td > .title >.text{

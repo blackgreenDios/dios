@@ -48,7 +48,6 @@ body > .main > .content > .table .content-container {
     border-top: 0.0625rem solid rgb(191, 193, 196);
     padding-bottom:  2rem ;
 
-    width: 60rem;
 
 }
 body > .--main,
@@ -533,7 +532,6 @@ main,input{
     text-align: start;
     max-width: 40rem;
 }
-
 
 
 

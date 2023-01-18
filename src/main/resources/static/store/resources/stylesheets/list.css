@@ -20,14 +20,14 @@ body {
     justify-content: flex-start;
 }
 
-#inputContainer {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+/*#inputContainer {*/
+/*    align-items: center;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: center;*/
 
-    width: 100%;
-}
+/*    width: 100%;*/
+/*}*/
 
 #inputContainer > .temp {
     flex: 1;
@@ -91,10 +91,10 @@ body {
 }
 
 #inputContainer {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 /* 상품 등록하기 */

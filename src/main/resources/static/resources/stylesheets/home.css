@@ -20,7 +20,7 @@ body > .main > .do {
 }
 
 body > .main > .do > .do-container {
-    width: 100rem;
+    width: 200rem;
 
     align-items: center;
     display: flex;
@@ -285,7 +285,7 @@ body > .main > .do > .do-container > .start-container:hover {
 
     background-color: #eae7e7;
 
-    width: 100rem;
+    width: 200rem;
 
     height: 25rem;
 }
@@ -741,6 +741,35 @@ body > .main > .bbs > .free > .go-container > .hidden {
     display : flex;
     flex-direction : column;
     justify-content: center;
+}
+
+#manual-container > .outer > .inner-list > .inner > .setting > .cut {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    border-radius: 2rem;
+
+    width: 40rem;
+    height: 23rem;
+
+    overflow: hidden;
+}
+
+#manual-container > .outer > .inner-list > .inner > .setting > .cutMore {
+    align-items : center;
+    display : flex;
+    flex-direction : column;
+    justify-content: center;
+
+    border-radius: 2rem;
+
+    width: 40rem;
+    height: 17rem;
+    margin-top: 2rem;
+
+    overflow: hidden;
 }
 
 #manual-container > .outer > .inner-list > .inner > .setting > .setting-img > .si {

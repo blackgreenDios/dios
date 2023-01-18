@@ -169,8 +169,8 @@
                            id="modifyButton"
                            th:href="@{./modify (aid=${article.getIndex()})}"
                            th:if="${session.user !=null && session.user.getEmail().equals(article.getUserEmail())}">수정</a>
-                        <a class="--object-button delete" href="#" id="deleteButton"
-                           th:if="${session.user !=null && session.user.getEmail().equals(article.getUserEmail())}">삭제</a>
+                        <a class="—object-button delete" href="#" id="deleteButton"
+                            th:if="${(session.user !=null) && (session.user.isAdmin()   || session.user.getEmail().equals(article.getUserEmail()))}">삭제</a>
                     </div>
                 </td>
             </tr>

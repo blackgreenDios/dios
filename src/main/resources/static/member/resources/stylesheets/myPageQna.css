@@ -22,7 +22,7 @@ body > .main > form > .content > .title {
 #table {
     border-collapse: collapse;
     font-size: 1rem;
-    min-width: 63rem;
+    min-width: 60rem;
 }
 
 #table td {

@@ -42,10 +42,10 @@ body {
 
 .--main > .function {
     margin-top: 0.5rem;
-    align-items: flex-end;
+    align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: center;
     margin-right: 5rem;
 }
 
@@ -113,7 +113,7 @@ body {
 }
 
 select {
-    width: 12rem;
+    width: 14rem;
     border: 0.0625rem solid #999;
     border-radius: 0.5rem;
     -webkit-appearance: none;
@@ -954,7 +954,7 @@ select {
     padding: 1rem;
     margin-top: 2rem;
     border-radius: 0.5rem;
-    width: 24rem;
+    width: 30rem;
 }
 
 #itemInfo.item-info > .warning > i {
@@ -965,7 +965,7 @@ select {
 
 #itemInfo.item-info > .warning > .warning-text {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: column;
 }
@@ -987,6 +987,7 @@ select {
     color: rgb(160, 160, 160);
     padding: 0.5rem 0.75rem;
     text-decoration: none;
+    cursor: pointer;
 }
 
 
