@@ -551,15 +551,12 @@ body > .main > .bbs > .free {
 }
 
 body > .main > .bbs > .free > .go-container {
-    width: 36rem;
-
+    width: 35rem;
     margin-top: 2rem;
-
     align-items : flex-end;
     display : flex;
     flex-direction : row;
     justify-content: flex-end;
-
     text-decoration: none;
 }
 

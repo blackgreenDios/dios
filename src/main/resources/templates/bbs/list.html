@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title th:text="${'dios : 게시판 목록 조회'}"></title>
+    <title th:text="${'DIOS '+(board==null ? '' :board.getText()) +' 목록'}"></title>
     <th:block th:replace="~{fragments/commonHead :: common}"></th:block>
     <link rel="stylesheet" th:href="@{/bbs/resources/stylesheets/list.css}">
     <script th:if="${board==null}">

@@ -545,7 +545,7 @@ cartButton?.addEventListener('click', e => {
                 const responseObject = JSON.parse(xhr.responseText);
                 switch (responseObject['result']) {
                     case 'success':
-                        alert('장바구니 등록 성공 !');
+
                         blockBox.classList.add('visible');
 
                         blockBox.querySelector('[rel="yes"]').addEventListener('click', e => {
