@@ -81,7 +81,7 @@ public class BbsService {
         if (existingArticle == null) {
             return CommonResult.FAILURE;
         }
-        if (user == null && (!user.getEmail().equals(existingArticle.getUserEmail()) || !user.isAdmin())) {
+        if (user == null || (!user.getEmail().equals(existingArticle.getUserEmail()) && !user.isAdmin())) {
             return CommonResult.FAILURE;
         }
 
