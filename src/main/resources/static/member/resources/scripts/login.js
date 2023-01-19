@@ -65,7 +65,7 @@ loginButton?.addEventListener('click', e => {
     console.log(href);
     setTimeout(() => {
         popup.location.href = href;
-    }, 500);
+    }, 50);
     // let checker = setInterval(() => {
     //     if (popup.closed) {
     //         clearInterval(checker);
