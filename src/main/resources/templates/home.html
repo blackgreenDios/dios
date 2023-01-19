@@ -128,8 +128,6 @@
                         </a>
                     </td>
                     <td th:text="${article.getUserNickname()}">쉘던</td>
-                    <td th:text="${article.getView()}">17</td>
-                    <td th:text="${article.getLikeCount()}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -149,13 +147,11 @@
 
                     <td>
                         <a class="title" th:href="@{/dios/read(aid=${best.getIndex()})}">
-                            <span class="text" th:text="${best.getTitle()}" style="width: 23rem">세번째 게시글</span>
-                            <span class="comment" th:text="${'['+best.getCommentCount()+']'}">[3]</span>
+                            <span class="text" th:text="${best.getTitle()}">세번째 게시글</span>
+                            <span class="comment" th:text="${'['+best.getCommentCount()+']'}" id="home-comment">[3]</span>
                         </a>
                     </td>
-                    <td th:text="${best.getUserNickname()}">쉘던</td>
-                    <td th:text="${best.getView()}">17</td>
-                    <td th:text="${best.getLikeCount()}"></td>
+                    <td id="nn" th:text="${best.getUserNickname()}">쉘던</td>
                 </tr>
                 </tbody>
             </table>

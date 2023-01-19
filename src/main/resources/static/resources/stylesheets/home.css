@@ -506,6 +506,10 @@ body > .main > .bbs > .best-bbs-container > .text-container > .free-bbs {
     justify-content: flex-start;
 }
 
+#table1 > tbody > tr > td > .title {
+    width: 12rem;
+}
+
 #table1 > tbody > tr > td > .title:hover,
 #table2 > tbody > tr > td > .title:hover {
     text-decoration: underline;
@@ -776,5 +780,10 @@ body > .main > .bbs > .free > .go-container > .hidden {
     border-radius: 2rem;
 }
 
+#home-comment{
+    width: 8rem;
+}
 
-
+#nn {
+    width: 6rem;
+}

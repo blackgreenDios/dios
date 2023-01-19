@@ -526,6 +526,12 @@ if (reviewForm) {
 cartButton?.addEventListener('click', e => {
     e.preventDefault();
 
+    if(colorOption.options[colorOption.selectedIndex].value === '0'||
+        sizeOption.options[sizeOption.selectedIndex].value === '0'){
+        alert('상품 옵션을 선택한 후 장바구니에 담아주세요 !');
+        return;
+    }
+
     if (!confirm('정말로 이 상품을 장바구니에 넣을까요?')) {
         return;
     }
