@@ -244,7 +244,7 @@ public class BbsController {
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
-            responseObject.put("url", "http://localhost:8080/dios/image?id=" + image.getIndex());
+            responseObject.put("url", "/dios/image?id=" + image.getIndex());
 
         }
 

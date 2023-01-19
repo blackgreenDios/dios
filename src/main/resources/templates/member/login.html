@@ -72,8 +72,7 @@
 
                 <!--카카오 로그인-->
                 <div class="kakao">
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=b53a656bcd965d745a55ca52a6ccd639
-                    &redirect_uri=http://localhost:8080/dios/kakao&response_type=code" id="loginButton" target="_blank" class="kakao-login-button">
+                    <a th:href="@{'https://kauth.kakao.com/oauth/authorize' (client_id='b53a656bcd965d745a55ca52a6ccd639', redirect_uri=(${#request.getScheme()} + '://' + ${#request.getServerName()} + '/dios/kakao'), response_type='code')}" id="loginButton" target="_blank" class="kakao-login-button">
                         <span class="icon">카카오로 시작하기</span>
                     </a>
                 </div>

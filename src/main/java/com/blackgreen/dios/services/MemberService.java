@@ -29,6 +29,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
@@ -119,7 +120,7 @@ public class MemberService {
 
     @Transactional
     // 인증 절차중 중간에 실패를 할경우 다시 처음으로 돌아가게 하는 어노테이션
-    public Enum<? extends IResult> sendEmailAuth(UserEntity user, EmailAuthEntity emailAuth) throws NoSuchAlgorithmException, MessagingException {
+    public Enum<? extends IResult> sendEmailAuth(UserEntity user, EmailAuthEntity emailAuth, HttpServletRequest request) throws NoSuchAlgorithmException, MessagingException {
 
         UserEntity existingUser = this.memberMapper.selectUserByEmail(user.getEmail());
 
@@ -167,6 +168,10 @@ public class MemberService {
         Context context = new Context();
         //Service에서 html파일에 view를 넘겨줘야 하기 때문에 (서비스에서 html파일을 활용하기 위해서)
         context.setVariable("code", emailAuth.getCode());
+        context.setVariable("domain", String.format("%s://%s:%d",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort()));
 
         String text = this.templateEngine.process("member/registerEmailAuth", context);
         // 앞에는 template(setViewName과 같은) 뒤에는 위에서 생성한 code를 변수로 지정한것.
@@ -220,7 +225,7 @@ public class MemberService {
 
     //비밀번호 재설정 - 전달받은 UserEntity 객체가 가지는 email값을 이메일로 가지는 회원이 테이블에 있으면 success를, 없다면 fail을 JSON 형태로 반환하는 로직을 작성
     @Transactional
-    public Enum<? extends IResult> recoverPasswordSend(EmailAuthEntity emailAuth) throws MessagingException {
+    public Enum<? extends IResult> recoverPasswordSend(EmailAuthEntity emailAuth, HttpServletRequest request) throws MessagingException {
         if (this.memberMapper.selectUserByEmail(emailAuth.getEmail()) == null) {
             //null이라면, 이 이메일을 가지고 있는 회원이 없다는 뜻
             return CommonResult.FAILURE;
@@ -248,6 +253,10 @@ public class MemberService {
         context.setVariable("email", emailAuth.getEmail());
         context.setVariable("code", emailAuth.getCode());
         context.setVariable("salt", emailAuth.getSalt());
+        context.setVariable("domain", String.format("%s://%s:%d",
+                request.getScheme(),
+                request.getServerName(),
+                request.getServerPort()));
 
         String text = this.templateEngine.process("member/recoverPasswordEmailAuth", context);
         MimeMessage mail = this.mailSender.createMimeMessage();
@@ -369,7 +378,7 @@ public class MemberService {
     }
 
     //카카오 로그인
-    public String getKakaoAccessToken(String code) throws IOException {
+    public String getKakaoAccessToken(String code, String redirectUri) throws IOException {
         URL url = new URL("https://kauth.kakao.com/oauth/token");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -380,7 +389,7 @@ public class MemberService {
                 StringBuilder requestBuilder = new StringBuilder();
                 requestBuilder.append("grant_type=authorization_code");
                 requestBuilder.append("&client_id=b53a656bcd965d745a55ca52a6ccd639");
-                requestBuilder.append("&redirect_uri=http://localhost:8080/dios/kakao");
+                requestBuilder.append(String.format("&redirect_uri=%s", redirectUri));
                 requestBuilder.append("&code=").append(code);
                 bufferedWriter.write(requestBuilder.toString());
                 bufferedWriter.flush();

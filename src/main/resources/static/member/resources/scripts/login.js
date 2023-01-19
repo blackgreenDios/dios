@@ -60,17 +60,30 @@ form.onsubmit=(e)=>{
 loginButton?.addEventListener('click', e => {
     e.preventDefault();
     loginContainer.classList.add('visible');
-    window.open('https://kauth.kakao.com/oauth/authorize?client_id=b53a656bcd965d745a55ca52a6ccd639&redirect_uri=http://localhost:8080/dios/kakao&response_type=code', '_blank', 'width=500; height=750'); //팝업 창 염
-    window.location.href = '/';
+    let popup = window.open('about:blank', '_blank', 'width=500; height=750'); //팝업 창 염
+    let href = e.target.href;
+    console.log(href);
+    setTimeout(() => {
+        popup.location.href = href;
+    }, 500);
+    // let checker = setInterval(() => {
+    //     if (popup.closed) {
+    //         clearInterval(checker);
+    //         console.log('???')
+    //         window.location.href = '/';
+    //     }
+    // }, 1000);
+    // window.location.href = '/';
+    //카카오 누르기만 하면 홈으로 감 -> 이거 없애면 로그인 성공해도 로그인페이지에서 머물랑가
 });
 
 //https://developers.kakao.com 가서 카카오 로그인 활성화
-// 맨 밑에 url -> http://localhost:8080/member/login 추가
+// 맨 밑에 url -> http://도메인:8080/member/login 추가
 // 동의항목 들어가서  닉네임 설정 -> 필수동의 누르고 밑에  동의목적 : 사용자 식별
 
 // index.html 에서
 //<div class="button-container">
-//<a class="button" href="https://kauth.kakao.com/oauth/authorize?client_id=c2204b6ef796ea3923e04483a8e6a9c5&redirect_uri=http://localhost:8080/member/kakao&response_type=code" id="loginButton" target="_blank" >로그인</a>
+//<a class="button" href="https://kauth.kakao.com/oauth/authorize?client_id=c2204b6ef796ea3923e04483a8e6a9c5&redirect_uri=http://도메인:8080/member/kakao&response_type=code" id="loginButton" target="_blank" >로그인</a>
 //</div>
 //client_id 뒤에는 REST API 키 붙여넣기
 //redirect_uri 뒤에는 로그인 활성화할 때 맨 밑에 추가해준 url 이랑 같게 해줘야함

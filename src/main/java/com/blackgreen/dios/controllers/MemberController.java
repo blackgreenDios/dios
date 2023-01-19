@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -72,8 +73,8 @@ public class MemberController {
 
     @RequestMapping(value = "email", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postEmail(UserEntity user, EmailAuthEntity emailAuth) throws NoSuchAlgorithmException, MessagingException {
-        Enum<? extends IResult> result = this.memberService.sendEmailAuth(user, emailAuth);
+    public String postEmail(UserEntity user, EmailAuthEntity emailAuth, HttpServletRequest request) throws NoSuchAlgorithmException, MessagingException {
+        Enum<? extends IResult> result = this.memberService.sendEmailAuth(user, emailAuth, request);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
@@ -151,9 +152,9 @@ public class MemberController {
 
     @RequestMapping(value = "recoverPassword", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public String postRecoverPassword(EmailAuthEntity emailAuth) throws MessagingException {
+    public String postRecoverPassword(EmailAuthEntity emailAuth, HttpServletRequest request) throws MessagingException {
 
-        Enum<?> result = this.memberService.recoverPasswordSend(emailAuth);
+        Enum<?> result = this.memberService.recoverPasswordSend(emailAuth, request);
         JSONObject responseObject = new JSONObject();
         responseObject.put("result", result.name().toLowerCase());
         if (result == CommonResult.SUCCESS) {
@@ -326,9 +327,12 @@ public class MemberController {
     public ModelAndView getKaKao(@RequestParam(value = "code") String code,
                                  @RequestParam(value = "error", required = false) String error,
                                  @RequestParam(value = "error_description", required = false) String errorDescription,
+                                 HttpServletRequest request,
                                  HttpSession session) throws IOException {
-
-        String accessToken = this.memberService.getKakaoAccessToken(code);
+        String redirectUri = String.format("%s://%s/dios/kakao",
+                request.getScheme(),
+                request.getServerName());
+        String accessToken = this.memberService.getKakaoAccessToken(code, redirectUri);
         UserEntity user = this.memberService.getKakaoUserInfo(accessToken); //서비스 호출
 
         session.setAttribute("user", user);
@@ -510,19 +514,19 @@ public class MemberController {
                 priceCnt = order.getPrice() * order.getCount();
                 order.setPriceCnt(df.format(priceCnt));
             }
-            for(OrderVo delivery : deliveries ){
-                if(delivery.getOrderStatus() == 1){
-                    beforeDelivery ++;
+            for (OrderVo delivery : deliveries) {
+                if (delivery.getOrderStatus() == 1) {
+                    beforeDelivery++;
                 } else if (delivery.getOrderStatus() == 2) {
-                    doingDelivery ++;
+                    doingDelivery++;
                 } else if (delivery.getOrderStatus() == 3) {
-                    completeDelivery ++ ;
+                    completeDelivery++;
                 }
 
             }
             modelAndView.addObject("orders", orders);
-            modelAndView.addObject("before",beforeDelivery);
-            modelAndView.addObject("doing",doingDelivery);
+            modelAndView.addObject("before", beforeDelivery);
+            modelAndView.addObject("doing", doingDelivery);
             modelAndView.addObject("complete", completeDelivery);
         }
         return modelAndView;
