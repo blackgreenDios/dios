@@ -25,7 +25,7 @@
 |:---:|:---:|:---:|:---:|
 |김현지|오윤정|오예은|서정화|
 |<a>[cocoyami.com](https://cocoyami.com/)</a>|<a>[oyooon.com](https://oyooon.com/)</a>|<a>[yegoood.com](https://yegoood.com/)</a>|<a>[seojeonghwa.com](https://seojeonghwa.com/)</a>|
-|회원가입, 로그인, 마이페이지, 주문 내역|상품 등록, 상품 목록|운동 개수 세기, 기록장, 장바구니, 상품 주문|게시판, 좋아요, 댓글|
+|회원가입, 로그인, 마이페이지, 주문 내역|상품 CRUD, 후기 CRUD , 상품 목록, 비밀댓글 작성|운동 개수 세기, 기록장, 장바구니, 상품 주문|게시판, 좋아요, 댓글|
 
 
 <br></br>
@@ -83,7 +83,7 @@
 
 #### <pre><code>📌 &nbsp;게시판 / 좋아요 / 댓글</code></pre>
 
-#### <pre><code>📌 &nbsp;상품 목록 / 상품 등록</code></pre>
+#### <pre><code>📌 &nbsp;상품 CRUD / 후기 CRUD / 상품 목록 / 비밀댓글 </code></pre>
 <div>
   <img width="350" alt="f8" src="https://user-images.githubusercontent.com/116492894/221175628-1bb350b0-3ff3-423e-b663-23d2148aabac.png">
   <img width="350" alt="스크린샷 2023-02-24 오후 9 09 34" src="https://user-images.githubusercontent.com/116492894/221175722-67b18216-79bf-44f0-8905-1c63596436df.png">
