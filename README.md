@@ -6,9 +6,11 @@
 <br>
 &nbsp;&nbsp; 🔗 URL : <a>https://dios.yegoood.com/</a>
 
-![pj1](https://user-images.githubusercontent.com/116492894/221141511-22c52326-b9d4-40a0-938c-2529831eda28.GIF)
-![pj2](https://user-images.githubusercontent.com/116492894/221141619-66c00ba0-0821-4fcc-9fa2-afe2e9325f14.GIF)
-
+<div>
+  <img width="350" alt="f324" src="https://user-images.githubusercontent.com/116492894/221141511-22c52326-b9d4-40a0-938c-2529831eda28.GIF">
+  <img width="350" alt="f134" src="https://user-images.githubusercontent.com/116492894/221141619-66c00ba0-0821-4fcc-9fa2-afe2e9325f14.GIF">
+</div>
+<br>
 <pre><code> ✔️ 운동 종류는 스쿼트, 런지, 팔굽혀펴기가 있고 원하는 종류의 운동을 선택하여 개수를 셀 수 있습니다.
 
 &nbsp;✔️ 기록장에 매일의 운동 개수와 사진, 일기 등을 기록할 수 있습니다.
@@ -55,10 +57,10 @@
 
 #### <pre><code>📌 &nbsp;회원가입 / 로그인 / 마이페이지</code></pre>
 <div>
-  <img width="500" alt="f1" src="https://user-images.githubusercontent.com/116492894/221168060-2273f7fb-3b09-4752-8bcb-e9774168225c.png">
-  <img width="500" alt="f2" src="https://user-images.githubusercontent.com/116492894/221168075-b4288fb8-4a45-4d34-81f0-b5164d6b8abe.png">
-  <img width="500" alt="f3" src="https://user-images.githubusercontent.com/116492894/221168110-1d02f31a-f1c0-4430-85f0-a461be6fb611.png">
-  <img width="500" alt="스크린샷 2023-02-24 오후 8 29 36" src="https://user-images.githubusercontent.com/116492894/221168717-5b59455c-2764-474a-987f-35fe216bd147.png">
+  <img width="350" alt="f1" src="https://user-images.githubusercontent.com/116492894/221168060-2273f7fb-3b09-4752-8bcb-e9774168225c.png">
+  <img width="350" alt="f2" src="https://user-images.githubusercontent.com/116492894/221168075-b4288fb8-4a45-4d34-81f0-b5164d6b8abe.png">
+  <img width="350" alt="f3" src="https://user-images.githubusercontent.com/116492894/221168110-1d02f31a-f1c0-4430-85f0-a461be6fb611.png">
+  <img width="350" alt="스크린샷 2023-02-24 오후 8 29 36" src="https://user-images.githubusercontent.com/116492894/221168717-5b59455c-2764-474a-987f-35fe216bd147.png">
 </div>
 
 #### <pre><code>📌 &nbsp;운동개수 세기 / 기록장</code></pre>
@@ -73,10 +75,10 @@
 <br>
 <br>
 <div>
-  <img width="500" alt="f4" src="https://user-images.githubusercontent.com/116492894/221169376-637f16e1-197a-407a-b955-c19af6d5e590.png">
-  <img width="500" alt="f5" src="https://user-images.githubusercontent.com/116492894/221169389-9b9cfea4-c78b-4421-b929-51f507ff48da.png">
-  <img width="500" alt="스크린샷 2023-02-24 오후 8 37 50" src="https://user-images.githubusercontent.com/116492894/221170144-9e5cc567-b789-4d96-a5d8-7bbc8a3a29e8.png">
-  <img width="500" alt="스크린샷 2023-02-24 오후 8 38 07" src="https://user-images.githubusercontent.com/116492894/221170177-091dbef5-3225-4370-b34f-e1b72040a5bd.png">
+  <img width="350" alt="f4" src="https://user-images.githubusercontent.com/116492894/221169376-637f16e1-197a-407a-b955-c19af6d5e590.png">
+  <img width="350" alt="f5" src="https://user-images.githubusercontent.com/116492894/221169389-9b9cfea4-c78b-4421-b929-51f507ff48da.png">
+  <img width="350" alt="스크린샷 2023-02-24 오후 8 37 50" src="https://user-images.githubusercontent.com/116492894/221170144-9e5cc567-b789-4d96-a5d8-7bbc8a3a29e8.png">
+  <img width="350" alt="스크린샷 2023-02-24 오후 8 38 07" src="https://user-images.githubusercontent.com/116492894/221170177-091dbef5-3225-4370-b34f-e1b72040a5bd.png">
 </div>
 <br>
 
@@ -84,8 +86,8 @@
 
 #### <pre><code>📌 &nbsp;상품 목록 / 상품 등록</code></pre>
 <div>
-  <img width="500" alt="f8" src="https://user-images.githubusercontent.com/116492894/221175628-1bb350b0-3ff3-423e-b663-23d2148aabac.png">
-  <img width="500" alt="스크린샷 2023-02-24 오후 9 09 34" src="https://user-images.githubusercontent.com/116492894/221175722-67b18216-79bf-44f0-8905-1c63596436df.png">
+  <img width="350" alt="f8" src="https://user-images.githubusercontent.com/116492894/221175628-1bb350b0-3ff3-423e-b663-23d2148aabac.png">
+  <img width="350" alt="스크린샷 2023-02-24 오후 9 09 34" src="https://user-images.githubusercontent.com/116492894/221175722-67b18216-79bf-44f0-8905-1c63596436df.png">
 </div>
 
 #### <pre><code>📌 &nbsp;장바구니 / 주문</code></pre>
@@ -96,7 +98,7 @@
 <br>
 <br>
 <div>
-  <img width="500" alt="f9" src="https://user-images.githubusercontent.com/116492894/221171688-03053b04-8448-4192-a8bf-1239d1b795f2.png">
-  <img width="500" alt="f10" src="https://user-images.githubusercontent.com/116492894/221171704-468f136d-dc3d-4ea5-a690-e31c63cbbd6d.png">
+  <img width="350" alt="f9" src="https://user-images.githubusercontent.com/116492894/221171688-03053b04-8448-4192-a8bf-1239d1b795f2.png">
+  <img width="350" alt="f10" src="https://user-images.githubusercontent.com/116492894/221171704-468f136d-dc3d-4ea5-a690-e31c63cbbd6d.png">
 </div>
 
