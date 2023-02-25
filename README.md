@@ -25,7 +25,7 @@
 |:---:|:---:|:---:|:---:|
 |김현지|오윤정|오예은|서정화|
 |<a>[cocoyami.com](https://cocoyami.com/)</a>|<a>[oyooon.com](https://oyooon.com/)</a>|<a>[yegoood.com](https://yegoood.com/)</a>|<a>[seojeonghwa.com](https://seojeonghwa.com/)</a>|
-|회원가입, 로그인, 마이페이지, 주문 내역|상품 CRUD, 후기 CRUD , 상품 목록, 비밀댓글 작성|운동 개수 세기, 기록장, 장바구니, 상품 주문|게시판, 좋아요, 댓글|
+|회원가입, 로그인, 마이페이지, 주문 내역|상품 CRUD, 후기 CRUD , 상품 목록, 비밀댓글 작성,장바구니 담기|운동 개수 세기, 기록장, 장바구니, 상품 주문|게시판, 좋아요, 댓글|
 
 
 <br></br>
