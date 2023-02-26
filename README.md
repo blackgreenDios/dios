@@ -1,6 +1,6 @@
 # DIOS
 > ### 🖥 &nbsp;&nbsp;&nbsp;프로젝트 소개
-&nbsp;&nbsp; : 머신러닝을 이용하여 운동 수를 세어주고, 기록하여 운동 습관을 만들 수 있게 도와주는 웹 서비스 입니다.
+&nbsp;&nbsp; : 머신러닝을 이용하여 운동 횟수를 세어주고, 기록하여 운동 습관을 만들 수 있게 도와주는 웹 서비스 입니다.
 <br>
 <br>
 &nbsp;&nbsp; 🔗 URL : <a>https://dios.yegoood.com/</a>
