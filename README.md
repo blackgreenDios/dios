@@ -101,11 +101,26 @@
 &nbsp;&nbsp;**📕 &nbsp;&nbsp;코드 상세 설명**
 <br>
 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;• **DIOS 팀 프로젝트 총 정리**: <a href="https://pickmeplease.tistory.com/37">https://pickmeplease.tistory.com/37</a>
+<br>
+<br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 운동 목표 개수 설정 페이지: <a href="https://pickmeplease.tistory.com/28">https://pickmeplease.tistory.com/28</a>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 운동 횟수 세기 (Teachable Machine) : <a href="https://pickmeplease.tistory.com/29">https://pickmeplease.tistory.com/29</a>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 기록장 페이지: <a href="https://pickmeplease.tistory.com/30">https://pickmeplease.tistory.com/30</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 장바구니 페이지(1): <a href="https://pickmeplease.tistory.com/31">https://pickmeplease.tistory.com/31</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 장바구니 페이지(2): <a href="https://pickmeplease.tistory.com/32">https://pickmeplease.tistory.com/32</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 주문 페이지: <a href="https://pickmeplease.tistory.com/33">https://pickmeplease.tistory.com/33</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 주문 완료 페이지: <a href="https://pickmeplease.tistory.com/34">https://pickmeplease.tistory.com/34</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 랜덤으로 상품 추천하기: <a href="https://pickmeplease.tistory.com/35">https://pickmeplease.tistory.com/35</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 홈 페이지: <a href="https://pickmeplease.tistory.com/36">https://pickmeplease.tistory.com/36</a>
 <br>
 <br>
 <div>
@@ -116,7 +131,7 @@
 </div>
 <br>
 
-#### <pre><code>📌 &nbsp;서정화 : 게시판 / 좋아요 / 댓글</code></pre>
+#### <pre><code>📌 &nbsp;서정화 : 게시판 / 좋아요 / 댓글 / 관리자 </code></pre>
 
 #### <pre><code>📌 &nbsp;오윤정 : 상품 CRUD / 후기 CRUD / 상품 목록 / 장바구니 등록 / 비밀댓글 </code></pre>
 <div>
