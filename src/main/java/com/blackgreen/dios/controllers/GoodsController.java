@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Controller(value = "com.blackgreen.dios.controllers.GoodsController")
@@ -40,18 +41,13 @@ public class GoodsController {
     @RequestMapping(value = "write",
             method = RequestMethod.GET)
     public ModelAndView getWrite(@SessionAttribute(value = "user", required = false) UserEntity user) {
-
         ModelAndView modelAndView;
-
         modelAndView = new ModelAndView("goods/write");
-
         SellerEntity[] sellers = this.goodsService.getSeller();
         ItemCategoryEntity[] categories = this.goodsService.getItemCategory();
         modelAndView.addObject("seller", sellers);
         modelAndView.addObject("category", categories);
         modelAndView.addObject("user", user);
-
-
         return modelAndView;
     }
 
@@ -161,14 +157,13 @@ public class GoodsController {
     @ResponseBody //xhr 로 반환 받을 것들은 무조건 ResponseBody 붙여준다.
     public String patchModify(@SessionAttribute(value = "user", required = false) UserEntity user,
                               @RequestParam(value = "gid") int gid,
-                              @RequestParam(value = "images", required = false) MultipartFile images,
+                              @RequestParam(value = "newImage", required = false) MultipartFile newImage,
                               @RequestParam(value = "sizes", required = false) String[] sizes,
                               @RequestParam(value = "colors", required = false) String[] colors,
                               ItemEntity item) throws IOException {
 
         item.setIndex(gid);
-        Enum<?> result = this.goodsService.ModifyItem(item, user, images);
-
+        Enum<?> result = this.goodsService.ModifyItem(item, user, newImage);
         if (colors != null) {
             ItemColorEntity[] itemColors = new ItemColorEntity[colors.length];
             for (int i = 0; i < colors.length; i++) {
@@ -420,6 +415,4 @@ public class GoodsController {
         return responseJson.toString();
 
     }
-
-
 }

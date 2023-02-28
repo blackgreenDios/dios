@@ -80,9 +80,9 @@ public class GoodsService {
 //                                                                      그래서 값을 넘겨야함/ 그런데 이건 select해와서 그런거임. insert하는데 굳이 고를 필요 없음
 //        ItemImgEntity itemImg = new ItemImgEntity();
 //        itemImg.setIndex(item.getIndex());
-
-        System.out.println(item);
-        System.out.println(images);
+        if (user == null || !user.isAdmin()) {
+            return CommonResult.NOT_ALLOWED;
+        }
         item.setTitleImageData(images.getBytes());
         item.setTitleImageMime(images.getContentType());
         item.setTitleImageName(images.getName());
@@ -272,23 +272,16 @@ public class GoodsService {
 
     @Transactional
     public Enum<? extends IResult> prepareModifyItem(ItemEntity item, UserEntity user) {
-        // 수정 성공
-        // 실패
-        // 수정할 댓글 없음
-        // 로그인이 안되어있고 + 수정하려는 댓글이 니 댓글이 아닌 경우
-
-//        if (user == null) {
-//            return ModifyItemResult.NOT_SIGNED;
-//        }
-
+        if (user == null) {
+            return ModifyItemResult.NOT_SIGNED;
+        }
         ItemEntity existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());
-//        if (existingItem == null) {
-//            return ModifyItemResult.NO_SUCH_Item;
-//        }
-//        if (!existingItem.getUserEmail().equals(user.getEmail())) {
-//            return ModifyItemResult.NOT_ALLOWED;
-//        }
-
+        if (existingItem == null) {
+            return ModifyItemResult.NO_SUCH_Item;
+        }
+        if (!user.isAdmin()) {
+            return ModifyItemResult.NOT_ALLOWED;
+        }
         item.setCategoryId(existingItem.getCategoryId());// 이게 cad
         item.setSellerIndex(existingItem.getSellerIndex());
         item.setItemName(existingItem.getItemName());
@@ -305,17 +298,18 @@ public class GoodsService {
 
     @Transactional
     public Enum<? extends IResult> ModifyItem(ItemEntity item, UserEntity user, MultipartFile images) throws IOException {
-//        if (user == null) {
-//            return ModifyItemResult.NOT_SIGNED;
-//        }
+        if (user == null) {
+            return ModifyItemResult.NOT_SIGNED;
+        }
         GoodsVo existingItem = this.goodsMapper.selectItemByIndex(item.getIndex());
+        // 기존에 있는 title 이미지 select
+        ItemEntity existingTitleImage = this.goodsMapper.selectItemTitleImageByIndex(item.getIndex());
         if (existingItem == null) {
             return ModifyItemResult.NO_SUCH_Item;
         }
-
-//        if (!existingItem.getUserEmail().equals(user.getEmail())) {
-//            return ModifyItemResult.NOT_ALLOWED;
-//        }
+        if (!user.isAdmin()) {
+            return ModifyItemResult.NOT_ALLOWED;
+        }
 
         //새로 저장할 내용을 set해주깅 > 수정된 내용이 저장됨
         existingItem.setCategoryId(item.getCategoryId());
@@ -326,13 +320,10 @@ public class GoodsService {
         existingItem.setCount(item.getCount());
         existingItem.setCreatedOn(new Date());
 
-
-        existingItem.setTitleImageData(images.getBytes());
-        existingItem.setTitleImageMime(images.getContentType());
-        existingItem.setTitleImageName(images.getName());
-
-        System.out.println(item.getTitleImageName() == null ? "null" : "good");
-
+        existingItem.setTitleImageData(images == null ? existingTitleImage.getTitleImageData() : images.getBytes()); //조건 안걸면 이미지가 null 일 때 오류뜸
+        existingItem.setTitleImageMime(images == null ? existingTitleImage.getTitleImageMime(): images.getContentType()); //조건 안걸면 이미지가 null 일 때 오류뜸
+        existingItem.setTitleImageName(images == null ? existingTitleImage.getTitleImageName() : images.getName()); //마찬가지
+//        System.out.println(item.getTitleImageName() == null ? "null" : "good");
         return this.goodsMapper.updateItem(existingItem) > 0
                 ? CommonResult.SUCCESS
                 : CommonResult.FAILURE;

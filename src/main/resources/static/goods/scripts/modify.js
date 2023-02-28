@@ -123,7 +123,7 @@ sizeDeleteButton.addEventListener('click', () => {
 });
 
 
-const ImageForm = document.getElementById('form');
+
 const itemCategory = document.getElementById('itemCategory');
 const seller = document.getElementById('seller');
 
@@ -143,17 +143,16 @@ itemCategory.addEventListener('input', () => {
 form['back'].addEventListener('click', () => window.history < 2 ? window.close() : window.history.back());
 
 //프로필 이미지 삽입
-ImageForm.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e => {
+form.querySelector('[rel = "imageSelectButton"]').addEventListener('click', e => {
     e.preventDefault();
-    ImageForm['images'].click();
+    form['images'].click();
 });
 
-ImageForm['images'].addEventListener('input', () => {
-    const imageContainerElement = ImageForm.querySelector('[rel="imageContainer"]');
+form['images'].addEventListener('input', () => {
+    const imageContainerElement = form.querySelector('[rel="imageContainer"]');
     imageContainerElement.querySelectorAll('img.image').forEach(x => x.remove());
 //img 태그 이면서 image클래스 가지는 전부 다 !
-    const imageSrc = URL.createObjectURL(ImageForm['images'].files[0]);
-
+    const imageSrc = URL.createObjectURL(form['images'].files[0]);
     document.getElementById('imgThumb').setAttribute('src', imageSrc);
 
     // const imgElement = document.createElement('img');
@@ -173,8 +172,6 @@ submit.addEventListener('click', e => {
         form['itemName'].focus();
         return false;
     }
-
-
     if (editor.getData() === '') {
         alert('상품 상세페이지를 입력해 주세요.');
         editor.focus();
@@ -184,12 +181,8 @@ submit.addEventListener('click', e => {
 
     const xhr = new XMLHttpRequest();
     const formData = new FormData();
-
-    for (let file of ImageForm['images'].files) {
-        formData.append('images', file);
-    }
-
-    // formData.append('images', ImageForm['images'].files);// 이미지 파일
+    formData.append('newImage', form['images'].files.length > 0 ? form['images'].files[0] : null);
+    // formData.append('images', form['images'].files);// 이미지 파일
     formData.append('categoryId', itemCategory.options[itemCategory.selectedIndex].value); // 상품 분류
     formData.append('itemName', form['itemName'].value);//상품 이름
     formData.append('sellerIndex', seller.options[seller.selectedIndex].value);//상품 브랜드 네임
@@ -209,7 +202,6 @@ submit.addEventListener('click', e => {
         }
     });
 
-
     xhr.open('PATCH', window.location.href);
     xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -220,7 +212,7 @@ submit.addEventListener('click', e => {
                 } else if (responseObject['result'] === 'success') {
                     alert('상품이 수정되었습니다!');
                     window.location.href = './read?gid=' + responseObject['gid'];
-                    ImageForm['image'].value;
+                    form['image'].value;
                 }
             } else {
                 alert('서버와 통신하지 못하였습니다. 잠시 후 다시 시도해주세요.');
@@ -229,4 +221,3 @@ submit.addEventListener('click', e => {
     }
     xhr.send(formData);
 });
-

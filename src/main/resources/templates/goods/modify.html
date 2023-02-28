@@ -104,6 +104,9 @@
                         </div>
                         <div class="selectContainer">
                             <a class="selectText">COLOR</a>
+                            <a id="colorDeleteButton">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
                             <select class="colors" name="colors" id="colorOption" multiple>
                                 <option th:each="color : ${colors}"
                                         th:value="${color.getColor()}"
@@ -120,6 +123,9 @@
                         </div>
                         <div class="selectContainer">
                             <a class="selectText">SIZE</a>
+                            <a id="sizeDeleteButton">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
                             <select class="sizes" name="sizes" id="sizeOption" multiple>
                                 <option th:each="size : ${sizes}"
                                         th:value="${size.getSize()}"
@@ -130,7 +136,7 @@
                     <div class="count">
                         <span class="countText">수량</span>
                         <div class="countBox">
-                            <input name="count" id="inputCount" type="text" class="newCount" placeholder="수량을 입력해주세요.">
+                            <input name="count" id="inputCount" type="text" class="newCount" placeholder="수량을 입력해주세요." th:value="${item.getCount()}">
                         </div>
                     </div>
 
@@ -146,8 +152,7 @@
                         <a rel="imageSelectButton" class="image-select-button" href="#"> 이미지 선택 ... </a>
                         <div class="image-container" rel="imageContainer">
                             <img class="title-img" id="imgThumb"
-                                 th:src="@{./titleImage (index=${item.getIndex()})}"
-                                 th:alt="${item.getTitleImageName()}">
+                                 th:src="@{./titleImage (index=${item.getIndex()})}">
                         </div>
                     </label>
                 </td>
@@ -176,7 +181,7 @@
         </table>
         <div class="button-container" id="buttonContainer">
             <input class="—object-button" name="back" type="button" value="돌아가기">
-            <input class="—object-button" name="submit" type="button" rel="submit" value="등록하기">
+            <input class="—object-button" name="submit" type="button" rel="submit" value="수정하기">
         </div>
     </form>
 
@@ -184,4 +189,3 @@
 <th:block th:replace="~{fragments/commonBody :: footer}"></th:block>
 </body>
 </html>
-

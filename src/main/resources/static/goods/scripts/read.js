@@ -279,7 +279,6 @@ const loadReviews = (page) => {
                     /*리뷰 삭제*/
                     itemElement.querySelector('[rel="delete"]')?.addEventListener('click', e => {
                         e.preventDefault();
-
                         if (!confirm('정말로 리뷰를 삭제할까요?')) {
                             return false;
                         }
