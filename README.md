@@ -142,8 +142,7 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 상품등록 페이지: <a href="https://o-yoon.tistory.com/38">https://o-yoon.tistory.com/38</a>
 <br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp;• 상품 읽기 페이지/ 상품 수정페이지/ 상품삭제: <a href="https://o-yoon.tistory.com/39">https://o-yoon.tistory.com/39</a>
+&nbsp;&nbsp;&nbsp;&nbsp;• 상품 읽기/수정페이지/ 상품삭제: <a href="https://o-yoon.tistory.com/39">https://o-yoon.tistory.com/39</a>
 <br>
 <div>
   <img width="350" alt="f8" src="https://user-images.githubusercontent.com/116492894/221175628-1bb350b0-3ff3-423e-b663-23d2148aabac.png">
