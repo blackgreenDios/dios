@@ -139,6 +139,8 @@
 #### <pre><code>📌 &nbsp;서정화 : 게시판 / 좋아요 / 댓글 / 관리자 </code></pre>
 
 #### <pre><code>📌 &nbsp;오윤정 : 상품 CRUD / 후기 CRUD / 상품 목록 / 장바구니 등록 / 비밀댓글 </code></pre>
+&nbsp;&nbsp;**📕 &nbsp;&nbsp;코드 상세 설명**
+<br>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 상품등록 페이지: <a href="https://o-yoon.tistory.com/38">https://o-yoon.tistory.com/38</a>
 <br>
