@@ -149,6 +149,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;• 비밀댓글 등록: <a href="https://o-yoon.tistory.com/4">https://o-yoon.tistory.com/4</a>
 <br>
 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 리뷰 페이징: <a href="https://o-yoon.tistory.com/5">https://o-yoon.tistory.com/5</a>
+<br>
+<br>
 <div>
   <img width="350" alt="f8" src="https://user-images.githubusercontent.com/116492894/221175628-1bb350b0-3ff3-423e-b663-23d2148aabac.png">
   <img width="350" alt="스크린샷 2023-02-24 오후 9 09 34" src="https://user-images.githubusercontent.com/116492894/221175722-67b18216-79bf-44f0-8905-1c63596436df.png">
