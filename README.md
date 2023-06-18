@@ -148,7 +148,6 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 비밀댓글 등록: <a href="https://o-yoon.tistory.com/4">https://o-yoon.tistory.com/4</a>
 <br>
-<br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 리뷰 페이징: <a href="https://o-yoon.tistory.com/5">https://o-yoon.tistory.com/5</a>
 <br>
 <br>
