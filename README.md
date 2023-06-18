@@ -148,6 +148,8 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 상품 수정페이지: <a href="https://o-yoon.tistory.com/48">https://o-yoon.tistory.com/48</a>
 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 상품 삭제: <a href="https://o-yoon.tistory.com/49">https://o-yoon.tistory.com/49</a>
+<br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 비밀댓글 등록: <a href="https://o-yoon.tistory.com/4">https://o-yoon.tistory.com/4</a>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 리뷰 페이징: <a href="https://o-yoon.tistory.com/5">https://o-yoon.tistory.com/5</a>
