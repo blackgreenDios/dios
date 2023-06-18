@@ -142,9 +142,11 @@
 &nbsp;&nbsp;**📕 &nbsp;&nbsp;코드 상세 설명**
 <br>
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;• 상품등록 페이지: <a href="https://o-yoon.tistory.com/38">https://o-yoon.tistory.com/38</a>
+&nbsp;&nbsp;&nbsp;&nbsp;• 상품 등록페이지: <a href="https://o-yoon.tistory.com/38">https://o-yoon.tistory.com/38</a>
 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;• 상품 읽기/수정페이지/ 상품삭제: <a href="https://o-yoon.tistory.com/39">https://o-yoon.tistory.com/39</a>
+&nbsp;&nbsp;&nbsp;&nbsp;• 상품 읽기페이지: <a href="https://o-yoon.tistory.com/39">https://o-yoon.tistory.com/39</a>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;• 상품 수정페이지: <a href="https://o-yoon.tistory.com/48">https://o-yoon.tistory.com/48</a>
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;• 비밀댓글 등록: <a href="https://o-yoon.tistory.com/4">https://o-yoon.tistory.com/4</a>
 <br>
